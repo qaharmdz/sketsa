@@ -109,11 +109,13 @@ html {
   padding: 5px 10px 8px;
 }
 /* Side panel state */
-.th-side-panel-show .th-side-panel {
-  margin-right: 0;
-}
-.th-side-panel-show .th-main {
-  margin-right: 250px;
+@media (min-width: 960px) {
+  .th-side-panel-show .th-side-panel {
+    margin-right: 0;
+  }
+  .th-side-panel-show .th-main {
+    margin-right: 250px;
+  }
 }
 .th-side-panel-show .th-hide-on-side-panel-show {
   display: none !important;

@@ -130,11 +130,13 @@ html {
 
 /* Side panel state */
 .th-side-panel-show {
-    .th-side-panel {
-        margin-right: 0;
-    }
-    .th-main {
-        margin-right: @sidepanel-width;
+    @media (min-width: 960px) {
+        .th-side-panel {
+            margin-right: 0;
+        }
+        .th-main {
+            margin-right: @sidepanel-width;
+        }
     }
     .th-hide-on-side-panel-show {
         display: none !important;
