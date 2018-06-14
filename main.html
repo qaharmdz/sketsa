@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - Sketsa UIkit Admin Template</title>
+
+    <link rel="stylesheet" href="assets/css/uikit.min.css?v=3.0.0-rc.5" />
+    <link rel="stylesheet" href="assets/css/uikit.extra.min.css?v=0.0.1" />
+    <link rel="stylesheet" href="assets/css/theme.min.css?v=0.0.1" />
+</head>
+
+<body>
+<header class="th-header uk-background-primary" uk-sticky="media:960">
+    <!--  -->
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+        <div class="uk-navbar-left">
+            <div class="uk-navbar-item uk-logo th-logo">Sketsa</div>
+            <a class="uk-navbar-toggle uk-visible@m" data-sidebar uk-navbar-toggle-icon uk-toggle="target:body;cls:th-sidebar-show"></a>
+            <ul class="uk-navbar-nav uk-visible@m">
+                <li>
+                    <a href="#"><span uk-icon="plus-circle"></span></a>
+                    <div class="uk-navbar-dropdown uk-padding-small">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Add Item</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Add Item</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="#">Item</a></li>
+            </ul>
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav uk-visible@m">
+                <li>
+                    <a href="#" class="uk-position-relative"><span uk-icon="bell"></span><span class="ux-badge ux-badge-orange">123</span></a>
+                    <div uk-drop="pos:bottom-right;offset:15">
+                        <div class="uk-card uk-card-default uk-card-small">
+                            <div class="uk-card-header uk-background-muted">Notification</div>
+                            <div class="uk-card-body">
+                                <ul class="uk-list uk-list-striped">
+                                    <li>List item 1</li>
+                                    <li>List item 1</li>
+                                    <li>List item 2</li>
+                                    <li>List item 3</li>
+                                </ul>
+                            </div>
+                            <div class="uk-card-footer uk-text-center"><a href="#">View All</a></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="uk-position-relative"><span uk-icon="list"></span><span class="ux-badge ux-badge-red">7</span></a>
+                    <div uk-drop="pos:bottom-right;offset:15">
+                        <div class="uk-card uk-card-default uk-card-small">
+                            <div class="uk-card-header uk-background-muted">Task</div>
+                            <div class="uk-card-body">
+                                <ul class="uk-nav uk-dropdown-nav">
+                                    <li class="uk-active"><a href="#">Active</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li class="uk-nav-header">Header</li>
+                                    <li><a href="#">Item</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li class="uk-nav-divider"></li>
+                                    <li><a href="#">Item</a></li>
+                                </ul>
+                            </div>
+                            <div class="uk-card-footer uk-text-center"><a href="#">View All</a></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="uk-position-relative"><span uk-icon="mail"></span><span class="ux-badge ux-badge-purple">21</span></a>
+                    <div uk-drop="pos:bottom-right;offset:15">
+                        <div class="uk-card uk-card-default uk-card-small">
+                            <div class="uk-card-header uk-background-muted">Mail</div>
+                            <div class="uk-card-body">
+                                <dl class="uk-description-list uk-description-list-divider uk-text-small">
+                                    <dt>Description term</dt>
+                                    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd>
+                                    <dt>Description term</dt>
+                                    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>
+                                    <dt>Description term</dt>
+                                    <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>
+                                </dl>
+                            </div>
+                            <div class="uk-card-footer uk-text-center"><a href="#">View All</a></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#"><img class="uk-border-circle" src="images/john-doe.png" alt="" width="36"></a>
+                    <div class="uk-navbar-dropdown uk-padding-small">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li class="uk-nav-header">John Doe</li>
+                            <li><a href="#">Account</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <a class="uk-navbar-toggle uk-hidden@m" data-sidebar uk-navbar-toggle-icon uk-toggle="target:body;cls:th-sidebar-show"></a>
+        </div>
+    </nav>
+</header>
+
+<div class="th-main-wrapper uk-grid-collapse" uk-grid uk-height-viewport="expand: true">
+    <div class="th-sidebar uk-light">
+        <div class="uk-hidden@m">
+            <div class="uk-grid-small uk-margin-small-top" uk-grid>
+                <div class="uk-width-auto">
+                    <img class="uk-border-rounded" src="images/john-doe.png" alt="" width="54">
+                </div>
+                <div class="uk-width-expand">
+                    <div>John Doe</div>
+                    <div class="uk-text-small">
+                        <a href="#">Account</a><br>
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
+            <li><a href="#" data-page="dashboard">Dashboard</a></li>
+            <li class="uk-parent uk-open">
+                <a href="#">Components</a>
+                <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                    <li><a href="#">Sub item</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="#" data-page="test">Test item</a></li>
+                    <li><a href="#">Sub item</a></li>
+                    <li><a href="#">Sub item</a></li>
+                    <li class="uk-active"><a href="#">Sub item</a></li>
+                </ul>
+            </li>
+            <li class="uk-parent">
+                <a href="#">Pages</a>
+                <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                    <li class="uk-parent">
+                        <span>Layouts</span>
+                        <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <li><a href="#">Fullwidth</a></li>
+                            <li><a href="#">Inner Left Sidebar</a></li>
+                            <li><a href="#">Flex Right Column</a></li>
+                        </ul>
+                    </li>
+                    <li class="uk-parent">
+                        <span>Extras</span>
+                        <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <li><a href="login.html">Login</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="uk-parent">
+                <a href="#">Parent</a>
+                <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                    <li><a href="#">Sub item</a></li>
+                    <li class="uk-parent">
+                        <span>Sub parent</span>
+                        <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <li><a href="#">Sub item</a></li>
+                            <li><a href="#">Sub item</a></li>
+                            <li><a href="#">Sub item</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Sub item</a></li>
+                    <li><a href="#">Sub item</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div><!-- /.th-sidebar -->
+
+    <main class="th-main uk-width-expand">
+        <div class="th-main-header uk-clearfix">
+            <ul class="uk-breadcrumb uk-float-left">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Link</a></li>
+                <li class="uk-disabled"><a>Disabled</a></li>
+                <li><span>Active</span></li>
+            </ul>
+
+            <div class="uk-float-right">
+                <a class="uk-link-muted uk-visible@m" uk-toggle="target:body;cls:th-side-panel-show"><span uk-icon="menu"></span></a>
+            </div>
+        </div><!-- /.th-main-header -->
+
+        <div class="th-main-content">
+            <div data-content></div>
+
+            <footer class="th-footer">
+                <div class="uk-text-center uk-text-small uk-text-muted">
+                    Powered by <a href="https://getuikit.com">UIkit v3</a>
+                </div>
+            </footer>
+        </div><!-- /.th-main-content -->
+    </main>
+
+    <div class="th-side-panel uk-visible@m">
+        <ul class="uk-flex-center" uk-tab="connect:#js-side-tab">
+            <li><a href="#"><span uk-icon="git-branch"></span></a></li>
+            <li class="uk-active"><a href="#"><span uk-icon="comment"></span></a></li>
+            <li><a href="#"><span uk-icon="settings"></span></a></li>
+        </ul>
+        <div id="js-side-tab" class="uk-switcher">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+        </div>
+    </div><!-- /.th-side-panel -->
+</div><!-- /.th-main-wrapper -->
+
+
+<script src="assets/js/jquery.min.js?v=3.3.1"></script>
+<script src="assets/js/uikit.min.js?v=3.0.0-rc.5"></script>
+<script src="assets/js/uikit-icons.min.js?v=3.0.0-rc.5"></script>
+<script src="assets/js/cookie.min.js?v=2.2.0"></script>
+<script src="assets/js/theme.js?v=0.0.1"></script>
+<script>
+$(document).ready(function() {
+    openPage(page);
+});
+</script>
+</body>
+</html>
