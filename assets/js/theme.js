@@ -1,12 +1,34 @@
 
-/*
- * Load page
- */
-var page = getUrlParameter('page', 'dashboard');
+$(document).ready(function()
+{
+    /*
+     * Load page
+     */
+    var page = getUrlParameter('page', 'dashboard');
+    openPage(page);
+    $('.th-sidebar [data-page]').on('click', function(e) {
+        openPage($(this).data('page'));
+    });
 
-$('.th-sidebar [data-page]').on('click', function(e) {
-    openPage($(this).data('page'));
+    /*
+     * Sidebar state
+     */
+    var sidebarState = Cookies.get('th-sidebar-state');
+    if (sidebarState === undefined || sidebarState === 'show') {
+        UIkit.toggle('[data-sidebar]').toggle();
+    }
+    $('[data-sidebar]').on('click', function(e) {
+        setTimeout(function() {
+            if ($('body').hasClass('th-sidebar-show')) {
+                Cookies.set('th-sidebar-state', 'show');
+            } else {
+                Cookies.set('th-sidebar-state', 'hide');
+            }
+        }, 50);
+    });
+
 });
+
 function openPage(page) {
     $('.th-sidebar a').each(function() {
         $(this).parent().removeClass('uk-active');
@@ -17,28 +39,12 @@ function openPage(page) {
 
     holder.html('<div class="uk-card uk-card-default uk-card-body uk-card-small">loading..</div>');
     setTimeout(function() {
-        holder.load('page/' + page + '.html', function(){
+        holder.load('page/' + page + '.html', function() {
+            // Mark nav active
             $('.th-sidebar [data-page="' + page + '"]').parent().addClass('uk-active');
         });
     }, 250);
 }
-
-/*
- * Sidebar state
- */
-var sidebarState = Cookies.get('th-sidebar-state');
-if (sidebarState === undefined || sidebarState === 'show') {
-    UIkit.toggle($('[data-sidebar]')).toggle();
-}
-$('[data-sidebar]').on('click', function(e) {
-    setTimeout(function() {
-        if ($('body').hasClass('th-sidebar-show')) {
-            Cookies.set('th-sidebar-state', 'show');
-        } else {
-            Cookies.set('th-sidebar-state', 'hide');
-        }
-    }, 50);
-});
 
 /*
  * https://stackoverflow.com/a/21903119

@@ -2,7 +2,7 @@ Sketsa is an UIkit test for various admin elements; no plan to develop it into f
 
 ### Development Principal
 
-- Focus on experimenting features, not performance.
+- __Focus__ on experimenting features.
 - Easy to update, develop and customize.
     - Use default UIkit to keep it simple on update (drop-replace).
     - Add extra UIkit stylesheet as minimum as possible.

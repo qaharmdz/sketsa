@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="assets/css/uikit.min.css?v=3.0.0-rc.5" />
     <link rel="stylesheet" href="assets/css/uikit.extra.min.css?v=0.0.1" />
     <link rel="stylesheet" href="assets/css/theme.min.css?v=0.0.1" />
+
+    <script src="assets/js/jquery.min.js?v=3.3.1"></script>
+    <script src="assets/js/uikit.min.js?v=3.0.0-rc.5"></script>
+    <script src="assets/js/uikit-icons.min.js?v=3.0.0-rc.5"></script>
+    <script src="assets/js/cookie.min.js?v=2.2.0"></script>
+    <script src="assets/js/theme.js?v=0.0.1"></script>
 </head>
 
 <body>
 <header class="th-header uk-background-primary" uk-sticky="media:960">
     <!--  -->
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar="offset:0,delay-show:50">
         <div class="uk-navbar-left">
             <div class="uk-navbar-item uk-logo th-logo">Sketsa</div>
             <a class="uk-navbar-toggle uk-visible@m" data-sidebar uk-navbar-toggle-icon uk-toggle="target:body;cls:th-sidebar-show"></a>
@@ -36,8 +42,8 @@
         <div class="uk-navbar-right">
             <ul class="uk-navbar-nav uk-visible@m">
                 <li>
-                    <a href="#" class="uk-position-relative"><span uk-icon="bell"></span><span class="ux-badge ux-badge-orange">123</span></a>
-                    <div uk-drop="pos:bottom-right;offset:15">
+                    <a href="#" class="uk-position-relative"><span uk-icon="icon:bell;ratio:1.1"></span><span class="ux-notify ux-background-orange">123</span></a>
+                    <div class="uk-navbar-dropdown uk-padding-remove uk-width-medium">
                         <div class="uk-card uk-card-default uk-card-small">
                             <div class="uk-card-header uk-background-muted">Notification</div>
                             <div class="uk-card-body">
@@ -53,8 +59,8 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#" class="uk-position-relative"><span uk-icon="list"></span><span class="ux-badge ux-badge-red">7</span></a>
-                    <div uk-drop="pos:bottom-right;offset:15">
+                    <a href="#" class="uk-position-relative"><span uk-icon="icon:list;ratio:1.2"></span><span class="ux-notify ux-background-red">07</span></a>
+                    <div class="uk-navbar-dropdown uk-padding-remove uk-width-medium">
                         <div class="uk-card uk-card-default uk-card-small">
                             <div class="uk-card-header uk-background-muted">Task</div>
                             <div class="uk-card-body">
@@ -73,8 +79,8 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#" class="uk-position-relative"><span uk-icon="mail"></span><span class="ux-badge ux-badge-purple">21</span></a>
-                    <div uk-drop="pos:bottom-right;offset:15">
+                    <a href="#" class="uk-position-relative"><span uk-icon="icon:mail;ratio:1.2"></span><span class="ux-notify ux-background-purple">21</span></a>
+                    <div class="uk-navbar-dropdown uk-padding-remove uk-width-medium">
                         <div class="uk-card uk-card-default uk-card-small">
                             <div class="uk-card-header uk-background-muted">Mail</div>
                             <div class="uk-card-body">
@@ -130,12 +136,7 @@
             <li class="uk-parent uk-open">
                 <a href="#">Components</a>
                 <ul class="uk-nav uk-nav-default uk-margin-small-left">
-                    <li><a href="#">Sub item</a></li>
-                    <li class="uk-nav-divider"></li>
-                    <li><a href="#" data-page="test">Test item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                    <li class="uk-active"><a href="#">Sub item</a></li>
+                    <li><a href="#" data-page="background">Background</a></li>
                 </ul>
             </li>
             <li class="uk-parent">
@@ -161,6 +162,15 @@
                 <a href="#">Parent</a>
                 <ul class="uk-nav uk-nav-default uk-margin-small-left">
                     <li><a href="#">Sub item</a></li>
+                    <li><a href="#">Sub item</a></li>
+                    <li class="uk-parent">
+                        <span>Sub parent</span>
+                        <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <li><a href="#">Sub item</a></li>
+                            <li><a href="#">Sub item</a></li>
+                            <li><a href="#">Sub item</a></li>
+                        </ul>
+                    </li>
                     <li class="uk-parent">
                         <span>Sub parent</span>
                         <ul class="uk-nav uk-nav-default uk-margin-left">
@@ -214,17 +224,5 @@
         </div>
     </div><!-- /.th-side-panel -->
 </div><!-- /.th-main-wrapper -->
-
-
-<script src="assets/js/jquery.min.js?v=3.3.1"></script>
-<script src="assets/js/uikit.min.js?v=3.0.0-rc.5"></script>
-<script src="assets/js/uikit-icons.min.js?v=3.0.0-rc.5"></script>
-<script src="assets/js/cookie.min.js?v=2.2.0"></script>
-<script src="assets/js/theme.js?v=0.0.1"></script>
-<script>
-$(document).ready(function() {
-    openPage(page);
-});
-</script>
 </body>
 </html>
