@@ -1,3 +1,5 @@
+// UIkit default
+// UIkit.component('navbar').options.data.offset = 0;
 
 $(document).ready(function()
 {
@@ -26,9 +28,14 @@ $(document).ready(function()
     // Sidebar scroll
     var ps = new PerfectScrollbar('.th-sidebar-scroll', {
       wheelSpeed: 0.4,
+      minScrollbarLength: 20,
+      maxScrollbarLength: 200
     });
     $('.th-sidebar-scroll .uk-parent').on('click', function(e) {
-        ps.update();
+        setTimeout(function() {
+            ps.update();
+            $('.th-sidebar-scroll').trigger('scroll');
+        }, 100);
     });
 });
 
@@ -43,8 +50,10 @@ function openPage(page) {
     setTimeout(function() {
         holder.load('page/' + page + '.html', function() {
             $('.th-sidebar a[href*="' + page + '"]').parent().addClass('uk-active');
+            $('.th-sidebar .uk-active').closest('.uk-parent').addClass('uk-open');
+            $('.th-sidebar .uk-active').closest('.uk-nav').show();
         });
-    }, 250);
+    }, 200);
 }
 
 /*
