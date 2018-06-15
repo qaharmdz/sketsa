@@ -27,6 +27,13 @@ $(document).ready(function()
         }, 50);
     });
 
+    // Sidebar scroll
+    var ps = new PerfectScrollbar('.th-sidebar-scroll', {
+      wheelSpeed: 0.4,
+    });
+    $('.th-sidebar-scroll .uk-parent').on('click', function(e) {
+        ps.update();
+    });
 });
 
 function openPage(page) {
@@ -36,7 +43,6 @@ function openPage(page) {
 
     // load page
     var holder = $('[data-content]');
-
     holder.html('<div class="uk-card uk-card-default uk-card-body uk-card-small">loading..</div>');
     setTimeout(function() {
         holder.load('page/' + page + '.html', function() {

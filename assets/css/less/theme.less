@@ -73,7 +73,6 @@ html {
  =============================== */
  .th-sidebar {
     background-color: #2b2b2b;
-    padding: 10px 10px 10px 15px;
     width: @sidebar-width;
     margin-left: -@sidebar-width;
 
@@ -81,7 +80,13 @@ html {
     top: @header-height;
     bottom: 0;
     left: 0;
-    overflow: auto;
+}
+.th-sidebar-scroll {
+    width: @sidebar-width;
+    height: ~'calc(100vh - ' @header-height~')';
+    padding: 8px 10px 15px 10px;
+    position: relative;
+    overflow: hidden;
 }
 @media (max-width: 959px) {
     .th-sidebar {
@@ -159,3 +164,13 @@ html {
     padding: 20px;
 }
 
+/* Plugin: Perfect Scroller
+ =============================== */
+.ps__rail-y {
+    width: 12px;
+}
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+    width: 9px;
+}

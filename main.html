@@ -118,74 +118,84 @@
 
 <div class="th-main-wrapper uk-grid-collapse" uk-grid uk-height-viewport="expand: true">
     <div class="th-sidebar uk-light">
-        <div class="uk-hidden@m">
-            <div class="uk-grid-small uk-margin-small-top" uk-grid>
-                <div class="uk-width-auto">
-                    <img class="uk-border-rounded" src="images/john-doe.png" alt="" width="54">
-                </div>
-                <div class="uk-width-expand">
-                    <div>John Doe</div>
-                    <div class="uk-text-small">
-                        <a href="#">Account</a><br>
-                        <a href="#">Logout</a>
+        <div class="th-sidebar-scroll">
+            <div class="uk-hidden@m">
+                <div class="uk-grid-small uk-margin-small-top" uk-grid>
+                    <div class="uk-width-auto">
+                        <img class="uk-border-rounded" src="images/john-doe.png" alt="" width="54">
+                    </div>
+                    <div class="uk-width-expand">
+                        <div>John Doe</div>
+                        <div class="uk-text-small">
+                            <a href="#">Account</a><br>
+                            <a href="#">Logout</a>
+                        </div>
                     </div>
                 </div>
+                <hr>
             </div>
-            <hr>
+            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
+                <li><a href="#" data-page="dashboard">Dashboard</a></li>
+                <li class="uk-parent uk-open">
+                    <a href="#">Components</a>
+                    <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                        <li><a href="#" data-page="background">Background</a></li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">Pages</a>
+                    <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                        <li class="uk-parent">
+                            <span>Layouts</span>
+                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                                <li><a href="#">Fullwidth</a></li>
+                                <li><a href="#">Inner Left Sidebar</a></li>
+                                <li><a href="#">Flex Right Column</a></li>
+                            </ul>
+                        </li>
+                        <li class="uk-parent">
+                            <span>Extras</span>
+                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                                <li><a href="login.html">Login</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">Parent</a>
+                    <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                        <li><a href="#">Sub item</a></li>
+                        <li><a href="#">Sub item</a></li>
+                        <li class="uk-parent">
+                            <span>Sub parent</span>
+                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                            </ul>
+                        </li>
+                        <li class="uk-parent">
+                            <span>Sub parent</span>
+                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                            </ul>
+                        </li>
+                        <li class="uk-parent">
+                            <span>Sub parent</span>
+                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Sub item</a></li>
+                        <li><a href="#">Sub item</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-        <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
-            <li><a href="#" data-page="dashboard">Dashboard</a></li>
-            <li class="uk-parent uk-open">
-                <a href="#">Components</a>
-                <ul class="uk-nav uk-nav-default uk-margin-small-left">
-                    <li><a href="#" data-page="background">Background</a></li>
-                </ul>
-            </li>
-            <li class="uk-parent">
-                <a href="#">Pages</a>
-                <ul class="uk-nav uk-nav-default uk-margin-small-left">
-                    <li class="uk-parent">
-                        <span>Layouts</span>
-                        <ul class="uk-nav uk-nav-default uk-margin-left">
-                            <li><a href="#">Fullwidth</a></li>
-                            <li><a href="#">Inner Left Sidebar</a></li>
-                            <li><a href="#">Flex Right Column</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent">
-                        <span>Extras</span>
-                        <ul class="uk-nav uk-nav-default uk-margin-left">
-                            <li><a href="login.html">Login</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="uk-parent">
-                <a href="#">Parent</a>
-                <ul class="uk-nav uk-nav-default uk-margin-small-left">
-                    <li><a href="#">Sub item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                    <li class="uk-parent">
-                        <span>Sub parent</span>
-                        <ul class="uk-nav uk-nav-default uk-margin-left">
-                            <li><a href="#">Sub item</a></li>
-                            <li><a href="#">Sub item</a></li>
-                            <li><a href="#">Sub item</a></li>
-                        </ul>
-                    </li>
-                    <li class="uk-parent">
-                        <span>Sub parent</span>
-                        <ul class="uk-nav uk-nav-default uk-margin-left">
-                            <li><a href="#">Sub item</a></li>
-                            <li><a href="#">Sub item</a></li>
-                            <li><a href="#">Sub item</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Sub item</a></li>
-                    <li><a href="#">Sub item</a></li>
-                </ul>
-            </li>
-        </ul>
     </div><!-- /.th-sidebar -->
 
     <main class="th-main uk-width-expand">

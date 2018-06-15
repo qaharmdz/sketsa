@@ -1,4 +1,4 @@
-Sketsa is an UIkit test for various admin elements; no plan to develop it into full whistle UIkit admin template.
+Sketsa is an UIkit test for various admin elements.
 
 ### Development Principal
 
