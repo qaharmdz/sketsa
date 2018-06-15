@@ -4,11 +4,7 @@ $(document).ready(function()
     /*
      * Load page
      */
-    var page = getUrlParameter('page', 'dashboard');
-    openPage(page);
-    $('.th-sidebar [data-page]').on('click', function(e) {
-        openPage($(this).data('page'));
-    });
+    openPage(getUrlParameter('page', 'dashboard'));
 
     /*
      * Sidebar state
@@ -46,8 +42,7 @@ function openPage(page) {
     holder.html('<div class="uk-card uk-card-default uk-card-body uk-card-small">loading..</div>');
     setTimeout(function() {
         holder.load('page/' + page + '.html', function() {
-            // Mark nav active
-            $('.th-sidebar [data-page="' + page + '"]').parent().addClass('uk-active');
+            $('.th-sidebar a[href*="' + page + '"]').parent().addClass('uk-active');
         });
     }, 250);
 }
