@@ -48,7 +48,8 @@ function openPage(page) {
     var holder = $('[data-content]');
     holder.html('<div class="uk-card uk-card-default uk-card-body uk-card-small">loading..</div>');
     setTimeout(function() {
-        holder.load('page/' + page + '.html', function() {
+        var date = new Date();
+        holder.load('page/' + page + '.html?_=' + date.getDate() + date.getHours(), function() {
             $('.th-sidebar a[href*="' + page + '"]').parent().addClass('uk-active');
             $('.th-sidebar .uk-active').closest('.uk-parent').addClass('uk-open');
             $('.th-sidebar .uk-active').closest('.uk-nav').show();
