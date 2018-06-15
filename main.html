@@ -21,7 +21,7 @@
 <body>
 <header class="th-header uk-background-primary" uk-sticky="media:960">
     <!--  -->
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar="offset:0,delay-show:50">
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar="offset:0;delay-show:100">
         <div class="uk-navbar-left">
             <div class="uk-navbar-item uk-logo th-logo">Sketsa</div>
             <a class="uk-navbar-toggle uk-visible@m" data-sidebar uk-navbar-toggle-icon uk-toggle="target:body;cls:th-sidebar-show"></a>
@@ -117,7 +117,7 @@
 </header>
 
 <div class="th-main-wrapper uk-grid-collapse" uk-grid uk-height-viewport="expand: true">
-    <div class="th-sidebar uk-light">
+    <div class="th-sidebar">
         <div class="th-sidebar-scroll">
             <div class="uk-hidden@m">
                 <div class="uk-grid-small uk-margin-small-top" uk-grid>
@@ -136,7 +136,7 @@
             </div>
             <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
                 <li><a href="main.html?page=dashboard">Dashboard</a></li>
-                <li class="uk-parent uk-open">
+                <li class="uk-parent">
                     <a href="#">Components</a>
                     <ul class="uk-nav uk-nav-default uk-margin-small-left">
                         <li><a href="main.html?page=background">Background</a></li>
@@ -145,15 +145,15 @@
                 <li class="uk-parent">
                     <a href="#">Pages</a>
                     <ul class="uk-nav uk-nav-default uk-margin-small-left">
-                        <li class="uk-parent">
+                        <li>
                             <span>Layouts</span>
                             <ul class="uk-nav uk-nav-default uk-margin-left">
-                                <li><a href="#">Fullwidth</a></li>
+                                <li><a href="main.html?page=layout-fullwidth">Fullwidth</a></li>
                                 <li><a href="#">Inner Left Sidebar</a></li>
                                 <li><a href="#">Flex Right Column</a></li>
                             </ul>
                         </li>
-                        <li class="uk-parent">
+                        <li>
                             <span>Extras</span>
                             <ul class="uk-nav uk-nav-default uk-margin-left">
                                 <li><a href="login.html">Login</a></li>
@@ -166,7 +166,7 @@
                     <ul class="uk-nav uk-nav-default uk-margin-small-left">
                         <li><a href="#">Sub item</a></li>
                         <li><a href="#">Sub item</a></li>
-                        <li class="uk-parent">
+                        <li>
                             <span>Sub parent</span>
                             <ul class="uk-nav uk-nav-default uk-margin-left">
                                 <li><a href="#">Sub item</a></li>
@@ -174,7 +174,7 @@
                                 <li><a href="#">Sub item</a></li>
                             </ul>
                         </li>
-                        <li class="uk-parent">
+                        <li>
                             <span>Sub parent</span>
                             <ul class="uk-nav uk-nav-default uk-margin-left">
                                 <li><a href="#">Sub item</a></li>
@@ -182,7 +182,7 @@
                                 <li><a href="#">Sub item</a></li>
                             </ul>
                         </li>
-                        <li class="uk-parent">
+                        <li>
                             <span>Sub parent</span>
                             <ul class="uk-nav uk-nav-default uk-margin-left">
                                 <li><a href="#">Sub item</a></li>
@@ -195,6 +195,10 @@
                     </ul>
                 </li>
             </ul>
+
+            <div class="uk-card uk-card-primary uk-card-body ux-background-teal uk-padding-small uk-text-center uk-text-lead uk-margin-top">
+                Keep Calm
+            </div>
         </div>
     </div><!-- /.th-sidebar -->
 

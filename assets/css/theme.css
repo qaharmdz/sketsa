@@ -68,6 +68,16 @@ html {
   bottom: 0;
   left: 0;
 }
+.th-sidebar a,
+.th-sidebar span {
+  color: #aaa !important;
+}
+.th-sidebar a:hover {
+  color: #eee !important;
+}
+.th-sidebar .uk-active > a {
+  color: #1E87F0 !important;
+}
 .th-sidebar-scroll {
   width: 200px;
   height: calc(100vh -  46px );
