@@ -33,7 +33,7 @@ $(document).ready(function()
 });
 
 
-// Code below part of Sketsa dynamic pages
+// All code below part of dynamic pages
 // ==========================================
 $(document).ready(function()
 {
