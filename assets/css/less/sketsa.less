@@ -80,6 +80,7 @@ html {
     top: @header-height;
     bottom: 0;
     left: 0;
+    z-index: 100;
 
     a, span {
         color: #aaa !important;
@@ -94,17 +95,9 @@ html {
 .th-sidebar-scroll {
     width: @sidebar-width;
     height: ~'calc(100vh - ' @header-height~')';
-    padding: 8px 10px 15px 10px;
+    padding: 8px 10px 15px 15px;
     position: relative;
     overflow: hidden;
-}
-@media (max-width: 959px) {
-    .th-sidebar {
-        top: 0;
-    }
-    .th-sidebar-show .th-header {
-        margin-left: @sidebar-width;
-    }
 }
 
 /* Sidebar state */
@@ -112,8 +105,10 @@ html {
     .th-sidebar {
         margin-left: 0;
     }
-    .th-main {
-        margin-left: @sidebar-width;
+    @media (min-width: 960px) {
+        .th-main {
+            margin-left: @sidebar-width;
+        }
     }
     .th-hide-on-sidebar-show {
         display: none !important;
@@ -160,7 +155,9 @@ html {
 
 /* Layout: Main
  =============================== */
-.th-main {}
+.th-main {
+    z-index: 1;
+}
 .th-main-header {
     padding: 6px 20px;
     background-color: #fff;
