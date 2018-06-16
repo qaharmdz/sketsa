@@ -112,7 +112,7 @@ html {
   width: 250px;
   margin-right: -250px;
   position: fixed;
-  top: 82px;
+  top: 46px;
   bottom: 0;
   right: 0;
   overflow: auto;
@@ -129,7 +129,7 @@ html {
   .th-side-panel-show .th-side-panel {
     margin-right: 0;
   }
-  .th-side-panel-show .th-main-content {
+  .th-side-panel-show .th-main {
     margin-right: 250px;
   }
 }
