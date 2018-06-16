@@ -3,14 +3,7 @@
 
 $(document).ready(function()
 {
-    /*
-     * Load page
-     */
-    openPage(getUrlParameter('page', 'dashboard'));
-
-    /*
-     * Sidebar state
-     */
+    // Sidebar state
     var sidebarState = Cookies.get('th-sidebar-state');
     if (sidebarState === undefined || sidebarState === 'show') {
         UIkit.toggle('[data-sidebar]').toggle();
@@ -39,22 +32,31 @@ $(document).ready(function()
     });
 });
 
+
+// Code below part of Sketsa dynamic pages
+// ==========================================
+$(document).ready(function()
+{
+    openPage(getUrlParameter('page', 'dashboard'));
+});
+
 function openPage(page) {
     $('.th-sidebar a').each(function() {
         $(this).parent().removeClass('uk-active');
     });
 
     // load page
-    var holder = $('[data-content]');
-    holder.html('<div class="uk-card uk-card-default uk-card-body uk-card-small">loading..</div>');
+    UIkit.notification('<div class="uk-text-center">Load content..</div>');
     setTimeout(function() {
         var date = new Date();
-        holder.load('page/' + page + '.html?_=' + date.getDate() + date.getHours(), function() {
+        $('[data-content]').load('page/' + page + '.html?_=' + date.getDate() + date.getHours(), function() {
             $('.th-sidebar a[href*="' + page + '"]').parent().addClass('uk-active');
             $('.th-sidebar .uk-active').closest('.uk-parent').addClass('uk-open');
             $('.th-sidebar .uk-active').closest('.uk-nav').show();
+
+            UIkit.notification.closeAll();
         });
-    }, 200);
+    }, 100);
 }
 
 /*
