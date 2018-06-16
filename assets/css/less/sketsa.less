@@ -1,5 +1,6 @@
 
 @header-height:             46px;
+@header-main-height:        36px; // breadcrumb
 @sidebar-width:             200px;
 @sidepanel-width:           250px;
 
@@ -24,8 +25,8 @@ html {
     margin-top: 20px;
 }
 
-.th-header, .th-main, .th-footer,
-.th-sidebar, .th-side-panel {
+.th-header, .th-main, .th-main-content,
+.th-footer, .th-sidebar, .th-side-panel {
     transition: margin-left .25s, margin-right .25s, width .25s, flex .25s;
 }
 
@@ -124,7 +125,7 @@ html {
     margin-right: -@sidepanel-width;
 
     position: fixed;
-    top: @header-height;
+    top: @header-height + @header-main-height;
     bottom: 0;
     right: 0;
     overflow: auto;
@@ -144,7 +145,7 @@ html {
         .th-side-panel {
             margin-right: 0;
         }
-        .th-main {
+        .th-main-content {
             margin-right: @sidepanel-width;
         }
     }
@@ -159,6 +160,7 @@ html {
     z-index: 1;
 }
 .th-main-header {
+    height: @header-main-height;
     padding: 6px 20px;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
