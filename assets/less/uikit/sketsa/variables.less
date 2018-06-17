@@ -33,14 +33,15 @@
 //
 
 @global-font-family:                            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-@global-font-size:                              14px;
-@global-line-height:                            1.5;
+@global-font-size:                              15px;
+@global-line-height:                            1.6;
 
 @global-xxlarge-font-size:                      2.625rem;
 @global-xlarge-font-size:                       2rem;
 @global-large-font-size:                        1.5rem;
 @global-medium-font-size:                       1.25rem;
 @global-small-font-size:                        0.875rem;
+@extra-mini-font-size:                          0.8rem;
 
 //
 // Colors
@@ -55,8 +56,11 @@
 
 @global-inverse-color:                          #fff;
 
-// Inverse component
-@inverse-global-color:                          fade(@global-inverse-color, 80%);
+// Inverse
+
+@inverse-global-color-mode:                     light;
+
+@inverse-global-color:                          fade(@global-inverse-color, 90%);
 @inverse-global-emphasis-color:                 @global-inverse-color;
 @inverse-global-muted-color:                    fade(@global-inverse-color, 60%);
 @inverse-global-inverse-color:                  @global-color;
@@ -67,6 +71,7 @@
 @inverse-global-border:                         fade(@global-inverse-color, 20%);
 
 // New Extra
+
 @extra-color-red:                               #f53123;
 @extra-color-pink:                              #fd1d69;
 @extra-color-purple:                            #9c27b0;
@@ -93,6 +98,7 @@
 @extra-color-contrast-light:                    @inverse-global-color;
 @extra-color-contrast-dark:                     @inverse-global-inverse-color;
 
+
 //
 // Backgrounds
 //
@@ -113,8 +119,6 @@
 
 @global-border-width:                           1px;
 @global-border:                                 #d4d4d4;
-
-// New Extra
 @extra-border-radius:                           3px;
 
 //
@@ -136,6 +140,7 @@
 @global-medium-margin:                          40px;
 @global-large-margin:                           70px;
 @global-xlarge-margin:                          140px;
+@extra-mini-margin:                             5px;
 
 // Used in grid, column, container, align, card, padding
 @global-gutter:                                 30px;
@@ -147,9 +152,9 @@
 // Controls
 //
 
-@global-control-height:                         40px;
-@global-control-small-height:                   30px;
-@global-control-large-height:                   55px;
+@global-control-height:                         34px;
+@global-control-small-height:                   24px;
+@global-control-large-height:                   46px;
 
 //
 // Z-index

@@ -1,0 +1,315 @@
+//
+// Component: Button
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@button-line-height:                            @global-control-height - (@button-border-width * 2);
+@button-mini-line-height:                       18px - @button-border-width;
+@button-small-line-height:                      26px;
+@button-large-line-height:                      @global-control-large-height - (@button-border-width * 2);
+
+@button-font-size:                              @global-font-size;
+@button-mini-font-size:                         @extra-mini-font-size;
+@button-small-font-size:                        @global-small-font-size;
+@button-large-font-size:                        16px;
+
+@button-padding-horizontal:                     22px;
+@button-mini-padding-horizontal:                6px;
+@button-small-padding-horizontal:               14px;
+@button-large-padding-horizontal:               40px;
+
+@button-text-transform:                         none;
+@button-border-width:                           @global-border-width;
+@button-box-inset-shadow:                       inset 0 0 10px rgba(0, 0, 0, 0.15);
+
+
+@button-default-color:                          @global-emphasis-color;
+@button-default-hover-color:                    @global-emphasis-color;
+@button-default-active-color:                   @global-emphasis-color;
+@button-default-background:                     @global-background;
+@button-default-hover-background:               @global-muted-background;
+@button-default-active-background:              darken(@global-muted-background, 5%);
+@button-default-border:                         @global-border;
+@button-default-hover-border:                   darken(@global-border, 7%);
+@button-default-active-border:                  darken(@global-border, 15%);
+
+@button-primary-color:                          @global-inverse-color;
+@button-primary-hover-color:                    @global-inverse-color;
+@button-primary-active-color:                   @global-inverse-color;
+@button-primary-background:                     @global-primary-background;
+@button-primary-hover-background:               darken(@button-primary-background, 8%);
+@button-primary-active-background:              darken(@button-primary-background, 14%);
+
+@button-secondary-color:                        @global-inverse-color;
+@button-secondary-active-color:                 @global-inverse-color;
+@button-secondary-hover-color:                  @global-inverse-color;
+@button-secondary-background:                   @global-secondary-background;
+@button-secondary-hover-background:             darken(@button-secondary-background, 5%);
+@button-secondary-active-background:            darken(@button-secondary-background, 10%);
+
+@button-gray-color:                             @global-color;
+@button-gray-hover-color:                       @global-color;
+@button-gray-active-color:                      @global-color;
+@button-gray-background:                        darken(@global-muted-background, 3%);
+@button-gray-hover-background:                  darken(@button-gray-background, 6%);
+@button-gray-active-background:                 darken(@button-gray-background, 10%);
+@button-gray-border:                            #d8d8d8; // @global-border;
+@button-gray-hover-border:                      darken(@button-gray-border, 7%);
+@button-gray-active-border:                     darken(@button-gray-border, 15%);
+
+@button-success-color:                          @global-inverse-color;
+@button-success-hover-color:                    @global-inverse-color;
+@button-success-active-color:                   @global-inverse-color;
+@button-success-background:                     @global-success-background;
+@button-success-hover-background:               darken(@button-success-background, 5%);
+@button-success-active-background:              darken(@button-success-background, 10%);
+
+@button-warning-color:                          @global-inverse-color;
+@button-warning-hover-color:                    @global-inverse-color;
+@button-warning-active-color:                   @global-inverse-color;
+@button-warning-background:                     @global-warning-background;
+@button-warning-hover-background:               darken(@button-warning-background, 5%);
+@button-warning-active-background:              darken(@button-warning-background, 14%);
+
+@button-danger-color:                           @global-inverse-color;
+@button-danger-hover-color:                     @global-inverse-color;
+@button-danger-active-color:                    @global-inverse-color;
+@button-danger-background:                      @global-danger-background;
+@button-danger-hover-background:                darken(@button-danger-background, 8%);
+@button-danger-active-background:               darken(@button-danger-background, 14%);
+
+@button-disabled-background:                    @global-muted-background;
+@button-disabled-color:                         @global-muted-color;
+@button-disabled-border:                        @global-border;
+
+@button-text-line-height:                       @global-line-height;
+@button-text-color:                             @global-muted-color;
+@button-text-hover-color:                       @global-color;
+@button-text-disabled-color:                    @global-muted-color;
+@button-text-border-width:                      @global-border-width;
+@button-text-border:                            @button-text-hover-color;
+
+@button-link-line-height:                       @global-line-height;
+@button-link-color:                             @global-link-color;
+@button-link-hover-color:                       @global-link-hover-color;
+@button-link-hover-text-decoration:             underline;
+@button-link-disabled-color:                    @global-muted-color;
+
+@button-text-shadow:                            rgba(255,255,255,.3);
+@button-inverse-text-shadow:                    rgba(0, 0, 0, 0.2);
+
+
+// Component
+// ========================================================================
+
+.hook-button() {
+    border: 1px solid transparent;
+    text-shadow: 0 -1px 0 @button-text-shadow;
+    font-weight: normal;
+
+    &:not(.uk-button-mini):not(.uk-button-narrow) .uk-icon {
+        margin-left: -5px;
+    }
+}
+
+.hook-button-default-active() {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.hook-button-primary() {
+    &:not(:disabled) {
+        text-shadow: 0 -1px 0 @button-inverse-text-shadow;
+    }
+}
+.hook-button-primary-active() {
+    box-shadow: @button-box-inset-shadow;
+}
+
+.hook-button-secondary() {
+    &:not(:disabled) {
+        text-shadow: 0 -1px 0 @button-inverse-text-shadow;
+    }
+}
+.hook-button-secondary-active() {
+    box-shadow: @button-box-inset-shadow;
+}
+
+.hook-button-danger() {
+    &:not(:disabled) {
+        text-shadow: 0 -1px 0 @button-inverse-text-shadow;
+    }
+}
+.hook-button-danger-active() {
+    box-shadow: @button-box-inset-shadow;
+}
+
+.hook-button-link() {
+    padding: 0 @button-padding-horizontal;
+}
+
+
+.hook-button-misc() {
+
+    .uk-button-mini {
+        padding: 0 @button-mini-padding-horizontal;
+        line-height: @button-mini-line-height;
+        font-size: @button-mini-font-size;
+    }
+
+    .uk-button-group.uk-button-radio {
+        padding-top: 2px;
+    }
+    .uk-button-group:not(.uk-button-radio) > .uk-button:nth-child(n+2):not(.uk-button-default),
+    .uk-button-group:not(.uk-button-radio) > div:nth-child(n+2) .uk-button:not(.uk-button-default) {
+        border-left: 1px solid rgba(50, 50, 50, 0.1) !important;
+    }
+    .uk-button-group:not(.uk-button-radio) > .uk-button:nth-child(n+2).uk-button-small:not(.uk-button-default),
+    .uk-button-group:not(.uk-button-radio) > div:nth-child(n+2) .uk-button.uk-button-small:not(.uk-button-default) {
+        border-left: 1px solid rgba(50, 50, 50, 0.07) !important;
+    }
+
+    .uk-button-narrow {
+        padding: 0 13px;
+
+        &.uk-button-mini {
+            padding: 0 5px;
+        }
+        &.uk-button-small {
+            padding: 0 8px;
+        }
+    }
+
+    //
+    // Gray
+    //
+
+    .uk-button-gray {
+        background-color: @button-gray-background;
+        border: @button-border-width solid @button-gray-border;
+        color: @button-gray-color;
+    }
+
+    /* Hover + Focus */
+    .uk-button-gray:hover,
+    .uk-button-gray:focus {
+        background-color: @button-gray-hover-background;
+        border-color: @button-gray-hover-border;
+        color: @button-gray-hover-color;
+    }
+
+    /* OnClick + Active */
+    .uk-button-gray:active,
+    .uk-button-gray.uk-active {
+        background-color: @button-gray-active-background;
+        border-color: @button-gray-active-border;
+        color: @button-gray-active-color;
+        box-shadow: @button-box-inset-shadow;
+    }
+
+    //
+    // Success
+    //
+
+    .uk-button-success {
+        background-color: @button-success-background;
+        color: @button-success-color;
+        border: @button-border-width solid transparent;
+
+        &:not(:disabled) {
+            text-shadow: 0 -1px 0 @button-inverse-text-shadow;
+        }
+    }
+
+    /* Hover + Focus */
+    .uk-button-success:hover,
+    .uk-button-success:focus {
+        background-color: @button-success-hover-background;
+        color: @button-success-hover-color;
+    }
+
+    /* OnClick + Active */
+    .uk-button-success:active,
+    .uk-button-success.uk-active {
+        background-color: @button-success-active-background;
+        color: @button-success-active-color;
+        box-shadow: @button-box-inset-shadow;
+    }
+
+    //
+    // Warning
+    //
+
+    .uk-button-warning {
+        background-color: @button-warning-background;
+        color: @button-warning-color;
+        border: @button-border-width solid transparent;
+
+        &:not(:disabled) {
+            text-shadow: 0 -1px 0 @button-inverse-text-shadow;
+        }
+    }
+
+    /* Hover + Focus */
+    .uk-button-warning:hover,
+    .uk-button-warning:focus {
+        background-color: @button-warning-hover-background;
+        color: @button-warning-hover-color;
+    }
+
+    /* OnClick + Active */
+    .uk-button-warning:active,
+    .uk-button-warning.uk-active {
+        background-color: @button-warning-active-background;
+        color: @button-warning-active-color;
+        box-shadow: @button-box-inset-shadow;
+    }
+
+    /*
+     * Disabled
+     * The same for all style modifiers
+     */
+    .uk-button-gray:disabled,
+    .uk-button-success:disabled,
+    .uk-button-warning:disabled {
+        background-color: @button-disabled-background;
+        color: @button-disabled-color;
+        .hook-button-disabled;
+    }
+
+    //
+    // Button Radio
+    //
+
+    .uk-button-radio {
+        input[type="radio"]:checked + .uk-button {
+            border: @button-border-width solid transparent;
+            box-shadow: @button-box-inset-shadow;
+            text-shadow: 0 -1px 0 @button-inverse-text-shadow;
+        }
+
+        input[type="radio"]:checked + .uk-button-active-primary {
+            background-color: @button-primary-hover-background;
+            color: @button-primary-hover-color;
+        }
+        input[type="radio"]:checked + .uk-button-active-secondary {
+            background-color: @button-secondary-hover-background;
+            color: @button-secondary-hover-color;
+        }
+        input[type="radio"]:checked + .uk-button-active-danger {
+            background-color: @button-danger-hover-background;
+            color: @button-danger-hover-color;
+        }
+        input[type="radio"]:checked + .uk-button-active-success {
+            background-color: @button-success-hover-background;
+            color: @button-success-hover-color;
+        }
+        input[type="radio"]:checked + .uk-button-active-warning {
+            background-color: @button-warning-hover-background;
+            color: @button-warning-hover-color;
+        }
+    }
+}

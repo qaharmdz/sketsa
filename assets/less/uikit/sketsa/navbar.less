@@ -8,6 +8,7 @@
 // ========================================================================
 
 @navbar-nav-item-hover-background:              rgba(0,0,0,.2);
+@navbar-toggle-hover-background:                @navbar-nav-item-hover-background;
 
 @navbar-dropdown-nav-font-size:                 @nav-default-font-size;
 @navbar-dropdown-nav-item-color:                @global-muted-color;
@@ -25,6 +26,9 @@
 // ========================================================================
 
 .hook-navbar-nav-item-hover() {
+    background-color: @navbar-nav-item-hover-background;
+}
+.hook-navbar-toggle-hover() {
     background-color: @navbar-nav-item-hover-background;
 }
 .hook-navbar-dropdown-nav-item-hover() {

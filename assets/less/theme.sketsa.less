@@ -10,6 +10,9 @@
 @sidebar-width:             200px;
 @sidepanel-width:           250px;
 
+@main-content-padding-v:    20px;
+@main-content-padding-h:    25px;
+
 
 /* Layout
  =============================== */
@@ -51,7 +54,7 @@
     }
 }
 .uk-navbar-right {
-    padding-right: 20px;
+    padding-right: @main-content-padding-h;
 }
 
 /* adjust navbar height and color */
@@ -63,7 +66,10 @@
 }
 .uk-navbar-nav > li:hover > a,
 .uk-navbar-nav > li > a:focus,
-.uk-navbar-nav > li > a.uk-open {
+.uk-navbar-nav > li > a.uk-open,
+.uk-navbar-toggle:hover,
+.uk-navbar-toggle:focus,
+.uk-navbar-toggle.uk-open {
     color: #fff;
 }
 
@@ -103,13 +109,8 @@
     .th-sidebar {
         margin-left: 0;
     }
-    @media (min-width: 960px) {
-        .th-main {
-            margin-left: @sidebar-width;
-        }
-    }
-    .th-hide-on-sidebar-show {
-        display: none !important;
+    .th-main {
+        margin-left: @sidebar-width;
     }
 }
 
@@ -146,9 +147,6 @@
             margin-right: @sidepanel-width;
         }
     }
-    .th-hide-on-side-panel-show {
-        display: none !important;
-    }
 }
 
 /* Layout: Main
@@ -167,7 +165,7 @@
     }
 }
 .th-main-content {
-    padding: 20px;
+    padding: @main-content-padding-v @main-content-padding-h;
 }
 
 /* Plugin: Perfect Scroller
