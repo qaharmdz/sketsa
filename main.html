@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard - Sketsa UIkit Admin Template</title>
 
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="assets/css/uikit.sketsa.min.css?v=3.0.0-rc.6" />
     <link rel="stylesheet" href="assets/css/perfect-scrollbar.min.css?v=1.4.0" />
     <link rel="stylesheet" href="assets/css/theme.sketsa.min.css?v=1.0.0-a.1" />
@@ -91,7 +92,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="uk-card uk-card-primary uk-card-body ux-background-green uk-padding-small uk-margin-top uk-text-small uk-text-center">
+                        <div class="ux-background-green ux-contrast uk-padding-small uk-margin-top uk-text-small uk-text-center">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         </div>
                     </div>
@@ -176,7 +177,7 @@
 <div class="th-main-wrapper uk-grid-collapse" uk-grid uk-height-viewport="expand: true">
     <div class="th-sidebar">
         <div class="th-sidebar-scroll">
-            <div class="uk-hidden@m">
+            <div class="th-sidebar-profile uk-hidden@m">
                 <div class="uk-grid-small uk-margin-small-top" uk-grid>
                     <div class="uk-width-auto">
                         <img class="uk-border-rounded" src="images/john-doe.png" alt="" width="54">
@@ -192,16 +193,17 @@
                 <hr>
             </div>
             <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
-                <li><a href="main.html?page=dashboard">Dashboard</a></li>
+                <li><a href="main.html?page=dashboard"><span class="uk-margin-small-right" uk-icon="home"></span>Dashboard</a></li>
                 <li class="uk-parent">
-                    <a href="#">Components</a>
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="code"></span>Components</a>
                     <ul class="uk-nav-sub">
+                        <li><a href="main.html?page=overview">Overview</a></li>
                         <li><a href="main.html?page=background">Background</a></li>
                         <li><a href="main.html?page=button">Button</a></li>
                     </ul>
                 </li>
                 <li class="uk-parent">
-                    <a href="#">Pages</a>
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="copy"></span>Pages</a>
                     <ul class="uk-nav-sub">
                         <li>
                             <span>Layouts</span>
@@ -220,18 +222,10 @@
                     </ul>
                 </li>
                 <li class="uk-parent">
-                    <a href="#">Parent</a>
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="settings"></span>Parent</a>
                     <ul class="uk-nav-sub">
                         <li><a href="#">Sub item</a></li>
                         <li><a href="#">Sub item</a></li>
-                        <li>
-                            <span>Sub parent</span>
-                            <ul>
-                                <li><a href="#">Sub item</a></li>
-                                <li><a href="#">Sub item</a></li>
-                                <li><a href="#">Sub item</a></li>
-                            </ul>
-                        </li>
                         <li>
                             <span>Sub parent</span>
                             <ul>

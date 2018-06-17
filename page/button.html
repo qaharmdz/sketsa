@@ -9,6 +9,7 @@
                 <button class="uk-button uk-button-default">Button</button>
                 <button class="uk-button uk-button-default" disabled>Disabled</button>
             </p>
+
             <p><code>uk-button-*</code></p>
             <div uk-margin>
                 <button class="uk-button uk-button-default">default</button>
@@ -49,6 +50,7 @@
 
     <h3>Size</h3>
     <p>Extra <code>uk-button-mini</code></p>
+
     <p uk-margin>
         <a class="uk-button uk-button-default uk-button-mini" href="#">mini</a>
         <button class="uk-button uk-button-primary uk-button-mini">Button</button>
@@ -82,7 +84,7 @@
             <button class="uk-button uk-button-default uk-button-mini">Button</button>
             <button class="uk-button uk-button-default uk-button-mini">Button</button>
         </div>
-        <div class="uk-button-group">
+        <div class="uk-button-group uk-margin-left">
             <a class="uk-button uk-button-default uk-button-small" href="#">Link</a>
             <button class="uk-button uk-button-default uk-button-small">Button</button>
             <button class="uk-button uk-button-default uk-button-small">Button</button>
@@ -95,7 +97,7 @@
             <button class="uk-button uk-button-default">Button</button>
             <button class="uk-button uk-button-default">Button</button>
         </div>
-        <div class="uk-button-group">
+        <div class="uk-button-group uk-margin-left">
             <a class="uk-button uk-button-default uk-button-large" href="#">Link</a>
             <button class="uk-button uk-button-default uk-button-large">Button</button>
             <button class="uk-button uk-button-default uk-button-large">Button</button>
@@ -114,7 +116,7 @@
                 </div>
             </div>
         </div>
-        <div class="uk-button-group">
+        <div class="uk-button-group uk-margin-left">
             <button class="uk-button uk-button-primary">Dropdown</button>
             <div class="uk-inline">
                 <button class="uk-button uk-button-primary uk-button-narrow" type="button"><span uk-icon="icon:menu"></span></button>
@@ -128,7 +130,7 @@
                 </div>
             </div>
         </div>
-        <div class="uk-button-group">
+        <div class="uk-button-group uk-margin-left">
             <button class="uk-button uk-button-primary">Position</button>
             <div class="uk-inline">
                 <button class="uk-button uk-button-primary uk-button-narrow" type="button"><span uk-icon="icon:album"></span></button>
@@ -145,13 +147,14 @@
     </div>
 
     <h3>Radio Group</h3>
+    <p>Extra <code>uk-button-radio</code></p>
 
     <div class="uk-margin">
         <div class="uk-button-group uk-button-radio">
-            <input type="radio" id="radio-button-a-1" name="radio-button-a" value="1" hidden>
+            <input type="radio" id="radio-button-a-1" name="radio-button-a" value="1" checked hidden>
             <label for="radio-button-a-1" class="uk-button uk-button-small uk-button-default uk-button-active-success">Enabled</label>
 
-            <input type="radio" id="radio-button-a-0" name="radio-button-a" value="0" checked hidden>
+            <input type="radio" id="radio-button-a-0" name="radio-button-a" value="0" hidden>
             <label for="radio-button-a-0" class="uk-button uk-button-small uk-button-default uk-button-active-danger">Disabled</label>
         </div>
         <div class="uk-button-group uk-button-radio uk-margin-left">
@@ -174,10 +177,10 @@
             <label for="radio-button-c-0" class="uk-button uk-button-default uk-button-active-danger">Disabled</label>
         </div>
         <div class="uk-button-group uk-button-radio uk-margin-left">
-            <input type="radio" id="radio-button-d-2" name="radio-button-d" value="2" checked hidden>
+            <input type="radio" id="radio-button-d-2" name="radio-button-d" value="2" hidden>
             <label for="radio-button-d-2" class="uk-button uk-button-default uk-button-active-primary">Global</label>
 
-            <input type="radio" id="radio-button-d-1" name="radio-button-d" value="1" hidden>
+            <input type="radio" id="radio-button-d-1" name="radio-button-d" value="1" checked hidden>
             <label for="radio-button-d-1" class="uk-button uk-button-default uk-button-active-success">Enabled</label>
 
             <input type="radio" id="radio-button-d-0" name="radio-button-d" value="0"  hidden>
