@@ -1,19 +1,12 @@
+/*
+ * Sketsa theme stylesheet
+ */
 
 @header-height:             46px;
 @header-main-height:        36px; // breadcrumb
 @sidebar-width:             200px;
 @sidepanel-width:           250px;
 
-
-html {
-    font-size: 15px;
-    background-color: #f4f4f4;
-    overflow-y: scroll;
-    box-sizing: border-box;
-}
-*, *:before, *:after {
-    box-sizing: inherit;
-}
 
 /* Layout
  =============================== */
@@ -96,7 +89,7 @@ html {
 .th-sidebar-scroll {
     width: @sidebar-width;
     height: ~'calc(100vh - ' @header-height~')';
-    padding: 8px 10px 15px 15px;
+    padding: 8px 10px 15px 10px;
     position: relative;
     overflow: hidden;
 }
@@ -157,7 +150,7 @@ html {
 /* Layout: Main
  =============================== */
 .th-main {
-    z-index: 1;
+    z-index: 10;
 }
 .th-main-header {
     height: @header-main-height;

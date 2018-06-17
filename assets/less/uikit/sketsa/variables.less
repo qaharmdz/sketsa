@@ -1,0 +1,158 @@
+//
+// Component:       Variables
+// Description:     Defines common values which are used across all components
+//
+// ========================================================================
+
+
+// Breakpoints
+// ========================================================================
+
+// Phone Portrait:   Galaxy (360x640), iPhone 6 (375x667), iPhone 6+ (414x736)
+// Phone Landscape:  Galaxy (640x360), iPhone 6 (667x375), iPhone 6+ (736x414)
+// Tablet Portrait:  iPad (768x1024), Galaxy Tab (800x1280),
+// Tablet Landscape: iPad (1024x768), iPad Pro (1024x1366),
+// Desktop:          Galaxy Tab (1280x800), iPad Pro (1366x1024)
+
+@breakpoint-small:                             640px;  // Phone landscape
+@breakpoint-medium:                            960px;  // Tablet Landscape
+@breakpoint-large:                             1200px; // Desktop
+@breakpoint-xlarge:                            1600px; // Large Screens
+
+@breakpoint-xsmall-max:                        (@breakpoint-small - 1);
+@breakpoint-small-max:                         (@breakpoint-medium - 1);
+@breakpoint-medium-max:                        (@breakpoint-large - 1);
+@breakpoint-large-max:                         (@breakpoint-xlarge - 1);
+
+
+// Global variables
+// ========================================================================
+
+//
+// Typography
+//
+
+@global-font-family:                            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+@global-font-size:                              14px;
+@global-line-height:                            1.5;      // 24px
+
+@global-xxlarge-font-size:                      2.625rem; // 42px
+@global-xlarge-font-size:                       2rem;     // 32px
+@global-large-font-size:                        1.5rem;   // 24px
+@global-medium-font-size:                       1.25rem;  // 20px
+@global-small-font-size:                        0.875rem; // 14px
+
+//
+// Colors
+//
+
+@global-color:                                  #444;
+@global-emphasis-color:                         #222;
+@global-muted-color:                            #999;
+
+@global-link-color:                             #1e87f0;
+@global-link-hover-color:                       #0f6ecd;
+
+@global-inverse-color:                          #fff;
+
+// Inverse component
+@inverse-global-color:                          fade(@global-inverse-color, 80%);
+@inverse-global-emphasis-color:                 @global-inverse-color;
+@inverse-global-muted-color:                    fade(@global-inverse-color, 60%);
+@inverse-global-inverse-color:                  @global-color;
+
+@inverse-global-primary-background:             @global-inverse-color;
+@inverse-global-muted-background:               fade(@global-inverse-color, 10%);
+
+@inverse-global-border:                         fade(@global-inverse-color, 20%);
+
+// New Extra
+@extra-color-red:                               #f53123;
+@extra-color-pink:                              #fd1d69;
+@extra-color-purple:                            #9c27b0;
+@extra-color-purple-deep:                       #673ab7;
+@extra-color-indigo:                            #3f51b5;
+@extra-color-blue:                              #1e87f0;
+@extra-color-blue-light:                        #03a9f4;
+@extra-color-cyan:                              #00bcd4;
+@extra-color-teal:                              #009688;
+@extra-color-green:                             #40bb45;
+@extra-color-green-light:                       #94de3d;
+@extra-color-lime:                              #cddc39;
+@extra-color-yellow:                            #ffeb3b;
+@extra-color-amber:                             #ffc107;
+@extra-color-orange:                            #ff9800;
+@extra-color-orange-deep:                       #ff5722;
+@extra-color-brown:                             #795548;
+@extra-color-gray:                              #9e9e9e;
+@extra-color-gray-light:                        #f4f4f4;
+@extra-color-gray-blue:                         #607d8b;
+@extra-color-gray-deep:                         #2b2b2b;
+@extra-color-blackjack:                         #111;
+
+@extra-color-contrast-light:                    @inverse-global-color;
+@extra-color-contrast-dark:                     @inverse-global-inverse-color;
+
+//
+// Backgrounds
+//
+
+@global-background:                             #fff;
+
+@global-muted-background:                       #f8f8f8;
+@global-primary-background:                     @extra-color-blue;
+@global-secondary-background:                   #222;
+
+@global-success-background:                     @extra-color-green;
+@global-warning-background:                     @extra-color-orange;
+@global-danger-background:                      @extra-color-red;
+
+//
+// Borders
+//
+
+@global-border-width:                           1px;
+@global-border:                                 #d4d4d4;
+
+// New Extra
+@extra-border-radius:                           3px;
+
+//
+// Box-Shadows
+//
+
+@global-small-box-shadow:                       0 1px 2px rgba(0,0,0,.3);
+@global-medium-box-shadow:                      0 4px 8px rgba(0,0,0,0.15);
+@global-large-box-shadow:                       0 8px 15px rgba(0, 0, 0, 0.2);
+@global-xlarge-box-shadow:                      0 12px 20px rgba(0, 0, 0, 0.18);
+
+//
+// Spacings
+//
+
+// Used in margin, section, list
+@global-margin:                                 20px;
+@global-small-margin:                           10px;
+@global-medium-margin:                          40px;
+@global-large-margin:                           70px;
+@global-xlarge-margin:                          140px;
+
+// Used in grid, column, container, align, card, padding
+@global-gutter:                                 30px;
+@global-small-gutter:                           15px;
+@global-medium-gutter:                          40px;
+@global-large-gutter:                           70px;
+
+//
+// Controls
+//
+
+@global-control-height:                         40px;
+@global-control-small-height:                   30px;
+@global-control-large-height:                   55px;
+
+//
+// Z-index
+//
+
+@global-z-index:                                1000;

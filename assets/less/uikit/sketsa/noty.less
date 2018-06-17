@@ -1,0 +1,37 @@
+//
+// Component: Noty
+// Info: Little badge notification
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+//
+// New
+//
+
+@noty-font-size:                                10px;
+@noty-padding:                                  3px 4px;
+
+
+// Component
+// ========================================================================
+
+.hook-badge-misc() {
+    .ux-noty {
+        color: @global-inverse-color;
+        font-size: @noty-font-size;
+        font-weight: 700;
+        line-height: 1;
+        background-color: @global-secondary-background;
+        padding: @noty-padding;
+        border-radius: @extra-border-radius;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -1.6em;
+        margin-left: 0;
+    }
+}

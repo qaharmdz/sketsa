@@ -1,16 +1,6 @@
-html {
-  font-size: 15px;
-  background-color: #f4f4f4;
-  overflow-y: scroll;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-*,
-*:before,
-*:after {
-  -webkit-box-sizing: inherit;
-          box-sizing: inherit;
-}
+/*
+ * Sketsa theme stylesheet
+ */
 /* Layout
  =============================== */
 .th-footer {
@@ -88,7 +78,7 @@ html {
 .th-sidebar-scroll {
   width: 200px;
   height: calc(100vh -  46px );
-  padding: 8px 10px 15px 15px;
+  padding: 8px 10px 15px 10px;
   position: relative;
   overflow: hidden;
 }
@@ -139,7 +129,7 @@ html {
 /* Layout: Main
  =============================== */
 .th-main {
-  z-index: 1;
+  z-index: 10;
 }
 .th-main-header {
   height: 36px;
