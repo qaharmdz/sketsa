@@ -29,6 +29,7 @@
  =============================== */
 .th-header {
   height: 46px;
+  background: #1e87f0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 .th-header .th-logo {
@@ -41,17 +42,17 @@
 .uk-navbar-right {
   padding-right: 20px;
 }
-/* adjust navbar height */
+/* adjust navbar height and color */
 .uk-navbar-item,
 .uk-navbar-nav > li > a,
 .uk-navbar-toggle {
   height: 46px;
-  color: #eee !important;
+  color: #eee;
 }
-.uk-navbar-item:hover,
-.uk-navbar-nav > li > a:hover,
-.uk-navbar-toggle:hover {
-  color: #fff !important;
+.uk-navbar-nav > li:hover > a,
+.uk-navbar-nav > li > a:focus,
+.uk-navbar-nav > li > a.uk-open {
+  color: #fff;
 }
 /* Layout: Sidebar
  =============================== */
@@ -65,11 +66,11 @@
   left: 0;
   z-index: 100;
 }
-.th-sidebar a,
-.th-sidebar span {
+.th-sidebar .uk-nav a,
+.th-sidebar .uk-nav span {
   color: #aaa !important;
 }
-.th-sidebar a:hover {
+.th-sidebar .uk-nav a:hover {
   color: #eee !important;
 }
 .th-sidebar .uk-active > a {

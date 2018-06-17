@@ -1,0 +1,34 @@
+//
+// Component: Navbar
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@navbar-nav-item-hover-background:              rgba(0,0,0,.2);
+
+@navbar-dropdown-nav-font-size:                 @nav-default-font-size;
+@navbar-dropdown-nav-item-color:                @global-muted-color;
+@navbar-dropdown-nav-item-hover-color:          @global-color;
+@navbar-dropdown-nav-item-hover-background:     #f0f3f5;
+
+@navbar-dropdown-margin:                        15px;
+@navbar-dropdown-padding:                       @dropdown-padding;
+
+@navbar-dropdown-box-shadow:                    @dropdown-box-shadow;
+@navbar-dropbar-box-shadow:                     @dropdown-box-shadow;
+
+
+// Nav
+// ========================================================================
+
+.hook-navbar-nav-item-hover() {
+    background-color: @navbar-nav-item-hover-background;
+}
+.hook-navbar-dropdown-nav-item-hover() {
+    background-color: @navbar-dropdown-nav-item-hover-background;
+    margin: 0 -@navbar-dropdown-margin;
+    padding: 5px @navbar-dropdown-margin;
+}

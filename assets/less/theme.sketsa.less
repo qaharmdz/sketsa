@@ -1,3 +1,6 @@
+@import "uikit/sketsa/variables.less";
+
+
 /*
  * Sketsa theme stylesheet
  */
@@ -36,6 +39,7 @@
  =============================== */
 .th-header {
     height: @header-height;
+    background: @global-primary-background;
     border-bottom: 1px solid rgba(0,0,0,0.2);
 
     .th-logo {
@@ -50,17 +54,17 @@
     padding-right: 20px;
 }
 
-/* adjust navbar height */
+/* adjust navbar height and color */
 .uk-navbar-item,
 .uk-navbar-nav>li>a,
 .uk-navbar-toggle {
     height: @header-height;
-    color: #eee !important;
+    color: #eee;
 }
-.uk-navbar-item:hover,
-.uk-navbar-nav>li>a:hover,
-.uk-navbar-toggle:hover {
-    color: #fff !important;
+.uk-navbar-nav > li:hover > a,
+.uk-navbar-nav > li > a:focus,
+.uk-navbar-nav > li > a.uk-open {
+    color: #fff;
 }
 
 /* Layout: Sidebar
@@ -76,10 +80,10 @@
     left: 0;
     z-index: 100;
 
-    a, span {
+    .uk-nav a, .uk-nav span {
         color: #aaa !important;
     }
-    a:hover {
+    .uk-nav a:hover {
         color: #eee !important;
     }
     .uk-active > a {

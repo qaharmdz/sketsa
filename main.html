@@ -6,7 +6,6 @@
     <title>Dashboard - Sketsa UIkit Admin Template</title>
 
     <link rel="stylesheet" href="assets/css/uikit.sketsa.min.css?v=3.0.0-rc.6" />
-    <link rel="stylesheet" href="assets/css/uikit.extra.min.css?v=1.0.0-a.1" />
     <link rel="stylesheet" href="assets/css/perfect-scrollbar.min.css?v=1.4.0" />
     <link rel="stylesheet" href="assets/css/theme.sketsa.min.css?v=1.0.0-a.1" />
 
@@ -23,13 +22,12 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'UA-120896885-1');
 </script>
 </head>
 
 <body>
-<header class="th-header uk-background-primary" uk-sticky>
+<header class="th-header" uk-sticky>
     <!--  -->
     <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar="offset:0;delay-show:100">
         <div class="uk-navbar-left">
@@ -42,13 +40,62 @@
                         <ul class="uk-nav uk-navbar-dropdown-nav">
                             <li><a href="#">Add Item</a></li>
                             <li><a href="#">Add Item</a></li>
-                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Add Item</a></li>
                             <li><a href="#">Add Item</a></li>
                             <li><a href="#">Add Item</a></li>
                         </ul>
                     </div>
                 </li>
-                <li><a href="#">Item</a></li>
+                <li>
+                    <a href="#">Parent</a>
+                    <div class="uk-navbar-dropdown uk-padding-small">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">Two Columns</a>
+                    <div class="uk-navbar-dropdown uk-navbar-dropdown-width-2">
+                        <div class="uk-navbar-dropdown-grid uk-child-width-1-2" uk-grid>
+                            <div>
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li class="uk-nav-header">Header</li>
+                                    <li><a href="#">Item</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li class="uk-nav-header">Header</li>
+                                    <li><a href="#">Item</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li class="uk-nav-divider"></li>
+                                    <li><a href="#">Item</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li class="uk-nav-header">Header</li>
+                                    <li><a href="#">Item</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li class="uk-nav-header">Header</li>
+                                    <li><a href="#">Item</a></li>
+                                    <li><a href="#">Item</a></li>
+                                    <li class="uk-nav-divider"></li>
+                                    <li><a href="#">Item</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="uk-card uk-card-primary uk-card-body ux-background-green uk-padding-small uk-margin-top uk-text-small uk-text-center">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
         <div class="uk-navbar-right">
@@ -77,7 +124,7 @@
                             <div class="uk-card-header uk-background-muted">Task</div>
                             <div class="uk-card-body">
                                 <ul class="uk-nav uk-dropdown-nav">
-                                    <li class="uk-active"><a href="#">Active</a></li>
+                                    <li><a href="#">Item</a></li>
                                     <li><a href="#">Item</a></li>
                                     <li class="uk-nav-header">Header</li>
                                     <li><a href="#">Item</a></li>
@@ -148,24 +195,24 @@
                 <li><a href="main.html?page=dashboard">Dashboard</a></li>
                 <li class="uk-parent">
                     <a href="#">Components</a>
-                    <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                    <ul class="uk-nav-sub">
                         <li><a href="main.html?page=background">Background</a></li>
                     </ul>
                 </li>
                 <li class="uk-parent">
                     <a href="#">Pages</a>
-                    <ul class="uk-nav uk-nav-default uk-margin-small-left">
-                        <li>
+                    <ul class="uk-nav-sub">
+                        <!-- <li>
                             <span>Layouts</span>
                             <ul class="uk-nav uk-nav-default uk-margin-left">
                                 <li><a href="main.html?page=layout-fullwidth">Fullwidth</a></li>
                                 <li><a href="#">Inner Left Sidebar</a></li>
                                 <li><a href="#">Flex Right Column</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li>
                             <span>Extras</span>
-                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <ul>
                                 <li><a href="login.html">Login</a></li>
                             </ul>
                         </li>
@@ -173,12 +220,12 @@
                 </li>
                 <li class="uk-parent">
                     <a href="#">Parent</a>
-                    <ul class="uk-nav uk-nav-default uk-margin-small-left">
+                    <ul class="uk-nav-sub">
                         <li><a href="#">Sub item</a></li>
                         <li><a href="#">Sub item</a></li>
                         <li>
                             <span>Sub parent</span>
-                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <ul>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -186,7 +233,7 @@
                         </li>
                         <li>
                             <span>Sub parent</span>
-                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <ul>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -194,7 +241,7 @@
                         </li>
                         <li>
                             <span>Sub parent</span>
-                            <ul class="uk-nav uk-nav-default uk-margin-left">
+                            <ul>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
