@@ -7,7 +7,7 @@
 
 @header-height:             46px;
 @header-main-height:        36px; // breadcrumb
-@sidebar-width:             200px;
+@sidebar-width:             220px;
 @sidepanel-width:           250px;
 
 @main-content-padding-v:    20px;
@@ -88,7 +88,7 @@
 
     .th-sidebar-profile a,
     .uk-nav a, .uk-nav span {
-        color: #aaa;
+        color: #bbb;
     }
     .th-sidebar-profile,
     .th-sidebar-profile a:hover,
@@ -97,15 +97,15 @@
     .uk-nav a:focus, .uk-nav a:focus span {
         color: #f2f2f2;
     }
-    .uk-active > a,
-    .uk-active > a:hover {
+    li.uk-active > a,
+    li.uk-active > a:hover {
         color: #1E87F0;
     }
 }
 .th-sidebar-scroll {
     width: @sidebar-width;
     height: ~'calc(100vh - ' @header-height~')';
-    padding: 8px 10px 15px 10px;
+    padding: 10px;
     position: relative;
     overflow: hidden;
 }
