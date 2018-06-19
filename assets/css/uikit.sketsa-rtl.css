@@ -19,7 +19,6 @@ html {
   /* 3 */
   background: #f4f4f4;
   color: #444;
-  overflow-y: scroll;
   box-sizing: border-box;
 }
 /*
@@ -88,7 +87,7 @@ strong {
   /* 1 */
   font-family: Consolas, monaco, monospace;
   /* 2 */
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   /* 3 */
   color: #f53123;
   white-space: nowrap;
@@ -278,7 +277,7 @@ h5,
 }
 h6,
 .uk-h6 {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.4;
 }
 /* Tablet landscape and bigger */
@@ -368,7 +367,7 @@ blockquote p:last-of-type {
 }
 blockquote footer {
   margin-top: 10px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.5;
   color: #444;
 }
@@ -381,7 +380,7 @@ blockquote footer::before {
  * 1. Contain overflow in all browsers.
  */
 pre {
-  font: 0.875rem / 1.5 Consolas, monaco, monospace;
+  font: 0.9rem / 1.5 Consolas, monaco, monospace;
   color: #444;
   -moz-tab-size: 4;
   tab-size: 4;
@@ -590,7 +589,7 @@ a.uk-link-reset:hover,
   /* 3 */
   height: 0.9em;
   margin-left: 10px;
-  border-right: 5px solid #1e87f0;
+  border-right: 4px solid #1e87f0;
 }
 /* Line
  ========================================================================== */
@@ -807,7 +806,7 @@ a.uk-link-reset:hover,
  */
 .uk-description-list > dt {
   color: #222;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: normal;
   text-transform: uppercase;
 }
@@ -858,7 +857,7 @@ a.uk-link-reset:hover,
   text-align: right;
   vertical-align: bottom;
   /* 1 */
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: normal;
   color: #888;
   text-transform: uppercase;
@@ -878,12 +877,12 @@ a.uk-link-reset:hover,
 /* Footer
  ========================================================================== */
 .uk-table tfoot {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 /* Caption
  ========================================================================== */
 .uk-table caption {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   text-align: right;
   color: #888;
 }
@@ -1866,7 +1865,7 @@ table .uk-checkbox {
 .uk-textarea,
 .uk-radio,
 .uk-checkbox {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 .uk-input {
   line-height: 36px;
@@ -2142,7 +2141,7 @@ table .uk-checkbox {
 .uk-button-small {
   padding: 0 14px;
   line-height: 26px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 .uk-button-large {
   padding: 0 40px;
@@ -3336,9 +3335,15 @@ table .uk-checkbox {
 .uk-alert {
   position: relative;
   margin-bottom: 20px;
-  padding: 15px 15px 15px 29px;
+  padding: 15px 15px 15px 35px;
   background: #f4f4f4;
   color: #444;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-right: 4px solid #bbbbbb;
+}
+.uk-alert:hover .uk-alert-close {
+  display: block;
 }
 /* Add margin if adjacent element */
 * + .uk-alert {
@@ -3359,6 +3364,7 @@ table .uk-checkbox {
   left: 15px;
   color: inherit;
   opacity: 0.4;
+  display: none;
 }
 /*
  * Remove margin from adjacent element
@@ -3381,28 +3387,32 @@ table .uk-checkbox {
  */
 .uk-alert-primary {
   background: #d8eafc;
-  color: #1e87f0;
+  color: #404ead;
+  border-color: #0e6dcd;
 }
 /*
  * Success
  */
 .uk-alert-success {
   background: #eaf8eb;
-  color: #40bb45;
+  color: #0a7e07;
+  border-color: #339537;
 }
 /*
  * Warning
  */
 .uk-alert-warning {
-  background: #ffe5bf;
-  color: #ff9800;
+  background: #fff0d9;
+  color: #e45202;
+  border-color: #e68900;
 }
 /*
  * Danger
  */
 .uk-alert-danger {
-  background: #fddfdd;
-  color: #f53123;
+  background: #fee8e6;
+  color: #d80f0b;
+  border-color: #db180a;
 }
 /*
      * Content
@@ -3423,6 +3433,17 @@ table .uk-checkbox {
   color: inherit;
   text-decoration: underline;
 }
+.uk-alert-small {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 7px 11px 7px 30px;
+}
+.uk-alert-noclose {
+  padding: 15px;
+}
+.uk-alert-noclose.uk-alert-small {
+  padding: 7px 11px;
+}
 /* ========================================================================
    Component: Badge
  ========================================================================== */
@@ -3440,7 +3461,7 @@ table .uk-checkbox {
   /* 1 */
   background: #1e87f0;
   color: #fff;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   /* 2 */
   display: inline-flex;
   justify-content: center;
@@ -3575,7 +3596,7 @@ table .uk-checkbox {
 /* Meta
  ========================================================================== */
 .uk-article-meta {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.4;
   color: #888;
 }
@@ -3628,7 +3649,7 @@ table .uk-checkbox {
 /* Meta
  ========================================================================== */
 .uk-comment-meta {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.4;
   color: #888;
 }
@@ -3955,7 +3976,7 @@ ul.uk-nav-sub {
 .uk-nav-header {
   padding: 7px 0;
   text-transform: uppercase;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 .uk-nav-header:not(:first-child) {
   margin-top: 20px;
@@ -4188,7 +4209,7 @@ ul.uk-nav-sub {
   height: 80px;
   padding: 0 15px;
   /* 3 */
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   /* 4 */
   text-decoration: none;
@@ -4247,7 +4268,7 @@ ul.uk-nav-sub {
 /* Subtitle
  ========================================================================== */
 .uk-navbar-subtitle {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 /* Style modifiers
  ========================================================================== */
@@ -4355,7 +4376,7 @@ ul.uk-nav-sub {
   color: #444;
   background-color: #f0f3f5;
   margin: 0 -15px;
-  padding: 5px 15px;
+  padding: 7px 15px;
 }
 /* Active */
 .uk-navbar-dropdown-nav > li.uk-active > a {
@@ -4475,7 +4496,7 @@ ul.uk-nav-sub {
   display: block;
   /* 2 */
   color: #888;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   transition: 0.1s ease-in-out;
   transition-property: color, background-color;
@@ -4566,7 +4587,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 .uk-breadcrumb > * > * {
   display: inline-block;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   color: #888;
 }
 /* Hover + Focus */
@@ -4703,7 +4724,7 @@ ul.uk-nav-sub {
   padding: 5px 10px;
   color: #888;
   border-bottom: 1px solid transparent;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   transition: color 0.1s ease-in-out;
 }
@@ -6065,11 +6086,24 @@ ul.uk-nav-sub {
   position: relative;
   margin-bottom: 10px;
   padding: 15px;
-  background: #f4f4f4;
+  background: #fdfdfd;
   color: #444;
-  font-size: 1.25rem;
-  line-height: 1.4;
+  font-size: 0.9rem;
+  line-height: 1.5;
   cursor: pointer;
+  border: 1px solid #607d8b;
+}
+.uk-notification-message.ux-icon-emphasis .uk-icon:not(.uk-close) {
+  color: #fff;
+  background: #607d8b;
+  padding: 10px 15px;
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  right: -1px;
+}
+.uk-notification-message.ux-icon-emphasis .uk-icon:not(.uk-close) + * {
+  margin-right: 3.6rem;
 }
 /* Close
  * Adopts `uk-close`
@@ -6089,25 +6123,41 @@ ul.uk-nav-sub {
  * Primary
  */
 .uk-notification-message-primary {
-  color: #1e87f0;
+  color: #404ead;
+  border-color: #1e87f0;
+}
+.uk-notification-message-primary.ux-icon-emphasis .uk-icon:not(.uk-close) {
+  background: #1e87f0;
 }
 /*
  * Success
  */
 .uk-notification-message-success {
-  color: #40bb45;
+  color: #0a7e07;
+  border-color: #40bb45;
+}
+.uk-notification-message-success.ux-icon-emphasis .uk-icon:not(.uk-close) {
+  background: #40bb45;
 }
 /*
  * Warning
  */
 .uk-notification-message-warning {
-  color: #ff9800;
+  color: #e45202;
+  border-color: #ff9800;
+}
+.uk-notification-message-warning.ux-icon-emphasis .uk-icon:not(.uk-close) {
+  background: #ff9800;
 }
 /*
  * Danger
  */
 .uk-notification-message-danger {
-  color: #f53123;
+  color: #d80f0b;
+  border-color: #f53123;
+}
+.uk-notification-message-danger.ux-icon-emphasis .uk-icon:not(.uk-close) {
+  background: #f53123;
 }
 /* ========================================================================
    Component: Tooltip
@@ -7276,7 +7326,7 @@ ul.uk-nav-sub {
   color: #222;
 }
 .uk-text-meta {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.4;
   color: #888;
 }
@@ -7290,7 +7340,7 @@ ul.uk-nav-sub {
 /* Size modifiers
  ========================================================================== */
 .uk-text-small {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 .uk-text-large {
@@ -7319,16 +7369,16 @@ ul.uk-nav-sub {
   color: #888 !important;
 }
 .uk-text-primary {
-  color: #1e87f0 !important;
+  color: #404ead !important;
 }
 .uk-text-success {
-  color: #40bb45 !important;
+  color: #0a7e07 !important;
 }
 .uk-text-warning {
-  color: #ff9800 !important;
+  color: #e45202 !important;
 }
 .uk-text-danger {
-  color: #f53123 !important;
+  color: #d80f0b !important;
 }
 /* Background modifier
  ========================================================================== */

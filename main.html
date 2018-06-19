@@ -33,19 +33,7 @@
             <a class="uk-navbar-toggle uk-visible@m" data-sidebar uk-navbar-toggle-icon uk-toggle="target:body;cls:th-sidebar-show"></a>
             <ul class="uk-navbar-nav uk-visible@m">
                 <li>
-                    <a href="#"><span uk-icon="plus-circle"></span></a>
-                    <div class="uk-navbar-dropdown uk-padding-small">
-                        <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#">Parent</a>
+                    <a href="#"><span uk-icon="icon:link;ratio:1.2"></span></a>
                     <div class="uk-navbar-dropdown uk-padding-small">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
                             <li><a href="#">Item</a></li>
@@ -55,6 +43,18 @@
                             <li class="uk-nav-divider"></li>
                             <li><a href="#">Item</a></li>
                             <li><a href="#">Item</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#"><span uk-icon="plus-circle"></span></a>
+                    <div class="uk-navbar-dropdown uk-padding-small">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Add Item</a></li>
                         </ul>
                     </div>
                 </li>
@@ -195,6 +195,7 @@
                     <a href="#"><span class="uk-margin-small-right" uk-icon="code"></span>Components</a>
                     <ul class="uk-nav-sub">
                         <li><a href="main.html?page=overview">Overview</a></li>
+                        <li><a href="main.html?page=alert">Alert</a></li>
                         <li><a href="main.html?page=background">Background</a></li>
                         <li><a href="main.html?page=button">Button</a></li>
                         <li>
@@ -203,6 +204,7 @@
                                 <li><a href="main.html?page=form-uikit">UIkit Basic</a></li>
                             </ul>
                         </li>
+                        <li><a href="main.html?page=notification">Notification</a></li>
                     </ul>
                 </li>
                 <li class="uk-parent">
@@ -324,7 +326,7 @@ function openPage(page) {
     });
 
     // load page
-    UIkit.notification('<div class="uk-text-center">Load content..</div>');
+    UIkit.notification('<span uk-spinner></span> <div>Processing..</div>', {status:' ux-icon-emphasis'});
     setTimeout(function() {
         var date = new Date();
         $('[data-content]').load('page/' + page + '.html?_=' + date.getDate() + date.getHours(), function() {

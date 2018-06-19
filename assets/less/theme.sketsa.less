@@ -1,25 +1,26 @@
 @import "uikit/sketsa/variables.less";
+@import "uikit/sketsa/inverse.less";
 
 
 /*
  * Sketsa theme stylesheet
  */
 
-@header-height:             46px;
-@header-main-height:        36px; // breadcrumb
-@sidebar-width:             220px;
-@sidepanel-width:           250px;
+@th-header-height:                  46px;
+@th-header-main-height:             36px; // breadcrumb
+@th-sidebar-width:                  220px;
+@th-sidepanel-width:                250px;
 
-@main-content-padding-v:    20px;
-@main-content-padding-h:    25px;
+@th-main-content-padding-v:         20px;
+@th-main-content-padding-h:         25px;
 
 
 /* Layout
  =============================== */
-// .th-main-wrapper {
-//     position: relative;
-//     overflow: hidden;
-// }
+html {
+    overflow-y: scroll;
+}
+
 .th-footer {
     margin-top: 20px;
 }
@@ -41,26 +42,26 @@
 /* Layout: Header
  =============================== */
 .th-header {
-    height: @header-height;
+    height: @th-header-height;
     background: @global-primary-background;
     border-bottom: 1px solid rgba(0,0,0,0.2);
 
     .th-logo {
-        width: @sidebar-width;
+        width: @th-sidebar-width;
         color: #fbfbfb !important;
         font-size: 2rem;
         text-align: center;
         cursor: default;
     }
     .uk-navbar-right {
-        padding-right: @main-content-padding-h;
+        padding-right: @th-main-content-padding-h;
     }
 
     /* adjust navbar height and color */
     .uk-navbar-item,
     .uk-navbar-nav>li>a,
     .uk-navbar-toggle {
-        height: @header-height;
+        height: @th-header-height;
         color: #eee;
     }
     .uk-navbar-nav > li:hover > a,
@@ -77,11 +78,11 @@
  =============================== */
  .th-sidebar {
     background-color: #2b2b2b;
-    width: @sidebar-width;
-    margin-left: -@sidebar-width;
+    width: @th-sidebar-width;
+    margin-left: -@th-sidebar-width;
 
     position: fixed;
-    top: @header-height;
+    top: @th-header-height;
     bottom: 0;
     left: 0;
     z-index: 100;
@@ -103,8 +104,8 @@
     }
 }
 .th-sidebar-scroll {
-    width: @sidebar-width;
-    height: ~'calc(100vh - ' @header-height~')';
+    width: @th-sidebar-width;
+    height: ~'calc(100vh - ' @th-header-height~')';
     padding: 10px;
     position: relative;
     overflow: hidden;
@@ -116,7 +117,7 @@
         margin-left: 0;
     }
     .th-main {
-        margin-left: @sidebar-width;
+        margin-left: @th-sidebar-width;
     }
 }
 
@@ -125,11 +126,11 @@
 .th-side-panel {
     background-color: #f8f8f8;
     border-left: 1px solid #d4d4d4;
-    width: @sidepanel-width;
-    margin-right: -@sidepanel-width;
+    width: @th-sidepanel-width;
+    margin-right: -@th-sidepanel-width;
 
     position: fixed;
-    top: @header-height;
+    top: @th-header-height;
     bottom: 0;
     right: 0;
     overflow: auto;
@@ -150,7 +151,7 @@
             margin-right: 0;
         }
         .th-main {
-            margin-right: @sidepanel-width;
+            margin-right: @th-sidepanel-width;
         }
     }
 }
@@ -161,7 +162,7 @@
     z-index: 10;
 }
 .th-main-header {
-    height: @header-main-height;
+    height: @th-header-main-height;
     padding: 6px 20px;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
@@ -171,7 +172,7 @@
     }
 }
 .th-main-content {
-    padding: @main-content-padding-v @main-content-padding-h;
+    padding: @th-main-content-padding-v @th-main-content-padding-h;
 }
 
 /* Plugin: Perfect Scroller

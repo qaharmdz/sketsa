@@ -1,0 +1,96 @@
+//
+// Component: Alert
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@alert-font-size:                               @global-small-font-size;
+@alert-line-height:                             1.5;
+@alert-color:                                   @global-color;
+@alert-border:                                  darken(@global-border, 10%);
+@alert-background:                              @global-muted-background;
+
+@alert-margin-vertical:                         @global-margin;
+@alert-padding:                                 @global-small-gutter;
+@alert-padding-right:                           @alert-padding + 20px;
+
+@alert-small-font-size:                         @global-small-font-size;
+@alert-small-line-height:                       1.5;
+@alert-small-padding:                           7px 30px 7px 11px;
+@alert-small-padding-noclose:                   7px 11px;
+
+@alert-close-top:                               @alert-padding + 5px;
+@alert-close-right:                             @alert-padding;
+@alert-close-opacity:                           0.4;
+@alert-close-hover-opacity:                     0.8;
+
+@alert-primary-color:                           @text-primary-color;
+@alert-primary-border:                          darken(@global-primary-background, 10%);
+@alert-primary-background:                      lighten(tint(@global-primary-background, 40%), 20%);
+
+@alert-success-color:                           @text-success-color;
+@alert-success-border:                          darken(@global-success-background, 10%);
+@alert-success-background:                      lighten(tint(@global-success-background, 40%), 25%);
+
+@alert-warning-color:                           @text-warning-color;
+@alert-warning-border:                          darken(@global-warning-background, 5%);
+@alert-warning-background:                      lighten(tint(@global-warning-background, 45%), 20%);
+
+@alert-danger-color:                            @text-danger-color;
+@alert-danger-border:                           darken(@global-danger-background, 10%);
+@alert-danger-background:                       lighten(tint(@global-danger-background, 40%), 22%);
+
+
+// Component
+// ========================================================================
+
+.hook-alert() {
+    font-size: @alert-font-size;
+    line-height: @alert-line-height;
+
+    border-left: 4px solid @alert-border;
+
+    &:hover .uk-alert-close {
+        display: block;
+    }
+}
+
+.hook-alert-close() {
+    display: none;
+}
+
+
+.hook-alert-primary() {
+    border-color: @alert-primary-border;
+}
+
+.hook-alert-success() {
+    border-color: @alert-success-border;
+}
+
+.hook-alert-warning() {
+    border-color: @alert-warning-border;
+}
+
+.hook-alert-danger() {
+    border-color: @alert-danger-border;
+}
+
+.hook-alert-misc() {
+    .uk-alert-small {
+        font-size: @alert-small-font-size;
+        line-height: @alert-small-line-height;
+        padding: @alert-small-padding;
+    }
+
+    .uk-alert-noclose {
+        padding: @alert-padding;
+
+        &.uk-alert-small {
+            padding: @alert-small-padding-noclose;
+        }
+    }
+}

@@ -3,6 +3,9 @@
  */
 /* Layout
  =============================== */
+html {
+  overflow-y: scroll;
+}
 .th-footer {
   margin-top: 20px;
 }
