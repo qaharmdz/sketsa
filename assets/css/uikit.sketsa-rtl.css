@@ -2297,7 +2297,7 @@ table .uk-checkbox {
   z-index: 1;
 }
 .uk-button-mini {
-  padding: 0 6px;
+  padding: 0 5px;
   line-height: 19px;
   font-size: 0.8rem;
 }
@@ -3978,7 +3978,7 @@ table .uk-checkbox {
  * Must target `a` elements to exclude other elements (e.g. lists)
  */
 .uk-nav > li > a {
-  padding: 7px 0;
+  padding: 6px 0;
 }
 /* Sublists
  ========================================================================== */
@@ -4019,7 +4019,7 @@ ul.uk-nav-sub {
 /* Header
  ========================================================================== */
 .uk-nav-header {
-  padding: 7px 0;
+  padding: 6px 0;
   text-transform: uppercase;
   font-size: 0.875rem;
 }
@@ -4254,7 +4254,7 @@ ul.uk-nav-sub {
   height: 80px;
   padding: 0 15px;
   /* 3 */
-  font-size: 0.875rem;
+  font-size: 0.96rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   /* 4 */
   text-decoration: none;
@@ -4407,7 +4407,7 @@ ul.uk-nav-sub {
  * Adopts `uk-nav`
  ========================================================================== */
 .uk-navbar-dropdown-nav {
-  font-size: 0.96rem;
+  font-size: 0.9rem;
 }
 /*
  * Items
@@ -4421,7 +4421,7 @@ ul.uk-nav-sub {
   color: #444;
   background-color: #f0f3f5;
   margin: 0 -15px;
-  padding: 7px 15px;
+  padding: 6px 15px;
 }
 /* Active */
 .uk-navbar-dropdown-nav > li.uk-active > a {
