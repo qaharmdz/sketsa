@@ -107,10 +107,10 @@ html {
 /* Layout: Side Panel
  =============================== */
 .th-side-panel {
-  background-color: #f8f8f8;
-  border-left: 1px solid #d4d4d4;
   width: 250px;
   margin-right: -250px;
+  background-color: #fff;
+  border-left: 1px solid #d4d4d4;
   position: fixed;
   top: 46px;
   bottom: 0;
@@ -120,9 +120,13 @@ html {
 }
 .th-side-panel .uk-tab {
   margin-bottom: 0;
+  background: #fbfbfb;
+}
+.th-side-panel .uk-tab::before {
+  border-color: rgba(0, 0, 0, 0.2);
 }
 .th-side-panel .uk-tab > * > a {
-  padding: 5px 10px 8px;
+  padding: 5px 10px 7px;
 }
 /* Side panel state */
 @media (min-width: 960px) {

@@ -5,7 +5,7 @@ $(document).ready(function()
 {
     // Sidebar state
     var sidebarState = Cookies.get('th-sidebar-state');
-    if (sidebarState === undefined || sidebarState === 'show') {
+    if (sidebarState === 'hide') {
         UIkit.toggle('[data-sidebar]').toggle();
     }
     $('[data-sidebar]').on('click', function(e) {

@@ -87,7 +87,7 @@ strong {
   /* 1 */
   font-family: Consolas, monaco, monospace;
   /* 2 */
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   /* 3 */
   color: #f53123;
   white-space: nowrap;
@@ -277,7 +277,7 @@ h5,
 }
 h6,
 .uk-h6 {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.4;
 }
 /* Tablet landscape and bigger */
@@ -367,12 +367,15 @@ blockquote p:last-of-type {
 }
 blockquote footer {
   margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: #444;
 }
 blockquote footer::before {
   content: "— ";
+}
+blockquote footer::before {
+  content: "~ ";
 }
 /* Preformatted text
  ========================================================================== */
@@ -380,7 +383,7 @@ blockquote footer::before {
  * 1. Contain overflow in all browsers.
  */
 pre {
-  font: 0.9rem / 1.5 Consolas, monaco, monospace;
+  font: 13px / 1.5 Consolas, monaco, monospace;
   color: #444;
   -moz-tab-size: 4;
   tab-size: 4;
@@ -390,6 +393,7 @@ pre {
   border: 1px solid #d4d4d4;
   border-radius: 3px;
   background: #fff;
+  background-color: #fafafa;
 }
 pre code {
   font-family: Consolas, monaco, monospace;
@@ -471,6 +475,18 @@ textarea {
 *:before,
 *:after {
   box-sizing: inherit;
+}
+:not(pre) > kbd {
+  color: #555;
+  font-size: 13px;
+  padding: 3px 5px;
+  line-height: 1rem;
+  margin-top: -1px;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 3px;
+  border-bottom: 1px solid #c8c8c8;
+  background: #f4f4f4;
 }
 /* ========================================================================
    Component: Link
@@ -806,7 +822,7 @@ a.uk-link-reset:hover,
  */
 .uk-description-list > dt {
   color: #222;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: normal;
   text-transform: uppercase;
 }
@@ -842,6 +858,7 @@ a.uk-link-reset:hover,
   width: 100%;
   /* 3 */
   margin-bottom: 20px;
+  font-size: 0.875rem;
 }
 /* Add margin if adjacent element */
 * + .uk-table {
@@ -853,19 +870,19 @@ a.uk-link-reset:hover,
  * 1. Style
  */
 .uk-table th {
-  padding: 16px 12px;
+  padding: 10px 6px;
   text-align: left;
   vertical-align: bottom;
   /* 1 */
-  font-size: 0.9rem;
-  font-weight: normal;
-  color: #888;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #444;
   text-transform: uppercase;
 }
 /* Cell
  ========================================================================== */
 .uk-table td {
-  padding: 16px 12px;
+  padding: 10px 6px;
   vertical-align: top;
 }
 /*
@@ -877,12 +894,12 @@ a.uk-link-reset:hover,
 /* Footer
  ========================================================================== */
 .uk-table tfoot {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 /* Caption
  ========================================================================== */
 .uk-table caption {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   text-align: left;
   color: #888;
 }
@@ -907,7 +924,7 @@ a.uk-link-reset:hover,
  */
 .uk-table-striped > tr:nth-of-type(odd),
 .uk-table-striped tbody tr:nth-of-type(odd) {
-  background: #f4f4f4;
+  background: #f6f6f6;
   border-top: 1px solid #d4d4d4;
   border-bottom: 1px solid #d4d4d4;
 }
@@ -916,23 +933,24 @@ a.uk-link-reset:hover,
  */
 .uk-table-hover > tr:hover,
 .uk-table-hover tbody tr:hover {
-  background: #ffd;
+  background: #e9f0ff;
 }
 /* Active state
  ========================================================================== */
 .uk-table > tr.uk-active,
 .uk-table tbody tr.uk-active {
-  background: #ffd;
+  background: #fff8d1;
 }
 /* Size modifier
  ========================================================================== */
 .uk-table-small th,
 .uk-table-small td {
-  padding: 10px 12px;
+  padding: 7px 6px;
+  font-size: 0.8rem;
 }
 .uk-table-large th,
 .uk-table-large td {
-  padding: 22px 12px;
+  padding: 16px 10px;
 }
 /* Justify modifier
  ========================================================================== */
@@ -962,10 +980,10 @@ a.uk-link-reset:hover,
 }
 .uk-table-link > a {
   display: block;
-  padding: 16px 12px;
+  padding: 10px 6px;
 }
 .uk-table-small .uk-table-link > a {
-  padding: 10px 12px;
+  padding: 7px 6px;
 }
 /* Responsive table
  ========================================================================== */
@@ -992,12 +1010,12 @@ a.uk-link-reset:hover,
   .uk-table-responsive th:not(:first-child):not(.uk-table-link),
   .uk-table-responsive td:not(:first-child):not(.uk-table-link),
   .uk-table-responsive .uk-table-link:not(:first-child) > a {
-    padding-top: 5px !important;
+    padding-top: 3px !important;
   }
   .uk-table-responsive th:not(:last-child):not(.uk-table-link),
   .uk-table-responsive td:not(:last-child):not(.uk-table-link),
   .uk-table-responsive .uk-table-link:not(:last-child) > a {
-    padding-bottom: 5px !important;
+    padding-bottom: 3px !important;
   }
   .uk-table-justify.uk-table-responsive th,
   .uk-table-justify.uk-table-responsive td {
@@ -1007,6 +1025,33 @@ a.uk-link-reset:hover,
 }
 .uk-table tbody tr {
   transition: background-color 0.1s linear;
+}
+.uk-table-divider tbody tr:last-child,
+.uk-table-striped tbody tr:last-child {
+  border-bottom: 1px solid #d4d4d4;
+}
+.uk-table > tr.ux-row-primary,
+.uk-table tbody tr.ux-row-primary {
+  background: #e9f0ff;
+}
+.uk-table > tr.ux-row-secondary,
+.uk-table tbody tr.ux-row-secondary {
+  background: #ddd;
+}
+.uk-table > tr.ux-row-success,
+.uk-table tbody tr.ux-row-success {
+  background: #ccf7dc;
+}
+.uk-table > tr.ux-row-warning,
+.uk-table tbody tr.ux-row-warning {
+  background: #fff8d1;
+}
+.uk-table > tr.ux-row-danger,
+.uk-table tbody tr.ux-row-danger {
+  background: #ffe3e9;
+}
+.uk-table .uk-text-meta {
+  font-size: 0.8rem;
 }
 /* ========================================================================
    Component: Icon
@@ -1865,7 +1910,7 @@ table .uk-checkbox {
 .uk-textarea,
 .uk-radio,
 .uk-checkbox {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 .uk-input {
   line-height: 36px;
@@ -2141,7 +2186,7 @@ table .uk-checkbox {
 .uk-button-small {
   padding: 0 14px;
   line-height: 26px;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 .uk-button-large {
   padding: 0 40px;
@@ -3338,7 +3383,7 @@ table .uk-checkbox {
   padding: 15px 35px 15px 15px;
   background: #f4f4f4;
   color: #444;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   border-left: 4px solid #bbbbbb;
 }
@@ -3434,7 +3479,7 @@ table .uk-checkbox {
   text-decoration: underline;
 }
 .uk-alert-small {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   padding: 7px 30px 7px 11px;
 }
@@ -3461,7 +3506,7 @@ table .uk-checkbox {
   /* 1 */
   background: #1e87f0;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   /* 2 */
   display: inline-flex;
   justify-content: center;
@@ -3596,7 +3641,7 @@ table .uk-checkbox {
 /* Meta
  ========================================================================== */
 .uk-article-meta {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.4;
   color: #888;
 }
@@ -3649,7 +3694,7 @@ table .uk-checkbox {
 /* Meta
  ========================================================================== */
 .uk-comment-meta {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.4;
   color: #888;
 }
@@ -3976,7 +4021,7 @@ ul.uk-nav-sub {
 .uk-nav-header {
   padding: 7px 0;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 .uk-nav-header:not(:first-child) {
   margin-top: 20px;
@@ -4209,7 +4254,7 @@ ul.uk-nav-sub {
   height: 80px;
   padding: 0 15px;
   /* 3 */
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   /* 4 */
   text-decoration: none;
@@ -4268,7 +4313,7 @@ ul.uk-nav-sub {
 /* Subtitle
  ========================================================================== */
 .uk-navbar-subtitle {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 /* Style modifiers
  ========================================================================== */
@@ -4496,7 +4541,7 @@ ul.uk-nav-sub {
   display: block;
   /* 2 */
   color: #888;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   text-transform: uppercase;
   transition: 0.1s ease-in-out;
   transition-property: color, background-color;
@@ -4587,7 +4632,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 .uk-breadcrumb > * > * {
   display: inline-block;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #888;
 }
 /* Hover + Focus */
@@ -4724,7 +4769,7 @@ ul.uk-nav-sub {
   padding: 5px 10px;
   color: #888;
   border-bottom: 1px solid transparent;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   text-transform: uppercase;
   transition: color 0.1s ease-in-out;
 }
@@ -6088,7 +6133,7 @@ ul.uk-nav-sub {
   padding: 15px;
   background: #fdfdfd;
   color: #444;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   cursor: pointer;
   border: 1px solid #607d8b;
@@ -7326,7 +7371,7 @@ ul.uk-nav-sub {
   color: #222;
 }
 .uk-text-meta {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.4;
   color: #888;
 }
@@ -7340,7 +7385,7 @@ ul.uk-nav-sub {
 /* Size modifiers
  ========================================================================== */
 .uk-text-small {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 .uk-text-large {

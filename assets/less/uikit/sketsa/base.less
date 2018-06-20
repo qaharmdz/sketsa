@@ -11,6 +11,8 @@
 
 @base-heading-font-family:                      'Roboto Condensed', @global-font-family;
 
+@base-pre-font-size:                            13px;
+
 
 // Component
 // ========================================================================
@@ -19,8 +21,29 @@
     box-sizing: border-box;
 }
 
+.hook-base-pre() {
+    background-color: #fafafa;
+}
+
+.hook-base-blockquote-footer() {
+    &::before { content: "~ "; }
+}
+
 .hook-base-misc() {
     *, *:before, *:after {
         box-sizing: inherit;
+    }
+
+    :not(pre)>kbd {
+        color: #555;
+        font-size: 13px;
+        padding: 3px 5px;
+        line-height: 1rem;
+        margin-top: -1px;
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: 3px;
+        border-bottom: 1px solid #c8c8c8;
+        background: #f4f4f4;
     }
 }

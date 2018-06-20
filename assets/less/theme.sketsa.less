@@ -77,7 +77,7 @@ html {
 /* Layout: Sidebar
  =============================== */
  .th-sidebar {
-    background-color: #2b2b2b;
+    background-color: @extra-color-gray-deep;
     width: @th-sidebar-width;
     margin-left: -@th-sidebar-width;
 
@@ -124,10 +124,10 @@ html {
 /* Layout: Side Panel
  =============================== */
 .th-side-panel {
-    background-color: #f8f8f8;
-    border-left: 1px solid #d4d4d4;
     width: @th-sidepanel-width;
     margin-right: -@th-sidepanel-width;
+    background-color: #fff;
+    border-left: 1px solid @global-border;
 
     position: fixed;
     top: @th-header-height;
@@ -138,9 +138,14 @@ html {
     /* Side panel tab */
     .uk-tab {
         margin-bottom: 0;
+        background: #fbfbfb;
+
+        &::before {
+            border-color: rgba(0,0,0,.2);
+        }
     }
     .uk-tab > * > a {
-        padding: 5px 10px 8px;
+        padding: 5px 10px 7px;
     }
 }
 
@@ -161,11 +166,11 @@ html {
 .th-main {
     z-index: 10;
 }
-.th-main-header {
+.th-main-header { // breadcrumbs
     height: @th-header-main-height;
     padding: 6px 20px;
     background-color: #fff;
-    border-bottom: 1px solid #d4d4d4;
+    border-bottom: 1px solid @global-border;
 
     > * {
         margin: 0;
@@ -177,6 +182,7 @@ html {
 
 /* Plugin: Perfect Scroller
  =============================== */
+// smaller scroll handler
 .ps__rail-y {
     width: 12px;
 }
