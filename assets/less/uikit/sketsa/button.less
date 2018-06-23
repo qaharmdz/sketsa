@@ -8,17 +8,14 @@
 // ========================================================================
 
 @button-line-height:                            @global-control-height - (@button-border-width * 2);
-@button-mini-line-height:                       19px;
-@button-small-line-height:                      26px;
+@button-small-line-height:                      24px;
 @button-large-line-height:                      @global-control-large-height - (@button-border-width * 2);
 
 @button-font-size:                              @global-font-size;
-@button-mini-font-size:                         @extra-mini-font-size;
 @button-small-font-size:                        @global-small-font-size;
 @button-large-font-size:                        16px;
 
 @button-padding-horizontal:                     22px;
-@button-mini-padding-horizontal:                5px;
 @button-small-padding-horizontal:               14px;
 @button-large-padding-horizontal:               40px;
 
@@ -150,12 +147,6 @@
 
 .hook-button-misc() {
 
-    .ux-button-mini {
-        padding: 0 @button-mini-padding-horizontal;
-        line-height: @button-mini-line-height;
-        font-size: @button-mini-font-size;
-    }
-
     .uk-button-group.ux-button-radio {
         padding-top: 2px;
     }
@@ -170,15 +161,6 @@
 
     .ux-button-narrow {
         padding: 0 10px;
-
-        &.uk-button-mini {
-            padding: 0 4px;
-            line-height: 17px;
-        }
-        &.uk-button-small {
-            padding: 0 10px;
-            line-height: 22px;
-        }
     }
 
     //

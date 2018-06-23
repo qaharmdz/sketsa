@@ -7,6 +7,8 @@
 // Variables
 // ========================================================================
 
+@card-main-shadow:                              0 3px 1px -2px rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+
 @card-box-border:                               1px solid rgba(200, 200, 200, .6);
 @card-box-border-bottom:                        1px solid rgba(200, 200, 200, .9);
 @card-box-shadow:                               0 0 0 3px rgba(210, 210, 210, 0.3);
@@ -16,6 +18,10 @@
 // ========================================================================
 
 .hook-card-misc() {
+    .ux-card-main {
+        box-shadow: @card-main-shadow;
+    }
+
     .ux-card-box {
         border: @card-box-border;
         border-bottom: @card-box-border-bottom;
