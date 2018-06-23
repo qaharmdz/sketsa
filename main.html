@@ -34,7 +34,7 @@
             <ul class="uk-navbar-nav uk-visible@m">
                 <li>
                     <a href="#"><span uk-icon="icon:link;ratio:1.2"></span></a>
-                    <div class="uk-navbar-dropdown uk-padding-small">
+                    <div class="uk-navbar-dropdown">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
                             <li><a href="#">Item</a></li>
                             <li><a href="#">Item</a></li>
@@ -48,7 +48,7 @@
                 </li>
                 <li>
                     <a href="#"><span uk-icon="plus-circle"></span></a>
-                    <div class="uk-navbar-dropdown uk-padding-small">
+                    <div class="uk-navbar-dropdown">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
                             <li><a href="#">Add Item</a></li>
                             <li><a href="#">Add Item</a></li>
@@ -89,7 +89,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="ux-background-teal ux-contrast uk-padding-small uk-text-small uk-text-center" style="margin:20px -20px -20px">
+                        <div class="ux-background-teal ux-contrast uk-padding-small uk-text-small uk-text-center" style="margin:10px -10px -10px">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         </div>
                     </div>
@@ -97,11 +97,19 @@
             </ul>
         </div>
         <div class="uk-navbar-right">
+            <div>
+                <a class="uk-navbar-toggle" uk-search-icon href="#"></a>
+                <div class="uk-light" uk-drop="mode:click;pos:left-center;offset:0">
+                    <form class="uk-search uk-search-navbar uk-width-1-1">
+                        <input class="uk-search-input" type="search" placeholder="Search..." autofocus>
+                    </form>
+                </div>
+            </div>
             <ul class="uk-navbar-nav uk-visible@m">
                 <li>
                     <a href="#" class="uk-position-relative"><span uk-icon="icon:bell;ratio:1.1"></span><span class="ux-noty ux-background-orange">123</span></a>
                     <div class="uk-navbar-dropdown uk-padding-remove uk-width-medium">
-                        <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card uk-card-default uk-card-small ux-shadow-remove">
                             <div class="uk-card-header uk-background-muted">Notification</div>
                             <div class="uk-card-body">
                                 <ul class="uk-list uk-list-striped">
@@ -111,14 +119,14 @@
                                     <li>List item 3</li>
                                 </ul>
                             </div>
-                            <div class="uk-card-footer uk-text-center"><a href="#">View All</a></div>
+                            <div class="uk-card-footer uk-text-small uk-text-center"><a href="#">View All</a></div>
                         </div>
                     </div>
                 </li>
                 <li>
                     <a href="#" class="uk-position-relative"><span uk-icon="icon:list;ratio:1.2"></span><span class="ux-noty ux-background-red">07</span></a>
                     <div class="uk-navbar-dropdown uk-padding-remove uk-width-medium">
-                        <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card uk-card-default uk-card-small ux-shadow-remove">
                             <div class="uk-card-header uk-background-muted">Task</div>
                             <div class="uk-card-body">
                                 <ul class="uk-nav uk-dropdown-nav">
@@ -131,14 +139,14 @@
                                     <li><a href="#">Item</a></li>
                                 </ul>
                             </div>
-                            <div class="uk-card-footer uk-text-center"><a href="#">View All</a></div>
+                            <div class="uk-card-footer uk-text-small uk-text-center"><a href="#">View All</a></div>
                         </div>
                     </div>
                 </li>
                 <li>
                     <a href="#" class="uk-position-relative"><span uk-icon="icon:mail;ratio:1.2"></span><span class="ux-noty ux-background-purple">21</span></a>
                     <div class="uk-navbar-dropdown uk-padding-remove uk-width-medium">
-                        <div class="uk-card uk-card-default uk-card-small">
+                        <div class="uk-card uk-card-default uk-card-small ux-shadow-remove">
                             <div class="uk-card-header uk-background-muted">Mail</div>
                             <div class="uk-card-body">
                                 <dl class="uk-description-list uk-description-list-divider uk-text-small">
@@ -150,7 +158,7 @@
                                     <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</dd>
                                 </dl>
                             </div>
-                            <div class="uk-card-footer uk-text-center"><a href="#">View All</a></div>
+                            <div class="uk-card-footer uk-text-small uk-text-center"><a href="#">View All</a></div>
                         </div>
                     </div>
                 </li>
@@ -191,23 +199,7 @@
             </div>
             <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
                 <li><a href="main.html?page=dashboard"><span class="uk-margin-small-right" uk-icon="home"></span>Dashboard</a></li>
-                <li class="uk-parent">
-                    <a href="#"><span class="uk-margin-small-right" uk-icon="code"></span>Components</a>
-                    <ul class="uk-nav-sub">
-                        <li><a href="main.html?page=overview">Overview</a></li>
-                        <li><a href="main.html?page=alert">Alert</a></li>
-                        <li><a href="main.html?page=background">Background</a></li>
-                        <li><a href="main.html?page=button">Button</a></li>
-                        <li>
-                            <span>Form</span>
-                            <ul>
-                                <li><a href="main.html?page=form-uikit">UIkit Basic</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="main.html?page=notification">Notification</a></li>
-                        <li><a href="main.html?page=table">Table</a></li>
-                    </ul>
-                </li>
+                <li><a href="main.html?page=Components"><span class="uk-margin-small-right" uk-icon="uikit"></span>Components</a></li>
                 <li class="uk-parent">
                     <a href="#"><span class="uk-margin-small-right" uk-icon="copy"></span>Pages</a>
                     <ul class="uk-nav-sub">
@@ -291,6 +283,8 @@
                     Powered by <a href="https://getuikit.com">UIkit v3</a>
                 </div>
             </footer>
+
+            <a class="to-top uk-position-fixed uk-position-small uk-position-bottom-right" href="#" uk-totop uk-scroll></a>
         </div><!-- /.th-main-content -->
     </main>
 

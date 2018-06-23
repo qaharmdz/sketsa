@@ -4,6 +4,7 @@
 /* Layout
  =============================== */
 html {
+  background: #f4f4f4;
   overflow-y: scroll;
 }
 .th-footer {

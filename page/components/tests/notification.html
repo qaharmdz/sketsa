@@ -1,58 +1,46 @@
-<h1 class="th-page-title">Notification</h1>
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
 
-<div class="uk-card uk-card-default uk-card-body uk-card-small uk-margin">
-    <div class="uk-child-width-1-2@m" uk-grid>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Notification - UIkit tests</title>
+        <script src="js/test.js"></script>
+    </head>
+
+    <body>
+
+        <div class="uk-container">
+
+            <h1>Notification</h1>
+
+            <div class="uk-child-width-1-2@m" uk-grid>
                 <div>
 
                     <p class="uk-notification-message">
                         <a href="#" class="uk-notification-close" uk-close></a>
                         Message
                     </p>
+
                     <p class="uk-notification-message uk-notification-message-primary">
                         <a href="#" class="uk-notification-close" uk-close></a>
                         Primary message
                     </p>
+
                     <p class="uk-notification-message uk-notification-message-success">
                         <a href="#" class="uk-notification-close" uk-close></a>
                         Success message
                     </p>
+
                     <p class="uk-notification-message uk-notification-message-warning">
                         <a href="#" class="uk-notification-close" uk-close></a>
                         Warning message
                     </p>
+
                     <p class="uk-notification-message uk-notification-message-danger">
                         <a href="#" class="uk-notification-close" uk-close></a>
                         Danger message
                     </p>
-
-                    <h3>Icon</h3>
-
-                    <p class="uk-notification-message">
-                        <a href="#" class="uk-notification-close" uk-close></a>
-                        <span uk-icon="check"></span> Message
-                    </p>
-                    <p class="uk-notification-message uk-notification-message-primary">
-                        <a href="#" class="uk-notification-close" uk-close></a>
-                        <span uk-icon="info"></span> Primary message
-                    </p>
-
-                    <h3>Icon Emphasis</h3>
-
-                    <div class="uk-notification-message ux-icon-emphasis">
-                        <a href="#" class="uk-notification-close" uk-close></a>
-                        <span uk-spinner></span>
-                        <div>Message</div>
-                    </div>
-                    <div class="uk-notification-message uk-notification-message-primary ux-icon-emphasis">
-                        <a href="#" class="uk-notification-close" uk-close></a>
-                        <span uk-icon="icon:info;ratio:1.5"></span>
-                        <div>Primary message</div>
-                    </div>
-                    <div class="uk-notification-message uk-notification-message-warning ux-icon-emphasis">
-                        <a href="#" class="uk-notification-close" uk-close></a>
-                        <span uk-icon="icon:warning;ratio:1.5"></span>
-                        <div>Warning message</div>
-                    </div>
 
                 </div>
                 <div>
@@ -62,13 +50,14 @@
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: 'Message', pos: 'top-center'})">Top Center</button>
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: 'Message', pos: 'top-right'})">Top Right</button>
                     </p>
+
                     <p uk-margin>
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: 'Message', pos: 'bottom-left'})">Bottom Left</button>
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: 'Message', pos: 'bottom-center'})">Bottom Center</button>
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: 'Message', pos: 'bottom-right'})">Bottom Right</button>
                     </p>
 
-                    <h3>Styles</h3>
+                    <h2>Styles</h2>
 
                     <p uk-margin>
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: 'Primary message', status: 'primary'})">Primary</button>
@@ -77,7 +66,7 @@
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: 'Danger message', status: 'danger'})">Danger</button>
                     </p>
 
-                    <h3>Specials</h3>
+                    <h2>Specials</h2>
 
                     <p uk-margin>
                         <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification({message: '<span uk-icon=\'icon: check\'></span> Message with an icon'})">With icon</button>
@@ -86,18 +75,57 @@
                         <button class="uk-button uk-button-default" onclick="UIkit.notification.closeAll()">Close All</button>
                     </p>
 
-                    <h3>Extra: Icon Emphasis</h3>
-<pre><code>UIkit.notification(
-    '&lt;span uk-icon=\'icon:info;ratio:1.5\'></span> &lt;div>Primary message&lt;/div>',
-    {status:'primary ux-icon-emphasis'}
-)</code></pre>
-                    <p uk-margin>
-                        <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-spinner></span> <div>Processing..</div>', {status:' ux-icon-emphasis'})">Spinner</button>
-                        <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:info;ratio:1.5\'></span> <div>Primary message</div>', {status:'primary ux-icon-emphasis'})">Primary</button>
-                        <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:check;ratio:1.5\'></span> <div>Success message</div>', {status:'success ux-icon-emphasis'})">Success</button>
-                        <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:warning;ratio:1.5\'></span> <div>Warning message</div>', {status:'warning ux-icon-emphasis'})">Warning</button>
-                        <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:close;ratio:1.5\'></span> <div>Danger message</div>', {status:'danger ux-icon-emphasis'})">Danger</button>
-                    </p>
                 </div>
             </div>
-</div>
+
+            <h2>JavaScript Options</h2>
+
+            <div class="uk-overflow-auto">
+                <table class="uk-table uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Value</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>message</code></td>
+                            <td>string</td>
+                            <td>false</td>
+                            <td>Notification message to show.</td>
+                        </tr>
+                        <tr>
+                            <td><code>status</code></td>
+                            <td>string</td>
+                            <td>null</td>
+                            <td>Notification status color.</td>
+                        </tr>
+                        <tr>
+                            <td><code>timeout</code></td>
+                            <td>integer</td>
+                            <td>5000</td>
+                            <td>Visibility duration before a notification disappears.</td>
+                        </tr>
+                        <tr>
+                            <td><code>group</code></td>
+                            <td>string</td>
+                            <td>null</td>
+                            <td>Useful if you want to close all notifications in a specific group.</td>
+                        </tr>
+                        <tr>
+                            <td><code>pos</code></td>
+                            <td>string</td>
+                            <td>top-center</td>
+                            <td>Notification display position.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </body>
+</html>

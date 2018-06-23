@@ -17,7 +17,7 @@ html {
   /* 2 */
   -webkit-text-size-adjust: 100%;
   /* 3 */
-  background: #f4f4f4;
+  background: #fff;
   color: #444;
   box-sizing: border-box;
 }
@@ -487,6 +487,9 @@ textarea {
   border-radius: 3px;
   border-bottom: 1px solid #c8c8c8;
   background: #f4f4f4;
+}
+.ux-shadow-remove {
+  box-shadow: none !important;
 }
 /* ========================================================================
    Component: Link
@@ -2049,9 +2052,6 @@ table .uk-checkbox {
   text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
   font-weight: normal;
 }
-.uk-button:not(.uk-button-mini):not(.uk-button-narrow) .uk-icon {
-  margin-left: -5px;
-}
 .uk-button:not(:disabled) {
   cursor: pointer;
 }
@@ -2296,89 +2296,91 @@ table .uk-checkbox {
   position: relative;
   z-index: 1;
 }
-.uk-button-mini {
+.ux-button-mini {
   padding: 0 5px;
   line-height: 19px;
   font-size: 0.8rem;
 }
-.uk-button-group.uk-button-radio {
+.uk-button-group.ux-button-radio {
   padding-top: 2px;
 }
-.uk-button-group:not(.uk-button-radio) > .uk-button:nth-child(n+2):not(.uk-button-default),
-.uk-button-group:not(.uk-button-radio) > div:nth-child(n+2) .uk-button:not(.uk-button-default) {
+.uk-button-group:not(.ux-button-radio) > .uk-button:nth-child(n+2):not(.uk-button-default),
+.uk-button-group:not(.ux-button-radio) > div:nth-child(n+2) .uk-button:not(.uk-button-default) {
   border-left: 1px solid rgba(50, 50, 50, 0.1) !important;
 }
-.uk-button-group:not(.uk-button-radio) > .uk-button:nth-child(n+2).uk-button-small:not(.uk-button-default),
-.uk-button-group:not(.uk-button-radio) > div:nth-child(n+2) .uk-button.uk-button-small:not(.uk-button-default) {
+.uk-button-group:not(.ux-button-radio) > .uk-button:nth-child(n+2).uk-button-small:not(.uk-button-default),
+.uk-button-group:not(.ux-button-radio) > div:nth-child(n+2) .uk-button.uk-button-small:not(.uk-button-default) {
   border-left: 1px solid rgba(50, 50, 50, 0.07) !important;
 }
-.uk-button-narrow {
-  padding: 0 12px;
+.ux-button-narrow {
+  padding: 0 10px;
 }
-.uk-button-narrow.uk-button-mini {
-  padding: 0 5px;
+.ux-button-narrow.uk-button-mini {
+  padding: 0 4px;
+  line-height: 17px;
 }
-.uk-button-narrow.uk-button-small {
-  padding: 0 8px;
+.ux-button-narrow.uk-button-small {
+  padding: 0 10px;
+  line-height: 22px;
 }
-.uk-button-gray {
+.ux-button-gray {
   background-color: #ececec;
   border: 1px solid #d8d8d8;
   color: #444;
 }
 /* Hover + Focus */
-.uk-button-gray:hover,
-.uk-button-gray:focus {
+.ux-button-gray:hover,
+.ux-button-gray:focus {
   background-color: #dddddd;
   border-color: #c6c6c6;
   color: #444;
 }
 /* OnClick + Active */
-.uk-button-gray:active,
-.uk-button-gray.uk-active {
+.ux-button-gray:active,
+.ux-button-gray.uk-active {
   background-color: #d3d3d3;
   border-color: #b2b2b2;
   color: #444;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
 }
-.uk-button-success {
+.ux-button-success {
   background-color: #40bb45;
   color: #fff;
   border: 1px solid transparent;
 }
-.uk-button-success:not(:disabled) {
+.ux-button-success:not(:disabled) {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 /* Hover + Focus */
-.uk-button-success:hover,
-.uk-button-success:focus {
+.ux-button-success:hover,
+.ux-button-success:focus {
   background-color: #39a83e;
   color: #fff;
 }
 /* OnClick + Active */
-.uk-button-success:active,
-.uk-button-success.uk-active {
+.ux-button-success:active,
+.ux-button-success.uk-active {
   background-color: #339537;
   color: #fff;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
 }
-.uk-button-warning {
+.ux-button-warning {
   background-color: #ff9800;
   color: #fff;
   border: 1px solid transparent;
 }
-.uk-button-warning:not(:disabled) {
+.ux-button-warning:not(:disabled) {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 /* Hover + Focus */
-.uk-button-warning:hover,
-.uk-button-warning:focus {
+.ux-button-warning:hover,
+.ux-button-warning:focus {
   background-color: #e68900;
   color: #fff;
 }
 /* OnClick + Active */
-.uk-button-warning:active,
-.uk-button-warning.uk-active {
+.ux-button-warning:active,
+.ux-button-warning.uk-active {
   background-color: #b86d00;
   color: #fff;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
@@ -2387,35 +2389,35 @@ table .uk-checkbox {
      * Disabled
      * The same for all style modifiers
      */
-.uk-button-gray:disabled,
-.uk-button-success:disabled,
-.uk-button-warning:disabled {
+.ux-button-gray:disabled,
+.ux-button-success:disabled,
+.ux-button-warning:disabled {
   background-color: #f4f4f4;
   color: #888;
   border-color: #d4d4d4;
 }
-.uk-button-radio input[type="radio"]:checked + .uk-button {
+.ux-button-radio input[type="radio"]:checked + .uk-button {
   border: 1px solid transparent;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
-.uk-button-radio input[type="radio"]:checked + .uk-button-active-primary {
+.ux-button-radio input[type="radio"]:checked + .ux-button-active-primary {
   background-color: #0e73d7;
   color: #fff;
 }
-.uk-button-radio input[type="radio"]:checked + .uk-button-active-secondary {
+.ux-button-radio input[type="radio"]:checked + .ux-button-active-secondary {
   background-color: #151515;
   color: #fff;
 }
-.uk-button-radio input[type="radio"]:checked + .uk-button-active-danger {
+.ux-button-radio input[type="radio"]:checked + .ux-button-active-danger {
   background-color: #e5190a;
   color: #fff;
 }
-.uk-button-radio input[type="radio"]:checked + .uk-button-active-success {
+.ux-button-radio input[type="radio"]:checked + .ux-button-active-success {
   background-color: #39a83e;
   color: #fff;
 }
-.uk-button-radio input[type="radio"]:checked + .uk-button-active-warning {
+.ux-button-radio input[type="radio"]:checked + .ux-button-active-warning {
   background-color: #e68900;
   color: #fff;
 }
@@ -3274,6 +3276,11 @@ table .uk-checkbox {
   .uk-card-large .uk-nav-default .uk-nav-sub {
     padding-left: 15px;
   }
+}
+.ux-card-box {
+  border: 1px solid rgba(200, 200, 200, 0.6);
+  border-bottom: 1px solid rgba(200, 200, 200, 0.9);
+  box-shadow: 0 0 0 3px rgba(210, 210, 210, 0.3);
 }
 /* ========================================================================
    Component: Close
@@ -4336,10 +4343,10 @@ ul.uk-nav-sub {
   box-sizing: border-box;
   width: 200px;
   /* 4 */
-  padding: 20px;
+  padding: 10px;
   background: #fff;
   color: #444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 /* Show */
 .uk-navbar-dropdown.uk-open {
@@ -4367,14 +4374,14 @@ ul.uk-nav-sub {
  */
 /* Gutter Horizontal */
 .uk-navbar-dropdown-grid {
-  margin-left: -40px;
+  margin-left: -20px;
 }
 .uk-navbar-dropdown-grid > * {
-  padding-left: 40px;
+  padding-left: 20px;
 }
 /* Gutter Vertical */
 .uk-navbar-dropdown-grid > .uk-grid-margin {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 /* Stack */
 .uk-navbar-dropdown-stack .uk-navbar-dropdown-grid > * {
@@ -4414,14 +4421,13 @@ ul.uk-nav-sub {
  */
 .uk-navbar-dropdown-nav > li > a {
   color: #888;
+  padding: 6px 10px;
 }
 /* Hover + Focus */
 .uk-navbar-dropdown-nav > li > a:hover,
 .uk-navbar-dropdown-nav > li > a:focus {
   color: #444;
   background-color: #f0f3f5;
-  margin: 0 -15px;
-  padding: 6px 15px;
 }
 /* Active */
 .uk-navbar-dropdown-nav > li.uk-active > a {
@@ -4432,12 +4438,14 @@ ul.uk-nav-sub {
  */
 .uk-navbar-dropdown-nav .uk-nav-header {
   color: #222;
+  padding: 6px 10px;
 }
 /*
  * Divider
  */
 .uk-navbar-dropdown-nav .uk-nav-divider {
   border-top: 1px solid #d4d4d4;
+  margin: 6px 10px;
 }
 /*
  * Sublists
@@ -4462,7 +4470,7 @@ ul.uk-nav-sub {
   z-index: 980;
   left: 0;
   right: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 /*
      * Navbar
@@ -4485,15 +4493,15 @@ ul.uk-nav-sub {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 20px;
+  left: 10px;
   border-left: 1px solid #d4d4d4;
 }
 /* Vertical */
 .uk-navbar-dropdown-grid.uk-grid-stack > .uk-grid-margin::before {
   content: "";
   position: absolute;
-  top: -20px;
-  left: 40px;
+  top: -10px;
+  left: 20px;
   right: 0;
   border-top: 1px solid #d4d4d4;
 }
@@ -5171,10 +5179,10 @@ ul.uk-nav-sub {
   box-sizing: border-box;
   min-width: 200px;
   /* 4 */
-  padding: 20px;
+  padding: 10px;
   background: #fff;
   color: #444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 /* Show */
 .uk-dropdown.uk-open {
@@ -5186,30 +5194,35 @@ ul.uk-nav-sub {
 .uk-dropdown-nav {
   white-space: nowrap;
   font-size: 0.96rem;
+  line-height: 1.5;
 }
 /*
  * Items
  */
 .uk-dropdown-nav > li > a {
-  color: #888;
+  color: #444;
+  padding: 6px 10px;
 }
 /* Hover + Focus + Active */
 .uk-dropdown-nav > li > a:hover,
 .uk-dropdown-nav > li > a:focus,
 .uk-dropdown-nav > li.uk-active > a {
-  color: #444;
+  color: #222;
+  background-color: #f0f3f5;
 }
 /*
  * Header
  */
 .uk-dropdown-nav .uk-nav-header {
   color: #222;
+  padding: 6px 10px;
 }
 /*
  * Divider
  */
 .uk-dropdown-nav .uk-nav-divider {
   border-top: 1px solid #d4d4d4;
+  margin: 6px 10px;
 }
 /*
  * Sublists
@@ -6136,11 +6149,11 @@ ul.uk-nav-sub {
   font-size: 0.875rem;
   line-height: 1.5;
   cursor: pointer;
-  border: 1px solid #607d8b;
+  border: 1px solid #c4c4c4;
 }
 .uk-notification-message.ux-icon-emphasis .uk-icon:not(.uk-close) {
   color: #fff;
-  background: #607d8b;
+  background: #c4c4c4;
   padding: 10px 15px;
   position: absolute;
   top: -1px;
@@ -8331,7 +8344,7 @@ iframe.uk-cover {
 /* Box-shadow
  ========================================================================== */
 .uk-box-shadow-small {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 .uk-box-shadow-medium {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -8349,7 +8362,7 @@ iframe.uk-cover {
   transition: box-shadow 0.1s ease-in-out;
 }
 .uk-box-shadow-hover-small:hover {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 .uk-box-shadow-hover-medium:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -12417,4 +12430,19 @@ iframe.uk-cover {
   h3 {
     page-break-after: avoid;
   }
+}
+.hook-navbar-dropdown-nav-item {
+  padding: 6px 10px;
+}
+.hook-navbar-dropdown-nav-header {
+  padding: 6px 10px;
+}
+.hook-navbar-dropdown-nav-divider {
+  margin: 6px 10px;
+}
+.hook-dropdown-nav-header {
+  padding: 6px 10px;
+}
+.hook-dropdown-nav-divider {
+  margin: 6px 10px;
 }

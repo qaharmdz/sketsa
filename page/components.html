@@ -1,0 +1,75 @@
+<div class="uk-alert-primary" uk-alert>
+    <a href="#" class="uk-alert-close" uk-close></a>
+    <p>This page contain component test from UIkit package. You can change the component, compare Sketsa to Core/ Default themes, dark/ light view and RTL direction.</p>
+</div>
+
+<div class="uk-alert-warning js-extra-component" uk-alert style="display:none">
+    <p>Extra style/ modifier is available for this component! Click <a href="#extra-component" uk-scroll="offset:70">here</a> to directly go to extra style.</p>
+</div>
+
+<script>sessionStorage.setItem('_uikit_style', 'sketsa');</script>
+<iframe
+    id="componentsFrame"
+    class="uk-box-shadow-medium"
+    src="page/components/tests/index.html"
+    frameborder="0"
+    width="100%"
+    marginheight="0"
+    marginwidth="0"
+    scrolling="no"
+    style="min-height:100vh"
+>
+Processing..
+</iframe>
+
+<div class="js-extra-component uk-margin-medium-top">
+    <h1 id="extra-component">Extra <span class="uk-text-lead uk-text-muted uk-visible@s">Extend UIkit Components</span></span></h1>
+    <div class="uk-card uk-card-default uk-card-body">
+        <div class="js-extra-content"></div>
+    </div>
+</div>
+
+<script>
+var iframeEl = document.getElementById('componentsFrame');
+
+$(document).ready(function() {
+    $('iframe#componentsFrame').on('load', function () {
+        resizeIframe(iframeEl);
+
+        $('.js-extra-component').hide();
+        var url = $(this).contents()[0].baseURI.toLowerCase();
+        if (url.indexOf('tests/background') >= 0) {
+            loadExtra('background');
+        }
+        if (url.indexOf('tests/button') >= 0) {
+            loadExtra('button');
+        }
+        if (url.indexOf('tests/notification') >= 0) {
+            loadExtra('notification');
+        }
+
+    });
+    $('.uk-navbar-toggle, .th-main-panel .uk-icon').on('click', function() {
+        resizeIframe(iframeEl);
+    });
+});
+$(window).resize(function () {
+    resizeIframe(iframeEl);
+});
+
+function resizeIframe(iframe) {
+    setTimeout(function() {
+        var extraHeight = 50;
+        iframe.height = iframe.contentWindow.document.body.scrollHeight + extraHeight + 'px';
+    }, 250);
+}
+
+function loadExtra(page) {
+    $('.js-extra-component').show();
+
+    setTimeout(function() {
+        var date = new Date();
+        $('.js-extra-content').load('page/extra/' + page + '.html?_=' + date.getDate() + date.getHours());
+    }, 100);
+}
+</script>

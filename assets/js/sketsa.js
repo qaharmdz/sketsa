@@ -3,6 +3,13 @@
 
 $(document).ready(function()
 {
+    // Refresh UIkit component
+    $('.uk-navbar-toggle, .th-main-panel .uk-icon').on('click', function() {
+        setTimeout(function() {
+            UIkit.update(element = document.body, event = 'update');
+        }, 150);
+    });
+
     // Sidebar state
     var sidebarState = Cookies.get('th-sidebar-state');
     if (sidebarState === 'hide') {
@@ -20,9 +27,9 @@ $(document).ready(function()
 
     // Sidebar scroll
     var ps = new PerfectScrollbar('.th-sidebar-scroll', {
-      wheelSpeed: 0.4,
-      minScrollbarLength: 20,
-      maxScrollbarLength: 200
+        wheelSpeed: 0.4,
+        minScrollbarLength: 20,
+        maxScrollbarLength: 200
     });
     $('.th-sidebar-scroll .uk-parent').on('click', function(e) {
         setTimeout(function() {

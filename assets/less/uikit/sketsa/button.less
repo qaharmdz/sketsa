@@ -110,10 +110,6 @@
     border: 1px solid transparent;
     text-shadow: 0 -1px 0 @button-text-shadow;
     font-weight: normal;
-
-    &:not(.uk-button-mini):not(.uk-button-narrow) .uk-icon {
-        margin-left: -5px;
-    }
 }
 
 .hook-button-default-active() {
@@ -154,32 +150,34 @@
 
 .hook-button-misc() {
 
-    .uk-button-mini {
+    .ux-button-mini {
         padding: 0 @button-mini-padding-horizontal;
         line-height: @button-mini-line-height;
         font-size: @button-mini-font-size;
     }
 
-    .uk-button-group.uk-button-radio {
+    .uk-button-group.ux-button-radio {
         padding-top: 2px;
     }
-    .uk-button-group:not(.uk-button-radio) > .uk-button:nth-child(n+2):not(.uk-button-default),
-    .uk-button-group:not(.uk-button-radio) > div:nth-child(n+2) .uk-button:not(.uk-button-default) {
+    .uk-button-group:not(.ux-button-radio) > .uk-button:nth-child(n+2):not(.uk-button-default),
+    .uk-button-group:not(.ux-button-radio) > div:nth-child(n+2) .uk-button:not(.uk-button-default) {
         border-left: 1px solid rgba(50, 50, 50, 0.1) !important;
     }
-    .uk-button-group:not(.uk-button-radio) > .uk-button:nth-child(n+2).uk-button-small:not(.uk-button-default),
-    .uk-button-group:not(.uk-button-radio) > div:nth-child(n+2) .uk-button.uk-button-small:not(.uk-button-default) {
+    .uk-button-group:not(.ux-button-radio) > .uk-button:nth-child(n+2).uk-button-small:not(.uk-button-default),
+    .uk-button-group:not(.ux-button-radio) > div:nth-child(n+2) .uk-button.uk-button-small:not(.uk-button-default) {
         border-left: 1px solid rgba(50, 50, 50, 0.07) !important;
     }
 
-    .uk-button-narrow {
-        padding: 0 12px;
+    .ux-button-narrow {
+        padding: 0 10px;
 
         &.uk-button-mini {
-            padding: 0 5px;
+            padding: 0 4px;
+            line-height: 17px;
         }
         &.uk-button-small {
-            padding: 0 8px;
+            padding: 0 10px;
+            line-height: 22px;
         }
     }
 
@@ -187,23 +185,23 @@
     // Gray
     //
 
-    .uk-button-gray {
+    .ux-button-gray {
         background-color: @button-gray-background;
         border: @button-border-width solid @button-gray-border;
         color: @button-gray-color;
     }
 
     /* Hover + Focus */
-    .uk-button-gray:hover,
-    .uk-button-gray:focus {
+    .ux-button-gray:hover,
+    .ux-button-gray:focus {
         background-color: @button-gray-hover-background;
         border-color: @button-gray-hover-border;
         color: @button-gray-hover-color;
     }
 
     /* OnClick + Active */
-    .uk-button-gray:active,
-    .uk-button-gray.uk-active {
+    .ux-button-gray:active,
+    .ux-button-gray.uk-active {
         background-color: @button-gray-active-background;
         border-color: @button-gray-active-border;
         color: @button-gray-active-color;
@@ -214,7 +212,7 @@
     // Success
     //
 
-    .uk-button-success {
+    .ux-button-success {
         background-color: @button-success-background;
         color: @button-success-color;
         border: @button-border-width solid transparent;
@@ -225,15 +223,15 @@
     }
 
     /* Hover + Focus */
-    .uk-button-success:hover,
-    .uk-button-success:focus {
+    .ux-button-success:hover,
+    .ux-button-success:focus {
         background-color: @button-success-hover-background;
         color: @button-success-hover-color;
     }
 
     /* OnClick + Active */
-    .uk-button-success:active,
-    .uk-button-success.uk-active {
+    .ux-button-success:active,
+    .ux-button-success.uk-active {
         background-color: @button-success-active-background;
         color: @button-success-active-color;
         box-shadow: @button-box-inset-shadow;
@@ -243,7 +241,7 @@
     // Warning
     //
 
-    .uk-button-warning {
+    .ux-button-warning {
         background-color: @button-warning-background;
         color: @button-warning-color;
         border: @button-border-width solid transparent;
@@ -254,15 +252,15 @@
     }
 
     /* Hover + Focus */
-    .uk-button-warning:hover,
-    .uk-button-warning:focus {
+    .ux-button-warning:hover,
+    .ux-button-warning:focus {
         background-color: @button-warning-hover-background;
         color: @button-warning-hover-color;
     }
 
     /* OnClick + Active */
-    .uk-button-warning:active,
-    .uk-button-warning.uk-active {
+    .ux-button-warning:active,
+    .ux-button-warning.uk-active {
         background-color: @button-warning-active-background;
         color: @button-warning-active-color;
         box-shadow: @button-box-inset-shadow;
@@ -272,9 +270,9 @@
      * Disabled
      * The same for all style modifiers
      */
-    .uk-button-gray:disabled,
-    .uk-button-success:disabled,
-    .uk-button-warning:disabled {
+    .ux-button-gray:disabled,
+    .ux-button-success:disabled,
+    .ux-button-warning:disabled {
         background-color: @button-disabled-background;
         color: @button-disabled-color;
         .hook-button-disabled;
@@ -284,30 +282,30 @@
     // Button Radio
     //
 
-    .uk-button-radio {
+    .ux-button-radio {
         input[type="radio"]:checked + .uk-button {
             border: @button-border-width solid transparent;
             box-shadow: @button-box-inset-shadow;
             text-shadow: 0 -1px 0 @button-inverse-text-shadow;
         }
 
-        input[type="radio"]:checked + .uk-button-active-primary {
+        input[type="radio"]:checked + .ux-button-active-primary {
             background-color: @button-primary-hover-background;
             color: @button-primary-hover-color;
         }
-        input[type="radio"]:checked + .uk-button-active-secondary {
+        input[type="radio"]:checked + .ux-button-active-secondary {
             background-color: @button-secondary-hover-background;
             color: @button-secondary-hover-color;
         }
-        input[type="radio"]:checked + .uk-button-active-danger {
+        input[type="radio"]:checked + .ux-button-active-danger {
             background-color: @button-danger-hover-background;
             color: @button-danger-hover-color;
         }
-        input[type="radio"]:checked + .uk-button-active-success {
+        input[type="radio"]:checked + .ux-button-active-success {
             background-color: @button-success-hover-background;
             color: @button-success-hover-color;
         }
-        input[type="radio"]:checked + .uk-button-active-warning {
+        input[type="radio"]:checked + .ux-button-active-warning {
             background-color: @button-warning-hover-background;
             color: @button-warning-hover-color;
         }

@@ -1,0 +1,24 @@
+//
+// Component: Card
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@card-box-border:                               1px solid rgba(200, 200, 200, .6);
+@card-box-border-bottom:                        1px solid rgba(200, 200, 200, .9);
+@card-box-shadow:                               0 0 0 3px rgba(210, 210, 210, 0.3);
+
+
+// Component
+// ========================================================================
+
+.hook-card-misc() {
+    .ux-card-box {
+        border: @card-box-border;
+        border-bottom: @card-box-border-bottom;
+        box-shadow: @card-box-shadow;
+    }
+}

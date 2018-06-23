@@ -1,0 +1,36 @@
+<h2>Icon Emphasis</h2>
+<div class="uk-child-width-1-2@m" uk-grid>
+    <div>
+        <div class="uk-notification-message ux-icon-emphasis">
+            <a href="#" class="uk-notification-close" uk-close></a>
+            <span uk-spinner></span>
+            <div>Message</div>
+        </div>
+        <div class="uk-notification-message uk-notification-message-primary ux-icon-emphasis">
+            <a href="#" class="uk-notification-close" uk-close></a>
+            <span uk-icon="icon:info;ratio:1.5"></span>
+            <div>Primary message</div>
+        </div>
+        <div class="uk-notification-message uk-notification-message-warning ux-icon-emphasis">
+            <a href="#" class="uk-notification-close" uk-close></a>
+            <span uk-icon="icon:warning;ratio:1.5"></span>
+            <div>Warning message</div>
+        </div>
+    </div>
+
+    <div>
+
+        <p uk-margin>
+            <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-spinner></span> <div>Processing..</div>', {status:' ux-icon-emphasis'})">Spinner</button>
+            <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:info;ratio:1.5\'></span> <div>Primary message</div>', {status:'primary ux-icon-emphasis'})">Primary</button>
+            <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:check;ratio:1.5\'></span> <div>Success message</div>', {status:'success ux-icon-emphasis'})">Success</button>
+            <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:warning;ratio:1.5\'></span> <div>Warning message</div>', {status:'warning ux-icon-emphasis'})">Warning</button>
+            <button class="uk-button uk-button-default" type="button" onclick="UIkit.notification('<span uk-icon=\'icon:close;ratio:1.5\'></span> <div>Danger message</div>', {status:'danger ux-icon-emphasis'})">Danger</button>
+        </p>
+
+<pre><code>UIkit.notification(
+    '&lt;span uk-icon=\'icon:info;ratio:1.5\'></span> &lt;div>Primary message&lt;/div>',
+    {status:'primary <code>ux-icon-emphasis</code>'}
+)</code></pre>
+    </div>
+</div>
