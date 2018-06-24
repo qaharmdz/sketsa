@@ -45,7 +45,7 @@
 @form-width-small:                              200px;
 @form-width-medium:                             350px;
 @form-width-large:                              500px;
-@form-width-xlarge:                             750px;
+@form-width-xlarge:                             650px;
 
 @form-horizontal-label-width:                   200px;
 @form-horizontal-label-margin-top:              8px;
@@ -101,6 +101,13 @@
         font-size: @form-font-size;
     }
 
+    .uk-fieldset {
+        min-width: 0; // fix fieldset use child width
+
+        & + .uk-fieldset {
+            margin-top: @global-medium-margin;
+        }
+    }
     .uk-legend:extend(.uk-heading-bullet all) {}
 
     .uk-form-label .uk-text-meta,
@@ -126,11 +133,6 @@
             }
             .uk-form-controls { margin-left: 0; }
             .uk-form-controls-text { padding-top: 0; }
-
-            [class*='uk-width'],
-            [class*='uk-form-width'] {
-                width: 100%;
-            }
         }
 
     }
