@@ -49,11 +49,13 @@
                     <a href="#"><span uk-icon="plus-circle"></span></a>
                     <div class="uk-navbar-dropdown">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
-                            <li><a href="#">Add Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
                         </ul>
                     </div>
                 </li>
@@ -196,21 +198,20 @@
                 </div>
                 <hr>
             </div>
-            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple: true">
+            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav="multiple:true">
                 <li><a href="main.html?page=dashboard"><span class="uk-margin-small-right" uk-icon="home"></span>Dashboard</a></li>
                 <li><a href="main.html?page=components"><span class="uk-margin-small-right" uk-icon="uikit"></span>Components</a></li>
                 <li class="uk-parent">
-                    <a href="#"><span class="uk-margin-small-right" uk-icon="copy"></span>Pages</a>
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="album"></span>Layout</a>
                     <ul class="uk-nav-sub">
-                        <li>
-                            <span>Layouts</span>
-                            <ul>
-                                <li><a href="main.html?page=layout-fullwidth">Fullwidth</a></li>
-                                <li><a href="main.html?page=layout-masonry-sidebar">Masonry Sidebar</a></li>
-                                <!-- <li><a href="#">Inner Left Sidebar</a></li>
-                                <li><a href="#">Flex Right Column</a></li> -->
-                            </ul>
-                        </li>
+                        <li><a href="main.html?page=layout-fullwidth">Fullwidth</a></li>
+                        <li><a href="main.html?page=layout-column">Column</a></li>
+                        <li><a href="main.html?page=layout-sidebar-masonry">Sidebar Masonry</a></li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#"><span class="uk-margin-small-right" uk-icon="copy"></span>Apps</a>
+                    <ul class="uk-nav-sub">
                         <li>
                             <span>Extras</span>
                             <ul>
@@ -221,19 +222,18 @@
                 </li>
                 <li class="uk-parent">
                     <a href="#"><span class="uk-margin-small-right" uk-icon="settings"></span>Parent</a>
-                    <ul class="uk-nav-sub">
+                    <ul class="uk-nav-parent-icon uk-nav-sub" uk-nav="multiple:true">
                         <li><a href="#">Sub item</a></li>
-                        <li><a href="#">Sub item</a></li>
-                        <li>
-                            <span>Sub parent</span>
+                        <li class="uk-parent">
+                            <a href="#">Sub parent</a>
                             <ul>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <span>Sub parent</span>
+                        <li class="uk-parent">
+                            <a href="#">Sub parent</a>
                             <ul>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -279,7 +279,7 @@
             <div data-content></div>
 
             <footer class="th-footer uk-margin-medium">
-                <div class="uk-text-center uk-text-small uk-text-muted">
+                <div class="uk-text-center uk-text-meta">
                     Powered by <a href="https://getuikit.com">UIkit v3</a>
                 </div>
             </footer>

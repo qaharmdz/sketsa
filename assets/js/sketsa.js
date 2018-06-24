@@ -3,7 +3,12 @@
 
 $(document).ready(function()
 {
-    // Refresh UIkit component
+    // Make sure update after all animation done
+    setTimeout(function() {
+        UIkit.update(element = document.body, event = 'update');
+    }, 500);
+
+    // Refresh UIkit component after sidebar/side-panel toggle
     $('.uk-navbar-toggle, .th-main-panel .uk-icon').on('click', function() {
         setTimeout(function() {
             UIkit.update(element = document.body, event = 'update');

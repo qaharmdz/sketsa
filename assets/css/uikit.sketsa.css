@@ -1462,7 +1462,7 @@ button.uk-icon:not(:disabled) {
  */
 .uk-input,
 .uk-select:not([multiple]):not([size]) {
-  height: 36px;
+  height: 38px;
   vertical-align: middle;
   /* 1 */
   display: inline-block;
@@ -1470,7 +1470,7 @@ button.uk-icon:not(:disabled) {
 /* 2 */
 .uk-input:not(input),
 .uk-select:not(select) {
-  line-height: 34px;
+  line-height: 36px;
 }
 /*
  * Multi-line
@@ -1853,7 +1853,7 @@ td .uk-checkbox {
   bottom: 0;
   left: 0;
   /* 2 */
-  width: 36px;
+  width: 38px;
   /* 3 */
   display: inline-flex;
   justify-content: center;
@@ -1877,7 +1877,7 @@ td .uk-checkbox {
  * Input padding
  */
 .uk-form-icon:not(.uk-form-icon-flip) ~ .uk-input {
-  padding-left: 36px !important;
+  padding-left: 38px !important;
 }
 /*
  * Position modifier
@@ -1887,7 +1887,7 @@ td .uk-checkbox {
   left: auto;
 }
 .uk-form-icon-flip ~ .uk-input {
-  padding-right: 36px !important;
+  padding-right: 38px !important;
 }
 .uk-input,
 .uk-select,
@@ -1966,7 +1966,7 @@ td .uk-checkbox {
   vertical-align: middle;
   font-size: 15px;
   /* 8 */
-  line-height: 34px;
+  line-height: 36px;
   /* 9 */
   text-align: center;
   /* 10 */
@@ -2563,16 +2563,16 @@ td .uk-checkbox {
 @media (min-width: 1200px) {
   /* Horizontal */
   .uk-grid {
-    margin-left: -40px;
+    margin-left: -30px;
   }
   .uk-grid > * {
-    padding-left: 40px;
+    padding-left: 30px;
   }
   /* Vertical */
   .uk-grid + .uk-grid,
   .uk-grid > .uk-grid-margin,
   * + .uk-grid-margin {
-    margin-top: 40px;
+    margin-top: 30px;
   }
 }
 /*
@@ -2699,21 +2699,21 @@ td .uk-checkbox {
 @media (min-width: 1200px) {
   /* Horizontal */
   .uk-grid-divider {
-    margin-left: -80px;
+    margin-left: -60px;
   }
   .uk-grid-divider > * {
-    padding-left: 80px;
+    padding-left: 60px;
   }
   .uk-grid-divider > :not(.uk-first-column)::before {
-    left: 40px;
+    left: 30px;
   }
   /* Vertical */
   .uk-grid-divider.uk-grid-stack > .uk-grid-margin {
-    margin-top: 80px;
+    margin-top: 60px;
   }
   .uk-grid-divider.uk-grid-stack > .uk-grid-margin::before {
-    top: -40px;
-    left: 80px;
+    top: -30px;
+    left: 60px;
   }
 }
 /*
@@ -2958,13 +2958,13 @@ td .uk-checkbox {
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-card-body {
-    padding: 40px 40px;
+    padding: 30px 30px;
   }
   .uk-card-header {
-    padding: 20px 40px;
+    padding: 15px 30px;
   }
   .uk-card-footer {
-    padding: 20px 40px;
+    padding: 15px 30px;
   }
 }
 /*
@@ -3132,21 +3132,21 @@ td .uk-checkbox {
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-card-body > .uk-nav-default {
-    margin-left: -40px;
-    margin-right: -40px;
+    margin-left: -30px;
+    margin-right: -30px;
   }
   .uk-card-body > .uk-nav-default:only-child {
-    margin-top: -25px;
-    margin-bottom: -25px;
+    margin-top: -15px;
+    margin-bottom: -15px;
   }
   .uk-card-body .uk-nav-default > li > a,
   .uk-card-body .uk-nav-default .uk-nav-header,
   .uk-card-body .uk-nav-default .uk-nav-divider {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
   .uk-card-body .uk-nav-default .uk-nav-sub {
-    padding-left: 55px;
+    padding-left: 45px;
   }
 }
 /*
@@ -3781,7 +3781,7 @@ td .uk-checkbox {
  * Input
  */
 .uk-search-default .uk-search-input {
-  height: 36px;
+  height: 38px;
   padding-left: 6px;
   padding-right: 6px;
   background: transparent;
@@ -3795,13 +3795,13 @@ td .uk-checkbox {
  * Icon
  */
 .uk-search-default .uk-search-icon {
-  width: 36px;
+  width: 38px;
 }
 .uk-search-default .uk-search-icon:not(.uk-search-icon-flip) ~ .uk-search-input {
-  padding-left: 36px;
+  padding-left: 38px;
 }
 .uk-search-default .uk-search-icon-flip ~ .uk-search-input {
-  padding-right: 36px;
+  padding-right: 38px;
 }
 /* Navbar modifier
  ========================================================================== */
