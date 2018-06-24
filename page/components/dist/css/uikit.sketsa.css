@@ -3043,10 +3043,10 @@ td .uk-checkbox {
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 .uk-card-default .uk-card-header {
-  border-bottom: 1px solid #d4d4d4;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 .uk-card-default .uk-card-footer {
-  border-top: 1px solid #d4d4d4;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 /*
  * Primary
