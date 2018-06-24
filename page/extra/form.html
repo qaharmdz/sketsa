@@ -1,10 +1,36 @@
 <div uk-grid>
     <div class="uk-width-expand">
-        ...
+        <form class="uk-form-horizontal">
+            <fieldset class="uk-fieldset">
+                <legend class="uk-legend">Legend</legend>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-h-text">Text</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input uk-form-width-large" id="form-h-text" type="text" placeholder="Some text...">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-h-select">Select</label>
+                    <div class="uk-form-controls">
+                        <select class="uk-select uk-form-width-large" id="form-h-select">
+                            <option>Option 01</option>
+                            <option>Option 02</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-h-textarea">Textarea</label>
+                    <div class="uk-form-controls">
+                        <textarea class="uk-textarea uk-form-width-large" id="form-h-textarea" rows="5" placeholder="Some text..."></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
     </div>
 
     <div class="uk-width-1-3@l">
-        <p>Extra <code>ux-form-stacked@l</code> to force <em>uk-form-horizontal</em> to behave like stacked form. Visit <a href="main.html?page=layout-sidebar-right">Sidebar Right</a> page to see how it works..</p>
+        <p>Extra <code>ux-form-stacked@l</code> to force <em>uk-form-horizontal</em> to behave like stacked on screen > 1200px.</p>
         <form class="uk-form-horizontal ux-form-stacked@l">
 
             <fieldset class="uk-fieldset">

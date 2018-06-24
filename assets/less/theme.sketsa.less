@@ -77,9 +77,10 @@ html {
     background-color: @extra-color-gray-deep;
     width: @th-sidebar-width;
     margin-left: -@th-sidebar-width;
+    padding-top: @th-header-height;
 
     position: fixed;
-    top: @th-header-height;
+    top: 0;
     bottom: 0;
     left: 0;
     z-index: 100;
@@ -140,9 +141,6 @@ html {
         &::before {
             border-color: rgba(0,0,0,.2);
         }
-    }
-    .uk-tab > * > a {
-        padding: 5px 10px 7px;
     }
 }
 

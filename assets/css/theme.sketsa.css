@@ -64,8 +64,9 @@ html {
   background-color: #2b2b2b;
   width: 220px;
   margin-left: -220px;
+  padding-top: 46px;
   position: fixed;
-  top: 46px;
+  top: 0;
   bottom: 0;
   left: 0;
   z-index: 100;
@@ -122,9 +123,6 @@ html {
 }
 .th-side-panel .uk-tab::before {
   border-color: rgba(0, 0, 0, 0.2);
-}
-.th-side-panel .uk-tab > * > a {
-  padding: 5px 10px 7px;
 }
 /* Side panel state */
 @media (min-width: 960px) {

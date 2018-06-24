@@ -63,7 +63,9 @@ $(window).resize(function () {
 function resizeIframe(iframe) {
     setTimeout(function() {
         var extraHeight = 50;
-        iframe.height = iframe.contentWindow.document.body.scrollHeight + extraHeight + 'px';
+        if (iframe.contentWindow.document.body !== undefined) {
+            iframe.height = iframe.contentWindow.document.body.scrollHeight + extraHeight + 'px';
+        }
     }, 250);
 }
 
