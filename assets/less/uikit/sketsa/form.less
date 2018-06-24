@@ -100,12 +100,15 @@
     .uk-checkbox {
         font-size: @form-font-size;
     }
+    .uk-select:not([multiple]):not([size]) {
+        background-position: 100% 60%;
+    }
 
     .uk-fieldset {
-        min-width: 0; // fix fieldset use child width
+        min-width: 0; // fix fieldset behaviour
 
         & + .uk-fieldset {
-            margin-top: @global-medium-margin;
+            margin-top: @global-margin;
         }
     }
     .uk-legend:extend(.uk-heading-bullet all) {}

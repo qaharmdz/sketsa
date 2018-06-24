@@ -1896,11 +1896,14 @@ td .uk-checkbox {
 .uk-checkbox {
   font-size: 0.9rem;
 }
+.uk-select:not([multiple]):not([size]) {
+  background-position: 0% 60%;
+}
 .uk-fieldset {
   min-width: 0;
 }
 .uk-fieldset + .uk-fieldset {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .uk-form-label .uk-text-meta,
 .uk-form-controls .uk-text-meta {
@@ -7807,133 +7810,155 @@ iframe.uk-cover {
 .ux-background-red {
   background-color: #f53123;
 }
-.ux-background-red.ux-contrast {
+.ux-background-red.ux-contrast,
+.ux-background-red .ux-contrast {
   color: #fff;
 }
 .ux-background-pink {
   background-color: #fd1d69;
 }
-.ux-background-pink.ux-contrast {
+.ux-background-pink.ux-contrast,
+.ux-background-pink .ux-contrast {
   color: #fff;
 }
 .ux-background-purple {
   background-color: #9c27b0;
 }
-.ux-background-purple.ux-contrast {
+.ux-background-purple.ux-contrast,
+.ux-background-purple .ux-contrast {
   color: #fff;
 }
 .ux-background-purple-deep {
   background-color: #673ab7;
 }
-.ux-background-purple-deep.ux-contrast {
+.ux-background-purple-deep.ux-contrast,
+.ux-background-purple-deep .ux-contrast {
   color: #fff;
 }
 .ux-background-indigo {
   background-color: #3f51b5;
 }
-.ux-background-indigo.ux-contrast {
+.ux-background-indigo.ux-contrast,
+.ux-background-indigo .ux-contrast {
   color: #fff;
 }
 .ux-background-blue {
   background-color: #1e87f0;
 }
-.ux-background-blue.ux-contrast {
+.ux-background-blue.ux-contrast,
+.ux-background-blue .ux-contrast {
   color: #fff;
 }
 .ux-background-blue-light {
   background-color: #03a9f4;
 }
-.ux-background-blue-light.ux-contrast {
+.ux-background-blue-light.ux-contrast,
+.ux-background-blue-light .ux-contrast {
   color: #fff;
 }
 .ux-background-cyan {
   background-color: #00bcd4;
 }
-.ux-background-cyan.ux-contrast {
+.ux-background-cyan.ux-contrast,
+.ux-background-cyan .ux-contrast {
   color: #fff;
 }
 .ux-background-teal {
   background-color: #009688;
 }
-.ux-background-teal.ux-contrast {
+.ux-background-teal.ux-contrast,
+.ux-background-teal .ux-contrast {
   color: #fff;
 }
 .ux-background-green {
   background-color: #40bb45;
 }
-.ux-background-green.ux-contrast {
+.ux-background-green.ux-contrast,
+.ux-background-green .ux-contrast {
   color: #fff;
 }
 .ux-background-green-light {
   background-color: #94de3d;
 }
-.ux-background-green-light.ux-contrast {
+.ux-background-green-light.ux-contrast,
+.ux-background-green-light .ux-contrast {
   color: #444;
 }
 .ux-background-lime {
   background-color: #cddc39;
 }
-.ux-background-lime.ux-contrast {
+.ux-background-lime.ux-contrast,
+.ux-background-lime .ux-contrast {
   color: #444;
 }
 .ux-background-yellow {
   background-color: #ffeb3b;
 }
-.ux-background-yellow.ux-contrast {
+.ux-background-yellow.ux-contrast,
+.ux-background-yellow .ux-contrast {
   color: #444;
 }
 .ux-background-amber {
   background-color: #ffc107;
 }
-.ux-background-amber.ux-contrast {
+.ux-background-amber.ux-contrast,
+.ux-background-amber .ux-contrast {
   color: #fff;
 }
 .ux-background-orange {
   background-color: #ff9800;
 }
-.ux-background-orange.ux-contrast {
+.ux-background-orange.ux-contrast,
+.ux-background-orange .ux-contrast {
   color: #fff;
 }
 .ux-background-orange-deep {
   background-color: #ff5722;
 }
-.ux-background-orange-deep.ux-contrast {
+.ux-background-orange-deep.ux-contrast,
+.ux-background-orange-deep .ux-contrast {
   color: #fff;
 }
 .ux-background-brown {
   background-color: #795548;
 }
-.ux-background-brown.ux-contrast {
+.ux-background-brown.ux-contrast,
+.ux-background-brown .ux-contrast {
   color: #fff;
 }
 .ux-background-gray {
   background-color: #9e9e9e;
 }
-.ux-background-gray.ux-contrast {
+.ux-background-gray.ux-contrast,
+.ux-background-gray .ux-contrast {
   color: #fff;
 }
 .ux-background-gray-light {
   background-color: #f4f4f4;
 }
-.ux-background-gray-light.ux-contrast {
+.ux-background-gray-light.ux-contrast,
+.ux-background-gray-light .ux-contrast {
   color: #444;
 }
 .ux-background-gray-blue {
   background-color: #607d8b;
 }
-.ux-background-gray-blue.ux-contrast {
+.ux-background-gray-blue.ux-contrast,
+.ux-background-gray-blue .ux-contrast {
   color: #fff;
 }
 .ux-background-gray-deep {
   background-color: #2b2b2b;
 }
-.ux-background-gray-deep.ux-contrast {
+.ux-background-gray-deep.ux-contrast,
+.ux-background-gray-deep .ux-contrast {
   color: #fff;
 }
 .ux-background-blackjack {
   background-color: #111;
 }
-.ux-background-blackjack.ux-contrast {
+.ux-background-blackjack.ux-contrast,
+.ux-background-blackjack .ux-contrast {
   color: #fff;
 }
 /* ========================================================================
