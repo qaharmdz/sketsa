@@ -206,7 +206,7 @@
                     <ul class="uk-nav-sub">
                         <li><a href="main.html?page=layout-fullwidth">Fullwidth</a></li>
                         <li><a href="main.html?page=layout-column">Column</a></li>
-                        <li><a href="main.html?page=layout-sidebar-masonry">Sidebar Masonry</a></li>
+                        <li><a href="main.html?page=layout-column-masonry">Column Masonry</a></li>
                     </ul>
                 </li>
                 <li class="uk-parent">
@@ -226,8 +226,16 @@
                         <li><a href="#">Sub item</a></li>
                         <li class="uk-parent">
                             <a href="#">Sub parent</a>
-                            <ul>
+                            <ul class="uk-nav-parent-icon uk-nav-sub" uk-nav="multiple:true">
                                 <li><a href="#">Sub item</a></li>
+                                <li class="uk-parent">
+                                    <a href="#">Sub parent</a>
+                                    <ul>
+                                        <li><a href="#">Sub item</a></li>
+                                        <li><a href="#">Sub item</a></li>
+                                        <li><a href="#">Sub item</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
                             </ul>
@@ -325,7 +333,7 @@ function openPage(page) {
     setTimeout(function() {
         var date = new Date();
         $('[data-content]').load('page/' + page + '.html?_=' + date.getDate() + date.getHours(), function() {
-            $('.th-sidebar a[href*="' + page + '"]').parent().addClass('uk-active');
+            $('.th-sidebar a[href="main.html?page=' + page + '"]').parent().addClass('uk-active');
             $('.th-sidebar .uk-active').closest('.uk-parent').addClass('uk-open');
             $('.th-sidebar .uk-active').closest('.uk-nav').show();
 
