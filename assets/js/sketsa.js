@@ -33,8 +33,8 @@ $(document).ready(function()
     // Sidebar scroll
     var ps = new PerfectScrollbar('.th-sidebar-scroll', {
         wheelSpeed: 0.4,
-        minScrollbarLength: 20,
-        maxScrollbarLength: 200
+        minScrollbarLength: 50,
+        maxScrollbarLength: 100
     });
     $('.th-sidebar-scroll .uk-parent').on('click', function(e) {
         setTimeout(function() {

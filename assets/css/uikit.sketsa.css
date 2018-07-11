@@ -7807,6 +7807,13 @@ iframe.uk-cover {
 .uk-background-blend-luminosity {
   background-blend-mode: luminosity;
 }
+.ux-background-white {
+  background-color: #fff;
+}
+.ux-background-white.ux-contrast,
+.ux-background-white .ux-contrast {
+  color: #444;
+}
 .ux-background-red {
   background-color: #f53123;
 }
