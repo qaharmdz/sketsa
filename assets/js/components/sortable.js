@@ -1,9 +1,9 @@
-/*! UIkit 3.0.0-rc.6 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.10 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('uikit-util')) :
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitsortable', ['uikit-util'], factory) :
-    (factory(global.UIkit.util));
+    (global.UIkitSortable = factory(global.UIkit.util));
 }(this, (function (uikitUtil) { 'use strict';
 
     var targetClass = 'uk-animation-target';
@@ -87,7 +87,7 @@
                 uikitUtil.addClass(this.target, targetClass);
                 children.forEach(function (el, i) { return propsFrom[i] && uikitUtil.css(el, propsFrom[i]); });
                 uikitUtil.css(this.target, 'height', oldHeight);
-                window.scroll(window.pageXOffset, oldScrollY);
+                uikitUtil.scrollTop(window, oldScrollY);
 
                 return uikitUtil.Promise.all(children.map(function (el, i) { return propsFrom[i] && propsTo[i]
                         ? uikitUtil.Transition.start(el, propsTo[i], this$1.animation, 'ease')
@@ -96,6 +96,7 @@
                     children.forEach(function (el, i) { return uikitUtil.css(el, {display: propsTo[i].opacity === 0 ? 'none' : '', zIndex: ''}); });
                     reset(this$1.target);
                     this$1.$update(this$1.target);
+                    uikitUtil.fastdom.flush(); // needed for IE11
                 }, uikitUtil.noop);
 
             }
@@ -149,7 +150,7 @@
         if (!style) {
             style = uikitUtil.append(document.head, '<style>').sheet;
             style.insertRule(
-                ("." + targetClass + " > * {\n                    margin-top: 0 !important;\n                    transform: none !important;\n                }")
+                ("." + targetClass + " > * {\n                    margin-top: 0 !important;\n                    transform: none !important;\n                }"), 0
             );
         }
     }
@@ -240,7 +241,7 @@
                     scroll = this.scrollY + 5;
                 }
 
-                scroll && setTimeout(function () { return window.scroll(window.pageXOffset, scroll); }, 5);
+                scroll && setTimeout(function () { return uikitUtil.scrollTop(window, scroll); }, 5);
             }
 
         },
@@ -458,5 +459,7 @@
     if (typeof window !== 'undefined' && window.UIkit) {
         window.UIkit.component('sortable', Component);
     }
+
+    return Component;
 
 })));

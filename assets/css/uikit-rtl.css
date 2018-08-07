@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.6 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.10 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 /* ========================================================================
    Component: Base
  ========================================================================== */
@@ -432,22 +432,6 @@ template {
  ========================================================================== */
 iframe {
   border: 0;
-}
-/* Prevent the 300ms delay for touchscreen interactions
- ========================================================================== */
-/*
- * Most browsers prevent the 300ms delay automatically for sites that use the `width=device-width` property.
- * For Safari on iOS 9.3+, IE 11 and Edge on desktops and IE 11 on Windows Phone 8.1 it must be applied manually.
- */
-a,
-area,
-button,
-input,
-label,
-select,
-summary,
-textarea {
-  touch-action: manipulation;
 }
 /* Pass media breakpoints to JS
  ========================================================================== */
@@ -2259,6 +2243,9 @@ select.uk-form-width-xsmall {
 }
 /* Size modifier
  ========================================================================== */
+.uk-container-xsmall {
+  max-width: 750px;
+}
 .uk-container-small {
   max-width: 900px;
 }
@@ -4619,13 +4606,11 @@ ul.uk-nav-sub {
   margin-right: -15px;
 }
 /*
- * 1. Space is allocated solely based on content dimensions: 0 0 auto
- * 2. Gutter
+ * Space is allocated based on content dimensions, but shrinks: 0 1 auto
+ * 1. Gutter
  */
 .uk-thumbnav > * {
   /* 1 */
-  flex: none;
-  /* 2 */
   padding-right: 15px;
 }
 /* Items
@@ -6408,26 +6393,15 @@ ul.uk-nav-sub {
   width: auto;
 }
 /*
- *    Instead of 0, 1px is needed to make cell wrap into next row if predecessor is 100% wide
- *    and the grid gutter is 0 pixels wide
- */
-.uk-child-width-expand > * {
-  width: 1px;
-}
-/*
- * 1. Make `width: 1px` work, because according to the spec flex items won’t shrink
- *    below their minimum content size. To change this, set the min-width.
- *    Only needed for Firefox. All other browsers ignore this.
- *
- * 2. `width` is ignored when wrapping flex items in Safari
- *    https://github.com/philipwalton/flexbugs#11-min-and-max-size-declarations-are-ignored-when-wrapping-flex-items
+ * 1. Reset the `min-width`, which is set to auto by default, because
+ *    flex items won't shrink below their minimum intrinsic content size.
+ *    Using `1px` instead of `0`, so items still wrap into the next line,
+ *    if they have zero width and padding and the predecessor is 100% wide.
  */
 .uk-child-width-expand > :not([class*='uk-width']) {
   flex: 1;
   /* 1 */
-  min-width: 0;
-  /* 2 */
-  flex-basis: 1px;
+  min-width: 1px;
 }
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
@@ -6452,13 +6426,9 @@ ul.uk-nav-sub {
   .uk-child-width-auto\@s > * {
     width: auto;
   }
-  .uk-child-width-expand\@s > * {
-    width: 1px;
-  }
   .uk-child-width-expand\@s > :not([class*='uk-width']) {
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* Tablet landscape and bigger */
@@ -6484,13 +6454,9 @@ ul.uk-nav-sub {
   .uk-child-width-auto\@m > * {
     width: auto;
   }
-  .uk-child-width-expand\@m > * {
-    width: 1px;
-  }
   .uk-child-width-expand\@m > :not([class*='uk-width']) {
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* Desktop and bigger */
@@ -6516,13 +6482,9 @@ ul.uk-nav-sub {
   .uk-child-width-auto\@l > * {
     width: auto;
   }
-  .uk-child-width-expand\@l > * {
-    width: 1px;
-  }
   .uk-child-width-expand\@l > :not([class*='uk-width']) {
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* Large screen and bigger */
@@ -6548,13 +6510,9 @@ ul.uk-nav-sub {
   .uk-child-width-auto\@xl > * {
     width: auto;
   }
-  .uk-child-width-expand\@xl > * {
-    width: 1px;
-  }
   .uk-child-width-expand\@xl > :not([class*='uk-width']) {
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* Single Widths
@@ -6628,10 +6586,8 @@ ul.uk-nav-sub {
 }
 /* Expand */
 .uk-width-expand {
-  width: 1px;
   flex: 1;
-  min-width: 0;
-  flex-basis: 1px;
+  min-width: 1px;
 }
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
@@ -6699,10 +6655,8 @@ ul.uk-nav-sub {
   }
   /* Expand */
   .uk-width-expand\@s {
-    width: 1px;
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* Tablet landscape and bigger */
@@ -6771,10 +6725,8 @@ ul.uk-nav-sub {
   }
   /* Expand */
   .uk-width-expand\@m {
-    width: 1px;
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* Desktop and bigger */
@@ -6843,10 +6795,8 @@ ul.uk-nav-sub {
   }
   /* Expand */
   .uk-width-expand\@l {
-    width: 1px;
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* Large screen and bigger */
@@ -6915,10 +6865,8 @@ ul.uk-nav-sub {
   }
   /* Expand */
   .uk-width-expand\@xl {
-    width: 1px;
     flex: 1;
-    min-width: 0;
-    flex-basis: 1px;
+    min-width: 1px;
   }
 }
 /* ========================================================================

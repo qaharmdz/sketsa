@@ -1,9 +1,9 @@
-/*! UIkit 3.0.0-rc.6 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.10 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('uikit-util')) :
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitslideshow', ['uikit-util'], factory) :
-    (factory(global.UIkit.util));
+    (global.UIkitSlideshow = factory(global.UIkit.util));
 }(this, (function (uikitUtil) { 'use strict';
 
     var Class = {
@@ -302,6 +302,19 @@
             },
 
             {
+
+                // Workaround for iOS 11 bug: https://bugs.webkit.org/show_bug.cgi?id=184250
+
+                name: 'touchmove',
+                passive: false,
+                handler: 'move',
+                delegate: function() {
+                    return this.slidesSelector;
+                }
+
+            },
+
+            {
                 name: 'dragstart',
 
                 handler: function(e) {
@@ -314,6 +327,8 @@
         methods: {
 
             start: function() {
+                var this$1 = this;
+
 
                 this.drag = this.pos;
 
@@ -322,8 +337,8 @@
                     this.percent = this._transitioner.percent();
                     this.drag += this._transitioner.getDistance() * this.percent * this.dir;
 
-                    this._transitioner.translate(this.percent);
                     this._transitioner.cancel();
+                    this._transitioner.translate(this.percent);
 
                     this.dragging = true;
 
@@ -333,7 +348,12 @@
                     this.prevIndex = this.index;
                 }
 
-                this.unbindMove = uikitUtil.on(document, uikitUtil.pointerMove, this.move, {capture: true, passive: false});
+                // See above workaround notice
+                var off = uikitUtil.on(document, uikitUtil.pointerMove.replace(' touchmove', ''), this.move, {passive: false});
+                this.unbindMove = function () {
+                    off();
+                    this$1.unbindMove = null;
+                };
                 uikitUtil.on(window, 'scroll', this.unbindMove);
                 uikitUtil.on(document, uikitUtil.pointerUp, this.end, true);
 
@@ -342,6 +362,11 @@
             move: function(e) {
                 var this$1 = this;
 
+
+                // See above workaround notice
+                if (!this.unbindMove) {
+                    return;
+                }
 
                 var distance = this.pos - this.drag;
 
@@ -416,7 +441,7 @@
             end: function() {
 
                 uikitUtil.off(window, 'scroll', this.unbindMove);
-                this.unbindMove();
+                this.unbindMove && this.unbindMove();
                 uikitUtil.off(document, uikitUtil.pointerUp, this.end, true);
 
                 if (this.dragging) {
@@ -558,9 +583,9 @@
 
     var Slider = {
 
-        attrs: true,
-
         mixins: [SliderAutoplay, SliderDrag, SliderNav],
+
+        attrs: true,
 
         props: {
             clsActivated: Boolean,
@@ -1051,5 +1076,7 @@
     if (typeof window !== 'undefined' && window.UIkit) {
         window.UIkit.component('slideshow', Component);
     }
+
+    return Component;
 
 })));

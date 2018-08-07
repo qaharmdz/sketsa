@@ -1,9 +1,9 @@
-/*! UIkit 3.0.0-rc.6 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.10 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('uikit-util')) :
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikittooltip', ['uikit-util'], factory) :
-    (factory(global.UIkit.util));
+    (global.UIkitTooltip = factory(global.UIkit.util));
 }(this, (function (uikitUtil) { 'use strict';
 
     var Container = {
@@ -336,11 +336,11 @@
 
     var Component = {
 
-        attrs: true,
+        mixins: [Container, Togglable, Position],
 
         args: 'title',
 
-        mixins: [Container, Togglable, Position],
+        attrs: true,
 
         props: {
             delay: Number,
@@ -446,5 +446,7 @@
     if (typeof window !== 'undefined' && window.UIkit) {
         window.UIkit.component('tooltip', Component);
     }
+
+    return Component;
 
 })));

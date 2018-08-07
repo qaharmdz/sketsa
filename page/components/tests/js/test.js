@@ -1,10 +1,12 @@
-/*! UIkit 3.0.0-rc.6 | http://www.getuikit.com | (c) 2014 - 2017 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.10 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
     (factory());
 }(this, (function () { 'use strict';
+
+    var objPrototype = Object.prototype;
 
     var hyphenateCache = {};
     var hyphenateRe = /([a-z\d])([A-Z])/g;
@@ -65,12 +67,13 @@
         return isObject(obj) && !!obj.jquery;
     }
 
-    function isNode(element) {
-        return element instanceof Node || isObject(element) && element.nodeType === 1;
+    function isNode(obj) {
+        return obj instanceof Node || isObject(obj) && obj.nodeType === 1;
     }
 
-    function isNodeCollection(element) {
-        return element instanceof NodeList || element instanceof HTMLCollection;
+    var toString = objPrototype.toString;
+    function isNodeCollection(obj) {
+        return toString.call(obj).match(/^\[object (NodeList|HTMLCollection)\]$/);
     }
 
     function isString(value) {
@@ -156,10 +159,6 @@
         name.split(' ').forEach(function (name) { return element.forEach(function (element) { return element.removeAttribute(name); }
             ); }
         );
-    }
-
-    function find(selector, context) {
-        return toNode(_query(selector, context, 'querySelector'));
     }
 
     function findAll(selector, context) {
@@ -296,35 +295,39 @@
 
 
         var ref = getArgs(args);
-        var target = ref[0];
+        var targets = ref[0];
         var type = ref[1];
         var selector = ref[2];
         var listener = ref[3];
         var useCapture = ref[4];
 
-        target = toEventTarget(target);
+        targets = toEventTargets(targets);
 
         if (selector) {
-            listener = delegate(target, selector, listener);
+            listener = delegate(targets, selector, listener);
         }
 
         if (listener.length > 1) {
             listener = detail(listener);
         }
 
-        type.split(' ').forEach(function (type) { return target && target.addEventListener(type, listener, useCapture); });
-        return function () { return off(target, type, listener, useCapture); };
+        type.split(' ').forEach(function (type) { return targets.forEach(function (target) { return target.addEventListener(type, listener, useCapture); }
+            ); }
+        );
+        return function () { return off(targets, type, listener, useCapture); };
     }
 
-    function off(target, type, listener, useCapture) {
+    function off(targets, type, listener, useCapture) {
         if ( useCapture === void 0 ) useCapture = false;
 
-        target = toEventTarget(target);
-        target && type.split(' ').forEach(function (type) { return target.removeEventListener(type, listener, useCapture); });
+        targets = toEventTargets(targets);
+        type.split(' ').forEach(function (type) { return targets.forEach(function (target) { return target.removeEventListener(type, listener, useCapture); }
+            ); }
+        );
     }
 
-    function trigger(target, event, detail) {
-        return toEventTargets(target).reduce(function (notCanceled, target) { return notCanceled && target.dispatchEvent(createEvent(event, true, true, detail)); }
+    function trigger(targets, event, detail) {
+        return toEventTargets(targets).reduce(function (notCanceled, target) { return notCanceled && target.dispatchEvent(createEvent(event, true, true, detail)); }
             , true);
     }
 
@@ -342,33 +345,32 @@
     }
 
     function getArgs(args) {
-
-        if (isString(args[0])) {
-            args[0] = find(args[0]);
-        }
-
         if (isFunction(args[2])) {
             args.splice(2, 0, false);
         }
         return args;
     }
 
-    function delegate(element, selector, listener) {
+    function delegate(delegates, selector, listener) {
         var this$1 = this;
 
         return function (e) {
 
-            var target = e.target;
-            var current = selector[0] === '>'
-                ? findAll(selector, element).reverse().filter(function (element) { return within(target, element); })[0]
-                : closest(target, selector);
+            delegates.forEach(function (delegate) {
 
-            if (current) {
-                e.delegate = element;
-                e.current = current;
+                var current = selector[0] === '>'
+                    ? findAll(selector, delegate).reverse().filter(function (element) { return within(e.target, element); })[0]
+                    : closest(e.target, selector);
 
-                listener.call(this$1, e);
-            }
+                if (current) {
+                    e.delegate = delegate;
+                    e.current = current;
+
+                    listener.call(this$1, e);
+                }
+
+            });
+
         };
     }
 
@@ -387,11 +389,13 @@
     }
 
     function toEventTargets(target) {
-        return isEventTarget(target)
-            ? [target]
-            : isArray(target)
+        return isArray(target)
                 ? target.map(toEventTarget).filter(Boolean)
-                : toNodes(target);
+                : isString(target)
+                    ? findAll(target)
+                    : isEventTarget(target)
+                        ? [target]
+                        : toNodes(target);
     }
 
     /* global setImmediate */
@@ -768,8 +772,8 @@
     }
 
     var cssPrefixes = ['webkit', 'moz', 'ms'];
-    var ref$1 = document.createElement('_');
-    var style = ref$1.style;
+    var ref = document.createElement('_');
+    var style = ref.style;
 
     function vendorPropName(name) {
 
@@ -842,6 +846,7 @@
 
     /* global DocumentTouch */
 
+    var isIE = /msie|trident/i.test(window.navigator.userAgent);
     var isRtl = attr(document.documentElement, 'dir') === 'rtl';
 
     var hasTouchEvents = 'ontouchstart' in window;
