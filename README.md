@@ -1,2 +1,4 @@
-Sketsa is an UIkit 3 theme
+Sketsa - [UIkit 3](https://getuikit.com/) theme
+
+### [Demo](https://qaharmdz.github.io/sketsa/)
 

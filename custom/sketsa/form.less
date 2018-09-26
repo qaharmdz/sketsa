@@ -1,0 +1,142 @@
+//
+// Component: Form
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@form-height:                                   @global-control-height;
+@form-line-height:                              @form-height - (2* @form-border-width);
+@form-padding-horizontal:                       10px;
+@form-padding-vertical:                         4px;
+
+@form-font-size:                                0.9rem;
+@form-color:                                    @global-color;
+@form-background:                               #fdfdfd;
+@form-placeholder-color:                        @global-muted-color;
+
+@form-border:                                   #ccc;
+@form-border-width:                             @global-border-width;
+@form-box-shadow:                               inset 0 1px 1px rgba(0, 0, 0, .075);
+
+@form-label-color:                              @global-color;
+@form-label-font-size:                          @global-font-size;
+@form-label-line-height:                        1.4;;
+
+@form-focus-color:                              @global-color;
+@form-focus-background:                         rgba(231,233,253,.4);;
+@form-focus-border:                             rgba(59,80,206,.35);
+
+@form-disabled-color:                           @form-placeholder-color;
+@form-disabled-background:                      @global-muted-background;
+@form-disabled-border:                          @form-border;
+
+@form-danger-color:                             @text-danger-color;
+@form-danger-border:                            rgba(208,16,16,.35);
+@form-danger-background:                        rgba(255,240,245,.8);
+
+@form-success-color:                            @text-success-color;
+@form-success-border:                           rgba(88,159,19,.45);
+@form-success-background:                       rgba(241,248,233,.8);
+
+@form-width-xsmall:                             75px;
+@form-width-small:                              200px;
+@form-width-medium:                             350px;
+@form-width-large:                              500px;
+@form-width-xlarge:                             650px;
+
+@form-horizontal-label-width:                   200px;
+@form-horizontal-label-margin-top:              8px;
+@form-horizontal-controls-margin-left:          215px;
+@form-horizontal-controls-text-padding-top:     8px;
+
+
+
+// Component
+// ========================================================================
+
+.hook-form() {
+    box-shadow: @form-box-shadow;
+    border-radius: @extra-border-radius;
+}
+.hook-form-legend {
+    font-family: @base-heading-font-family;
+    font-weight: @base-heading-font-weight;
+}
+.hook-form-label() {
+    line-height: @form-label-line-height;
+}
+.hook-form-radio() {
+    margin-right: @extra-mini-margin;
+    box-shadow: @form-box-shadow;
+
+    th &, td & {
+        margin-right: 0;
+    }
+}
+
+.hook-form-success() {
+    background: @form-success-background;
+}
+.hook-form-danger() {
+    background: @form-danger-background;
+}
+.hook-form-blank() {
+    background: @global-muted-background;
+    box-shadow: none;
+}
+
+.hook-form-blank-focus() {
+    border-color: #ccc;
+}
+
+.hook-form-misc() {
+    .uk-input,
+    .uk-select,
+    .uk-textarea,
+    .uk-radio,
+    .uk-checkbox {
+        font-size: @form-font-size;
+    }
+    .uk-select:not([multiple]):not([size]) {
+        background-position: 100% 60%;
+    }
+
+    .uk-fieldset {
+        min-width: 0; // fix fieldset behaviour
+
+        & + .uk-fieldset {
+            margin-top: @global-margin;
+        }
+    }
+    .uk-legend:extend(.uk-heading-bullet all) {}
+
+    .uk-form-label .uk-text-meta,
+    .uk-form-controls .uk-text-meta {
+        margin-top: @extra-mini-margin;
+    }
+
+    .uk-form-width-xlarge { width: @form-width-xlarge; }
+
+
+    /* Tablet landscape and bigger */
+    @media (min-width: @breakpoint-large) {
+        .uk-form-horizontal.ux-form-stacked\@l  {
+            .uk-form-label {
+                /* Reset `uk-form-horizontal`*/
+                width: 100%;
+                float: none;
+                margin-top: 0;
+                /* Behave like `uk-form-stacked` */
+                display: block;
+                margin-bottom: @form-stacked-margin-bottom;
+                .hook-form-stacked-label;
+            }
+            .uk-form-controls { margin-left: 0; }
+            .uk-form-controls-text { padding-top: 0; }
+        }
+
+    }
+}
