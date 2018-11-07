@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.16 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.21 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -120,7 +120,7 @@
     var Class = {
 
         connected: function() {
-            uikitUtil.addClass(this.$el, this.$name);
+            !uikitUtil.hasClass(this.$el, this.$name) && uikitUtil.addClass(this.$el, this.$name);
         }
 
     };
@@ -259,19 +259,24 @@
                     return uikitUtil.Promise.reject();
                 }
 
-                var promise = (animate === false || !this.hasAnimation
-                    ? this._toggleImmediate
-                    : this.hasTransition
-                        ? this._toggleHeight
-                        : this._toggleAnimation
+                var promise = (
+                    uikitUtil.isFunction(animate)
+                        ? animate
+                        : animate === false || !this.hasAnimation
+                            ? this._toggle
+                            : this.hasTransition
+                                ? toggleHeight(this)
+                                : toggleAnimation(this)
                 )(el, show);
 
                 uikitUtil.trigger(el, show ? 'show' : 'hide', [this]);
 
-                return promise.then(function () {
+                var final = function () {
                     uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this$1]);
                     this$1.$update(el);
-                });
+                };
+
+                return promise ? promise.then(final) : uikitUtil.Promise.resolve(final());
             },
 
             _toggle: function(el, toggled) {
@@ -293,59 +298,66 @@
 
                 this.updateAria(el);
                 changed && this.$update(el);
-            },
-
-            _toggleImmediate: function(el, show) {
-                this._toggle(el, show);
-                return uikitUtil.Promise.resolve();
-            },
-
-            _toggleHeight: function(el, show) {
-                var this$1 = this;
-
-
-                var inProgress = uikitUtil.Transition.inProgress(el);
-                var inner = el.hasChildNodes ? uikitUtil.toFloat(uikitUtil.css(el.firstElementChild, 'marginTop')) + uikitUtil.toFloat(uikitUtil.css(el.lastElementChild, 'marginBottom')) : 0;
-                var currentHeight = uikitUtil.isVisible(el) ? uikitUtil.height(el) + (inProgress ? 0 : inner) : 0;
-
-                uikitUtil.Transition.cancel(el);
-
-                if (!this.isToggled(el)) {
-                    this._toggle(el, true);
-                }
-
-                uikitUtil.height(el, '');
-
-                // Update child components first
-                uikitUtil.fastdom.flush();
-
-                var endHeight = uikitUtil.height(el) + (inProgress ? 0 : inner);
-                uikitUtil.height(el, currentHeight);
-
-                return (show
-                    ? uikitUtil.Transition.start(el, uikitUtil.assign({}, this.initProps, {overflow: 'hidden', height: endHeight}), Math.round(this.duration * (1 - currentHeight / endHeight)), this.transition)
-                    : uikitUtil.Transition.start(el, this.hideProps, Math.round(this.duration * (currentHeight / endHeight)), this.transition).then(function () { return this$1._toggle(el, false); })
-                ).then(function () { return uikitUtil.css(el, this$1.initProps); });
-
-            },
-
-            _toggleAnimation: function(el, show) {
-                var this$1 = this;
-
-
-                uikitUtil.Animation.cancel(el);
-
-                if (show) {
-                    this._toggle(el, true);
-                    return uikitUtil.Animation.in(el, this.animation[0], this.duration, this.origin);
-                }
-
-                return uikitUtil.Animation.out(el, this.animation[1] || this.animation[0], this.duration, this.origin).then(function () { return this$1._toggle(el, false); });
             }
 
         }
 
     };
+
+    function toggleHeight(ref) {
+        var isToggled = ref.isToggled;
+        var duration = ref.duration;
+        var initProps = ref.initProps;
+        var hideProps = ref.hideProps;
+        var transition = ref.transition;
+        var _toggle = ref._toggle;
+
+        return function (el, show) {
+
+            var inProgress = uikitUtil.Transition.inProgress(el);
+            var inner = el.hasChildNodes ? uikitUtil.toFloat(uikitUtil.css(el.firstElementChild, 'marginTop')) + uikitUtil.toFloat(uikitUtil.css(el.lastElementChild, 'marginBottom')) : 0;
+            var currentHeight = uikitUtil.isVisible(el) ? uikitUtil.height(el) + (inProgress ? 0 : inner) : 0;
+
+            uikitUtil.Transition.cancel(el);
+
+            if (!isToggled(el)) {
+                _toggle(el, true);
+            }
+
+            uikitUtil.height(el, '');
+
+            // Update child components first
+            uikitUtil.fastdom.flush();
+
+            var endHeight = uikitUtil.height(el) + (inProgress ? 0 : inner);
+            uikitUtil.height(el, currentHeight);
+
+            return (show
+                    ? uikitUtil.Transition.start(el, uikitUtil.assign({}, initProps, {overflow: 'hidden', height: endHeight}), Math.round(duration * (1 - currentHeight / endHeight)), transition)
+                    : uikitUtil.Transition.start(el, hideProps, Math.round(duration * (currentHeight / endHeight)), transition).then(function () { return _toggle(el, false); })
+            ).then(function () { return uikitUtil.css(el, initProps); });
+
+        };
+    }
+
+    function toggleAnimation(ref) {
+        var animation = ref.animation;
+        var duration = ref.duration;
+        var origin = ref.origin;
+        var _toggle = ref._toggle;
+
+        return function (el, show) {
+
+            uikitUtil.Animation.cancel(el);
+
+            if (show) {
+                _toggle(el, true);
+                return uikitUtil.Animation.in(el, animation[0], duration, origin);
+            }
+
+            return uikitUtil.Animation.out(el, animation[1] || animation[0], duration, origin).then(function () { return _toggle(el, false); });
+        };
+    }
 
     var active;
 
@@ -381,16 +393,18 @@
                 return this.panel;
             },
 
-            transitionDuration: function() {
-                return uikitUtil.toMs(uikitUtil.css(this.transitionElement, 'transitionDuration'));
-            },
-
             bgClose: function(ref) {
                 var bgClose = ref.bgClose;
 
                 return bgClose && this.panel;
             }
 
+        },
+
+        beforeDisconnect: function() {
+            if (this.isToggled()) {
+                this.toggleNow(this.$el, false);
+            }
         },
 
         events: [
@@ -443,30 +457,27 @@
                         if (this.stack) {
                             this.prev = prev;
                         } else {
-                            prev.hide().then(this.show);
+
+                            active = prev;
+
+                            if (prev.isToggled()) {
+                                prev.hide().then(this.show);
+                            } else {
+                                uikitUtil.once(prev.$el, 'beforeshow hidden', this.show, false, function (ref) {
+                                    var target = ref.target;
+                                    var type = ref.type;
+
+                                    return type === 'hidden' && target === prev.$el;
+                                });
+                            }
                             e.preventDefault();
-                            return;
+
                         }
+
+                        return;
                     }
 
                     registerEvents();
-
-                }
-
-            },
-
-            {
-                name: 'beforehide',
-
-                self: true,
-
-                handler: function() {
-
-                    active = active && active !== this && active || this.prev;
-
-                    if (!active) {
-                        deregisterEvents();
-                    }
 
                 }
 
@@ -493,6 +504,20 @@
 
             {
 
+                name: 'hide',
+
+                self: true,
+
+                handler: function() {
+                    if (!active || active === this) {
+                        deregisterEvents();
+                    }
+                }
+
+            },
+
+            {
+
                 name: 'hidden',
 
                 self: true,
@@ -505,23 +530,30 @@
                     var ref = this;
                     var prev = ref.prev;
 
-                    while (prev) {
+                    active = active && active !== this && active || prev;
 
-                        if (prev.clsPage === this$1.clsPage) {
-                            found = true;
-                            break;
+                    if (!active) {
+
+                        uikitUtil.css(document.body, 'overflowY', '');
+
+                    } else {
+                        while (prev) {
+
+                            if (prev.clsPage === this$1.clsPage) {
+                                found = true;
+                                break;
+                            }
+
+                            prev = prev.prev;
+
                         }
-
-                        prev = prev.prev;
 
                     }
 
                     if (!found) {
                         uikitUtil.removeClass(document.documentElement, this.clsPage);
-
                     }
 
-                    !this.prev && uikitUtil.css(document.body, 'overflowY', '');
                 }
 
             }
@@ -542,35 +574,20 @@
 
                 if (this.container && this.$el.parentNode !== this.container) {
                     uikitUtil.append(this.container, this.$el);
-                    this._callConnected();
+                    return uikitUtil.Promise.resolve().then(this.show);
                 }
 
-                return this.toggleNow(this.$el, true);
+                return this.toggleElement(this.$el, true, animate(this));
             },
 
             hide: function() {
                 return this.isToggled()
-                    ? this.toggleNow(this.$el, false)
+                    ? this.toggleElement(this.$el, false, animate(this))
                     : uikitUtil.Promise.resolve();
             },
 
             getActive: function() {
                 return active;
-            },
-
-            _toggleImmediate: function(el, show) {
-                var this$1 = this;
-
-                return new uikitUtil.Promise(function (resolve) { return requestAnimationFrame(function () {
-                        this$1._toggle(el, show);
-
-                        if (this$1.transitionDuration) {
-                            uikitUtil.once(this$1.transitionElement, 'transitionend', resolve, false, function (e) { return e.target === this$1.transitionElement; });
-                        } else {
-                            resolve();
-                        }
-                    }); }
-                );
             }
 
         }
@@ -606,6 +623,25 @@
     function deregisterEvents() {
         events && events.forEach(function (unbind) { return unbind(); });
         events = null;
+    }
+
+    function animate(ref) {
+        var transitionElement = ref.transitionElement;
+        var _toggle = ref._toggle;
+
+        return function (el, show) { return new uikitUtil.Promise(function (resolve, reject) { return uikitUtil.once(el, 'show hide', function () {
+                    el._reject && el._reject();
+                    el._reject = reject;
+
+                    _toggle(el, show);
+
+                    if (uikitUtil.toMs(uikitUtil.css(transitionElement, 'transitionDuration'))) {
+                        uikitUtil.once(transitionElement, 'transitionend', resolve, false, function (e) { return e.target === transitionElement; });
+                    } else {
+                        resolve();
+                    }
+                }); }
+            ); };
     }
 
     function Transitioner(prev, next, dir, ref) {
@@ -686,7 +722,7 @@
             },
 
             getDistance: function() {
-                return prev.offsetWidth;
+                return prev && prev.offsetWidth;
             }
 
         };
@@ -803,12 +839,16 @@
 
     var SliderDrag = {
 
-        data: {
-            threshold: 10,
-            preventCatch: false
+        props: {
+            draggable: Boolean
         },
 
-        init: function() {
+        data: {
+            draggable: true,
+            threshold: 10
+        },
+
+        created: function() {
             var this$1 = this;
 
 
@@ -841,10 +881,10 @@
 
                 handler: function(e) {
 
-                    if (!uikitUtil.isTouch(e) && hasTextNodesOnly(e.target)
+                    if (!this.draggable
+                        || !uikitUtil.isTouch(e) && hasTextNodesOnly(e.target)
                         || e.button > 0
                         || this.length < 2
-                        || this.preventCatch
                     ) {
                         return;
                     }
@@ -1062,29 +1102,25 @@
 
         },
 
-        update: [
+        update: {
 
-            {
-
-                write: function() {
-                    var this$1 = this;
+            write: function() {
+                var this$1 = this;
 
 
-                    if (this.nav && this.length !== this.nav.children.length) {
-                        uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href=\"#\"></a></li>"); }).join(''));
-                    }
+                if (this.nav && this.length !== this.nav.children.length) {
+                    uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href=\"#\"></a></li>"); }).join(''));
+                }
 
-                    uikitUtil.toggleClass(uikitUtil.$$(this.navItemSelector, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
+                uikitUtil.toggleClass(uikitUtil.$$(this.navItemSelector, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
 
-                    this.updateNav();
+                this.updateNav();
 
-                },
+            },
 
-                events: ['load', 'resize']
+            events: ['load', 'resize']
 
-            }
-
-        ],
+        },
 
         events: [
 
@@ -1504,7 +1540,11 @@
 
                 self: true,
 
-                handler: 'showControls'
+                handler: function() {
+                    this.startAutoplay();
+                    this.showControls();
+                }
+
             },
 
             {
@@ -1515,6 +1555,7 @@
 
                 handler: function() {
 
+                    this.stopAutoplay();
                     this.hideControls();
 
                     uikitUtil.removeClass(this.slides, this.clsActive);
@@ -1556,7 +1597,7 @@
                         return;
                     }
 
-                    this.preventCatch = true;
+                    this.draggable = false;
 
                     e.preventDefault();
 
@@ -1600,7 +1641,7 @@
                 name: 'itemshown',
 
                 handler: function() {
-                    this.preventCatch = false;
+                    this.draggable = this.$props.draggable;
                 }
 
             },

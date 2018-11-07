@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.16 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.21 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
@@ -155,6 +155,10 @@
         name.split(' ').forEach(function (name) { return element.forEach(function (element) { return element.removeAttribute(name); }
             ); }
         );
+    }
+
+    function find(selector, context) {
+        return toNode(_query(selector, context, 'querySelector'));
     }
 
     function findAll(selector, context) {
@@ -374,9 +378,20 @@
                         : toNodes(target);
     }
 
+    /* global DocumentTouch */
+
+    var isIE = /msie|trident/i.test(window.navigator.userAgent);
+    var isRtl = attr(document.documentElement, 'dir') === 'rtl';
+
+    var hasTouchEvents = 'ontouchstart' in window;
+    var hasPointerEvents = window.PointerEvent;
+    var hasTouch = hasTouchEvents
+        || window.DocumentTouch && document instanceof DocumentTouch
+        || navigator.maxTouchPoints; // IE >=11
+
     function prepend(parent, element) {
 
-        parent = toNode(parent);
+        parent = $(parent);
 
         if (!parent.hasChildNodes()) {
             return append(parent, element);
@@ -386,7 +401,7 @@
     }
 
     function append(parent, element) {
-        parent = toNode(parent);
+        parent = $(parent);
         return insertNodes(element, function (element) { return parent.appendChild(element); });
     }
 
@@ -404,9 +419,9 @@
 
     function fragment(html) {
 
-        var matches = singleTagRe.exec(html);
-        if (matches) {
-            return document.createElement(matches[1]);
+        var matches$$1 = singleTagRe.exec(html);
+        if (matches$$1) {
+            return document.createElement(matches$$1[1]);
         }
 
         var container = document.createElement('div');
@@ -418,6 +433,18 @@
 
         return container.childNodes.length > 1 ? toNodes(container.childNodes) : container.firstChild;
 
+    }
+
+    function $(selector, context) {
+        return !isString(selector)
+            ? toNode(selector)
+            : isHtml(selector)
+                ? toNode(fragment(selector))
+                : find(selector, context);
+    }
+
+    function isHtml(str) {
+        return str[0] === '<' || str.match(/^\s*</);
     }
 
     function addClass(element) {
@@ -560,6 +587,67 @@
         }
     }
 
+    /*
+        Based on:
+        Copyright (c) 2016 Wilson Page wilsonpage@me.com
+        https://github.com/wilsonpage/fastdom
+    */
+
+    var fastdom = {
+
+        reads: [],
+        writes: [],
+
+        read: function(task) {
+            this.reads.push(task);
+            scheduleFlush();
+            return task;
+        },
+
+        write: function(task) {
+            this.writes.push(task);
+            scheduleFlush();
+            return task;
+        },
+
+        clear: function(task) {
+            return remove$1(this.reads, task) || remove$1(this.writes, task);
+        },
+
+        flush: function() {
+
+            runTasks(this.reads);
+            runTasks(this.writes.splice(0, this.writes.length));
+
+            this.scheduled = false;
+
+            if (this.reads.length || this.writes.length) {
+                scheduleFlush();
+            }
+
+        }
+
+    };
+
+    function scheduleFlush() {
+        if (!fastdom.scheduled) {
+            fastdom.scheduled = true;
+            requestAnimationFrame(fastdom.flush.bind(fastdom));
+        }
+    }
+
+    function runTasks(tasks) {
+        var task;
+        while ((task = tasks.shift())) {
+            task();
+        }
+    }
+
+    function remove$1(array, item) {
+        var index = array.indexOf(item);
+        return !!~index && !!array.splice(index, 1);
+    }
+
     /* global UIkit */
 
     var storage = window.sessionStorage;
@@ -583,6 +671,12 @@
         styles[theme] = themes[theme];
     }
 
+    var variations = {
+        '': 'Default',
+        light: 'Dark',
+        dark: 'Light'
+    };
+
     if (getParam('style') && getParam('style').match(/\.(json|css)$/)) {
         styles.custom = getParam('style');
     }
@@ -593,7 +687,7 @@
     var dir = storage._uikit_dir || 'ltr';
 
     // set dir
-    attr(docEl, 'dir', dir);
+    docEl.dir = dir;
 
     var style$1 = styles[storage[key]] || styles.theme;
 
@@ -604,117 +698,112 @@
     document.writeln('<script src="../dist/js/uikit.js"></script>');
     document.writeln(("<script src=\"" + (style$1.icons ? style$1.icons : '../dist/js/uikit-icons.js') + "\"></script>"));
 
-    on(window, 'load', function () { return setTimeout(function () {
+    on(window, 'load', function () { return setTimeout(function () { return fastdom.write(function () {
 
         var $body = document.body;
-        var $container = prepend($body, '<div class="uk-container"></div>');
-        var $tests = css(append($container, '<select class="uk-select uk-form-width-small"></select>'), 'margin', '20px 20px 20px 0');
-        var $styles = css(append($container, '<select class="uk-select uk-form-width-small"></select>'), 'margin', '20px');
-        var $inverse = css(append($container, '<select class="uk-select uk-form-width-small"></select>'), 'margin', '20px');
-        var $rtl = css(append($container, '<label></label>'), 'margin', '20px');
+        var $container = prepend($body, (" <div class=\"uk-container\"> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px 20px 20px 0\"> <option value=\"index.html\">Overview</option> " + ([
+                        'accordion',
+                        'alert',
+                        'align',
+                        'animation',
+                        'article',
+                        'background',
+                        'badge',
+                        'base',
+                        'breadcrumb',
+                        'button',
+                        'card',
+                        'close',
+                        'column',
+                        'comment',
+                        'container',
+                        'countdown',
+                        'cover',
+                        'description-list',
+                        'divider',
+                        'dotnav',
+                        'drop',
+                        'dropdown',
+                        'filter',
+                        'flex',
+                        'form',
+                        'grid',
+                        'grid-masonry',
+                        'grid-parallax',
+                        'heading',
+                        'height',
+                        'height-expand',
+                        'height-viewport',
+                        'icon',
+                        'iconnav',
+                        'image',
+                        'label',
+                        'leader',
+                        'lightbox',
+                        'link',
+                        'list',
+                        'margin',
+                        'marker',
+                        'modal',
+                        'nav',
+                        'navbar',
+                        'notification',
+                        'offcanvas',
+                        'overlay',
+                        'padding',
+                        'pagination',
+                        'parallax',
+                        'position',
+                        'placeholder',
+                        'progress',
+                        'scroll',
+                        'scrollspy',
+                        'search',
+                        'section',
+                        'slidenav',
+                        'slider',
+                        'slideshow',
+                        'sortable',
+                        'spinner',
+                        'sticky',
+                        'sticky-navbar',
+                        'subnav',
+                        'svg',
+                        'switcher',
+                        'tab',
+                        'table',
+                        'text',
+                        'thumbnav',
+                        'tile',
+                        'toggle',
+                        'tooltip',
+                        'totop',
+                        'transition',
+                        'utility',
+                        'upload',
+                        'video',
+                        'visibility',
+                        'width'
+                    ].sort().map(function (name) { return ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(styles).map(function (style) { return ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(variations).map(function (name) { return ("<option value=\"" + name + "\">" + (variations[name]) + "</option>"); }).join('')) + "         </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> "));
+
+        var ref = $container.children;
+        var $tests = ref[0];
+        var $styles = ref[1];
+        var $inverse = ref[2];
+        var $rtl = ref[3];
 
         // Tests
         // ------------------------------
-
-        [
-            'accordion',
-            'alert',
-            'align',
-            'animation',
-            'article',
-            'background',
-            'badge',
-            'base',
-            'breadcrumb',
-            'button',
-            'card',
-            'close',
-            'column',
-            'comment',
-            'container',
-            'countdown',
-            'cover',
-            'description-list',
-            'divider',
-            'dotnav',
-            'drop',
-            'dropdown',
-            'filter',
-            'flex',
-            'form',
-            'grid',
-            'grid-masonry',
-            'grid-parallax',
-            'heading',
-            'height',
-            'height-expand',
-            'height-viewport',
-            'icon',
-            'iconnav',
-            'image',
-            'label',
-            'leader',
-            'lightbox',
-            'link',
-            'list',
-            'margin',
-            'marker',
-            'modal',
-            'nav',
-            'navbar',
-            'notification',
-            'offcanvas',
-            'overlay',
-            'padding',
-            'pagination',
-            'parallax',
-            'position',
-            'placeholder',
-            'progress',
-            'scroll',
-            'scrollspy',
-            'search',
-            'section',
-            'slidenav',
-            'slider',
-            'slideshow',
-            'sortable',
-            'spinner',
-            'sticky',
-            'sticky-navbar',
-            'subnav',
-            'svg',
-            'switcher',
-            'tab',
-            'table',
-            'text',
-            'thumbnav',
-            'tile',
-            'toggle',
-            'tooltip',
-            'totop',
-            'transition',
-            'utility',
-            'upload',
-            'video',
-            'visibility',
-            'width'
-        ].sort().forEach(function (name) { return append($tests, ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>")); });
 
         on($tests, 'change', function () {
             if ($tests.value) {
                 location.href = "" + ($tests.value) + (styles.custom ? ("?style=" + (getParam('style'))) : '');
             }
         });
-
         $tests.value = component && (component + ".html");
-
-        prepend($tests, '<option value="index.html">Overview</option>');
 
         // Styles
         // ------------------------------
-
-        Object.keys(styles).forEach(function (style) { return append($styles, ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>")); });
 
         on($styles, 'change', function () {
             storage[key] = $styles.value;
@@ -724,14 +813,6 @@
 
         // Variations
         // ------------------------------
-
-        var variations = {
-            '': 'Default',
-            'light': 'Dark',
-            'dark': 'Light'
-        };
-
-        Object.keys(variations).forEach(function (name) { return append($inverse, ("<option value=\"" + name + "\">" + (variations[name]) + "</option>")); });
 
         $inverse.value = storage[keyinverse];
 
@@ -768,21 +849,19 @@
         // RTL
         // ------------------------------
 
-        append($rtl, '<input type="checkbox" class="uk-checkbox" />');
-        append($rtl, '<span style="margin:5px;">RTL</span>');
         on($rtl, 'change', function (ref) {
             var target = ref.target;
 
             storage._uikit_dir = target.checked ? 'rtl' : 'ltr';
             location.reload();
         });
-
         $rtl.firstElementChild.checked = dir === 'rtl';
 
         css(docEl, 'paddingTop', '');
-    }, 100); });
 
-    docEl.style.paddingTop = '80px';
+    }); }, 100); });
+
+    css(docEl, 'paddingTop', '80px');
 
     function getParam(name) {
         var match = new RegExp(("[?&]" + name + "=([^&]*)")).exec(window.location.search);
