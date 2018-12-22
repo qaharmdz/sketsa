@@ -7,16 +7,16 @@
 // Variables
 // ========================================================================
 
-@table-cell-font-size:                          @global-small-font-size;
+@table-cell-font-size:                          0.92rem;
 @table-cell-padding-vertical:                   10px;
 @table-cell-padding-horizontal:                 6px;
 
-@table-header-cell-font-size:                   @table-cell-font-size;
+@table-header-cell-font-size:                   @global-small-font-size;
 @table-header-cell-color:                       @global-color;
 @table-header-cell-font-weight:                 600;
 
-@table-footer-font-size:                        @table-cell-font-size;
-@table-caption-font-size:                       @table-cell-font-size;
+@table-footer-font-size:                        @table-header-cell-font-size;
+@table-caption-font-size:                       @table-header-cell-font-size;
 
 @table-row-primary-background:                  #e9f0ff;
 @table-row-secondary-background:                #ddd;
@@ -54,28 +54,24 @@
         border-bottom: @table-striped-border-width solid @table-striped-border;
     }
 
-    .uk-table > tr.ux-row-primary,
-    .uk-table tbody tr.ux-row-primary {
+    .uk-table > tr.uk-row-primary,
+    .uk-table tbody tr.uk-row-primary {
         background: @table-row-primary-background;
     }
-    .uk-table > tr.ux-row-secondary,
-    .uk-table tbody tr.ux-row-secondary {
+    .uk-table > tr.uk-row-secondary,
+    .uk-table tbody tr.uk-row-secondary {
         background: @table-row-secondary-background;
     }
-    .uk-table > tr.ux-row-success,
-    .uk-table tbody tr.ux-row-success {
+    .uk-table > tr.uk-row-success,
+    .uk-table tbody tr.uk-row-success {
         background: @table-row-success-background;
     }
-    .uk-table > tr.ux-row-warning,
-    .uk-table tbody tr.ux-row-warning {
+    .uk-table > tr.uk-row-warning,
+    .uk-table tbody tr.uk-row-warning {
         background: @table-row-warning-background;
     }
-    .uk-table > tr.ux-row-danger,
-    .uk-table tbody tr.ux-row-danger {
+    .uk-table > tr.uk-row-danger,
+    .uk-table tbody tr.uk-row-danger {
         background: @table-row-danger-background;
-    }
-
-    .uk-table .uk-text-meta {
-        font-size: @extra-mini-font-size;
     }
 }
