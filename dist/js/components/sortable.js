@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.21 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -163,8 +163,6 @@
 
     };
 
-    var obj;
-
     var Component = {
 
         mixins: [Class, Animate],
@@ -214,7 +212,13 @@
             });
         },
 
-        events: ( obj = {}, obj[uikitUtil.pointerDown] = 'init', obj ),
+        events: {
+
+            name: uikitUtil.pointerDown,
+            passive: false,
+            handler: 'init'
+
+        },
 
         update: {
 
@@ -260,7 +264,7 @@
                 var placeholder = ref[0];
 
                 if (!placeholder
-                    || uikitUtil.isInput(e.target)
+                    || uikitUtil.isInput(target)
                     || this.handle && !uikitUtil.within(target, this.handle)
                     || button > 0
                     || uikitUtil.within(target, ("." + (this.clsNoDrag)))
@@ -359,9 +363,8 @@
                 uikitUtil.off(window, 'scroll', this.scroll);
 
                 if (!this.drag) {
-
-                    if (e.type !== 'mouseup' && uikitUtil.within(e.target, 'a[href]')) {
-                        location.href = uikitUtil.closest(e.target, 'a[href]').href;
+                    if (e.type === 'touchend') {
+                        e.target.click();
                     }
 
                     return;

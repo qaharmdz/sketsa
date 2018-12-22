@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.21 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -509,7 +509,7 @@
                 self: true,
 
                 handler: function() {
-                    if (!active || active === this) {
+                    if (!active || active === this && !this.prev) {
                         deregisterEvents();
                     }
                 }
@@ -567,6 +567,8 @@
             },
 
             show: function() {
+                var this$1 = this;
+
 
                 if (this.isToggled()) {
                     return uikitUtil.Promise.resolve();
@@ -574,7 +576,9 @@
 
                 if (this.container && this.$el.parentNode !== this.container) {
                     uikitUtil.append(this.container, this.$el);
-                    return uikitUtil.Promise.resolve().then(this.show);
+                    return new uikitUtil.Promise(function (resolve) { return requestAnimationFrame(function () { return this$1.show().then(resolve); }
+                        ); }
+                    );
                 }
 
                 return this.toggleElement(this.$el, true, animate(this));
@@ -749,6 +753,7 @@
 
         connected: function() {
             this.startAutoplay();
+            this.userInteracted = false;
         },
 
         disconnected: function() {
@@ -776,7 +781,10 @@
             {
 
                 name: uikitUtil.pointerDown,
-                handler: 'stopAutoplay'
+                handler: function() {
+                    this.userInteracted = true;
+                    this.stopAutoplay();
+                }
 
             },
 
@@ -818,7 +826,7 @@
 
                 this.stopAutoplay();
 
-                if (this.autoplay) {
+                if (this.autoplay && !this.userInteracted) {
                     this.interval = setInterval(
                         function () { return !(this$1.isHovering && this$1.pauseOnHover) && !this$1.stack.length && this$1.show('next'); },
                         this.autoplayInterval
@@ -1566,6 +1574,18 @@
 
             {
 
+                name: 'hidden',
+
+                self: true,
+
+                handler: function() {
+                    this.$destroy(true);
+                }
+
+            },
+
+            {
+
                 name: 'keyup',
 
                 el: document,
@@ -1680,10 +1700,13 @@
                         var video = uikitUtil.$(("<video controls playsinline" + (item.poster ? (" poster=\"" + (item.poster) + "\"") : '') + " uk-video=\"" + (this.videoAutoplay) + "\"></video>"));
                         uikitUtil.attr(video, 'src', source);
 
-                        uikitUtil.on(video, 'error', function () { return this$1.setError(item); });
-                        uikitUtil.on(video, 'loadedmetadata', function () {
-                            uikitUtil.attr(video, {width: video.videoWidth, height: video.videoHeight});
-                            this$1.setItem(item, video);
+                        uikitUtil.once(video, 'error loadedmetadata', function (type) {
+                            if (type === 'error') {
+                                this$1.setError(item);
+                            } else {
+                                uikitUtil.attr(video, {width: video.videoWidth, height: video.videoHeight});
+                                this$1.setItem(item, video);
+                            }
                         });
 
                         // Iframe
@@ -1820,7 +1843,7 @@
         },
 
         disconnected: function() {
-            this._destroy();
+            this.hide();
         },
 
         events: [
@@ -1852,15 +1875,17 @@
             }
 
             data.toggles = this.toggles;
-            this._destroy();
-            this._init();
+            this.panel.hide();
 
         },
 
         methods: {
 
-            _init: function() {
-                return this.panel = this.panel || this.$create('lightboxPanel', uikitUtil.assign({}, this.$props, {
+            show: function(index) {
+                var this$1 = this;
+
+
+                this.panel = this.panel || this.$create('lightboxPanel', uikitUtil.assign({}, this.$props, {
                     items: this.toggles.reduce(function (items, el) {
                         items.push(['href', 'caption', 'type', 'poster', 'alt'].reduce(function (obj, attr) {
                             obj[attr === 'href' ? 'source' : attr] = uikitUtil.data(el, attr);
@@ -1869,23 +1894,9 @@
                         return items;
                     }, [])
                 }));
-            },
 
-            _destroy: function() {
-                if (this.panel) {
-                    this.panel.$destroy(true);
-                    this.panel = null;
-                }
-            },
-
-            show: function(index) {
-
-                if (!this.panel) {
-                    this._init();
-                }
-
+                uikitUtil.on(this.panel.$el, 'hidden', function () { return this$1.panel = false; });
                 return this.panel.show(index);
-
             },
 
             hide: function() {

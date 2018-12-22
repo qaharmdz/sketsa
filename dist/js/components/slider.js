@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.21 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -30,6 +30,7 @@
 
         connected: function() {
             this.startAutoplay();
+            this.userInteracted = false;
         },
 
         disconnected: function() {
@@ -57,7 +58,10 @@
             {
 
                 name: uikitUtil.pointerDown,
-                handler: 'stopAutoplay'
+                handler: function() {
+                    this.userInteracted = true;
+                    this.stopAutoplay();
+                }
 
             },
 
@@ -99,7 +103,7 @@
 
                 this.stopAutoplay();
 
-                if (this.autoplay) {
+                if (this.autoplay && !this.userInteracted) {
                     this.interval = setInterval(
                         function () { return !(this$1.isHovering && this$1.pauseOnHover) && !this$1.stack.length && this$1.show('next'); },
                         this.autoplayInterval

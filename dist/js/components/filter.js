@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.21 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -316,7 +316,7 @@
                     delete state.filter[''];
                     state.filter[group] = filter;
                 } else {
-                    state.filter = {'': filter};
+                    state.filter = {'': filter || ''};
                 }
 
             }
@@ -330,20 +330,23 @@
     }
 
     function matchFilter(el, attr, ref) {
-        var stateFilter = ref.filter;
+        var stateFilter = ref.filter; if ( stateFilter === void 0 ) stateFilter = {'': ''};
         var ref_sort = ref.sort;
         var stateSort = ref_sort[0];
         var stateOrder = ref_sort[1];
+
 
         var ref$1 = getFilter(el, attr);
         var filter = ref$1.filter;
         var group = ref$1.group; if ( group === void 0 ) group = '';
         var sort = ref$1.sort;
         var order = ref$1.order; if ( order === void 0 ) order = 'asc';
-        return Boolean(
-            (filter || uikitUtil.isUndefined(sort)) && group in stateFilter && (filter === stateFilter[group] || uikitUtil.isUndefined(filter) && !stateFilter[group])
-            || stateSort && sort && stateSort === sort && stateOrder === order
-        );
+
+        filter = uikitUtil.isUndefined(sort) ? filter || '' : filter;
+        sort = uikitUtil.isUndefined(filter) ? sort || '' : sort;
+
+        return (uikitUtil.isUndefined(filter) || group in stateFilter && filter === stateFilter[group])
+            && (uikitUtil.isUndefined(sort) || stateSort === sort && stateOrder === order);
     }
 
     function isEqualList(listA, listB, strict) {
