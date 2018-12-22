@@ -784,7 +784,7 @@
                         'video',
                         'visibility',
                         'width'
-                    ].sort().map(function (name) { return ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(styles).map(function (style) { return ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(variations).map(function (name) { return ("<option value=\"" + name + "\">" + (variations[name]) + "</option>"); }).join('')) + "         </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> "));
+                    ].sort().map(function (name) { return ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(styles).map(function (style) { return ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(variations).map(function (name) { return ("<option value=\"" + name + "\">" + (variations[name]) + "</option>"); }).join('')) + " </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> "));
 
         var ref = $container.children;
         var $tests = ref[0];
