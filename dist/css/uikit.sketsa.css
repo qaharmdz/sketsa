@@ -277,7 +277,7 @@ h2,
 }
 h3,
 .uk-h3 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.4;
 }
 h4,
@@ -398,7 +398,7 @@ blockquote footer::before {
  * 1. Contain overflow in all browsers.
  */
 pre {
-  font: 13px / 1.5 Consolas, monaco, monospace;
+  font: 0.86rem / 1.5 Consolas, monaco, monospace;
   color: #444;
   -moz-tab-size: 4;
   tab-size: 4;
@@ -407,8 +407,7 @@ pre {
   padding: 10px;
   border: 1px solid #d4d4d4;
   border-radius: 3px;
-  background: #fff;
-  background-color: #fafafa;
+  background: #f7f8f9;
 }
 pre code {
   font-family: Consolas, monaco, monospace;
@@ -465,6 +464,36 @@ template {
   --uk-breakpoint-m: 960px;
   --uk-breakpoint-l: 1200px;
   --uk-breakpoint-xl: 1600px;
+}
+:root {
+  --uk-font-family-heading: 'Roboto Condensed', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --uk-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --uk-font-size: 14.2px;
+  --uk-font-color: #444;
+  --uk-font-color-inverse: #fff;
+  --uk-red: #f53123;
+  --uk-pink: #ff387b;
+  --uk-purple: #9c27b0;
+  --uk-purple-deep: #673ab7;
+  --uk-indigo: #3f51b5;
+  --uk-blue: #1e87f0;
+  --uk-blue-light: #03a9f4;
+  --uk-cyan: #00bcd4;
+  --uk-teal: #009688;
+  --uk-green: #40bb45;
+  --uk-green-light: #94de3d;
+  --uk-lime: #cddc39;
+  --uk-yellow: #ffeb3b;
+  --uk-amber: #ffc107;
+  --uk-orange: #ff9800;
+  --uk-orange-deep: #ff5722;
+  --uk-brown: #795548;
+  --uk-gray: #9e9e9e;
+  --uk-gray-light: #f4f4f4;
+  --uk-gray-blue: #607d8b;
+  --uk-gray-deep: #2b2b2b;
+  --uk-gray-dark: #222;
+  --uk-blackjack: #111;
 }
 *,
 *:before,
@@ -1743,7 +1772,7 @@ td .uk-checkbox {
   /* 3 */
   padding: 0;
   /* 4 */
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.4;
   font-family: 'Roboto Condensed', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: normal;
@@ -3001,7 +3030,7 @@ td .uk-checkbox {
 /* Title
  ========================================================================== */
 .uk-card-title {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.4;
 }
 /* Badge
@@ -3307,7 +3336,7 @@ td .uk-checkbox {
   padding: 15px 35px 15px 15px;
   background: #f4f4f4;
   color: #444;
-  font-size: 0.9rem;
+  font-size: 14.2px;
   line-height: 1.5;
   border-left: 4px solid #bbbbbb;
 }
@@ -3417,6 +3446,10 @@ td .uk-checkbox {
 .uk-alert-noclose.uk-alert-small {
   padding: 10px;
 }
+.uk-alert-noclose .uk-alert-close,
+.uk-alert-noclose:hover .uk-alert-close {
+  display: none;
+}
 /* ========================================================================
    Component: Badge
  ========================================================================== */
@@ -3434,11 +3467,12 @@ td .uk-checkbox {
   /* 1 */
   background: #1e87f0;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   /* 2 */
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  line-height: 1.8;
 }
 /*
  * Required for `a`
@@ -3470,7 +3504,7 @@ td .uk-checkbox {
   display: inline-block;
   padding: 0 10px;
   background: #1e87f0;
-  line-height: 1.5;
+  line-height: 1.6;
   font-size: 0.86rem;
   color: #fff;
   vertical-align: middle;
@@ -3827,7 +3861,7 @@ td .uk-checkbox {
 .uk-search-navbar .uk-search-input {
   height: 40px;
   background: transparent;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 /*
  * Icon
@@ -4007,7 +4041,7 @@ ul.uk-nav-sub {
  * Items
  */
 .uk-nav-primary > li > a {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.5;
   color: #888;
 }
@@ -4205,7 +4239,7 @@ ul.uk-nav-sub {
 .uk-navbar-nav > li > a.uk-open {
   color: #444;
   outline: none;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.07);
 }
 /* OnClick */
 .uk-navbar-nav > li > a:active {
@@ -4231,7 +4265,7 @@ ul.uk-nav-sub {
   color: #444;
   outline: none;
   text-decoration: none;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.07);
 }
 /*
  * Icon
@@ -6057,7 +6091,7 @@ ul.uk-nav-sub {
   position: relative;
   margin-bottom: 10px;
   padding: 15px;
-  background: #fdfdfd;
+  background: #fafbfc;
   color: #444;
   font-size: 0.9rem;
   line-height: 1.5;
@@ -7771,9 +7805,10 @@ ul.uk-nav-sub {
 /* Style modifiers
  ========================================================================== */
 .uk-text-lead {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.5;
   color: #222;
+  font-weight: 300;
 }
 .uk-text-meta {
   font-size: 0.9rem;
@@ -7794,7 +7829,7 @@ ul.uk-nav-sub {
   line-height: 1.5;
 }
 .uk-text-large {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.5;
 }
 /* Weight modifier
@@ -8312,7 +8347,7 @@ iframe.uk-cover {
   color: #fff;
 }
 .uk-background-pink {
-  background-color: #fd1d69;
+  background-color: #ff387b;
 }
 .uk-background-pink.uk-contrast,
 .uk-background-pink .uk-contrast {
@@ -8870,7 +8905,7 @@ iframe.uk-cover {
  * 1. Required for `a`
  */
 .uk-logo {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #444;
   /* 1 */
