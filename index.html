@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sketsa</title>
+  <title>UIkit Sketsa Theme</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="dist/css/uikit.sketsa.min.css" />
-  <script src="jquery-3.3.1.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="dist/js/uikit.min.js"></script>
   <script>sessionStorage.setItem('_uikit_style', 'sketsa');</script>
 
@@ -18,14 +19,17 @@
   .uk-navbar-nav > li > a {
     min-height: 36px;
   }
+  .uk-navbar-nav .uk-active,
+  .uk-icon-button.uk-active {
+    background-color: #e7e7e7;
+  }
   .preview-container {
     position: relative;
     width: 100%;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 76px);
     margin: 0 auto;
     transition: .3s ease-out;
     transition-property: width,height;
-    box-shadow: 2px 2px 25px 0 rgba(0,0,0,0.15);
   }
   .preview-container > iframe {
     border: 0;
@@ -45,28 +49,28 @@
 <div class="uk-container uk-container-expand">
   <div class="preview-control">
     <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+
       <div class="uk-navbar-left">
-
         <ul class="uk-navbar-nav">
+          <li><a href="index.html" class="uk-hidden@m">Sketsa</a></li>
           <li><a href="tests/" target="device-preview">Theme Test</a></li>
-          <li><a href="extra.html" target="device-preview">Extra Class</a></li>
-          <li><a href="playground.html" target="device-preview">Playground</a></li>
+          <li><a href="gh-extra.html" target="device-preview">Extra Style</a></li>
         </ul>
-
       </div>
 
-      <div class="uk-navbar-center">
-        <h2>Sketsa</h2>
+      <div class="uk-navbar-center uk-visible@m">
+        <h2><a href="index.html" class="uk-button uk-button-text" style="font-size:inherit">Sketsa</a></h2>
       </div>
 
       <div class="uk-navbar-right">
         <div class="uk-navbar-item">
-          <ul class="uk-grid-collapse" uk-grid="">
-            <li><a class="uk-icon-button uk-icon" data-device="desktop" href="#" uk-icon="tv"></a></li>
-            <li><a class="uk-icon-button uk-icon" data-device="tablet-landscape" href="#" uk-icon="tablet-landscape"></a></li>
-            <li><a class="uk-icon-button uk-icon" data-device="tablet" href="#" uk-icon="tablet"></a></li>
+          <ul class="uk-grid-collapse" uk-grid>
+            <li><a class="uk-icon-button uk-icon uk-visible@m" data-device="desktop" href="#" uk-icon="tv"></a></li>
+            <li><a class="uk-icon-button uk-icon uk-visible@m" data-device="tablet-landscape" href="#" uk-icon="tablet-landscape"></a></li>
+            <li><a class="uk-icon-button uk-icon uk-visible@m" data-device="tablet" href="#" uk-icon="tablet"></a></li>
             <li><a class="uk-icon-button uk-icon" data-device="phone-landscape" href="#" uk-icon="phone-landscape"></a></li>
             <li><a class="uk-icon-button uk-icon" data-device="phone" href="#" uk-icon="phone"></a></li>
+            <li><a class="uk-icon-button uk-icon" href="https://github.com/qaharmdz/sketsa" target="_blank" title="Sketsa Github page" uk-icon="github-alt"></a></li>
           </ul>
         </div>
       </div>
@@ -74,15 +78,22 @@
     </nav>
   </div>
 
-  <div class="preview-container">
-    <iframe name="device-preview" src="main.html" frameborder="0"></iframe>
+  <div class="preview-container uk-card-panel">
+    <iframe name="device-preview" src="gh-main.html" frameborder="0"></iframe>
   </div>
 </div>
 
 <script src="dist/js/uikit-icons.min.js"></script>
 <script>
 $(document).ready(function() {
+  $('.uk-navbar-left a').on('click', function() {
+    $('.uk-navbar-left li').removeClass('uk-active');
+    $(this).parent().addClass('uk-active');
+  });
+
   $('[data-device]').on('click', function() {
+    $('.uk-navbar-right a').removeClass('uk-active');
+    $(this).addClass('uk-active');
     $('.preview-container').removeClass('device-desktop device-tablet device-tablet-landscape device-phone device-phone-landscape').addClass('device-' + $(this).data('device'));
   });
 });

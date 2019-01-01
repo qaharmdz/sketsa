@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UIkit Extra Class</title>
+
+  <link rel="stylesheet" href="dist/css/uikit.sketsa.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="dist/js/uikit.min.js"></script>
+
+  <style>
+    .hljs {
+      background: inherit;
+    }
+  </style>
+</head>
+
+<body>
+<div class="uk-container uk-section-small">
+  <div class="uk-grid-divider" uk-grid>
+
+    <div class="uk-width-expand">
+      <h1>UIkit Extra Style</h1>
+      <p class="uk-text-lead">Additional style to make things get easier and better.</p>
+
+
+
+      <!--
+      ================================================================
+      Root
+      ================================================================
+      -->
+
+      <h2 id="root" class="uk-heading-divider">:root</h2>
+      <pre><code class="css">:root {
+  /* UIkit */
+  --uk-breakpoint-s: 640px;
+  --uk-breakpoint-m: 960px;
+  --uk-breakpoint-l: 1200px;
+  --uk-breakpoint-xl: 1600px;
+
+  /* Extra */
+  --uk-font-family-heading: 'Roboto Condensed',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --uk-font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --uk-font-size: 14.2px;
+  --uk-font-color: #444;
+  --uk-font-color-inverse: #fff;
+  --uk-red: #f53123;
+  --uk-pink: #ff387b;
+  --uk-purple: #9c27b0;
+  --uk-purple-deep: #673ab7;
+  --uk-indigo: #3f51b5;
+  --uk-blue: #1e87f0;
+  --uk-blue-light: #03a9f4;
+  --uk-cyan: #00bcd4;
+  --uk-teal: #009688;
+  --uk-green: #40bb45;
+  --uk-green-light: #94de3d;
+  --uk-lime: #cddc39;
+  --uk-yellow: #ffeb3b;
+  --uk-amber: #ffc107;
+  --uk-orange: #ff9800;
+  --uk-orange-deep: #ff5722;
+  --uk-brown: #795548;
+  --uk-gray: #9e9e9e;
+  --uk-gray-light: #f4f4f4;
+  --uk-gray-blue: #607d8b;
+  --uk-gray-deep: #2b2b2b;
+  --uk-gray-dark: #222;
+  --uk-blackjack: #111;
+}</code></pre>
+
+
+
+      <!--
+      ================================================================
+      ALERT
+      ================================================================
+      -->
+
+      <h2 id="alert" class="uk-heading-divider uk-margin-xlarge-top">Alert</h2>
+
+      <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-striped">
+          <thead>
+            <tr>
+              <th class="uk-width-250">Class</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.uk-alert-small</code></td>
+              <td>Smaller alert size</td>
+            </tr>
+            <tr>
+              <td><code>.uk-alert-noclose</code></td>
+              <td>Reset padding and hide close button</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="uk-margin-large-top" uk-tab>
+        <li><a href="#">Preview</a></li>
+        <li><a href="#">Markup</a></li>
+      </ul>
+      <ul class="uk-switcher uk-margin">
+
+        <li>
+
+          <div class="" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+          </div>
+          <div class="uk-alert-primary uk-alert-small" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+          </div>
+          <div class="uk-alert-warning uk-alert-small uk-alert-noclose" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+          </div>
+
+        </li>
+
+        <li>
+        <pre><code class="html">&lt;div class="" uk-alert>
+  &lt;a class="uk-alert-close" uk-close>&lt;/a>
+  &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.&lt;/p>
+&lt;/div>
+
+&lt;div class="uk-alert-primary uk-alert-small" uk-alert>
+  &lt;a class="uk-alert-close" uk-close>&lt;/a>
+  &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.&lt;/p>
+&lt;/div>
+
+&lt;div class="uk-alert-warning uk-alert-small uk-alert-noclose" uk-alert>
+  &lt;a class="uk-alert-close" uk-close>&lt;/a>
+  &lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.&lt;/p>
+&lt;/div></code></pre>
+        </li>
+      </ul>
+
+
+
+      <!--
+      ================================================================
+      Background
+      ================================================================
+      -->
+
+      <h2 id="background" class="uk-heading-divider uk-margin-xlarge-top">Background</h2>
+
+      <p>Use <code>uk-background-*</code> to change background color (can be applied to other component). Add <code>uk-contrast</code> to adjust text color.</p>
+
+      <div class="uk-child-width-1-3@s uk-child-width-1-5@m uk-text-center uk-grid-small" uk-grid>
+        <div><div class="uk-background-red uk-contrast uk-padding-small">red</div></div>
+        <div><div class="uk-background-pink uk-contrast uk-padding-small">pink</div></div>
+        <div><div class="uk-background-purple uk-contrast uk-padding-small">purple</div></div>
+        <div><div class="uk-background-purple-deep uk-contrast uk-padding-small">purple-deep</div></div>
+        <div><div class="uk-background-indigo uk-contrast uk-padding-small">indigo</div></div>
+        <div><div class="uk-background-blue uk-contrast uk-padding-small">blue</div></div>
+        <div><div class="uk-background-blue-light uk-contrast uk-padding-small">blue-light</div></div>
+        <div><div class="uk-background-cyan uk-contrast uk-padding-small">cyan</div></div>
+        <div><div class="uk-background-teal uk-contrast uk-padding-small">teal</div></div>
+        <div><div class="uk-background-green uk-contrast uk-padding-small">green</div></div>
+        <div><div class="uk-background-green-light uk-contrast uk-padding-small">green-light</div></div>
+        <div><div class="uk-background-lime uk-contrast uk-padding-small">lime</div></div>
+        <div><div class="uk-background-yellow uk-contrast uk-padding-small">yellow</div></div>
+        <div><div class="uk-background-amber uk-contrast uk-padding-small">amber</div></div>
+        <div><div class="uk-background-orange uk-contrast uk-padding-small">orange</div></div>
+        <div><div class="uk-background-orange-deep uk-contrast uk-padding-small">orange-deep</div></div>
+        <div><div class="uk-background-brown uk-contrast uk-padding-small">brown</div></div>
+        <div><div class="uk-background-gray-light uk-contrast uk-padding-small">gray-light</div></div>
+        <div><div class="uk-background-gray uk-contrast uk-padding-small">gray</div></div>
+        <div><div class="uk-background-gray-blue uk-contrast uk-padding-small">gray-blue</div></div>
+        <div><div class="uk-background-gray-deep uk-contrast uk-padding-small">gray-deep</div></div>
+        <div><div class="uk-background-blackjack uk-contrast uk-padding-small">blackjack</div></div>
+      </div>
+
+      <h3 class="uk-heading-bullet">Alert</h3>
+      <p><code>uk-alert-(color) uk-background-*</code></p>
+
+      <div class="uk-alert-primary uk-background-gray-light" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <h3><span uk-icon="info"></span> Information Title</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus quisquam deleniti eos unde dolor. Dicta corrupti ullam aperiam maiores, neque cum ut. Sapiente neque maxime odio debitis, aliquid, laudantium rem?</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+
+      <div class="uk-alert-danger uk-background-gray-light uk-alert-small uk-alert-noclose" uk-alert>
+        <span class="uk-float-left" uk-icon="icon:warning;ratio:1.6"></span>
+        <p class="uk-margin-remove-top uk-margin-medium-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus quisquam deleniti eos unde dolor. Dicta corrupti ullam aperiam maiores, neque cum ut. Sapiente neque maxime odio debitis, aliquid, laudantium rem?</p>
+      </div>
+
+      <h3 class="uk-heading-bullet">Card</h3>
+      <div class="uk-child-width-1-2@s" uk-grid>
+          <div>
+              <div class="uk-text-center uk-margin">
+                  <code>uk-card-default uk-background-gray-light</code>
+              </div>
+              <div class="uk-card uk-card-default uk-card-body uk-background-gray-light">
+                  <div class="uk-card-badge uk-label">Badge</div>
+                  <h3 class="uk-card-title">Title</h3>
+                  <p>Lorem ipsum color sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              </div>
+          </div>
+          <div>
+              <div class="uk-text-center uk-margin">
+                  <code>uk-card-primary uk-background-purple</code>
+              </div>
+              <div class="uk-card uk-card-primary uk-card-body uk-background-purple uk-contrast">
+                  <div class="uk-card-badge uk-label">Badge</div>
+                  <h3 class="uk-card-title">Title</h3>
+                  <p>Lorem ipsum color sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              </div>
+          </div>
+      </div>
+
+      <div class="uk-child-width-1-3@m" uk-grid>
+        <div>
+          <div class="uk-card uk-card-default uk-box-shadow-small uk-card-hover">
+            <div class="uk-card-header uk-background-gray-light">
+              <h3 class="uk-card-title">Title</h3>
+            </div>
+            <div class="uk-card-body">
+              <p>Lorem ipsum color sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-header uk-background-teal uk-contrast">
+              <div class="uk-card-badge" style="margin-top:-15px">
+                <div><span uk-icon="cog"></span></div>
+                <div uk-dropdown="pos:bottom-right">
+                  <ul class="uk-nav uk-dropdown-nav">
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Item</a></li>
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </div>
+              </div>
+              <h3 class="uk-card-title uk-contrast">Title</h3>
+            </div>
+            <div class="uk-card-body">
+              <p>Lorem ipsum color sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-header uk-background-blue">
+              <div class="uk-card-badge uk-label uk-background-gray-light uk-contrast" style="margin-top:-11px">Badge</div>
+              <h3 class="uk-card-title uk-contrast">Title</h3>
+            </div>
+            <div class="uk-card-body uk-background-blue-light uk-contrast">
+              <p>Lorem ipsum color sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="uk-heading-bullet">Label</h3>
+      <p><code>uk-label uk-background-*</code></p>
+
+      <span class="uk-label">Default</span>
+      <span class="uk-label uk-label-success">Success</span>
+      <span class="uk-label uk-label-warning">Warning</span>
+      <span class="uk-label uk-label-danger">Danger</span>
+      <span class="uk-label uk-background-indigo uk-margin-left">Indigo</span>
+      <span class="uk-label uk-background-lime uk-contrast">lime</span>
+      <span class="uk-label uk-background-orange">Orange</span>
+      <span class="uk-label uk-background-red">Red</span>
+      <span class="uk-label uk-background-purple">Purple</span>
+      <span class="uk-label uk-background-blackjack">Blackjack</span>
+
+      <h3 class="uk-heading-bullet">Badge</h3>
+      <p><code>uk-badge uk-background-*</code></p>
+
+      <span class="uk-badge uk-background-indigo">11</span>
+      <span class="uk-badge uk-background-orange">75</span>
+      <span class="uk-badge uk-background-purple">112</span>
+      <span class="uk-badge uk-background-blackjack">215</span>
+
+      <h3 class="uk-heading-bullet">Noty</h3>
+      <p><code>uk-noty uk-background-*</code></p>
+
+      <div class="uk-display-inline-block uk-position-relative">
+          <span uk-icon="icon:bell;ratio:1.1"></span>
+          <span class="uk-noty uk-background-teal">17</span>
+      </div>
+      <div class="uk-display-inline-block uk-position-relative uk-margin-left">
+          <span uk-icon="icon:mail;ratio:1.2"></span>
+          <span class="uk-noty uk-background-orange">123</span>
+      </div>
+
+
+
+      <!--
+      ================================================================
+      Base
+      ================================================================
+      -->
+
+      <h2 id="base" class="uk-heading-divider uk-margin-xlarge-top">Base</h2>
+
+      <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-striped">
+          <thead>
+            <tr>
+              <th class="uk-width-250">Class</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.uk-shadow-remove</code></td>
+              <td>Remove box-shadow</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+      <!--
+      ================================================================
+      Button
+      ================================================================
+      -->
+      <h2 id="button" class="uk-heading-divider uk-margin-xlarge-top">Button</h2>
+
+      <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-striped">
+          <thead>
+            <tr>
+              <th class="uk-width-250">Class</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.uk-button-gray</code></td>
+              <td>Gray button</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-success</code></td>
+              <td>Green button</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-warning</code></td>
+              <td>Orange button</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-narrow</code></td>
+              <td>Smaller padding-left and padding-right</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-radio</code></td>
+              <td>Button radio</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-active-primary</code></td>
+              <td>Button radio active state get primary color</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-active-secondary</code></td>
+              <td>Button radio active state get secondary color</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-active-danger</code></td>
+              <td>Button radio active state get danger color</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-active-success</code></td>
+              <td>Button radio active state get success color</td>
+            </tr>
+            <tr>
+              <td><code>.uk-button-active-warning</code></td>
+              <td>Button radio active state get warning color</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="uk-margin-large-top" uk-tab>
+        <li><a href="#">Preview</a></li>
+        <li><a href="#">Markup</a></li>
+      </ul>
+      <ul class="uk-switcher uk-margin">
+        <li>
+
+          <div>
+            <button class="uk-button uk-button-gray">Gray</button>
+            <button class="uk-button uk-button-success">Success</button>
+            <button class="uk-button uk-button-warning">Warning</button>
+
+            <button class="uk-button uk-button-default uk-button-narrow uk-margin-left" type="button"><span uk-icon="icon:home"></span></button>
+            <div class="uk-button-group uk-margin-left">
+                <button class="uk-button uk-button-primary">Group Dropdown</button>
+                <div class="uk-inline">
+                    <button class="uk-button uk-button-primary uk-background-indigo uk-button-narrow" type="button"><span uk-icon="icon:menu"></span></button>
+                    <div uk-dropdown="pos:bottom-right">
+                        <ul class="uk-nav uk-dropdown-nav">
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="uk-margin">
+            <div class="uk-button-group uk-button-radio">
+              <input type="radio" id="radio-button-a-1" name="radio-button-a" value="1" checked hidden>
+              <label for="radio-button-a-1" class="uk-button uk-button-default uk-button-active-success">Enabled</label>
+
+              <input type="radio" id="radio-button-a-0" name="radio-button-a" value="0" hidden>
+              <label for="radio-button-a-0" class="uk-button uk-button-default uk-button-active-danger">Disabled</label>
+            </div>
+            <div class="uk-button-group uk-button-radio uk-margin-left">
+              <input type="radio" id="radio-button-b-2" name="radio-button-b" value="2" checked hidden>
+              <label for="radio-button-b-2" class="uk-button uk-button-default uk-button-active-primary">Global</label>
+
+              <input type="radio" id="radio-button-b-1" name="radio-button-b" value="1" hidden>
+              <label for="radio-button-b-1" class="uk-button uk-button-default uk-button-active-success">Enabled</label>
+
+              <input type="radio" id="radio-button-b-0" name="radio-button-b" value="0"  hidden>
+              <label for="radio-button-b-0" class="uk-button uk-button-default uk-button-active-danger">Disabled</label>
+            </div>
+          </div>
+
+        </li>
+
+        <li>
+        <pre><code class="html">&lt;div>
+  &lt;button class="uk-button uk-button-gray">Gray&lt;/button>
+  &lt;button class="uk-button uk-button-success">Success&lt;/button>
+  &lt;button class="uk-button uk-button-warning">Warning&lt;/button>
+
+  &lt;button class="uk-button uk-button-default uk-button-narrow uk-margin-left" type="button">&lt;span uk-icon="icon:home">&lt;/span>&lt;/button>
+  &lt;div class="uk-button-group uk-margin-left">
+      &lt;button class="uk-button uk-button-primary">Group Dropdown&lt;/button>
+      &lt;div class="uk-inline">
+          &lt;button class="uk-button uk-button-primary uk-background-indigo uk-button-narrow" type="button">&lt;span uk-icon="icon:menu">&lt;/span>&lt;/button>
+          &lt;div uk-dropdown="pos:bottom-right">
+              &lt;ul class="uk-nav uk-dropdown-nav">
+                  &lt;li>&lt;a href="#">Item&lt;/a>&lt;/li>
+                  &lt;li>&lt;a href="#">Item&lt;/a>&lt;/li>
+                  &lt;li>&lt;a href="#">Item&lt;/a>&lt;/li>
+                  &lt;li>&lt;a href="#">Item&lt;/a>&lt;/li>
+              &lt;/ul>
+          &lt;/div>
+      &lt;/div>
+  &lt;/div>
+&lt;/div>
+
+&lt;div class="uk-margin">
+  &lt;div class="uk-button-group uk-button-radio">
+    &lt;input type="radio" id="radio-button-a-1" name="radio-button-a" value="1" checked hidden>
+    &lt;label for="radio-button-a-1" class="uk-button uk-button-default uk-button-active-success">Enabled&lt;/label>
+
+    &lt;input type="radio" id="radio-button-a-0" name="radio-button-a" value="0" hidden>
+    &lt;label for="radio-button-a-0" class="uk-button uk-button-default uk-button-active-danger">Disabled&lt;/label>
+  &lt;/div>
+  &lt;div class="uk-button-group uk-button-radio uk-margin-left">
+    &lt;input type="radio" id="radio-button-b-2" name="radio-button-b" value="2" checked hidden>
+    &lt;label for="radio-button-b-2" class="uk-button uk-button-default uk-button-active-primary">Global&lt;/label>
+
+    &lt;input type="radio" id="radio-button-b-1" name="radio-button-b" value="1" hidden>
+    &lt;label for="radio-button-b-1" class="uk-button uk-button-default uk-button-active-success">Enabled&lt;/label>
+
+    &lt;input type="radio" id="radio-button-b-0" name="radio-button-b" value="0"  hidden>
+    &lt;label for="radio-button-b-0" class="uk-button uk-button-default uk-button-active-danger">Disabled&lt;/label>
+  &lt;/div>
+&lt;/div></code></pre>
+        </li>
+      </ul>
+
+
+
+      <!--
+      ================================================================
+      Card
+      ================================================================
+      -->
+      <h2 id="card" class="uk-heading-divider uk-margin-xlarge-top">Card</h2>
+
+      <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-striped">
+          <thead>
+            <tr>
+              <th class="uk-width-250">Class</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.uk-card-panel</code></td>
+              <td><code>.uk-card</code>, <code>.uk-card-default</code>, <code>.uk-box-shadow-small</code> in one class</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="uk-margin-large-top" uk-tab>
+        <li><a href="#">Preview</a></li>
+        <li><a href="#">Markup</a></li>
+      </ul>
+      <ul class="uk-switcher uk-margin">
+
+        <li>
+
+          <div class="uk-card-panel uk-card-body">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto adipisci quos, eos omnis autem voluptatem facilis facere ducimus dolorem doloribus, cum fugit dolor dignissimos ipsum cumque voluptates culpa saepe delectus.
+          </div>
+
+        </li>
+
+        <li>
+        <pre><code class="html">&lt;div class="uk-card-panel uk-card-body">
+  Lorem ipsum..
+&lt;/div></code></pre>
+        </li>
+      </ul>
+
+
+      <!--
+      ================================================================
+      Form
+      ================================================================
+      -->
+      <h2 id="form" class="uk-heading-divider uk-margin-xlarge-top">Form</h2>
+
+
+
+      <!--
+      ================================================================
+      Notification
+      ================================================================
+      -->
+      <h2 id="notification" class="uk-heading-divider uk-margin-xlarge-top">Notification</h2>
+
+
+
+      <!--
+      ================================================================
+      Noty
+      ================================================================
+      -->
+      <h2 id="noty" class="uk-heading-divider uk-margin-xlarge-top">Noty</h2>
+
+
+
+      <!--
+      ================================================================
+      Table
+      ================================================================
+      -->
+      <h2 id="table" class="uk-heading-divider uk-margin-xlarge-top">Table</h2>
+
+
+
+      <!--
+      ================================================================
+      Text
+      ================================================================
+      -->
+      <h2 id="text" class="uk-heading-divider uk-margin-xlarge-top">Text</h2>
+
+
+
+      <!--
+      ================================================================
+      Width
+      ================================================================
+      -->
+      <h2 id="width" class="uk-heading-divider uk-margin-xlarge-top">Width</h2>
+
+    </div>
+
+    <div class="uk-width-1-5 uk-visible@m">
+      <div uk-sticky="offset:40">
+        <ul class="uk-nav uk-nav-default" uk-scrollspy-nav="closest: li; scroll: true">
+          <li><a href="#root">:root</a></li>
+          <li><a href="#alert">Alert</a></li>
+          <li><a href="#background">Background</a></li>
+          <li><a href="#base">Base</a></li>
+          <li><a href="#button">Button</a></li>
+          <li><a href="#card">Card</a></li>
+          <li><a href="#form">Form</a></li>
+          <li><a href="#notification">Notification</a></li>
+          <li><a href="#noty">Noty</a></li>
+          <li><a href="#table">Table</a></li>
+          <li><a href="#text">Text</a></li>
+          <li><a href="#width">Width</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="dist/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/xml.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
