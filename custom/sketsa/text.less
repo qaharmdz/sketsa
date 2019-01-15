@@ -7,10 +7,29 @@
 // Variables
 // ========================================================================
 
+@text-lead-font-size:                           @global-large-font-size;
+@text-lead-line-height:                         1.4;
+@text-lead-color:                               #555;
+
+@text-meta-font-size:                           @global-small-font-size;
+@text-meta-line-height:                         1.4;
+@text-meta-color:                               @global-muted-color;
+
+@text-small-font-size:                          @global-small-font-size;
+@text-small-line-height:                        1.5;
+
+@text-large-font-size:                          @global-large-font-size;
+@text-large-line-height:                        1.5;
+
+@text-bold-font-weight:                         bolder;
+
 @text-primary-color:                            #404ead;
 @text-success-color:                            #0a7e07;
 @text-warning-color:                            #e45202;
 @text-danger-color:                             #d80f0b;
+
+@text-meta-link-color:                          @text-meta-color;
+@text-meta-link-hover-color:                    @global-color;
 
 
 // Component
@@ -20,7 +39,17 @@
     font-weight: 300;
 }
 
+.hook-text-large() {
+    font-weight: 300;
+}
+
 .hook-text-misc() {
+    .uk-text-reset {
+        color: @global-color;
+        font-size: 1rem;
+        line-height: @global-line-height;
+    }
+
     .uk-text-mini {
         font-size: @extra-mini-font-size;
     }

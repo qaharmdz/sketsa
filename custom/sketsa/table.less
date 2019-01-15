@@ -18,11 +18,11 @@
 @table-footer-font-size:                        @table-header-cell-font-size;
 @table-caption-font-size:                       @table-header-cell-font-size;
 
-@table-row-primary-background:                  #e9f0ff;
-@table-row-secondary-background:                #ddd;
-@table-row-success-background:                  #ccf7dc;
-@table-row-warning-background:                  #fff8d1;
-@table-row-danger-background:                   #ffe3e9;
+@table-row-primary-background:                  #eef3ff;
+@table-row-secondary-background:                #e6e6e6;
+@table-row-success-background:                  #e5ffef;
+@table-row-warning-background:                  #fffbe5;
+@table-row-danger-background:                   #ffeef1;
 
 @table-striped-row-background:                  #f6f6f6;
 @table-row-active-background:                   @table-row-warning-background;
@@ -58,20 +58,44 @@
     .uk-table tbody tr.uk-row-primary {
         background: @table-row-primary-background;
     }
+    .uk-table-hover > tr.uk-row-primary:hover,
+    .uk-table-hover tbody tr.uk-row-primary:hover {
+        background: darken(@table-row-primary-background, 4%);
+    }
+
     .uk-table > tr.uk-row-secondary,
     .uk-table tbody tr.uk-row-secondary {
         background: @table-row-secondary-background;
     }
+    .uk-table-hover > tr.uk-row-secondary:hover,
+    .uk-table-hover tbody tr.uk-row-secondary:hover {
+        background: darken(@table-row-secondary-background, 4%);
+    }
+
     .uk-table > tr.uk-row-success,
     .uk-table tbody tr.uk-row-success {
         background: @table-row-success-background;
     }
+    .uk-table-hover > tr.uk-row-success:hover,
+    .uk-table-hover tbody tr.uk-row-success:hover {
+        background: darken(@table-row-success-background, 4%);
+    }
+
     .uk-table > tr.uk-row-warning,
     .uk-table tbody tr.uk-row-warning {
         background: @table-row-warning-background;
     }
+    .uk-table-hover > tr.uk-row-warning:hover,
+    .uk-table-hover tbody tr.uk-row-warning:hover {
+        background: darken(@table-row-warning-background, 4%);
+    }
+
     .uk-table > tr.uk-row-danger,
     .uk-table tbody tr.uk-row-danger {
         background: @table-row-danger-background;
+    }
+    .uk-table-hover > tr.uk-row-danger:hover,
+    .uk-table-hover tbody tr.uk-row-danger:hover {
+        background: darken(@table-row-danger-background, 3%);
     }
 }

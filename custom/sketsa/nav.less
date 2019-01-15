@@ -13,6 +13,12 @@
 @nav-item-padding-vertical:                     5px;
 @nav-item-padding-horizontal:                   0;
 
+@nav-header-font-family:                        @base-heading-font-family;
+@nav-header-font-size:                          @global-font-size;
+@nav-header-margin-top:                         @global-small-margin;
+@nav-header-padding-vertical:                   @nav-item-padding-vertical;
+@nav-header-padding-horizontal:                 @nav-item-padding-horizontal;
+
 @nav-sublist-padding-vertical:                  3px;
 @nav-sublist-padding-left:                      15px;
 @nav-sublist-deeper-padding-left:               15px;
@@ -23,6 +29,10 @@
 
 // Component
 // ========================================================================
+
+.hook-nav-header() {
+    font-family: @nav-header-font-family;
+}
 
 .hook-nav-sub() {
     font-size: @nav-sublist-font-size;

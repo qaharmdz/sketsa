@@ -16,7 +16,7 @@
 
 @notification-message-font-size:                    @global-small-font-size;
 @notification-message-line-height:                  1.5;
-@notification-message-background:                   #fafbfc; // @global-background;
+@notification-message-background:                   #fafafa;
 @notification-message-color:                        @global-color;
 @notification-message-border:                       #c4c4c4;
 
@@ -48,20 +48,26 @@
 // ========================================================================
 
 .hook-notification-message() {
-    border: 1px solid @notification-message-border;
+    border-top: 2px solid @notification-message-border;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
 
+    &.uk-icon-emphasis {
+        border: none;
+    }
     &.uk-icon-emphasis .uk-icon:not(.uk-close) {
         color: @global-inverse-color;
-        background: @notification-message-border;
         padding: @notification-message-padding - 5px @notification-message-padding;
         position: absolute;
-        top: -1px;
+        top: 0;
         bottom: -1px;
-        left: -1px;
+        left: 0;
 
         + * {
-            margin-left: 3.6rem;
+            margin-left: 3.8rem;
         }
+    }
+    &.uk-icon-emphasis .uk-icon:not(.uk-close):not([class^="uk-background"]) {
+        background: @notification-message-border;
     }
 }
 
@@ -69,7 +75,7 @@
     // background: @notification-message-primary-background;
     border-color: @notification-message-primary-border;
 
-    &.uk-icon-emphasis .uk-icon:not(.uk-close) {
+    &.uk-icon-emphasis .uk-icon:not(.uk-close):not([class^="uk-background"]) {
         background: @notification-message-primary-emphasis;
     }
 }
@@ -78,7 +84,7 @@
     // background: @notification-message-success-background;
     border-color: @notification-message-success-border;
 
-    &.uk-icon-emphasis .uk-icon:not(.uk-close) {
+    &.uk-icon-emphasis .uk-icon:not(.uk-close):not([class^="uk-background"]) {
         background: @notification-message-success-emphasis;
     }
 }
@@ -87,7 +93,7 @@
     // background: @notification-message-warning-background;
     border-color: @notification-message-warning-border;
 
-    &.uk-icon-emphasis .uk-icon:not(.uk-close) {
+    &.uk-icon-emphasis .uk-icon:not(.uk-close):not([class^="uk-background"]) {
         background: @notification-message-warning-emphasis;
     }
 }
@@ -96,7 +102,7 @@
     // background: @notification-message-danger-background;
     border-color: @notification-message-danger-border;
 
-    &.uk-icon-emphasis .uk-icon:not(.uk-close) {
+    &.uk-icon-emphasis .uk-icon:not(.uk-close):not([class^="uk-background"]) {
         background: @notification-message-danger-emphasis;
     }
 }

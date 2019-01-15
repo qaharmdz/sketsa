@@ -7,23 +7,25 @@
 // Variables
 // ========================================================================
 
-@dropdown-min-width:                            200px;
+@dropdown-min-width:                            180px;
 @dropdown-color:                                @global-color;
 @dropdown-background:                           @global-background;
-@dropdown-padding:                              @global-small-margin;
+@dropdown-padding:                              8px; // @global-small-margin;
 @dropdown-margin:                               @global-small-margin;
 @dropdown-box-shadow:                           @global-small-box-shadow;
 
-@dropdown-nav-font-size:                        @nav-default-font-size;
+@dropdown-nav-font-size:                        @global-small-font-size;
 @dropdown-nav-line-height:                      1.5;
 
 @dropdown-nav-item-color:                       @global-color;
 @dropdown-nav-item-hover-color:                 @global-emphasis-color;
-@dropdown-nav-item-hover-background:            #f0f3f5;
+@dropdown-nav-item-hover-background:            rgba(145,145,145,.12); //#f2f5f6;
 @dropdown-nav-item-padding-vertical:            @nav-item-padding-vertical;
 @dropdown-nav-item-padding-horizontal:          @dropdown-padding;
 
-@dropdown-nav-header-color:                     @global-emphasis-color;
+@dropdown-nav-header-color:                     @global-muted-color; // @global-emphasis-color;
+@dropdown-nav-header-padding-vertical:          @dropdown-nav-item-padding-vertical;
+@dropdown-nav-header-padding-horizontal:        @dropdown-nav-item-padding-horizontal;
 
 @dropdown-nav-divider-border-width:             @global-border-width;
 @dropdown-nav-divider-border:                   @global-border;
@@ -52,7 +54,7 @@
     background-color: @dropdown-nav-item-hover-background;
 }
 .hook-dropdown-nav-header {
-    padding: @dropdown-nav-item-padding-vertical @dropdown-nav-item-padding-horizontal;
+    padding: @dropdown-nav-header-padding-vertical @dropdown-nav-header-padding-horizontal;
 }
 .hook-dropdown-nav-divider {
     margin: @dropdown-nav-item-padding-vertical @dropdown-nav-item-padding-horizontal;
