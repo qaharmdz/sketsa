@@ -150,7 +150,7 @@ on(window, 'load', () => setTimeout(() => fastdom.write(() => {
                 ${Object.keys(styles).map(style => `<option value="${style}">${ucfirst(style)}</option>`).join('')}
             </select>
             <select class="uk-select uk-form-width-small" style="margin: 20px">
-                ${Object.keys(variations).map(name => `<option value="${name}">${variations[name]}</option>`).join('')}
+                ${Object.keys(variations).map(name => `<option value="${name}">${variations[name]}</option>`).join('')}        
             </select>
             <label style="margin: 20px">
                 <input type="checkbox" class="uk-checkbox"/>
@@ -169,7 +169,7 @@ on(window, 'load', () => setTimeout(() => fastdom.write(() => {
             location.href = `${$tests.value}${styles.custom ? `?style=${getParam('style')}` : ''}`;
         }
     });
-    $tests.value = component && `${component}.html`;
+    $tests.value = `${component || 'index'}.html`;
 
     // Styles
     // ------------------------------

@@ -1,10 +1,10 @@
-/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.2 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitslider', ['uikit-util'], factory) :
-    (global.UIkitSlider = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+    (global = global || self, global.UIkitSlider = factory(global.UIkit.util));
+}(this, function (uikitUtil) { 'use strict';
 
     var Class = {
 
@@ -49,7 +49,7 @@
                     if (document.hidden) {
                         this.stopAutoplay();
                     } else {
-                        this.startAutoplay();
+                        !this.userInteracted && this.startAutoplay();
                     }
                 }
 
@@ -103,7 +103,7 @@
 
                 this.stopAutoplay();
 
-                if (this.autoplay && !this.userInteracted) {
+                if (this.autoplay) {
                     this.interval = setInterval(
                         function () { return !(this$1.isHovering && this$1.pauseOnHover) && !this$1.stack.length && this$1.show('next'); },
                         this.autoplayInterval
@@ -161,7 +161,7 @@
                 name: uikitUtil.pointerDown,
 
                 delegate: function() {
-                    return this.slidesSelector;
+                    return this.selSlides;
                 },
 
                 handler: function(e) {
@@ -187,7 +187,7 @@
                 passive: false,
                 handler: 'move',
                 delegate: function() {
-                    return this.slidesSelector;
+                    return this.selSlides;
                 }
 
             },
@@ -227,7 +227,9 @@
                 }
 
                 // See above workaround notice
-                var off = uikitUtil.on(document, uikitUtil.pointerMove.replace(' touchmove', ''), this.move, {passive: false});
+                var off = uikitUtil.pointerMove !== 'touchmove'
+                    ? uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false})
+                    : uikitUtil.noop;
                 this.unbindMove = function () {
                     off();
                     this$1.unbindMove = null;
@@ -267,12 +269,12 @@
 
                 while (nextIndex !== prevIndex && dis > width) {
 
-                    this$1.drag -= width * this$1.dir;
+                    this.drag -= width * this.dir;
 
                     prevIndex = nextIndex;
                     dis -= width;
-                    nextIndex = this$1.getIndex(prevIndex + this$1.dir, prevIndex);
-                    width = this$1._getDistance(prevIndex, nextIndex) || slides[prevIndex].offsetWidth;
+                    nextIndex = this.getIndex(prevIndex + this.dir, prevIndex);
+                    width = this._getDistance(prevIndex, nextIndex) || slides[prevIndex].offsetWidth;
 
                 }
 
@@ -375,14 +377,14 @@
                 return uikitUtil.$(selNav, $el);
             },
 
-            navItemSelector: function(ref) {
+            selNavItem: function(ref) {
                 var attrItem = ref.attrItem;
 
                 return ("[" + attrItem + "],[data-" + attrItem + "]");
             },
 
             navItems: function(_, $el) {
-                return uikitUtil.$$(this.navItemSelector, $el);
+                return uikitUtil.$$(this.selNavItem, $el);
             }
 
         },
@@ -397,7 +399,7 @@
                     uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href=\"#\"></a></li>"); }).join(''));
                 }
 
-                uikitUtil.toggleClass(uikitUtil.$$(this.navItemSelector, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
+                uikitUtil.toggleClass(uikitUtil.$$(this.selNavItem, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
 
                 this.updateNav();
 
@@ -414,12 +416,11 @@
                 name: 'click',
 
                 delegate: function() {
-                    return this.navItemSelector;
+                    return this.selNavItem;
                 },
 
                 handler: function(e) {
                     e.preventDefault();
-                    e.current.blur();
                     this.show(uikitUtil.data(e.current, this.attrItem));
                 }
 
@@ -502,7 +503,7 @@
                 return this.length - 1;
             },
 
-            slidesSelector: function(ref) {
+            selSlides: function(ref) {
                 var selList = ref.selList;
 
                 return (selList + " > *");
@@ -920,8 +921,6 @@
             },
 
             maxIndex: function() {
-                var this$1 = this;
-
 
                 if (!this.finite || this.center && !this.sets) {
                     return this.length - 1;
@@ -937,8 +936,8 @@
                 var i = this.length;
 
                 while (i--) {
-                    if (getElLeft(this$1.list.children[i], this$1.list) < max) {
-                        return Math.min(i + 1, this$1.length - 1);
+                    if (getElLeft(this.list.children[i], this.list) < max) {
+                        return Math.min(i + 1, this.length - 1);
                     }
                 }
 
@@ -1025,8 +1024,6 @@
         events: {
 
             beforeitemshow: function(e) {
-                var this$1 = this;
-
 
                 if (!this.dragging && this.sets && this.stack.length < 2 && !uikitUtil.includes(this.sets, this.index)) {
                     this.index = this.getValidIndex();
@@ -1041,7 +1038,7 @@
                 if (!this.dragging && diff > 1) {
 
                     for (var i = 0; i < diff; i++) {
-                        this$1.stack.splice(1, 0, this$1.dir > 0 ? 'next' : 'previous');
+                        this.stack.splice(1, 0, this.dir > 0 ? 'next' : 'previous');
                     }
 
                     e.preventDefault();
@@ -1104,8 +1101,8 @@
                 var j = 0;
 
                 while (width > 0) {
-                    var slideIndex = this$1.getIndex(--j + index, index);
-                    var slide = this$1.slides[slideIndex];
+                    var slideIndex = this.getIndex(--j + index, index);
+                    var slide = this.slides[slideIndex];
 
                     uikitUtil.css(slide, 'order', slideIndex > index ? -2 : -1);
                     width -= bounds(slide).width;
@@ -1114,7 +1111,6 @@
             },
 
             getValidIndex: function(index, prevIndex) {
-                var this$1 = this;
                 if ( index === void 0 ) index = this.index;
                 if ( prevIndex === void 0 ) prevIndex = this.prevIndex;
 
@@ -1129,12 +1125,12 @@
 
                 do {
 
-                    if (uikitUtil.includes(this$1.sets, index)) {
+                    if (uikitUtil.includes(this.sets, index)) {
                         return index;
                     }
 
                     prev = index;
-                    index = this$1.getIndex(index + this$1.dir, prevIndex);
+                    index = this.getIndex(index + this.dir, prevIndex);
 
                 } while (index !== prev);
 
@@ -1153,4 +1149,4 @@
 
     return Component;
 
-})));
+}));

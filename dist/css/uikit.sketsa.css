@@ -1,4 +1,4 @@
-/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.2 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300);
 /* ========================================================================
    Component: Base
@@ -718,10 +718,11 @@ a.uk-link-reset:hover,
 /* Small
  ========================================================================== */
 /*
- * Reset child height, caused by `inline-block`
+ * Fix height of `hr` element not being expanded by child border width.
+ * `height` also needed to reset the child `line-height` caused by `inline-block`
  */
 .uk-divider-small {
-  line-height: 0;
+  height: 1px;
 }
 .uk-divider-small::after {
   content: "";
@@ -2500,8 +2501,8 @@ td .uk-checkbox {
  *    unaffected by the padding on different breakpoints. It's important for the size modifiers.
  */
 .uk-container {
-  box-sizing: content-box;
   /* 1 */
+  box-sizing: content-box;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -2559,6 +2560,89 @@ td .uk-checkbox {
 }
 .uk-container-expand {
   max-width: none;
+}
+/* Expand modifier
+ ========================================================================== */
+/*
+ * Expand one side only
+ */
+.uk-container-expand-left {
+  margin-left: 0;
+}
+.uk-container-expand-right {
+  margin-right: 0;
+}
+/* Phone landscape and bigger */
+@media (min-width: 640px) {
+  .uk-container-expand-left.uk-container-xsmall,
+  .uk-container-expand-right.uk-container-xsmall {
+    max-width: calc(50% + (750px / 2) - 30px);
+  }
+  .uk-container-expand-left.uk-container-small,
+  .uk-container-expand-right.uk-container-small {
+    max-width: calc(50% + (900px / 2) - 30px);
+  }
+}
+/* Tablet landscape and bigger */
+@media (min-width: 960px) {
+  .uk-container-expand-left,
+  .uk-container-expand-right {
+    max-width: calc(50% + (1200px / 2) - 40px);
+  }
+  .uk-container-expand-left.uk-container-xsmall,
+  .uk-container-expand-right.uk-container-xsmall {
+    max-width: calc(50% + (750px / 2) - 40px);
+  }
+  .uk-container-expand-left.uk-container-small,
+  .uk-container-expand-right.uk-container-small {
+    max-width: calc(50% + (900px / 2) - 40px);
+  }
+  .uk-container-expand-left.uk-container-large,
+  .uk-container-expand-right.uk-container-large {
+    max-width: calc(50% + (1600px / 2) - 40px);
+  }
+}
+/* Item
+ ========================================================================== */
+/*
+ * Utility classes to reset container padding on the left or right side
+ * Note: It has to be negative margin on the item, because it's specific to the item.
+ */
+.uk-container-item-padding-remove-left,
+.uk-container-item-padding-remove-right {
+  width: calc(100% + 15px);
+}
+.uk-container-item-padding-remove-left {
+  margin-left: -15px;
+}
+.uk-container-item-padding-remove-right {
+  margin-right: -15px;
+}
+/* Phone landscape and bigger */
+@media (min-width: 640px) {
+  .uk-container-item-padding-remove-left,
+  .uk-container-item-padding-remove-right {
+    width: calc(100% + 30px);
+  }
+  .uk-container-item-padding-remove-left {
+    margin-left: -30px;
+  }
+  .uk-container-item-padding-remove-right {
+    margin-right: -30px;
+  }
+}
+/* Tablet landscape and bigger */
+@media (min-width: 960px) {
+  .uk-container-item-padding-remove-left,
+  .uk-container-item-padding-remove-right {
+    width: calc(100% + 40px);
+  }
+  .uk-container-item-padding-remove-left {
+    margin-left: -40px;
+  }
+  .uk-container-item-padding-remove-right {
+    margin-right: -40px;
+  }
 }
 /* ========================================================================
    Component: Grid
@@ -4060,6 +4144,9 @@ ul.uk-nav-sub {
 .uk-nav-default .uk-nav-sub a:focus {
   color: #444;
 }
+.uk-nav-default .uk-nav-sub li.uk-active > a {
+  color: #222;
+}
 /* Primary modifier
  ========================================================================== */
 /*
@@ -4100,6 +4187,9 @@ ul.uk-nav-sub {
 .uk-nav-primary .uk-nav-sub a:hover,
 .uk-nav-primary .uk-nav-sub a:focus {
   color: #444;
+}
+.uk-nav-primary .uk-nav-sub li.uk-active > a {
+  color: #222;
 }
 /* Alignment modifier
  ========================================================================== */
@@ -4436,6 +4526,9 @@ ul.uk-nav-sub {
 .uk-navbar-dropdown-nav .uk-nav-sub a:hover,
 .uk-navbar-dropdown-nav .uk-nav-sub a:focus {
   color: #444;
+}
+.uk-navbar-dropdown-nav .uk-nav-sub li.uk-active > a {
+  color: #222;
 }
 /* Dropbar
  ========================================================================== */
@@ -5210,7 +5303,8 @@ ul.uk-nav-sub {
   color: #888;
 }
 .uk-dropdown-nav .uk-nav-sub a:hover,
-.uk-dropdown-nav .uk-nav-sub a:focus {
+.uk-dropdown-nav .uk-nav-sub a:focus,
+.uk-dropdown-nav .uk-nav-sub li.uk-active > a {
   color: #444;
 }
 /* Direction / Alignment modifiers
@@ -5763,14 +5857,13 @@ ul.uk-nav-sub {
  * 1. Set position
  * 2. Size and style
  * 3. Allow scrolling
- * 4. Transform
  */
 .uk-offcanvas-bar {
   /* 1 */
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: -270px;
   /* 2 */
   box-sizing: border-box;
   width: 270px;
@@ -5779,12 +5872,11 @@ ul.uk-nav-sub {
   /* 3 */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  /* 4 */
-  transform: translateX(-100%);
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-offcanvas-bar {
+    left: -350px;
     width: 350px;
     padding: 40px 40px;
   }
@@ -5792,27 +5884,39 @@ ul.uk-nav-sub {
 /* Flip modifier */
 .uk-offcanvas-flip .uk-offcanvas-bar {
   left: auto;
-  right: 0;
-  transform: translateX(100%);
+  right: -270px;
+}
+/* Tablet landscape and bigger */
+@media (min-width: 960px) {
+  .uk-offcanvas-flip .uk-offcanvas-bar {
+    right: -350px;
+  }
 }
 /*
  * Open
  */
 .uk-open > .uk-offcanvas-bar {
-  transform: translateX(0);
+  left: 0;
+}
+.uk-offcanvas-flip .uk-open > .uk-offcanvas-bar {
+  left: auto;
+  right: 0;
 }
 /*
  * Slide Animation (Used in slide and push mode)
  */
 .uk-offcanvas-bar-animation {
-  transition: transform 0.3s ease-out;
+  transition: left 0.3s ease-out;
+}
+.uk-offcanvas-flip .uk-offcanvas-bar-animation {
+  transition-property: right;
 }
 /*
  * Reveal Animation
  * 1. Set position
  * 2. Clip the bar
  * 3. Animation
- * 4. Reset transform
+ * 4. Reset position
  */
 .uk-offcanvas-reveal {
   /* 1 */
@@ -5828,7 +5932,12 @@ ul.uk-nav-sub {
 }
 .uk-offcanvas-reveal .uk-offcanvas-bar {
   /* 4 */
-  transform: translateX(0);
+  left: 0;
+}
+.uk-offcanvas-flip .uk-offcanvas-reveal .uk-offcanvas-bar {
+  /* 4 */
+  left: auto;
+  right: 0;
 }
 .uk-open > .uk-offcanvas-reveal {
   width: 270px;
@@ -6114,7 +6223,6 @@ ul.uk-nav-sub {
 ========================================================================== */
 .uk-notification-message {
   position: relative;
-  margin-bottom: 10px;
   padding: 15px;
   background: #fafafa;
   color: #444;
@@ -6140,6 +6248,9 @@ ul.uk-nav-sub {
 }
 .uk-notification-message.uk-icon-emphasis .uk-icon:not(.uk-close):not([class^="uk-background"]) {
   background: #c4c4c4;
+}
+* + .uk-notification-message {
+  margin-top: 10px;
 }
 /* Close
  * Adopts `uk-close`
@@ -6432,7 +6543,28 @@ ul.uk-nav-sub {
   animation-direction: reverse;
   animation-timing-function: ease-in;
 }
-/* Animations for scrollspy
+/* Toggle (Hover + Focus)
+========================================================================== */
+/*
+ * The toggle is triggered on touch devices using `:focus` and tabindex
+ */
+.uk-animation-toggle:not(:hover):not(:focus) [class*='uk-animation-'] {
+  animation-name: none;
+}
+/*
+ * 1. Prevent tab highlighting on iOS.
+ */
+.uk-animation-toggle {
+  /* 1 */
+  -webkit-tap-highlight-color: transparent;
+}
+/*
+ * Remove outline for `tabindex`
+ */
+.uk-animation-toggle:focus {
+  outline: none;
+}
+/* Animations
  ========================================================================== */
 /*
  * Fade
@@ -6513,14 +6645,6 @@ ul.uk-nav-sub {
  ========================================================================== */
 .uk-animation-fast {
   animation-duration: 0.1s;
-}
-/* Enable animation only on hover
-========================================================================== */
-/*
- * Note: Firefox and IE needs this because animations are not triggered when switching between display `none` and `block`
- */
-.uk-animation-toggle:not(:hover):not(.uk-hover) [class*='uk-animation-'] {
-  animation-name: none;
 }
 /* Keyframes used by animation classes
  ========================================================================== */
@@ -9612,17 +9736,15 @@ iframe.uk-cover {
 }
 /*
  * Center
- * 1. Fix text wrapping if content is larger than 50% of the container (Not working in Firefox)
- * 2. Fix text wrapping for Firefox
+ * 1. Fix text wrapping if content is larger than 50% of the container.
  */
 .uk-position-center {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   /* 1 */
-  display: table;
-  /* 2 */
   width: -moz-max-content;
+  width: max-content;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -9640,10 +9762,12 @@ iframe.uk-cover {
 }
 .uk-position-center-left-out {
   right: 100%;
+  width: -moz-max-content;
   width: max-content;
 }
 .uk-position-center-right-out {
   left: 100%;
+  width: -moz-max-content;
   width: max-content;
 }
 /* Horizontal */
@@ -9652,9 +9776,8 @@ iframe.uk-cover {
   left: 50%;
   transform: translateX(-50%);
   /* 1 */
-  display: table;
-  /* 2 */
   width: -moz-max-content;
+  width: max-content;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -9693,6 +9816,7 @@ iframe.uk-cover {
  * Small
  */
 .uk-position-small {
+  max-width: calc(100% - (15px * 2));
   margin: 15px;
 }
 .uk-position-small.uk-position-center {
@@ -9710,6 +9834,7 @@ iframe.uk-cover {
  * Medium
  */
 .uk-position-medium {
+  max-width: calc(100% - (30px * 2));
   margin: 30px;
 }
 .uk-position-medium.uk-position-center {
@@ -9727,6 +9852,7 @@ iframe.uk-cover {
  * Large
  */
 .uk-position-large {
+  max-width: calc(100% - (30px * 2));
   margin: 30px;
 }
 .uk-position-large.uk-position-center {
@@ -9743,6 +9869,7 @@ iframe.uk-cover {
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-position-large {
+    max-width: calc(100% - (50px * 2));
     margin: 50px;
   }
   .uk-position-large.uk-position-center {
@@ -9760,40 +9887,51 @@ iframe.uk-cover {
 /* ========================================================================
    Component: Transition
  ========================================================================== */
+/* Toggle (Hover + Focus)
+ ========================================================================== */
 /*
- * Using multiple selectors to exclude `uk-transition-toggle`
- * Note: Transitions don't work with `uk-postion-center-*` classes because they also use `transform`
- *       Just put the transition in an extra `div`
+ * 1. Prevent tab highlighting on iOS.
+ */
+.uk-transition-toggle {
+  /* 1 */
+  -webkit-tap-highlight-color: transparent;
+}
+/*
+ * Remove outline for `tabindex`
+ */
+.uk-transition-toggle:focus {
+  outline: none;
+}
+/* Transitions
+ ========================================================================== */
+/*
+ * The toggle is triggered on touch devices by two methods:
+ * 1. Using `:focus` and tabindex
+ * 2. Using `:hover` and a `touchstart` event listener registered on the document
+ *    (Doesn't work on Surface touch devices)
+ *
+ * Note: Transitions don't work with `uk-postion-center-*` classes because they also use `transform`,
+ *       therefore it's recommended to use an extra `div` for the transition.
  */
 .uk-transition-fade,
 [class*='uk-transition-scale'],
 [class*='uk-transition-slide'] {
   transition: 0.3s ease-out;
   transition-property: opacity, transform, filter;
-}
-.uk-transition-toggle:focus {
-  outline: none;
+  opacity: 0;
 }
 /*
  * Fade
  */
-.uk-transition-fade {
-  opacity: 0;
-}
-/* Show */
-.uk-transition-toggle:hover [class*='uk-transition-fade'],
-.uk-transition-toggle.uk-hover [class*='uk-transition-fade'],
-.uk-transition-toggle:focus [class*='uk-transition-fade'],
-.uk-transition-active.uk-active [class*='uk-transition-fade'] {
+.uk-transition-toggle:hover .uk-transition-fade,
+.uk-transition-toggle:focus .uk-transition-fade,
+.uk-transition-active.uk-active .uk-transition-fade {
   opacity: 1;
 }
 /*
  * Scale
  * Note: Using `scale3d` for better image rendering
  */
-[class*='uk-transition-scale'] {
-  opacity: 0;
-}
 .uk-transition-scale-up {
   transform: scale3d(1, 1, 1);
 }
@@ -9802,14 +9940,12 @@ iframe.uk-cover {
 }
 /* Show */
 .uk-transition-toggle:hover .uk-transition-scale-up,
-.uk-transition-toggle.uk-hover .uk-transition-scale-up,
 .uk-transition-toggle:focus .uk-transition-scale-up,
 .uk-transition-active.uk-active .uk-transition-scale-up {
   opacity: 1;
   transform: scale3d(1.1, 1.1, 1);
 }
 .uk-transition-toggle:hover .uk-transition-scale-down,
-.uk-transition-toggle.uk-hover .uk-transition-scale-down,
 .uk-transition-toggle:focus .uk-transition-scale-down,
 .uk-transition-active.uk-active .uk-transition-scale-down {
   opacity: 1;
@@ -9818,9 +9954,6 @@ iframe.uk-cover {
 /*
  * Slide
  */
-[class*='uk-transition-slide'] {
-  opacity: 0;
-}
 .uk-transition-slide-top {
   transform: translateY(-100%);
 }
@@ -9859,19 +9992,18 @@ iframe.uk-cover {
 }
 /* Show */
 .uk-transition-toggle:hover [class*='uk-transition-slide'],
-.uk-transition-toggle.uk-hover [class*='uk-transition-slide'],
 .uk-transition-toggle:focus [class*='uk-transition-slide'],
 .uk-transition-active.uk-active [class*='uk-transition-slide'] {
   opacity: 1;
-  transform: translateX(0) translateY(0);
+  transform: translate(0, 0);
 }
 /* Opacity modifier
-========================================================================== */
+ ========================================================================== */
 .uk-transition-opaque {
   opacity: 1;
 }
 /* Duration modifiers
-========================================================================== */
+ ========================================================================== */
 .uk-transition-slow {
   transition-duration: 0.7s;
 }
@@ -9942,13 +10074,19 @@ iframe.uk-cover {
 .uk-invisible {
   visibility: hidden !important;
 }
-/* Hover
+/* Toggle (Hover + Focus)
  ========================================================================== */
 /*
  * Hidden
- * Can't use `display: none` because it's not accessible through keyboard.
+ * 1. The toggle is triggered on touch devices using `:focus` and tabindex
+ * 2. The target stays visible if any element within receives focus through keyboard
+ *    Doesn't work in Edge, yet.
+ * 3. Can't use `display: none` nor `visibility: hidden` because both are not focusable.
+ *
  */
-.uk-visible-toggle:not(:hover):not(.uk-hover) .uk-hidden-hover:not(:focus) {
+/* 1 + 2 */
+.uk-visible-toggle:not(:hover):not(:focus) .uk-hidden-hover:not(:focus-within) {
+  /* 3 */
   position: absolute !important;
   width: 0 !important;
   height: 0 !important;
@@ -9958,10 +10096,24 @@ iframe.uk-cover {
 }
 /*
  * Invisible
- * Can't use `visibility: hidden` because it's not accessible through keyboard.
  */
-.uk-visible-toggle:not(:hover):not(.uk-hover) .uk-invisible-hover:not(:focus) {
+/* 1 + 2 */
+.uk-visible-toggle:not(:hover):not(:focus) .uk-invisible-hover:not(:focus-within) {
+  /* 3 */
   opacity: 0 !important;
+}
+/*
+ * 1. Prevent tab highlighting on iOS.
+ */
+.uk-visible-toggle {
+  /* 1 */
+  -webkit-tap-highlight-color: transparent;
+}
+/*
+ * Remove outline for `tabindex`
+ */
+.uk-visible-toggle:focus {
+  outline: none;
 }
 /* Touch
  ========================================================================== */
@@ -11945,6 +12097,19 @@ iframe.uk-cover {
 .uk-offcanvas-bar .uk-nav-default .uk-nav-sub a:focus {
   color: rgba(255, 255, 255, 0.9);
 }
+.uk-light .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-section-primary:not(.uk-preserve-color) .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-section-secondary:not(.uk-preserve-color) .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-tile-primary:not(.uk-preserve-color) .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-tile-secondary:not(.uk-preserve-color) .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-card-primary.uk-card-body .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-card-primary > :not([class*='uk-card-media']) .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-card-secondary.uk-card-body .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-overlay-primary .uk-nav-default .uk-nav-sub li.uk-active > a,
+.uk-offcanvas-bar .uk-nav-default .uk-nav-sub li.uk-active > a {
+  color: #fff;
+}
 .uk-light .uk-nav-primary > li > a,
 .uk-section-primary:not(.uk-preserve-color) .uk-nav-primary > li > a,
 .uk-section-secondary:not(.uk-preserve-color) .uk-nav-primary > li > a,
@@ -12057,6 +12222,19 @@ iframe.uk-cover {
 .uk-offcanvas-bar .uk-nav-primary .uk-nav-sub a:hover,
 .uk-offcanvas-bar .uk-nav-primary .uk-nav-sub a:focus {
   color: rgba(255, 255, 255, 0.9);
+}
+.uk-light .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-section-primary:not(.uk-preserve-color) .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-section-secondary:not(.uk-preserve-color) .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-tile-primary:not(.uk-preserve-color) .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-tile-secondary:not(.uk-preserve-color) .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-card-primary.uk-card-body .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-card-primary > :not([class*='uk-card-media']) .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-card-secondary.uk-card-body .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-overlay-primary .uk-nav-primary .uk-nav-sub li.uk-active > a,
+.uk-offcanvas-bar .uk-nav-primary .uk-nav-sub li.uk-active > a {
+  color: #fff;
 }
 .uk-light .uk-navbar-nav > li > a,
 .uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a,

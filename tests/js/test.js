@@ -1,10 +1,9 @@
-/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.2 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+(function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
-    (factory());
-}(this, (function () { 'use strict';
+    factory();
+}(function () { 'use strict';
 
     var objPrototype = Object.prototype;
 
@@ -273,7 +272,7 @@
 
         return isNode(element)
             ? element.parentNode && closestFn.call(element, selector)
-            : toNodes(element).map(function (element) { return element.parentNode && closestFn.call(element, selector); }).filter(Boolean);
+            : toNodes(element).map(function (element) { return closest(element, selector); }).filter(Boolean);
     }
 
     var escapeFn = window.CSS && CSS.escape || function (css) { return css.replace(/([^\x7f-\uFFFF\w-])/g, function (match) { return ("\\" + match); }); };
@@ -288,6 +287,17 @@
                 : toNode(selector)).contains(toNode(element)) // IE 11 document does not implement contains
             : matches(element, selector) || closest(element, selector);
     }
+
+    /* global DocumentTouch */
+
+    var isIE = /msie|trident/i.test(window.navigator.userAgent);
+    var isRtl = attr(document.documentElement, 'dir') === 'rtl';
+
+    var hasTouchEvents = 'ontouchstart' in window;
+    var hasPointerEvents = window.PointerEvent;
+    var hasTouch = hasTouchEvents
+        || window.DocumentTouch && document instanceof DocumentTouch
+        || navigator.maxTouchPoints; // IE >=11
 
     function on() {
         var args = [], len = arguments.length;
@@ -377,17 +387,6 @@
                         ? [target]
                         : toNodes(target);
     }
-
-    /* global DocumentTouch */
-
-    var isIE = /msie|trident/i.test(window.navigator.userAgent);
-    var isRtl = attr(document.documentElement, 'dir') === 'rtl';
-
-    var hasTouchEvents = 'ontouchstart' in window;
-    var hasPointerEvents = window.PointerEvent;
-    var hasTouch = hasTouchEvents
-        || window.DocumentTouch && document instanceof DocumentTouch
-        || navigator.maxTouchPoints; // IE >=11
 
     function prepend(parent, element) {
 
@@ -520,7 +519,7 @@
 
                 if (isUndefined(value)) {
                     return getStyle(element, property);
-                } else if (!value && value !== 0) {
+                } else if (!value && !isNumber(value)) {
                     element.style.removeProperty(property);
                 } else {
                     element.style[property] = isNumeric(value) && !cssNumber[property] ? (value + "px") : value;
@@ -784,7 +783,7 @@
                         'video',
                         'visibility',
                         'width'
-                    ].sort().map(function (name) { return ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(styles).map(function (style) { return ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(variations).map(function (name) { return ("<option value=\"" + name + "\">" + (variations[name]) + "</option>"); }).join('')) + " </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> "));
+                    ].sort().map(function (name) { return ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(styles).map(function (style) { return ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(variations).map(function (name) { return ("<option value=\"" + name + "\">" + (variations[name]) + "</option>"); }).join('')) + "         </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> "));
 
         var ref = $container.children;
         var $tests = ref[0];
@@ -800,7 +799,7 @@
                 location.href = "" + ($tests.value) + (styles.custom ? ("?style=" + (getParam('style'))) : '');
             }
         });
-        $tests.value = component && (component + ".html");
+        $tests.value = (component || 'index') + ".html";
 
         // Styles
         // ------------------------------
@@ -868,4 +867,4 @@
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     }
 
-})));
+}));

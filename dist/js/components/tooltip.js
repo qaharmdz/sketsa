@@ -1,10 +1,10 @@
-/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.2 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikittooltip', ['uikit-util'], factory) :
-    (global.UIkitTooltip = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+    (global = global || self, global.UIkitTooltip = factory(global.UIkit.util));
+}(this, function (uikitUtil) { 'use strict';
 
     var Container = {
 
@@ -308,11 +308,12 @@
                 var offset = ref.offset;
                 var axis = this.getAxis();
 
-                offset = uikitUtil.isNumeric(offset)
-                    ? offset
-                    : (node = uikitUtil.$(offset))
+                if (!uikitUtil.isNumeric(offset)) {
+                    node = uikitUtil.$(offset);
+                    offset = node
                         ? uikitUtil.offset(node)[axis === 'x' ? 'left' : 'top'] - uikitUtil.offset(target)[axis === 'x' ? 'right' : 'bottom']
                         : 0;
+                }
 
                 var ref$1 = uikitUtil.positionAt(
                     element,
@@ -390,7 +391,7 @@
                 actives.forEach(function (active) { return active.hide(); });
                 actives.push(this);
 
-                this._unbind = uikitUtil.on(document, 'click', function (e) { return !uikitUtil.within(e.target, this$1.$el) && this$1.hide(); });
+                this._unbind = uikitUtil.on(document, uikitUtil.pointerUp, function (e) { return !uikitUtil.within(e.target, this$1.$el) && this$1.hide(); });
 
                 clearTimeout(this.showTimer);
                 this.showTimer = setTimeout(function () {
@@ -463,4 +464,4 @@
 
     return Component;
 
-})));
+}));

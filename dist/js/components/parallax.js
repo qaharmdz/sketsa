@@ -1,10 +1,10 @@
-/*! UIkit 3.0.0-rc.25 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.0.2 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitparallax', ['uikit-util'], factory) :
-    (global.UIkitParallax = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+    (global = global || self, global.UIkitParallax = factory(global.UIkit.util));
+}(this, function (uikitUtil) { 'use strict';
 
     var Media = {
 
@@ -270,7 +270,7 @@
 
                         // transforms
                         case 'x':
-                        case 'y':
+                        case 'y': {
 
                             if (translated) {
                                 break;
@@ -279,14 +279,15 @@
                             var ref$1 = ['x', 'y'].map(function (dir) { return prop === dir
                                 ? uikitUtil.toFloat(value).toFixed(0) + unit
                                 : props[dir]
-                                    ? getValue(props[dir].steps, percent, 0) + props[dir].unit
+                                    ? getValue(props[dir].steps, percent, 1) + props[dir].unit
                                     : 0; }
                             );
-                    var x = ref$1[0];
-                    var y = ref$1[1];
+                            var x = ref$1[0];
+                            var y = ref$1[1];
 
                             translated = css.transform += " translate3d(" + x + ", " + y + ", 0)";
                             break;
+                        }
                         case 'rotate':
                             css.transform += " rotate(" + value + "deg)";
                             break;
@@ -303,19 +304,19 @@
                         // color
                         case 'color':
                         case 'backgroundColor':
-                        case 'borderColor':
+                        case 'borderColor': {
 
                             var ref$2 = getStep(steps, percent);
-                    var start = ref$2[0];
-                    var end = ref$2[1];
-                    var p = ref$2[2];
+                            var start = ref$2[0];
+                            var end = ref$2[1];
+                            var p = ref$2[2];
 
                             css[prop] = "rgba(" + (start.map(function (value, i) {
                                     value = value + p * (end[i] - value);
                                     return i === 3 ? uikitUtil.toFloat(value) : parseInt(value, 10);
                                 }).join(',')) + ")";
                             break;
-
+                        }
                         // CSS Filter
                         case 'blur':
                             css.filter += " blur(" + value + "px)";
@@ -464,4 +465,4 @@
 
     return Component;
 
-})));
+}));
