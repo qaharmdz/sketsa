@@ -398,7 +398,7 @@ blockquote footer::before {
  * 1. Contain overflow in all browsers.
  */
 pre {
-  font: 0.85rem / 1.5 Consolas, monaco, monospace;
+  font: 0.84rem / 1.5 Consolas, monaco, monospace;
   color: #444;
   -moz-tab-size: 4;
   tab-size: 4;
@@ -985,7 +985,7 @@ a.uk-link-reset:hover,
 .uk-table-small th,
 .uk-table-small td {
   padding: 7px 6px;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
 }
 .uk-table-large th,
 .uk-table-large td {
@@ -3609,7 +3609,7 @@ td .uk-checkbox {
   padding: 0 10px;
   background: #1e87f0;
   line-height: 1.6;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: #fff;
   vertical-align: middle;
   white-space: nowrap;
@@ -7392,6 +7392,9 @@ ul.uk-nav-sub {
     min-width: 1px;
   }
 }
+.uk-width-min-none {
+  min-width: none;
+}
 .uk-width-max-none {
   max-width: none;
 }
@@ -8173,7 +8176,7 @@ td.uk-text-break {
   line-height: 1.5;
 }
 .uk-text-mini {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
 }
 /* ========================================================================
    Component: Column
