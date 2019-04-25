@@ -6355,9 +6355,9 @@
 
     function install$1 (UIkit) {
 
-        UIkit.modal.dialog = function (content, options) {
+        UIkit.modal.dialog = function (content, options, suffix) {
 
-            var dialog = UIkit.modal((" <div class=\"uk-modal\"> <div class=\"uk-modal-dialog\">" + content + "</div> </div> "), options);
+            var dialog = UIkit.modal((" <div class=\"uk-modal\"> <div class=\"uk-modal-dialog " + suffix + "\">" + content + "</div> </div> "), options);
 
             dialog.show();
 
@@ -6373,22 +6373,22 @@
             return dialog;
         };
 
-        UIkit.modal.alert = function (message, options) {
+        UIkit.modal.alert = function (message, options, suffix) {
 
             options = assign({bgClose: false, escClose: false, labels: UIkit.modal.labels}, options);
 
             return new Promise(
-                function (resolve) { return on(UIkit.modal.dialog((" <div class=\"uk-modal-body\">" + (isString(message) ? message : html(message)) + "</div> <div class=\"uk-modal-footer uk-text-right\"> <button class=\"uk-button uk-button-primary uk-modal-close\" autofocus>" + (options.labels.ok) + "</button> </div> "), options).$el, 'hide', resolve); }
+                function (resolve) { return on(UIkit.modal.dialog((" <div class=\"uk-modal-body\">" + (isString(message) ? message : html(message)) + "</div> <div class=\"uk-modal-footer uk-text-right\"> <button class=\"uk-button uk-button-primary uk-modal-close\" autofocus>" + (options.labels.ok) + "</button> </div> "), options, suffix).$el, 'hide', resolve); }
             );
         };
 
-        UIkit.modal.confirm = function (message, options) {
+        UIkit.modal.confirm = function (message, options, suffix) {
 
             options = assign({bgClose: false, escClose: true, labels: UIkit.modal.labels}, options);
 
             return new Promise(function (resolve, reject) {
 
-                var confirm = UIkit.modal.dialog((" <form> <div class=\"uk-modal-body\">" + (isString(message) ? message : html(message)) + "</div> <div class=\"uk-modal-footer uk-text-right\"> <button class=\"uk-button uk-button-default uk-modal-close\" type=\"button\">" + (options.labels.cancel) + "</button> <button class=\"uk-button uk-button-primary\" autofocus>" + (options.labels.ok) + "</button> </div> </form> "), options);
+                var confirm = UIkit.modal.dialog((" <form> <div class=\"uk-modal-body\">" + (isString(message) ? message : html(message)) + "</div> <div class=\"uk-modal-footer uk-text-right\"> <button class=\"uk-button uk-button-link uk-modal-close\" type=\"button\">" + (options.labels.cancel) + "</button> <button class=\"uk-button uk-button-primary\" autofocus>" + (options.labels.ok) + "</button> </div> </form> "), options, suffix);
 
                 var resolved = false;
 
@@ -6413,7 +6413,7 @@
 
             return new Promise(function (resolve) {
 
-                var prompt = UIkit.modal.dialog((" <form class=\"uk-form-stacked\"> <div class=\"uk-modal-body\"> <label>" + (isString(message) ? message : html(message)) + "</label> <input class=\"uk-input\" autofocus> </div> <div class=\"uk-modal-footer uk-text-right\"> <button class=\"uk-button uk-button-default uk-modal-close\" type=\"button\">" + (options.labels.cancel) + "</button> <button class=\"uk-button uk-button-primary\">" + (options.labels.ok) + "</button> </div> </form> "), options),
+                var prompt = UIkit.modal.dialog((" <form class=\"uk-form-stacked\"> <div class=\"uk-modal-body\"> <label>" + (isString(message) ? message : html(message)) + "</label> <input class=\"uk-input\" autofocus> </div> <div class=\"uk-modal-footer uk-text-right\"> <button class=\"uk-button uk-button-link uk-modal-close\" type=\"button\">" + (options.labels.cancel) + "</button> <button class=\"uk-button uk-button-primary\">" + (options.labels.ok) + "</button> </div> </form> "), options, suffix),
                     input = $('input', prompt.$el);
 
                 input.value = value;
