@@ -3537,8 +3537,7 @@ td .uk-checkbox {
 .uk-alert-small {
   font-size: 0.9rem;
   line-height: 1.5;
-  padding: 10px;
-  padding-right: 22px;
+  padding: 10px 22px 10px 15px;
 }
 .uk-alert-small .uk-alert-close {
   top: 14px;
@@ -7969,7 +7968,7 @@ ul.uk-nav-sub {
   font-weight: 300;
 }
 .uk-text-meta {
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   line-height: 1.4;
   color: #888;
 }
