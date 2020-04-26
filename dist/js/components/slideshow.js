@@ -1,10 +1,10 @@
-/*! UIkit 3.0.2 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.4.2 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitslideshow', ['uikit-util'], factory) :
     (global = global || self, global.UIkitSlideshow = factory(global.UIkit.util));
-}(this, function (uikitUtil) { 'use strict';
+}(this, (function (uikitUtil) { 'use strict';
 
     var Class = {
 
@@ -48,7 +48,8 @@
         if ( value === void 0 ) value = 0;
         if ( unit === void 0 ) unit = '%';
 
-        return ("translateX(" + value + (value ? unit : '') + ")"); // currently not translate3d to support IE, translate3d within translate3d does not work while transitioning
+        value += value ? unit : '';
+        return uikitUtil.isIE ? ("translateX(" + value + ")") : ("translate3d(" + value + ", 0, 0)"); // currently not translate3d in IE, translate3d within translate3d does not work while transitioning
     }
 
     function scale3d(value) {
@@ -159,12 +160,15 @@
         },
 
         connected: function() {
-            this.startAutoplay();
-            this.userInteracted = false;
+            this.autoplay && this.startAutoplay();
         },
 
         disconnected: function() {
             this.stopAutoplay();
+        },
+
+        update: function() {
+            uikitUtil.attr(this.slides, 'tabindex', '-1');
         },
 
         events: [
@@ -175,50 +179,16 @@
 
                 el: document,
 
+                filter: function() {
+                    return this.autoplay;
+                },
+
                 handler: function() {
                     if (document.hidden) {
                         this.stopAutoplay();
                     } else {
-                        !this.userInteracted && this.startAutoplay();
+                        this.startAutoplay();
                     }
-                }
-
-            },
-
-            {
-
-                name: uikitUtil.pointerDown,
-                handler: function() {
-                    this.userInteracted = true;
-                    this.stopAutoplay();
-                }
-
-            },
-
-            {
-
-                name: 'mouseenter',
-
-                filter: function() {
-                    return this.autoplay;
-                },
-
-                handler: function() {
-                    this.isHovering = true;
-                }
-
-            },
-
-            {
-
-                name: 'mouseleave',
-
-                filter: function() {
-                    return this.autoplay;
-                },
-
-                handler: function() {
-                    this.isHovering = false;
                 }
 
             }
@@ -233,19 +203,18 @@
 
                 this.stopAutoplay();
 
-                if (this.autoplay) {
-                    this.interval = setInterval(
-                        function () { return !(this$1.isHovering && this$1.pauseOnHover) && !this$1.stack.length && this$1.show('next'); },
-                        this.autoplayInterval
-                    );
-                }
+                this.interval = setInterval(
+                    function () { return (!this$1.draggable || !uikitUtil.$(':focus', this$1.$el))
+                        && (!this$1.pauseOnHover || !uikitUtil.matches(this$1.$el, ':hover'))
+                        && !this$1.stack.length
+                        && this$1.show('next'); },
+                    this.autoplayInterval
+                );
 
             },
 
             stopAutoplay: function() {
-                if (this.interval) {
-                    clearInterval(this.interval);
-                }
+                this.interval && clearInterval(this.interval);
             }
 
         }
@@ -272,7 +241,7 @@
                 var fn = this$1[key];
                 this$1[key] = function (e) {
 
-                    var pos = uikitUtil.getPos(e).x * (uikitUtil.isRtl ? -1 : 1);
+                    var pos = uikitUtil.getEventPos(e).x * (uikitUtil.isRtl ? -1 : 1);
 
                     this$1.prevPos = pos !== this$1.pos ? this$1.pos : this$1.prevPos;
                     this$1.pos = pos;
@@ -298,6 +267,7 @@
 
                     if (!this.draggable
                         || !uikitUtil.isTouch(e) && hasTextNodesOnly(e.target)
+                        || uikitUtil.closest(e.target, uikitUtil.selInput)
                         || e.button > 0
                         || this.length < 2
                     ) {
@@ -316,6 +286,9 @@
                 name: 'touchmove',
                 passive: false,
                 handler: 'move',
+                filter: function() {
+                    return uikitUtil.pointerMove === 'touchmove';
+                },
                 delegate: function() {
                     return this.selSlides;
                 }
@@ -365,7 +338,10 @@
                     this$1.unbindMove = null;
                 };
                 uikitUtil.on(window, 'scroll', this.unbindMove);
-                uikitUtil.on(document, uikitUtil.pointerUp, this.end, true);
+                uikitUtil.on(window.visualViewport, 'resize', this.unbindMove);
+                uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
+
+                uikitUtil.css(this.list, 'userSelect', 'none');
 
             },
 
@@ -383,6 +359,8 @@
                 if (distance === 0 || this.prevPos === this.pos || !this.dragging && Math.abs(distance) < this.threshold) {
                     return;
                 }
+
+                uikitUtil.css(this.list, 'pointerEvents', 'none');
 
                 e.cancelable && e.preventDefault();
 
@@ -451,6 +429,7 @@
             end: function() {
 
                 uikitUtil.off(window, 'scroll', this.unbindMove);
+                uikitUtil.off(window.visualViewport, 'resize', this.unbindMove);
                 this.unbindMove && this.unbindMove();
                 uikitUtil.off(document, uikitUtil.pointerUp, this.end, true);
 
@@ -475,9 +454,9 @@
                         this.show(this.dir > 0 && !dirChange || this.dir < 0 && dirChange ? 'next' : 'previous', true);
                     }
 
-                    uikitUtil.preventClick();
-
                 }
+
+                uikitUtil.css(this.list, {userSelect: '', pointerEvents: ''});
 
                 this.drag
                     = this.percent
@@ -526,7 +505,7 @@
 
 
                 if (this.nav && this.length !== this.nav.children.length) {
-                    uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href=\"#\"></a></li>"); }).join(''));
+                    uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href></a></li>"); }).join(''));
                 }
 
                 uikitUtil.toggleClass(uikitUtil.$$(this.selNavItem, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
@@ -535,7 +514,7 @@
 
             },
 
-            events: ['load', 'resize']
+            events: ['resize']
 
         },
 
@@ -595,7 +574,8 @@
             easing: String,
             index: Number,
             finite: Boolean,
-            velocity: Number
+            velocity: Number,
+            selSlides: String
         },
 
         data: function () { return ({
@@ -603,6 +583,7 @@
             finite: false,
             velocity: 1,
             index: 0,
+            prevIndex: -1,
             stack: [],
             percent: 0,
             clsActive: 'uk-active',
@@ -611,16 +592,22 @@
             transitionOptions: {}
         }); },
 
+        connected: function() {
+            this.prevIndex = -1;
+            this.index = this.getValidIndex(this.index);
+            this.stack = [];
+        },
+
+        disconnected: function() {
+            uikitUtil.removeClass(this.slides, this.clsActive);
+        },
+
         computed: {
 
             duration: function(ref, $el) {
                 var velocity = ref.velocity;
 
                 return speedUp($el.offsetWidth / velocity);
-            },
-
-            length: function() {
-                return this.slides.length;
             },
 
             list: function(ref, $el) {
@@ -635,12 +622,25 @@
 
             selSlides: function(ref) {
                 var selList = ref.selList;
+                var selSlides = ref.selSlides;
 
-                return (selList + " > *");
+                return (selList + " " + (selSlides || '> *'));
             },
 
-            slides: function() {
-                return uikitUtil.toNodes(this.list.children);
+            slides: {
+
+                get: function() {
+                    return uikitUtil.$$(this.selSlides, this.$el);
+                },
+
+                watch: function() {
+                    this.$reset();
+                }
+
+            },
+
+            length: function() {
+                return this.slides.length;
             }
 
         },
@@ -686,7 +686,7 @@
                     return;
                 }
 
-                var prevIndex = this.index;
+                var prevIndex = this.getIndex(this.index);
                 var prev = uikitUtil.hasClass(this.slides, this.clsActive) && this.slides[prevIndex];
                 var nextIndex = this.getIndex(index, this.index);
                 var next = this.slides[nextIndex];
@@ -700,8 +700,9 @@
                 this.prevIndex = prevIndex;
                 this.index = nextIndex;
 
-                prev && uikitUtil.trigger(prev, 'beforeitemhide', [this]);
-                if (!uikitUtil.trigger(next, 'beforeitemshow', [this, prev])) {
+                if (prev && !uikitUtil.trigger(prev, 'beforeitemhide', [this])
+                    || !uikitUtil.trigger(next, 'beforeitemshow', [this, prev])
+                ) {
                     this.index = this.prevIndex;
                     reset();
                     return;
@@ -763,7 +764,7 @@
                 );
 
                 if (!force && !prev) {
-                    this._transitioner.translate(1);
+                    this._translate(1);
                     return uikitUtil.Promise.resolve();
                 }
 
@@ -774,7 +775,7 @@
             },
 
             _getDistance: function(prev, next) {
-                return new this._getTransitioner(prev, prev !== next && next).getDistance();
+                return this._getTransitioner(prev, prev !== next && next).getDistance();
             },
 
             _translate: function(percent, prev, next) {
@@ -837,9 +838,9 @@
 
             animation: function(ref) {
                 var animation = ref.animation;
-                var Animations$$1 = ref.Animations;
+                var Animations = ref.Animations;
 
-                return uikitUtil.assign(animation in Animations$$1 ? Animations$$1[animation] : Animations$$1.slide, {name: animation});
+                return uikitUtil.assign(Animations[animation] || Animations.slide, {name: animation});
             },
 
             transitionOptions: function() {
@@ -854,10 +855,6 @@
                 var target = ref.target;
 
                 this.$update(target);
-            },
-
-            itemshow: function() {
-                uikitUtil.isNumber(this.prevIndex) && uikitUtil.fastdom.flush(); // iOS 10+ will honor the video.play only if called from a gesture handler
             },
 
             beforeitemshow: function(ref) {
@@ -934,7 +931,8 @@
                 return dir < 0
                     ? [
                         {transform: translate(30), zIndex: -1},
-                        {transform: translate(), zIndex: 0} ]
+                        {transform: translate(), zIndex: 0}
+                    ]
                     : [
                         {transform: translate(-100), zIndex: 0},
                         {transform: translate(), zIndex: -1}
@@ -951,7 +949,8 @@
                 return dir < 0
                     ? [
                         {transform: translate(30 * percent), zIndex: -1},
-                        {transform: translate(-100 * (1 - percent)), zIndex: 0} ]
+                        {transform: translate(-100 * (1 - percent)), zIndex: 0}
+                    ]
                     : [
                         {transform: translate(-percent * 100), zIndex: 0},
                         {transform: translate(30 * (1 - percent)), zIndex: -1}
@@ -966,7 +965,8 @@
                 return dir < 0
                     ? [
                         {transform: translate(100), zIndex: 0},
-                        {transform: translate(), zIndex: -1} ]
+                        {transform: translate(), zIndex: -1}
+                    ]
                     : [
                         {transform: translate(-30), zIndex: -1},
                         {transform: translate(), zIndex: 0}
@@ -983,7 +983,8 @@
                 return dir < 0
                     ? [
                         {transform: translate(percent * 100), zIndex: 0},
-                        {transform: translate(-30 * (1 - percent)), zIndex: -1} ]
+                        {transform: translate(-30 * (1 - percent)), zIndex: -1}
+                    ]
                     : [
                         {transform: translate(-30 * percent), zIndex: -1},
                         {transform: translate(100 * (1 - percent)), zIndex: 0}
@@ -1004,14 +1005,15 @@
                     return;
                 }
 
-                var index = this.getValidIndex();
-                delete this.index;
-                uikitUtil.removeClass(this.slides, this.clsActive, this.clsActivated);
-                this.show(index);
+                var index = this.getValidIndex(this.index);
+
+                if (!~this.prevIndex || this.index !== index) {
+                    this.show(index);
+                }
 
             },
 
-            events: ['load', 'resize']
+            events: ['resize']
 
         }
 
@@ -1023,8 +1025,8 @@
 
         props: {
             ratio: String,
-            minHeight: Boolean,
-            maxHeight: Boolean,
+            minHeight: Number,
+            maxHeight: Number
         },
 
         data: {
@@ -1045,7 +1047,7 @@
                 var width = ref[0];
                 var height = ref[1];
 
-                height = height * this.list.offsetWidth / width;
+                height = height * this.list.offsetWidth / width || 0;
 
                 if (this.minHeight) {
                     height = Math.max(this.minHeight, height);
@@ -1055,22 +1057,20 @@
                     height = Math.min(this.maxHeight, height);
                 }
 
-                return {height: height - uikitUtil.boxModelAdjust(this.list, 'content-box')};
+                return {height: height - uikitUtil.boxModelAdjust(this.list, 'height', 'content-box')};
             },
 
             write: function(ref) {
                 var height = ref.height;
 
-                uikitUtil.css(this.list, 'minHeight', height);
+                height > 0 && uikitUtil.css(this.list, 'minHeight', height);
             },
 
-            events: ['load', 'resize']
+            events: ['resize']
 
         }
 
     };
-
-    /* global UIkit, 'slideshow' */
 
     if (typeof window !== 'undefined' && window.UIkit) {
         window.UIkit.component('slideshow', Component);
@@ -1078,4 +1078,4 @@
 
     return Component;
 
-}));
+})));

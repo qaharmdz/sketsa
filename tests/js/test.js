@@ -1,11 +1,16 @@
-/*! UIkit 3.0.2 | http://www.getuikit.com | (c) 2014 - 2018 YOOtheme | MIT License */
+/*! UIkit 3.4.2 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
     factory();
-}(function () { 'use strict';
+}((function () { 'use strict';
 
     var objPrototype = Object.prototype;
+    var hasOwnProperty = objPrototype.hasOwnProperty;
+
+    function hasOwn(obj, key) {
+        return hasOwnProperty.call(obj, key);
+    }
 
     var hyphenateCache = {};
     var hyphenateRe = /([a-z\d])([A-Z])/g;
@@ -36,9 +41,11 @@
         return startsWithFn.call(str, search);
     }
 
-    var includesFn = function (search) { return ~this.indexOf(search); };
+    var arrPrototype = Array.prototype;
+
+    var includesFn = function (search, i) { return !!~this.indexOf(search, i); };
     var includesStr = strPrototype.includes || includesFn;
-    var includesArray = Array.prototype.includes || includesFn;
+    var includesArray = arrPrototype.includes || includesFn;
 
     function includes(obj, search) {
         return obj && (isString(obj) ? includesStr : includesArray).call(obj, search);
@@ -54,9 +61,7 @@
         return obj !== null && typeof obj === 'object';
     }
 
-    function isWindow(obj) {
-        return isObject(obj) && obj === obj.window;
-    }
+    var toString = objPrototype.toString;
 
     function isDocument(obj) {
         return isObject(obj) && obj.nodeType === 9;
@@ -67,12 +72,19 @@
     }
 
     function isNode(obj) {
-        return obj instanceof Node || isObject(obj) && obj.nodeType >= 1;
+        return isObject(obj) && obj.nodeType >= 1;
     }
 
-    var toString = objPrototype.toString;
+    function isElement(obj) {
+        return isObject(obj) && obj.nodeType === 1;
+    }
+
     function isNodeCollection(obj) {
         return toString.call(obj).match(/^\[object (NodeList|HTMLCollection)\]$/);
+    }
+
+    function isBoolean(value) {
+        return typeof value === 'boolean';
     }
 
     function isString(value) {
@@ -92,7 +104,7 @@
     }
 
     function toNode(element) {
-        return isNode(element) || isWindow(element) || isDocument(element)
+        return isNode(element)
             ? element
             : isNodeCollection(element) || isJQuery(element)
                 ? element[0]
@@ -101,12 +113,11 @@
                     : null;
     }
 
-    var arrayProto = Array.prototype;
     function toNodes(element) {
         return isNode(element)
             ? [element]
             : isNodeCollection(element)
-                ? arrayProto.slice.call(element)
+                ? arrPrototype.slice.call(element)
                 : isArray(element)
                     ? element.map(toNode).filter(Boolean)
                     : isJQuery(element)
@@ -116,8 +127,11 @@
 
     function each(obj, cb) {
         for (var key in obj) {
-            cb.call(obj[key], obj[key], key);
+            if (false === cb(obj[key], key)) {
+                return false;
+            }
         }
+        return true;
     }
 
     function attr(element, name, value) {
@@ -151,10 +165,20 @@
 
     function removeAttr(element, name) {
         element = toNodes(element);
-        name.split(' ').forEach(function (name) { return element.forEach(function (element) { return element.removeAttribute(name); }
+        name.split(' ').forEach(function (name) { return element.forEach(function (element) { return element.hasAttribute(name) && element.removeAttribute(name); }
             ); }
         );
     }
+
+    /* global DocumentTouch */
+
+    var isIE = /msie|trident/i.test(window.navigator.userAgent);
+    var isRtl = attr(document.documentElement, 'dir') === 'rtl';
+
+    var hasTouchEvents = 'ontouchstart' in window;
+    var hasTouch = hasTouchEvents
+        || window.DocumentTouch && document instanceof DocumentTouch
+        || navigator.maxTouchPoints; // IE >=11
 
     function find(selector, context) {
         return toNode(_query(selector, context, 'querySelector'));
@@ -180,16 +204,14 @@
 
             removes = [];
 
-            selector = selector.split(',').map(function (selector, i) {
+            selector = splitSelector(selector).map(function (selector, i) {
 
                 var ctx = context;
-
-                selector = selector.trim();
 
                 if (selector[0] === '!') {
 
                     var selectors = selector.substr(1).trim().split(' ');
-                    ctx = closest(context.parentNode, selectors[0]);
+                    ctx = closest(parent(context), selectors[0]);
                     selector = selectors.slice(1).join(' ').trim();
 
                 }
@@ -236,11 +258,17 @@
 
     }
 
-    var contextSelectorRe = /(^|,)\s*[!>+~-]/;
+    var contextSelectorRe = /(^|[^\\],)\s*[!>+~-]/;
     var contextSanitizeRe = /([!>+~-])(?=\s+[!>+~-]|\s*$)/g;
 
     function isContextSelector(selector) {
         return isString(selector) && selector.match(contextSelectorRe);
+    }
+
+    var selectorRe = /.*?[^\\](?:,|$)/g;
+
+    function splitSelector(selector) {
+        return selector.match(selectorRe).map(function (selector) { return selector.replace(/,$/, '').trim(); });
     }
 
     var elProto = Element.prototype;
@@ -259,9 +287,7 @@
                 return ancestor;
             }
 
-            ancestor = ancestor.parentNode;
-
-        } while (ancestor && ancestor.nodeType === 1);
+        } while ((ancestor = parent(ancestor)));
     };
 
     function closest(element, selector) {
@@ -270,9 +296,14 @@
             selector = selector.slice(1);
         }
 
-        return isNode(element)
-            ? element.parentNode && closestFn.call(element, selector)
+        return isElement(element)
+            ? closestFn.call(element, selector)
             : toNodes(element).map(function (element) { return closest(element, selector); }).filter(Boolean);
+    }
+
+    function parent(element) {
+        element = toNode(element);
+        return element && isElement(element.parentNode) && element.parentNode;
     }
 
     var escapeFn = window.CSS && CSS.escape || function (css) { return css.replace(/([^\x7f-\uFFFF\w-])/g, function (match) { return ("\\" + match); }); };
@@ -288,17 +319,6 @@
             : matches(element, selector) || closest(element, selector);
     }
 
-    /* global DocumentTouch */
-
-    var isIE = /msie|trident/i.test(window.navigator.userAgent);
-    var isRtl = attr(document.documentElement, 'dir') === 'rtl';
-
-    var hasTouchEvents = 'ontouchstart' in window;
-    var hasPointerEvents = window.PointerEvent;
-    var hasTouch = hasTouchEvents
-        || window.DocumentTouch && document instanceof DocumentTouch
-        || navigator.maxTouchPoints; // IE >=11
-
     function on() {
         var args = [], len = arguments.length;
         while ( len-- ) args[ len ] = arguments[ len ];
@@ -313,13 +333,19 @@
 
         targets = toEventTargets(targets);
 
+        if (listener.length > 1) {
+            listener = detail(listener);
+        }
+
+        if (useCapture && useCapture.self) {
+            listener = selfFilter(listener);
+        }
+
         if (selector) {
             listener = delegate(targets, selector, listener);
         }
 
-        if (listener.length > 1) {
-            listener = detail(listener);
-        }
+        useCapture = useCaptureFilter(useCapture);
 
         type.split(' ').forEach(function (type) { return targets.forEach(function (target) { return target.addEventListener(type, listener, useCapture); }
             ); }
@@ -330,6 +356,7 @@
     function off(targets, type, listener, useCapture) {
         if ( useCapture === void 0 ) useCapture = false;
 
+        useCapture = useCaptureFilter(useCapture);
         targets = toEventTargets(targets);
         type.split(' ').forEach(function (type) { return targets.forEach(function (target) { return target.removeEventListener(type, listener, useCapture); }
             ); }
@@ -367,7 +394,21 @@
     }
 
     function detail(listener) {
-        return function (e) { return isArray(e.detail) ? listener.apply(void 0, [e].concat(e.detail)) : listener(e); };
+        return function (e) { return isArray(e.detail) ? listener.apply(void 0, [ e ].concat( e.detail )) : listener(e); };
+    }
+
+    function selfFilter(listener) {
+        return function (e) {
+            if (e.target === e.currentTarget || e.target === e.current) {
+                return listener.call(null, e);
+            }
+        };
+    }
+
+    function useCaptureFilter(options) {
+        return options && isIE && !isBoolean(options)
+            ? !!options.capture
+            : options;
     }
 
     function isEventTarget(target) {
@@ -418,9 +459,9 @@
 
     function fragment(html) {
 
-        var matches$$1 = singleTagRe.exec(html);
-        if (matches$$1) {
-            return document.createElement(matches$$1[1]);
+        var matches = singleTagRe.exec(html);
+        if (matches) {
+            return document.createElement(matches[1]);
         }
 
         var container = document.createElement('div');
@@ -450,17 +491,17 @@
         var args = [], len = arguments.length - 1;
         while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
 
-        apply$1(element, args, 'add');
+        apply(element, args, 'add');
     }
 
     function removeClass(element) {
         var args = [], len = arguments.length - 1;
         while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
 
-        apply$1(element, args, 'remove');
+        apply(element, args, 'remove');
     }
 
-    function apply$1(element, args, fn) {
+    function apply(element, args, fn) {
         args = getArgs$1(args).filter(Boolean);
 
         args.length && toNodes(element).forEach(function (ref) {
@@ -477,21 +518,32 @@
             , []);
     }
 
-    var supports = {};
-
     // IE 11
-    (function () {
+    var supports = {
 
-        var list = document.createElement('_').classList;
-        if (list) {
-            list.add('a', 'b');
-            list.toggle('c', false);
-            supports.Multiple = list.contains('b');
-            supports.Force = !list.contains('c');
+        get Multiple() {
+            return this.get('_multiple');
+        },
+
+        get Force() {
+            return this.get('_force');
+        },
+
+        get: function(key) {
+
+            if (!hasOwn(this, key)) {
+                var ref = document.createElement('_');
+                var classList = ref.classList;
+                classList.add('a', 'b');
+                classList.toggle('c', false);
+                this._multiple = classList.contains('b');
+                this._force = !classList.contains('c');
+            }
+
+            return this[key];
         }
-        list = null;
 
-    })();
+    };
 
     var cssNumber = {
         'animation-iteration-count': true,
@@ -504,6 +556,8 @@
         'opacity': true,
         'order': true,
         'orphans': true,
+        'stroke-dasharray': true,
+        'stroke-dashoffset': true,
         'widows': true,
         'z-index': true,
         'zoom': true
@@ -565,12 +619,13 @@
     }
 
     var cssPrefixes = ['webkit', 'moz', 'ms'];
-    var ref = document.createElement('_');
-    var style = ref.style;
 
     function vendorPropName(name) {
 
         name = hyphenate(name);
+
+        var ref = document.documentElement;
+        var style = ref.style;
 
         if (name in style) {
             return name;
@@ -585,6 +640,195 @@
             }
         }
     }
+
+    /* global setImmediate */
+
+    var Promise = 'Promise' in window ? window.Promise : PromiseFn;
+
+    /**
+     * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
+     */
+
+    var RESOLVED = 0;
+    var REJECTED = 1;
+    var PENDING = 2;
+
+    var async = 'setImmediate' in window ? setImmediate : setTimeout;
+
+    function PromiseFn(executor) {
+
+        this.state = PENDING;
+        this.value = undefined;
+        this.deferred = [];
+
+        var promise = this;
+
+        try {
+            executor(
+                function (x) {
+                    promise.resolve(x);
+                },
+                function (r) {
+                    promise.reject(r);
+                }
+            );
+        } catch (e) {
+            promise.reject(e);
+        }
+    }
+
+    PromiseFn.reject = function (r) {
+        return new PromiseFn(function (resolve, reject) {
+            reject(r);
+        });
+    };
+
+    PromiseFn.resolve = function (x) {
+        return new PromiseFn(function (resolve, reject) {
+            resolve(x);
+        });
+    };
+
+    PromiseFn.all = function all(iterable) {
+        return new PromiseFn(function (resolve, reject) {
+            var result = [];
+            var count = 0;
+
+            if (iterable.length === 0) {
+                resolve(result);
+            }
+
+            function resolver(i) {
+                return function (x) {
+                    result[i] = x;
+                    count += 1;
+
+                    if (count === iterable.length) {
+                        resolve(result);
+                    }
+                };
+            }
+
+            for (var i = 0; i < iterable.length; i += 1) {
+                PromiseFn.resolve(iterable[i]).then(resolver(i), reject);
+            }
+        });
+    };
+
+    PromiseFn.race = function race(iterable) {
+        return new PromiseFn(function (resolve, reject) {
+            for (var i = 0; i < iterable.length; i += 1) {
+                PromiseFn.resolve(iterable[i]).then(resolve, reject);
+            }
+        });
+    };
+
+    var p = PromiseFn.prototype;
+
+    p.resolve = function resolve(x) {
+        var promise = this;
+
+        if (promise.state === PENDING) {
+            if (x === promise) {
+                throw new TypeError('Promise settled with itself.');
+            }
+
+            var called = false;
+
+            try {
+                var then = x && x.then;
+
+                if (x !== null && isObject(x) && isFunction(then)) {
+                    then.call(
+                        x,
+                        function (x) {
+                            if (!called) {
+                                promise.resolve(x);
+                            }
+                            called = true;
+                        },
+                        function (r) {
+                            if (!called) {
+                                promise.reject(r);
+                            }
+                            called = true;
+                        }
+                    );
+                    return;
+                }
+            } catch (e) {
+                if (!called) {
+                    promise.reject(e);
+                }
+                return;
+            }
+
+            promise.state = RESOLVED;
+            promise.value = x;
+            promise.notify();
+        }
+    };
+
+    p.reject = function reject(reason) {
+        var promise = this;
+
+        if (promise.state === PENDING) {
+            if (reason === promise) {
+                throw new TypeError('Promise settled with itself.');
+            }
+
+            promise.state = REJECTED;
+            promise.value = reason;
+            promise.notify();
+        }
+    };
+
+    p.notify = function notify() {
+        var this$1 = this;
+
+        async(function () {
+            if (this$1.state !== PENDING) {
+                while (this$1.deferred.length) {
+                    var ref = this$1.deferred.shift();
+                    var onResolved = ref[0];
+                    var onRejected = ref[1];
+                    var resolve = ref[2];
+                    var reject = ref[3];
+
+                    try {
+                        if (this$1.state === RESOLVED) {
+                            if (isFunction(onResolved)) {
+                                resolve(onResolved.call(undefined, this$1.value));
+                            } else {
+                                resolve(this$1.value);
+                            }
+                        } else if (this$1.state === REJECTED) {
+                            if (isFunction(onRejected)) {
+                                resolve(onRejected.call(undefined, this$1.value));
+                            } else {
+                                reject(this$1.value);
+                            }
+                        }
+                    } catch (e) {
+                        reject(e);
+                    }
+                }
+            }
+        });
+    };
+
+    p.then = function then(onResolved, onRejected) {
+        var this$1 = this;
+
+        return new PromiseFn(function (resolve, reject) {
+            this$1.deferred.push([onResolved, onRejected, resolve, reject]);
+            this$1.notify();
+        });
+    };
+
+    p.catch = function (onRejected) {
+        return this.then(undefined, onRejected);
+    };
 
     /*
         Based on:
@@ -610,28 +854,37 @@
         },
 
         clear: function(task) {
-            return remove$1(this.reads, task) || remove$1(this.writes, task);
+            return remove(this.reads, task) || remove(this.writes, task);
         },
 
-        flush: function() {
-
-            runTasks(this.reads);
-            runTasks(this.writes.splice(0, this.writes.length));
-
-            this.scheduled = false;
-
-            if (this.reads.length || this.writes.length) {
-                scheduleFlush();
-            }
-
-        }
+        flush: flush
 
     };
 
-    function scheduleFlush() {
+    function flush(recursion) {
+        if ( recursion === void 0 ) recursion = 1;
+
+        runTasks(fastdom.reads);
+        runTasks(fastdom.writes.splice(0, fastdom.writes.length));
+
+        fastdom.scheduled = false;
+
+        if (fastdom.reads.length || fastdom.writes.length) {
+            scheduleFlush(recursion + 1);
+        }
+    }
+
+    var RECURSION_LIMIT = 5;
+    function scheduleFlush(recursion) {
         if (!fastdom.scheduled) {
             fastdom.scheduled = true;
-            requestAnimationFrame(fastdom.flush.bind(fastdom));
+            if (recursion > RECURSION_LIMIT) {
+                throw new Error('Maximum recursion limit reached.');
+            } else if (recursion) {
+                Promise.resolve().then(function () { return flush(recursion); });
+            } else {
+                requestAnimationFrame(function () { return flush(); });
+            }
         }
     }
 
@@ -642,7 +895,7 @@
         }
     }
 
-    function remove$1(array, item) {
+    function remove(array, item) {
         var index = array.indexOf(item);
         return !!~index && !!array.splice(index, 1);
     }
@@ -688,14 +941,14 @@
     // set dir
     docEl.dir = dir;
 
-    var style$1 = styles[storage[key]] || styles.theme;
+    var style = styles[storage[key]] || styles.theme;
 
     // add style
-    document.writeln(("<link rel=\"stylesheet\" href=\"" + (dir !== 'rtl' ? style$1.css : style$1.css.replace('.css', '').concat('-rtl.css')) + "\">"));
+    document.writeln(("<link rel=\"stylesheet\" href=\"" + (dir !== 'rtl' ? style.css : style.css.replace('.css', '-rtl.css')) + "\">"));
 
     // add javascript
     document.writeln('<script src="../dist/js/uikit.js"></script>');
-    document.writeln(("<script src=\"" + (style$1.icons ? style$1.icons : '../dist/js/uikit-icons.js') + "\"></script>"));
+    document.writeln(("<script src=\"" + (style.icons ? style.icons : '../dist/js/uikit-icons.js') + "\"></script>"));
 
     on(window, 'load', function () { return setTimeout(function () { return fastdom.write(function () {
 
@@ -867,4 +1120,4 @@
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     }
 
-}));
+})));

@@ -39,6 +39,19 @@
                         </div>
 
                         <div class="uk-margin">
+                            <label class="uk-form-label" for="form-h-datalist">Datalist</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input uk-form-width-large" id="form-h-datalist" list="datalist" type="text" placeholder="Some text...">
+                                <datalist id="datalist">
+                                    <option value="Chrome">
+                                    <option value="Edge">
+                                    <option value="Firefox">
+                                    <option value="Safari">
+                                </datalist>
+                            </div>
+                        </div>
+
+                         <div class="uk-margin">
                             <label class="uk-form-label" for="form-h-textarea">Textarea</label>
                             <div class="uk-form-controls">
                                 <textarea class="uk-textarea uk-form-width-large" id="form-h-textarea" rows="5" placeholder="Some text..."></textarea>
@@ -413,7 +426,7 @@
                         </div>
                     </form>
 
-                    <p><span class="uk-label">Note</span> The hover and focus state for <code>uk-form-custom</code> are not styled by default, but there are the classes <code>.uk-hover</code> and <code>.uk-focus</code> in place to do so.</p>
+                    <p><span class="uk-label">Note</span> The hover and focus state for <code>uk-form-custom</code> are not styled by default, but you could use the adjacent sibling selector to do so.</p>
 
                 </div>
                 <form class="uk-form-stacked uk-width-1-3@s">
