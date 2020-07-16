@@ -1,4 +1,4 @@
-/*! UIkit 3.4.2 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.5.5 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -85,7 +85,7 @@
 
                 name: 'visibilitychange',
 
-                el: document,
+                el: uikitUtil.inBrowser && document,
 
                 handler: function() {
                     if (document.hidden) {

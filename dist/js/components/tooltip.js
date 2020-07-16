@@ -1,4 +1,4 @@
-/*! UIkit 3.4.2 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.5.5 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -35,8 +35,7 @@
             animation: 'list',
             duration: Number,
             origin: String,
-            transition: String,
-            queued: Boolean
+            transition: String
         },
 
         data: {
@@ -45,7 +44,6 @@
             duration: 200,
             origin: false,
             transition: 'linear',
-            queued: false,
 
             initProps: {
                 overflow: '',
@@ -88,43 +86,9 @@
             toggleElement: function(targets, show, animate) {
                 var this$1 = this;
 
-                return new uikitUtil.Promise(function (resolve) {
-
-                    targets = uikitUtil.toNodes(targets);
-
-                    var all = function (targets) { return uikitUtil.Promise.all(targets.map(function (el) { return this$1._toggleElement(el, show, animate); })); };
-
-                    var p;
-
-                    if (!this$1.queued || !uikitUtil.isUndefined(show) || !this$1.hasAnimation || targets.length < 2) {
-
-                        p = all(targets);
-
-                    } else {
-
-                        var toggled = targets.filter(function (el) { return this$1.isToggled(el); });
-                        var untoggled = targets.filter(function (el) { return !uikitUtil.includes(toggled, el); });
-                        var body = document.body;
-                        var scroll = body.scrollTop;
-                        var el = toggled[0];
-                        var inProgress = uikitUtil.Animation.inProgress(el) && uikitUtil.hasClass(el, 'uk-animation-leave')
-                                || uikitUtil.Transition.inProgress(el) && el.style.height === '0px';
-
-                        p = all(toggled);
-
-                        if (!inProgress) {
-                            p = p.then(function () {
-                                var p = all(untoggled);
-                                body.scrollTop = scroll;
-                                return p;
-                            });
-                        }
-
-                    }
-
-                    p.then(resolve, uikitUtil.noop);
-
-                });
+                return uikitUtil.Promise.all(uikitUtil.toNodes(targets).map(function (el) { return new uikitUtil.Promise(function (resolve) { return this$1._toggleElement(el, show, animate).then(resolve, uikitUtil.noop); }
+                    ); }
+                ));
             },
 
             isToggled: function(el) {
@@ -173,7 +137,7 @@
                     this$1.$update(el);
                 };
 
-                return promise ? promise.then(final) : uikitUtil.Promise.resolve(final());
+                return (promise || uikitUtil.Promise.resolve()).then(final);
             },
 
             _toggle: function(el, toggled) {
@@ -236,8 +200,8 @@
             uikitUtil.height(el, currentHeight);
 
             return (show
-                    ? uikitUtil.Transition.start(el, uikitUtil.assign({}, initProps, {overflow: 'hidden', height: endHeight}), Math.round(duration * (1 - currentHeight / endHeight)), transition)
-                    : uikitUtil.Transition.start(el, hideProps, Math.round(duration * (currentHeight / endHeight)), transition).then(function () { return _toggle(el, false); })
+                ? uikitUtil.Transition.start(el, uikitUtil.assign({}, initProps, {overflow: 'hidden', height: endHeight}), Math.round(duration * (1 - currentHeight / endHeight)), transition)
+                : uikitUtil.Transition.start(el, hideProps, Math.round(duration * (currentHeight / endHeight)), transition).then(function () { return _toggle(el, false); })
             ).then(function () { return uikitUtil.css(el, initProps); });
 
         };
@@ -300,7 +264,6 @@
             positionAt: function(element, target, boundary) {
 
                 uikitUtil.removeClasses(element, ((this.clsPos) + "-(top|bottom|left|right)(-[a-z]+)?"));
-                uikitUtil.css(element, {top: '', left: ''});
 
                 var node;
                 var ref = this;

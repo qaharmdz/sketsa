@@ -1,4 +1,4 @@
-/*! UIkit 3.4.2 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.5.5 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -18,40 +18,33 @@
             animation: 150
         },
 
-        computed: {
-
-            target: function() {
-                return this.$el;
-            }
-
-        },
-
         methods: {
 
-            animate: function(action) {
+            animate: function(action, target) {
                 var this$1 = this;
+                if ( target === void 0 ) target = this.$el;
 
 
                 addStyle();
 
-                var children = uikitUtil.children(this.target);
+                var children = uikitUtil.children(target);
                 var propsFrom = children.map(function (el) { return getProps(el, true); });
 
-                var oldHeight = uikitUtil.height(this.target);
+                var oldHeight = uikitUtil.height(target);
                 var oldScrollY = window.pageYOffset;
 
                 action();
 
-                uikitUtil.Transition.cancel(this.target);
+                uikitUtil.Transition.cancel(target);
                 children.forEach(uikitUtil.Transition.cancel);
 
-                reset(this.target);
-                this.$update(this.target, 'resize');
+                reset(target);
+                this.$update(target, 'resize');
                 uikitUtil.fastdom.flush();
 
-                var newHeight = uikitUtil.height(this.target);
+                var newHeight = uikitUtil.height(target);
 
-                children = children.concat(uikitUtil.children(this.target).filter(function (el) { return !uikitUtil.includes(children, el); }));
+                children = children.concat(uikitUtil.children(target).filter(function (el) { return !uikitUtil.includes(children, el); }));
 
                 var propsTo = children.map(function (el, i) { return el.parentNode && i in propsFrom
                         ? propsFrom[i]
@@ -63,7 +56,7 @@
                 );
 
                 propsFrom = propsTo.map(function (props, i) {
-                    var from = children[i].parentNode === this$1.target
+                    var from = children[i].parentNode === target
                         ? propsFrom[i] || getProps(children[i])
                         : false;
 
@@ -84,19 +77,19 @@
                     return from;
                 });
 
-                uikitUtil.addClass(this.target, targetClass);
+                uikitUtil.addClass(target, targetClass);
                 children.forEach(function (el, i) { return propsFrom[i] && uikitUtil.css(el, propsFrom[i]); });
-                uikitUtil.css(this.target, {height: oldHeight, display: 'block'});
+                uikitUtil.css(target, {height: oldHeight, display: 'block'});
                 uikitUtil.scrollTop(window, oldScrollY);
 
                 return uikitUtil.Promise.all(
                     children.map(function (el, i) { return ['top', 'left', 'height', 'width'].some(function (prop) { return propsFrom[i][prop] !== propsTo[i][prop]; }
                         ) && uikitUtil.Transition.start(el, propsTo[i], this$1.animation, 'ease'); }
-                    ).concat(oldHeight !== newHeight && uikitUtil.Transition.start(this.target, {height: newHeight}, this.animation, 'ease'))
+                    ).concat(oldHeight !== newHeight && uikitUtil.Transition.start(target, {height: newHeight}, this.animation, 'ease'))
                 ).then(function () {
                     children.forEach(function (el, i) { return uikitUtil.css(el, {display: propsTo[i].opacity === 0 ? 'none' : '', zIndex: ''}); });
-                    reset(this$1.target);
-                    this$1.$update(this$1.target, 'resize');
+                    reset(target);
+                    this$1.$update(target, 'resize');
                     uikitUtil.fastdom.flush(); // needed for IE11
                 }, uikitUtil.noop);
 
@@ -202,16 +195,12 @@
 
             },
 
-            target: function(ref, $el) {
-                var target = ref.target;
-
-                return uikitUtil.$(target, $el);
-            },
-
             children: {
 
-                get: function() {
-                    return uikitUtil.children(this.target);
+                get: function(ref, $el) {
+                    var target = ref.target;
+
+                    return uikitUtil.$$((target + " > *"), $el);
                 },
 
                 watch: function(list, old) {
@@ -267,36 +256,14 @@
 
                 uikitUtil.trigger(this.$el, 'beforeFilter', [this, state]);
 
-                var ref = this;
-                var children = ref.children;
-
                 this.toggles.forEach(function (el) { return uikitUtil.toggleClass(el, this$1.cls, !!matchFilter(el, this$1.attrItem, state)); });
 
-                var apply = function () {
-
-                    var selector = getSelector(state);
-
-                    children.forEach(function (el) { return uikitUtil.css(el, 'display', selector && !uikitUtil.matches(el, selector) ? 'none' : ''); });
-
-                    var ref = state.sort;
-                    var sort = ref[0];
-                    var order = ref[1];
-
-                    if (sort) {
-                        var sorted = sortItems(children, sort, order);
-                        if (!uikitUtil.isEqual(sorted, children)) {
-                            sorted.forEach(function (el) { return uikitUtil.append(this$1.target, el); });
-                        }
-                    }
-
-                };
-
-                if (animate) {
-                    this.animate(apply).then(function () { return uikitUtil.trigger(this$1.$el, 'afterFilter', [this$1]); });
-                } else {
-                    apply();
-                    uikitUtil.trigger(this.$el, 'afterFilter', [this]);
-                }
+                uikitUtil.Promise.all(uikitUtil.$$(this.target, this.$el).map(function (target) {
+                    var children = uikitUtil.children(target);
+                    return animate
+                        ? this$1.animate(function () { return applyState(state, target, children); }, target)
+                        : applyState(state, target, children);
+                })).then(function () { return uikitUtil.trigger(this$1.$el, 'afterFilter', [this$1]); });
 
             },
 
@@ -312,6 +279,23 @@
 
     function getFilter(el, attr) {
         return uikitUtil.parseOptions(uikitUtil.data(el, attr), ['filter']);
+    }
+
+    function applyState(state, target, children) {
+        var selector = getSelector(state);
+
+        children.forEach(function (el) { return uikitUtil.css(el, 'display', selector && !uikitUtil.matches(el, selector) ? 'none' : ''); });
+
+        var ref = state.sort;
+        var sort = ref[0];
+        var order = ref[1];
+
+        if (sort) {
+            var sorted = sortItems(children, sort, order);
+            if (!uikitUtil.isEqual(sorted, children)) {
+                uikitUtil.append(target, sorted);
+            }
+        }
     }
 
     function mergeState(el, attr, state) {

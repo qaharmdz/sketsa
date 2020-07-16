@@ -1,4 +1,4 @@
-/*! UIkit 3.4.2 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.5.5 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
@@ -134,6 +134,8 @@
         return true;
     }
 
+    function noop() {}
+
     function attr(element, name, value) {
 
         if (isObject(name)) {
@@ -172,13 +174,14 @@
 
     /* global DocumentTouch */
 
-    var isIE = /msie|trident/i.test(window.navigator.userAgent);
-    var isRtl = attr(document.documentElement, 'dir') === 'rtl';
+    var inBrowser = typeof window !== 'undefined';
+    var isIE = inBrowser && /msie|trident/i.test(window.navigator.userAgent);
+    var isRtl = inBrowser && attr(document.documentElement, 'dir') === 'rtl';
 
-    var hasTouchEvents = 'ontouchstart' in window;
-    var hasTouch = hasTouchEvents
+    var hasTouchEvents = inBrowser && 'ontouchstart' in window;
+    var hasTouch = inBrowser && (hasTouchEvents
         || window.DocumentTouch && document instanceof DocumentTouch
-        || navigator.maxTouchPoints; // IE >=11
+        || navigator.maxTouchPoints); // IE >=11
 
     function find(selector, context) {
         return toNode(_query(selector, context, 'querySelector'));
@@ -271,8 +274,8 @@
         return selector.match(selectorRe).map(function (selector) { return selector.replace(/,$/, '').trim(); });
     }
 
-    var elProto = Element.prototype;
-    var matchesFn = elProto.matches || elProto.webkitMatchesSelector || elProto.msMatchesSelector;
+    var elProto = inBrowser ? Element.prototype : {};
+    var matchesFn = elProto.matches || elProto.webkitMatchesSelector || elProto.msMatchesSelector || noop;
 
     function matches(element, selector) {
         return toNodes(element).some(function (element) { return matchesFn.call(element, selector); });
@@ -306,7 +309,7 @@
         return element && isElement(element.parentNode) && element.parentNode;
     }
 
-    var escapeFn = window.CSS && CSS.escape || function (css) { return css.replace(/([^\x7f-\uFFFF\w-])/g, function (match) { return ("\\" + match); }); };
+    var escapeFn = inBrowser && window.CSS && CSS.escape || function (css) { return css.replace(/([^\x7f-\uFFFF\w-])/g, function (match) { return ("\\" + match); }); };
     function escape(css) {
         return isString(css) ? escapeFn.call(null, css) : '';
     }
@@ -316,7 +319,7 @@
             ? element === selector || (isDocument(selector)
                 ? selector.documentElement
                 : toNode(selector)).contains(toNode(element)) // IE 11 document does not implement contains
-            : matches(element, selector) || closest(element, selector);
+            : matches(element, selector) || !!closest(element, selector);
     }
 
     function on() {
@@ -643,7 +646,7 @@
 
     /* global setImmediate */
 
-    var Promise = 'Promise' in window ? window.Promise : PromiseFn;
+    var Promise = inBrowser && window.Promise || PromiseFn;
 
     /**
      * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
@@ -653,7 +656,7 @@
     var REJECTED = 1;
     var PENDING = 2;
 
-    var async = 'setImmediate' in window ? setImmediate : setTimeout;
+    var async = inBrowser && window.setImmediate || setTimeout;
 
     function PromiseFn(executor) {
 
@@ -874,18 +877,20 @@
         }
     }
 
-    var RECURSION_LIMIT = 5;
+    var RECURSION_LIMIT = 4;
     function scheduleFlush(recursion) {
-        if (!fastdom.scheduled) {
-            fastdom.scheduled = true;
-            if (recursion > RECURSION_LIMIT) {
-                throw new Error('Maximum recursion limit reached.');
-            } else if (recursion) {
-                Promise.resolve().then(function () { return flush(recursion); });
-            } else {
-                requestAnimationFrame(function () { return flush(); });
-            }
+
+        if (fastdom.scheduled) {
+            return;
         }
+
+        fastdom.scheduled = true;
+        if (recursion && recursion < RECURSION_LIMIT) {
+            Promise.resolve().then(function () { return flush(recursion); });
+        } else {
+            requestAnimationFrame(function () { return flush(); });
+        }
+
     }
 
     function runTasks(tasks) {
@@ -953,90 +958,7 @@
     on(window, 'load', function () { return setTimeout(function () { return fastdom.write(function () {
 
         var $body = document.body;
-        var $container = prepend($body, (" <div class=\"uk-container\"> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px 20px 20px 0\"> <option value=\"index.html\">Overview</option> " + ([
-                        'accordion',
-                        'alert',
-                        'align',
-                        'animation',
-                        'article',
-                        'background',
-                        'badge',
-                        'base',
-                        'breadcrumb',
-                        'button',
-                        'card',
-                        'close',
-                        'column',
-                        'comment',
-                        'container',
-                        'countdown',
-                        'cover',
-                        'description-list',
-                        'divider',
-                        'dotnav',
-                        'drop',
-                        'dropdown',
-                        'filter',
-                        'flex',
-                        'form',
-                        'grid',
-                        'grid-masonry',
-                        'grid-parallax',
-                        'heading',
-                        'height',
-                        'height-expand',
-                        'height-viewport',
-                        'icon',
-                        'iconnav',
-                        'image',
-                        'label',
-                        'leader',
-                        'lightbox',
-                        'link',
-                        'list',
-                        'margin',
-                        'marker',
-                        'modal',
-                        'nav',
-                        'navbar',
-                        'notification',
-                        'offcanvas',
-                        'overlay',
-                        'padding',
-                        'pagination',
-                        'parallax',
-                        'position',
-                        'placeholder',
-                        'progress',
-                        'scroll',
-                        'scrollspy',
-                        'search',
-                        'section',
-                        'slidenav',
-                        'slider',
-                        'slideshow',
-                        'sortable',
-                        'spinner',
-                        'sticky',
-                        'sticky-navbar',
-                        'subnav',
-                        'svg',
-                        'switcher',
-                        'tab',
-                        'table',
-                        'text',
-                        'thumbnav',
-                        'tile',
-                        'toggle',
-                        'tooltip',
-                        'totop',
-                        'transition',
-                        'utility',
-                        'upload',
-                        'video',
-                        'visibility',
-                        'width'
-                    ].sort().map(function (name) { return ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(styles).map(function (style) { return ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(variations).map(function (name) { return ("<option value=\"" + name + "\">" + (variations[name]) + "</option>"); }).join('')) + "         </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> "));
+        var $container = prepend($body, (" <div class=\"uk-container\"> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px 20px 20px 0\"> <option value=\"index.html\">Overview</option> " + (["accordion","alert","align","animation","article","background","badge","base","breadcrumb","button","card","close","column","comment","container","countdown","cover","description-list","divider","dotnav","drop","dropdown","filter","flex","form","grid-masonry","grid-parallax","grid","heading","height-expand","height-viewport","height","icon","iconnav","image","label","leader","lightbox","link","list","margin","marker","modal","nav","navbar","notification","offcanvas","overlay","padding","pagination","parallax","placeholder","position","progress","scroll","scrollspy","search","section","slidenav","slider","slideshow","sortable","spinner","sticky-navbar","sticky","subnav","svg","switcher","tab","table","text","thumbnav","tile","toggle","tooltip","totop","transition","upload","utility","video","visibility","width"].map(function (name) { return ("<option value=\"" + name + ".html\">" + (name.split('-').map(ucfirst).join(' ')) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(styles).map(function (style) { return ("<option value=\"" + style + "\">" + (ucfirst(style)) + "</option>"); }).join('')) + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " + (Object.keys(variations).map(function (name) { return ("<option value=\"" + name + "\">" + (variations[name]) + "</option>"); }).join('')) + "         </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> "));
 
         var ref = $container.children;
         var $tests = ref[0];

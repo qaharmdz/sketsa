@@ -1,4 +1,4 @@
-/*! UIkit 3.4.2 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.5.5 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -46,7 +46,7 @@
 
                 name: 'visibilitychange',
 
-                el: document,
+                el: uikitUtil.inBrowser && document,
 
                 filter: function() {
                     return this.autoplay;
@@ -1014,8 +1014,13 @@
                 });
 
                 if (this.length && !this.dragging && !this.stack.length) {
+                    this.reorder();
                     this._translate(1);
                 }
+
+                var actives = this._getTransitioner(this.index).getActives();
+                this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActive, uikitUtil.includes(actives, slide)); });
+                (!this.sets || uikitUtil.includes(this.sets, uikitUtil.toFloat(this.index))) && this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActivated, uikitUtil.includes(actives, slide)); });
 
             },
 
@@ -1059,15 +1064,7 @@
             },
 
             itemshow: function() {
-                !uikitUtil.isUndefined(this.prevIndex) && uikitUtil.addClass(this._getTransitioner().getItemIn(), this.clsActive);
-            },
-
-            itemshown: function() {
-                var this$1 = this;
-
-                var actives = this._getTransitioner(this.index).getActives();
-                this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActive, uikitUtil.includes(actives, slide)); });
-                (!this.sets || uikitUtil.includes(this.sets, uikitUtil.toFloat(this.index))) && this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActivated, uikitUtil.includes(actives, slide)); });
+                ~this.prevIndex && uikitUtil.addClass(this._getTransitioner().getItemIn(), this.clsActive);
             }
 
         },
@@ -1078,9 +1075,8 @@
                 var this$1 = this;
 
 
-                uikitUtil.css(this.slides, 'order', '');
-
                 if (this.finite) {
+                    uikitUtil.css(this.slides, 'order', '');
                     return;
                 }
 
