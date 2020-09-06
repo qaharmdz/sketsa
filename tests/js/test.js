@@ -1,4 +1,4 @@
-/*! UIkit 3.5.5 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :

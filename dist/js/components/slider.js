@@ -1,9 +1,9 @@
-/*! UIkit 3.5.5 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitslider', ['uikit-util'], factory) :
-    (global = global || self, global.UIkitSlider = factory(global.UIkit.util));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitSlider = factory(global.UIkit.util));
 }(this, (function (uikitUtil) { 'use strict';
 
     var Class = {
@@ -149,22 +149,6 @@
             },
 
             {
-
-                // Workaround for iOS 11 bug: https://bugs.webkit.org/show_bug.cgi?id=184250
-
-                name: 'touchmove',
-                passive: false,
-                handler: 'move',
-                filter: function() {
-                    return uikitUtil.pointerMove === 'touchmove';
-                },
-                delegate: function() {
-                    return this.selSlides;
-                }
-
-            },
-
-            {
                 name: 'dragstart',
 
                 handler: function(e) {
@@ -177,8 +161,6 @@
         methods: {
 
             start: function() {
-                var this$1 = this;
-
 
                 this.drag = this.pos;
 
@@ -199,15 +181,7 @@
                 }
 
                 // See above workaround notice
-                var off = uikitUtil.pointerMove !== 'touchmove'
-                    ? uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false})
-                    : uikitUtil.noop;
-                this.unbindMove = function () {
-                    off();
-                    this$1.unbindMove = null;
-                };
-                uikitUtil.on(window, 'scroll', this.unbindMove);
-                uikitUtil.on(window.visualViewport, 'resize', this.unbindMove);
+                uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false});
                 uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
                 uikitUtil.css(this.list, 'userSelect', 'none');
@@ -217,11 +191,6 @@
             move: function(e) {
                 var this$1 = this;
 
-
-                // See above workaround notice
-                if (!this.unbindMove) {
-                    return;
-                }
 
                 var distance = this.pos - this.drag;
 
@@ -297,10 +266,8 @@
 
             end: function() {
 
-                uikitUtil.off(window, 'scroll', this.unbindMove);
-                uikitUtil.off(window.visualViewport, 'resize', this.unbindMove);
-                this.unbindMove && this.unbindMove();
-                uikitUtil.off(document, uikitUtil.pointerUp, this.end, true);
+                uikitUtil.off(document, uikitUtil.pointerMove, this.move, {passive: false});
+                uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
                 if (this.dragging) {
 
