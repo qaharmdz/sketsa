@@ -3978,7 +3978,7 @@ td .uk-checkbox {
  ========================================================================== */
 .uk-dropdown-nav {
   white-space: nowrap;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.5;
 }
 /*
@@ -3986,7 +3986,7 @@ td .uk-checkbox {
  */
 .uk-dropdown-nav > li > a {
   color: #444;
-  padding: 5px 8px;
+  padding: 5px 8px !important;
 }
 /* Hover + Focus + Active */
 .uk-dropdown-nav > li > a:hover,
@@ -13596,6 +13596,12 @@ iframe.uk-cover {
   font-family: 'Roboto Condensed', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: normal;
 }
+.hook-dropdown-nav-header {
+  padding: 5px 8px;
+}
+.hook-dropdown-nav-divider {
+  margin: 5px 8px;
+}
 .hook-navbar-dropdown-nav-item {
   padding: 5px 8px;
 }
@@ -13603,11 +13609,5 @@ iframe.uk-cover {
   padding: 5px 8px;
 }
 .hook-navbar-dropdown-nav-divider {
-  margin: 5px 8px;
-}
-.hook-dropdown-nav-header {
-  padding: 5px 8px;
-}
-.hook-dropdown-nav-divider {
   margin: 5px 8px;
 }
