@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -95,10 +95,6 @@
                 return deferred.promise;
             },
 
-            stop: function() {
-                return uikitUtil.Transition.stop([next, prev]);
-            },
-
             cancel: function() {
                 uikitUtil.Transition.cancel([next, prev]);
             },
@@ -114,7 +110,6 @@
 
                 uikitUtil.Transition.cancel([next, prev]);
                 return this.show(duration, percent, true);
-
             },
 
             translate: function(percent) {
@@ -311,7 +306,10 @@
                     this.prevIndex = this.index;
                 }
 
-                // See above workaround notice
+                // Workaround for iOS's inert scrolling preventing pointerdown event
+                // https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
+                uikitUtil.on(this.list, 'touchmove', this.move, {passive: false});
+
                 uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false});
                 uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
@@ -328,8 +326,6 @@
                 if (distance === 0 || this.prevPos === this.pos || !this.dragging && Math.abs(distance) < this.threshold) {
                     return;
                 }
-
-                uikitUtil.css(this.list, 'pointerEvents', 'none');
 
                 e.cancelable && e.preventDefault();
 
@@ -397,6 +393,7 @@
 
             end: function() {
 
+                uikitUtil.off(this.list, 'touchmove', this.move, {passive: false});
                 uikitUtil.off(document, uikitUtil.pointerMove, this.move, {passive: false});
                 uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
@@ -475,7 +472,7 @@
                     uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href></a></li>"); }).join(''));
                 }
 
-                uikitUtil.toggleClass(uikitUtil.$$(this.selNavItem, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
+                this.navItems.concat(this.nav).forEach(function (el) { return el && (el.hidden = !this$1.maxIndex); });
 
                 this.updateNav();
 
@@ -561,7 +558,7 @@
 
         connected: function() {
             this.prevIndex = -1;
-            this.index = this.getValidIndex(this.index);
+            this.index = this.getValidIndex(this.$props.index);
             this.stack = [];
         },
 

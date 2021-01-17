@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -40,6 +40,26 @@
 
         return value && !isNaN(value) ? ("(min-width: " + value + "px)") : false;
     }
+
+    var loadSVG = uikitUtil.cacheFunction(function (src) { return new uikitUtil.Promise(function (resolve, reject) {
+
+            if (!src) {
+                reject();
+                return;
+            }
+
+            if (uikitUtil.startsWith(src, 'data:')) {
+                resolve(decodeURIComponent(src.split(',')[1]));
+            } else {
+
+                uikitUtil.ajax(src).then(
+                    function (xhr) { return resolve(xhr.response); },
+                    function () { return reject('SVG not found.'); }
+                );
+
+            }
+        }); }
+    );
 
     function getMaxPathLength(el) {
         return Math.ceil(Math.max.apply(Math, [ 0 ].concat( uikitUtil.$$('[stroke]', el).map(function (stroke) {
@@ -83,7 +103,7 @@
                     var isCssProp = isColor || prop === 'opacity';
 
                     var pos, bgPos, diff;
-                    var steps = properties[prop].slice(0);
+                    var steps = properties[prop].slice();
 
                     if (isCssProp) {
                         uikitUtil.css($el, prop, '');
@@ -185,9 +205,7 @@
                 var this$1 = this;
 
 
-                data.active = this.matchMedia;
-
-                if (!data.active) {
+                if (!this.matchMedia) {
                     return;
                 }
 
@@ -251,10 +269,9 @@
 
             write: function(ref) {
                 var dim = ref.dim;
-                var active = ref.active;
 
 
-                if (!active) {
+                if (!this.matchMedia) {
                     uikitUtil.css(this.$el, {backgroundSize: '', backgroundRepeat: ''});
                     return;
                 }
@@ -428,22 +445,6 @@
         events: [
 
             {
-
-                name: 'itemshown',
-
-                self: true,
-
-                el: function() {
-                    return this.item;
-                },
-
-                handler: function() {
-                    uikitUtil.css(this.$el, this.getCss(.5));
-                }
-
-            },
-
-            {
                 name: 'itemin itemout',
 
                 self: true,
@@ -453,6 +454,7 @@
                 },
 
                 handler: function(ref) {
+                    var this$1 = this;
                     var type = ref.type;
                     var ref_detail = ref.detail;
                     var percent = ref_detail.percent;
@@ -461,15 +463,14 @@
                     var dir = ref_detail.dir;
 
 
-                    uikitUtil.Transition.cancel(this.$el);
-                    uikitUtil.css(this.$el, this.getCss(getCurrent(type, dir, percent)));
-
-                    uikitUtil.Transition.start(this.$el, this.getCss(isIn(type)
-                        ? .5
-                        : dir > 0
-                            ? 1
-                            : 0
-                    ), duration, timing).catch(uikitUtil.noop);
+                    uikitUtil.fastdom.read(function () {
+                        var propsFrom = this$1.getCss(getCurrentPercent(type, dir, percent));
+                        var propsTo = this$1.getCss(isIn(type) ? .5 : dir > 0 ? 1 : 0);
+                        uikitUtil.fastdom.write(function () {
+                            uikitUtil.css(this$1.$el, propsFrom);
+                            uikitUtil.Transition.start(this$1.$el, propsTo, duration, timing).catch(uikitUtil.noop);
+                        });
+                    });
 
                 }
             },
@@ -499,13 +500,16 @@
                 },
 
                 handler: function(ref) {
+                    var this$1 = this;
                     var type = ref.type;
                     var ref_detail = ref.detail;
                     var percent = ref_detail.percent;
                     var dir = ref_detail.dir;
 
-                    uikitUtil.Transition.cancel(this.$el);
-                    uikitUtil.css(this.$el, this.getCss(getCurrent(type, dir, percent)));
+                    uikitUtil.fastdom.read(function () {
+                        var props = this$1.getCss(getCurrentPercent(type, dir, percent));
+                        uikitUtil.fastdom.write(function () { return uikitUtil.css(this$1.$el, props); });
+                    });
                 }
             }
 
@@ -517,7 +521,7 @@
         return uikitUtil.endsWith(type, 'in');
     }
 
-    function getCurrent(type, dir, percent) {
+    function getCurrentPercent(type, dir, percent) {
 
         percent /= 2;
 

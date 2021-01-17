@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -44,6 +44,8 @@
             duration: 200,
             origin: false,
             transition: 'linear',
+            clsEnter: 'uk-togglabe-enter',
+            clsLeave: 'uk-togglabe-leave',
 
             initProps: {
                 overflow: '',
@@ -83,61 +85,54 @@
 
         methods: {
 
-            toggleElement: function(targets, show, animate) {
+            toggleElement: function(targets, toggle, animate) {
                 var this$1 = this;
 
-                return uikitUtil.Promise.all(uikitUtil.toNodes(targets).map(function (el) { return new uikitUtil.Promise(function (resolve) { return this$1._toggleElement(el, show, animate).then(resolve, uikitUtil.noop); }
-                    ); }
-                ));
+                return new uikitUtil.Promise(function (resolve) { return uikitUtil.Promise.all(uikitUtil.toNodes(targets).map(function (el) {
+
+                        var show = uikitUtil.isBoolean(toggle) ? toggle : !this$1.isToggled(el);
+
+                        if (!uikitUtil.trigger(el, ("before" + (show ? 'show' : 'hide')), [this$1])) {
+                            return uikitUtil.Promise.reject();
+                        }
+
+                        var promise = (
+                            uikitUtil.isFunction(animate)
+                                ? animate
+                                : animate === false || !this$1.hasAnimation
+                                ? this$1._toggle
+                                : this$1.hasTransition
+                                    ? toggleHeight(this$1)
+                                    : toggleAnimation(this$1)
+                        )(el, show) || uikitUtil.Promise.resolve();
+
+                        uikitUtil.addClass(el, show ? this$1.clsEnter : this$1.clsLeave);
+
+                        uikitUtil.trigger(el, show ? 'show' : 'hide', [this$1]);
+
+                        promise
+                            .catch(uikitUtil.noop)
+                            .then(function () { return uikitUtil.removeClass(el, show ? this$1.clsEnter : this$1.clsLeave); });
+
+                        return promise.then(function () {
+                            uikitUtil.removeClass(el, show ? this$1.clsEnter : this$1.clsLeave);
+                            uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this$1]);
+                            this$1.$update(el);
+                        });
+                    })).then(resolve, uikitUtil.noop); }
+                );
             },
 
             isToggled: function(el) {
-                var nodes = uikitUtil.toNodes(el || this.$el);
-                return this.cls
-                    ? uikitUtil.hasClass(nodes, this.cls.split(' ')[0])
-                    : !uikitUtil.hasAttr(nodes, 'hidden');
-            },
+                if ( el === void 0 ) el = this.$el;
 
-            updateAria: function(el) {
-                if (this.cls === false) {
-                    uikitUtil.attr(el, 'aria-hidden', !this.isToggled(el));
-                }
-            },
-
-            _toggleElement: function(el, show, animate) {
-                var this$1 = this;
-
-
-                show = uikitUtil.isBoolean(show)
-                    ? show
-                    : uikitUtil.Animation.inProgress(el)
-                        ? uikitUtil.hasClass(el, 'uk-animation-leave')
-                        : uikitUtil.Transition.inProgress(el)
-                            ? el.style.height === '0px'
-                            : !this.isToggled(el);
-
-                if (!uikitUtil.trigger(el, ("before" + (show ? 'show' : 'hide')), [this])) {
-                    return uikitUtil.Promise.reject();
-                }
-
-                var promise = (
-                    uikitUtil.isFunction(animate)
-                        ? animate
-                        : animate === false || !this.hasAnimation
-                            ? this._toggle
-                            : this.hasTransition
-                                ? toggleHeight(this)
-                                : toggleAnimation(this)
-                )(el, show);
-
-                uikitUtil.trigger(el, show ? 'show' : 'hide', [this]);
-
-                var final = function () {
-                    uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this$1]);
-                    this$1.$update(el);
-                };
-
-                return (promise || uikitUtil.Promise.resolve()).then(final);
+                return uikitUtil.hasClass(el, this.clsEnter)
+                    ? true
+                    : uikitUtil.hasClass(el, this.clsLeave)
+                        ? false
+                        : this.cls
+                            ? uikitUtil.hasClass(el, this.cls.split(' ')[0])
+                            : !uikitUtil.hasAttr(el, 'hidden');
             },
 
             _toggle: function(el, toggled) {
@@ -153,16 +148,14 @@
                     changed = uikitUtil.includes(this.cls, ' ') || toggled !== uikitUtil.hasClass(el, this.cls);
                     changed && uikitUtil.toggleClass(el, this.cls, uikitUtil.includes(this.cls, ' ') ? undefined : toggled);
                 } else {
-                    changed = toggled === uikitUtil.hasAttr(el, 'hidden');
-                    changed && uikitUtil.attr(el, 'hidden', !toggled ? '' : null);
+                    changed = toggled === el.hidden;
+                    changed && (el.hidden = !toggled);
                 }
 
                 uikitUtil.$$('[autofocus]', el).some(function (el) { return uikitUtil.isVisible(el) ? el.focus() || true : el.blur(); });
 
-                this.updateAria(el);
-
                 if (changed) {
-                    uikitUtil.trigger(el, 'toggled', [this]);
+                    uikitUtil.trigger(el, 'toggled', [toggled, this]);
                     this.$update(el);
                 }
             }
@@ -265,13 +258,12 @@
 
                 uikitUtil.removeClasses(element, ((this.clsPos) + "-(top|bottom|left|right)(-[a-z]+)?"));
 
-                var node;
                 var ref = this;
                 var offset = ref.offset;
                 var axis = this.getAxis();
 
                 if (!uikitUtil.isNumeric(offset)) {
-                    node = uikitUtil.$(offset);
+                    var node = uikitUtil.$(offset);
                     offset = node
                         ? uikitUtil.offset(node)[axis === 'x' ? 'left' : 'top'] - uikitUtil.offset(target)[axis === 'x' ? 'right' : 'bottom']
                         : 0;
@@ -307,8 +299,6 @@
 
     var obj;
 
-    var actives = [];
-
     var Component = {
 
         mixins: [Container, Togglable, Position],
@@ -332,12 +322,14 @@
 
         beforeConnect: function() {
             this._hasTitle = uikitUtil.hasAttr(this.$el, 'title');
-            uikitUtil.attr(this.$el, {title: '', 'aria-expanded': false});
+            uikitUtil.attr(this.$el, 'title', '');
+            this.updateAria(false);
+            makeFocusable(this.$el);
         },
 
         disconnected: function() {
             this.hide();
-            uikitUtil.attr(this.$el, {title: this._hasTitle ? this.title : null, 'aria-expanded': null});
+            uikitUtil.attr(this.$el, 'title', this._hasTitle ? this.title : null);
         },
 
         methods: {
@@ -346,14 +338,14 @@
                 var this$1 = this;
 
 
-                if (this.isActive() || !this.title) {
+                if (this.isToggled(this.tooltip) || !this.title) {
                     return;
                 }
 
-                actives.forEach(function (active) { return active.hide(); });
-                actives.push(this);
-
-                this._unbind = uikitUtil.on(document, uikitUtil.pointerUp, function (e) { return !uikitUtil.within(e.target, this$1.$el) && this$1.hide(); });
+                this._unbind = uikitUtil.once(document, ("show keydown " + uikitUtil.pointerDown), this.hide, false, function (e) { return e.type === uikitUtil.pointerDown && !uikitUtil.within(e.target, this$1.$el)
+                    || e.type === 'keydown' && e.keyCode === 27
+                    || e.type === 'show' && e.detail[0] !== this$1 && e.detail[0].$name === this$1.$name; }
+                );
 
                 clearTimeout(this.showTimer);
                 this.showTimer = setTimeout(this._show, this.delay);
@@ -363,16 +355,17 @@
                 var this$1 = this;
 
 
-                if (!this.isActive() || uikitUtil.matches(this.$el, 'input:focus')) {
+                if (uikitUtil.matches(this.$el, 'input:focus')) {
+                    return;
+                }
+
+                clearTimeout(this.showTimer);
+
+                if (!this.isToggled(this.tooltip)) {
                     return;
                 }
 
                 this.toggleElement(this.tooltip, false, false).then(function () {
-
-                    actives.splice(actives.indexOf(this$1), 1);
-
-                    clearTimeout(this$1.showTimer);
-
                     this$1.tooltip = uikitUtil.remove(this$1.tooltip);
                     this$1._unbind();
                 });
@@ -386,11 +379,9 @@
                     ("<div class=\"" + (this.clsPos) + "\"> <div class=\"" + (this.clsPos) + "-inner\">" + (this.title) + "</div> </div>")
                 );
 
-                uikitUtil.on(this.tooltip, 'toggled', function () {
+                uikitUtil.on(this.tooltip, 'toggled', function (e, toggled) {
 
-                    var toggled = this$1.isToggled(this$1.tooltip);
-
-                    uikitUtil.attr(this$1.$el, 'aria-expanded', toggled);
+                    this$1.updateAria(toggled);
 
                     if (!toggled) {
                         return;
@@ -407,8 +398,8 @@
 
             },
 
-            isActive: function() {
-                return uikitUtil.includes(actives, this);
+            updateAria: function(toggled) {
+                uikitUtil.attr(this.$el, 'aria-expanded', toggled);
             }
 
         },
@@ -419,22 +410,26 @@
             blur: 'hide'
 
         }, obj[(uikitUtil.pointerEnter + " " + uikitUtil.pointerLeave)] = function (e) {
-                if (uikitUtil.isTouch(e)) {
-                    return;
-                }
-                e.type === uikitUtil.pointerEnter
-                    ? this.show()
-                    : this.hide();
-            }, obj[uikitUtil.pointerDown] = function (e) {
                 if (!uikitUtil.isTouch(e)) {
-                    return;
+                    this[e.type === uikitUtil.pointerEnter ? 'show' : 'hide']();
                 }
-                this.isActive()
-                    ? this.hide()
-                    : this.show();
+            }, obj[uikitUtil.pointerDown] = function (e) {
+                if (uikitUtil.isTouch(e)) {
+                    this.show();
+                }
             }, obj )
 
     };
+
+    function makeFocusable(el) {
+        if (!isFocusable(el)) {
+            uikitUtil.attr(el, 'tabindex', '0');
+        }
+    }
+
+    function isFocusable(el) {
+        return uikitUtil.isInput(el) || uikitUtil.matches(el, 'a,button') || uikitUtil.hasAttr(el, 'tabindex');
+    }
 
     if (typeof window !== 'undefined' && window.UIkit) {
         window.UIkit.component('tooltip', Component);

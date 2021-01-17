@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -180,7 +180,10 @@
                     this.prevIndex = this.index;
                 }
 
-                // See above workaround notice
+                // Workaround for iOS's inert scrolling preventing pointerdown event
+                // https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
+                uikitUtil.on(this.list, 'touchmove', this.move, {passive: false});
+
                 uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false});
                 uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
@@ -197,8 +200,6 @@
                 if (distance === 0 || this.prevPos === this.pos || !this.dragging && Math.abs(distance) < this.threshold) {
                     return;
                 }
-
-                uikitUtil.css(this.list, 'pointerEvents', 'none');
 
                 e.cancelable && e.preventDefault();
 
@@ -266,6 +267,7 @@
 
             end: function() {
 
+                uikitUtil.off(this.list, 'touchmove', this.move, {passive: false});
                 uikitUtil.off(document, uikitUtil.pointerMove, this.move, {passive: false});
                 uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
@@ -344,7 +346,7 @@
                     uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href></a></li>"); }).join(''));
                 }
 
-                uikitUtil.toggleClass(uikitUtil.$$(this.selNavItem, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
+                this.navItems.concat(this.nav).forEach(function (el) { return el && (el.hidden = !this$1.maxIndex); });
 
                 this.updateNav();
 
@@ -430,7 +432,7 @@
 
         connected: function() {
             this.prevIndex = -1;
-            this.index = this.getValidIndex(this.index);
+            this.index = this.getValidIndex(this.$props.index);
             this.stack = [];
         },
 
@@ -697,10 +699,10 @@
 
         var from = prev
             ? getLeft(prev, list, center)
-            : getLeft(next, list, center) + uikitUtil.offset(next).width * dir;
+            : getLeft(next, list, center) + uikitUtil.dimensions(next).width * dir;
         var to = next
             ? getLeft(next, list, center)
-            : from + uikitUtil.offset(prev).width * dir * (uikitUtil.isRtl ? -1 : 1);
+            : from + uikitUtil.dimensions(prev).width * dir * (uikitUtil.isRtl ? -1 : 1);
 
         return {
 
@@ -728,10 +730,6 @@
 
             },
 
-            stop: function() {
-                return uikitUtil.Transition.stop(list);
-            },
-
             cancel: function() {
                 uikitUtil.Transition.cancel(list);
             },
@@ -754,7 +752,7 @@
                 uikitUtil.css(list, 'transform', translate(uikitUtil.clamp(
                     -to + (distance - distance * percent),
                     -getWidth(list),
-                    uikitUtil.offset(list).width
+                    uikitUtil.dimensions(list).width
                 ) * (uikitUtil.isRtl ? -1 : 1), 'px'));
 
                 this.updateTranslates();
@@ -779,8 +777,8 @@
                 if ( out === void 0 ) out = false;
 
 
-                var actives = this.getActives();
-                var all = uikitUtil.sortBy(slides(list), 'offsetLeft');
+                var actives = uikitUtil.sortBy(this.getActives(), 'offsetLeft');
+                var all = uikitUtil.sortBy(uikitUtil.children(list), 'offsetLeft');
                 var i = uikitUtil.index(all, actives[dir * (out ? -1 : 1) > 0 ? actives.length - 1 : 0]);
 
                 return ~i && all[i + (prev && !out ? dir : 0)];
@@ -788,21 +786,17 @@
             },
 
             getActives: function() {
-
-                var left = getLeft(prev || next, list, center);
-
-                return uikitUtil.sortBy(slides(list).filter(function (slide) {
+                return [prev || next].concat(uikitUtil.children(list).filter(function (slide) {
                     var slideLeft = getElLeft(slide, list);
-                    return slideLeft >= left && slideLeft + uikitUtil.offset(slide).width <= uikitUtil.offset(list).width + left;
-                }), 'offsetLeft');
-
+                    return slideLeft > from && slideLeft + uikitUtil.dimensions(slide).width <= uikitUtil.dimensions(list).width + from;
+                }));
             },
 
             updateTranslates: function() {
 
                 var actives = this.getActives();
 
-                slides(list).forEach(function (slide) {
+                uikitUtil.children(list).forEach(function (slide) {
                     var isActive = uikitUtil.includes(actives, slide);
 
                     triggerUpdate(slide, ("itemtranslate" + (isActive ? 'in' : 'out')), {
@@ -827,31 +821,23 @@
     }
 
     function getMax(list) {
-        return Math.max(0, getWidth(list) - uikitUtil.offset(list).width);
+        return Math.max(0, getWidth(list) - uikitUtil.dimensions(list).width);
     }
 
     function getWidth(list) {
-        return slides(list).reduce(function (right, el) { return uikitUtil.offset(el).width + right; }, 0);
-    }
-
-    function getMaxWidth(list) {
-        return slides(list).reduce(function (right, el) { return Math.max(right, uikitUtil.offset(el).width); }, 0);
+        return uikitUtil.children(list).reduce(function (right, el) { return uikitUtil.dimensions(el).width + right; }, 0);
     }
 
     function centerEl(el, list) {
-        return uikitUtil.offset(list).width / 2 - uikitUtil.offset(el).width / 2;
+        return uikitUtil.dimensions(list).width / 2 - uikitUtil.dimensions(el).width / 2;
     }
 
     function getElLeft(el, list) {
-        return (uikitUtil.position(el).left + (uikitUtil.isRtl ? uikitUtil.offset(el).width - uikitUtil.offset(list).width : 0)) * (uikitUtil.isRtl ? -1 : 1);
+        return el && (uikitUtil.position(el).left + (uikitUtil.isRtl ? uikitUtil.dimensions(el).width - uikitUtil.dimensions(list).width : 0)) * (uikitUtil.isRtl ? -1 : 1) || 0;
     }
 
     function triggerUpdate(el, type, data) {
         uikitUtil.trigger(el, uikitUtil.createEvent(type, false, false, data));
-    }
-
-    function slides(list) {
-        return uikitUtil.children(list);
     }
 
     var Component = {
@@ -882,10 +868,12 @@
             finite: function(ref) {
                 var finite = ref.finite;
 
-                return finite || Math.ceil(getWidth(this.list)) < uikitUtil.offset(this.list).width + getMaxWidth(this.list) + this.center;
+                return finite || Math.ceil(getWidth(this.list)) < uikitUtil.dimensions(this.list).width + getMaxElWidth(this.list) + this.center;
             },
 
             maxIndex: function() {
+                var this$1 = this;
+
 
                 if (!this.finite || this.center && !this.sets) {
                     return this.length - 1;
@@ -898,15 +886,8 @@
                 uikitUtil.css(this.slides, 'order', '');
 
                 var max = getMax(this.list);
-                var i = this.length;
-
-                while (i--) {
-                    if (getElLeft(this.list.children[i], this.list) < max) {
-                        return Math.min(i + 1, this.length - 1);
-                    }
-                }
-
-                return 0;
+                var index = uikitUtil.findIndex(this.slides, function (el) { return getElLeft(el, this$1.list) >= max; });
+                return ~index ? index : this.length - 1;
             },
 
             sets: function(ref) {
@@ -914,16 +895,19 @@
                 var sets = ref.sets;
 
 
-                var width = uikitUtil.offset(this.list).width / (this.center ? 2 : 1);
+                if (!sets) {
+                    return;
+                }
+
+                var width = uikitUtil.dimensions(this.list).width / (this.center ? 2 : 1);
 
                 var left = 0;
                 var leftCenter = width;
                 var slideLeft = 0;
 
-                sets = sets && this.slides.reduce(function (sets, slide, i) {
+                sets = uikitUtil.sortBy(this.slides, 'offsetLeft').reduce(function (sets, slide, i) {
 
-                    var ref = uikitUtil.offset(slide);
-                    var slideWidth = ref.width;
+                    var slideWidth = uikitUtil.dimensions(slide).width;
                     var slideRight = slideLeft + slideWidth;
 
                     if (slideRight > left) {
@@ -935,7 +919,7 @@
                         if (!uikitUtil.includes(sets, i)) {
 
                             var cmp = this$1.slides[i + 1];
-                            if (this$1.center && cmp && slideWidth < leftCenter - uikitUtil.offset(cmp).width / 2) {
+                            if (this$1.center && cmp && slideWidth < leftCenter - uikitUtil.dimensions(cmp).width / 2) {
                                 leftCenter -= slideWidth;
                             } else {
                                 leftCenter = width;
@@ -974,10 +958,11 @@
             write: function() {
                 var this$1 = this;
 
-
-                uikitUtil.$$(("[" + (this.attrItem) + "],[data-" + (this.attrItem) + "]"), this.$el).forEach(function (el) {
-                    var index = uikitUtil.data(el, this$1.attrItem);
-                    this$1.maxIndex && uikitUtil.toggleClass(el, 'uk-hidden', uikitUtil.isNumeric(index) && (this$1.sets && !uikitUtil.includes(this$1.sets, uikitUtil.toFloat(index)) || index > this$1.maxIndex));
+                this.navItems.forEach(function (el) {
+                    var index = uikitUtil.toNumber(uikitUtil.data(el, this$1.attrItem));
+                    if (index !== false) {
+                        el.hidden = !this$1.maxIndex || index > this$1.maxIndex || this$1.sets && !uikitUtil.includes(this$1.sets, index);
+                    }
                 });
 
                 if (this.length && !this.dragging && !this.stack.length) {
@@ -1019,12 +1004,8 @@
                     return;
                 }
 
-                this.duration = speedUp(this.avgWidth / this.velocity)
-                    * (uikitUtil.offset(
-                        this.dir < 0 || !this.slides[this.prevIndex]
-                            ? this.slides[this.index]
-                            : this.slides[this.prevIndex]
-                    ).width / this.avgWidth);
+                var index = this.dir < 0 || !this.slides[this.prevIndex] ? this.index : this.prevIndex;
+                this.duration = speedUp(this.avgWidth / this.velocity) * (uikitUtil.dimensions(this.slides[index]).width / this.avgWidth);
 
                 this.reorder();
 
@@ -1062,7 +1043,7 @@
                 }
 
                 var next = this.slides[index];
-                var width = uikitUtil.offset(this.list).width / 2 - uikitUtil.offset(next).width / 2;
+                var width = uikitUtil.dimensions(this.list).width / 2 - uikitUtil.dimensions(next).width / 2;
                 var j = 0;
 
                 while (width > 0) {
@@ -1070,7 +1051,7 @@
                     var slide = this.slides[slideIndex];
 
                     uikitUtil.css(slide, 'order', slideIndex > index ? -2 : -1);
-                    width -= uikitUtil.offset(slide).width;
+                    width -= uikitUtil.dimensions(slide).width;
                 }
 
             },
@@ -1105,6 +1086,10 @@
         }
 
     };
+
+    function getMaxElWidth(list) {
+        return Math.max.apply(Math, [ 0 ].concat( uikitUtil.children(list).map(function (el) { return uikitUtil.dimensions(el).width; }) ));
+    }
 
     if (typeof window !== 'undefined' && window.UIkit) {
         window.UIkit.component('slider', Component);

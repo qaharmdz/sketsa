@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 /* ========================================================================
    Component: Base
  ========================================================================== */
@@ -2797,13 +2797,13 @@ select.uk-form-width-xsmall {
   margin-top: -15px;
   margin-bottom: -15px;
 }
-.uk-card-body .uk-nav-default > li > a,
-.uk-card-body .uk-nav-default .uk-nav-header,
-.uk-card-body .uk-nav-default .uk-nav-divider {
+.uk-card-body > .uk-nav-default > li > a,
+.uk-card-body > .uk-nav-default .uk-nav-header,
+.uk-card-body > .uk-nav-default .uk-nav-divider {
   padding-left: 30px;
   padding-right: 30px;
 }
-.uk-card-body .uk-nav-default .uk-nav-sub {
+.uk-card-body > .uk-nav-default .uk-nav-sub {
   padding-left: 45px;
 }
 /* Desktop and bigger */
@@ -2816,13 +2816,13 @@ select.uk-form-width-xsmall {
     margin-top: -25px;
     margin-bottom: -25px;
   }
-  .uk-card-body .uk-nav-default > li > a,
-  .uk-card-body .uk-nav-default .uk-nav-header,
-  .uk-card-body .uk-nav-default .uk-nav-divider {
+  .uk-card-body > .uk-nav-default > li > a,
+  .uk-card-body > .uk-nav-default .uk-nav-header,
+  .uk-card-body > .uk-nav-default .uk-nav-divider {
     padding-left: 40px;
     padding-right: 40px;
   }
-  .uk-card-body .uk-nav-default .uk-nav-sub {
+  .uk-card-body > .uk-nav-default .uk-nav-sub {
     padding-left: 55px;
   }
 }
@@ -2837,13 +2837,13 @@ select.uk-form-width-xsmall {
   margin-top: -5px;
   margin-bottom: -5px;
 }
-.uk-card-small .uk-nav-default > li > a,
-.uk-card-small .uk-nav-default .uk-nav-header,
-.uk-card-small .uk-nav-default .uk-nav-divider {
+.uk-card-small > .uk-nav-default > li > a,
+.uk-card-small > .uk-nav-default .uk-nav-header,
+.uk-card-small > .uk-nav-default .uk-nav-divider {
   padding-left: 20px;
   padding-right: 20px;
 }
-.uk-card-small .uk-nav-default .uk-nav-sub {
+.uk-card-small > .uk-nav-default .uk-nav-sub {
   padding-left: 35px;
 }
 /*
@@ -2857,13 +2857,13 @@ select.uk-form-width-xsmall {
   .uk-card-large > .uk-nav-default:only-child {
     margin: 0;
   }
-  .uk-card-large .uk-nav-default > li > a,
-  .uk-card-large .uk-nav-default .uk-nav-header,
-  .uk-card-large .uk-nav-default .uk-nav-divider {
+  .uk-card-large > .uk-nav-default > li > a,
+  .uk-card-large > .uk-nav-default .uk-nav-header,
+  .uk-card-large > .uk-nav-default .uk-nav-divider {
     padding-left: 0;
     padding-right: 0;
   }
-  .uk-card-large .uk-nav-default .uk-nav-sub {
+  .uk-card-large > .uk-nav-default .uk-nav-sub {
     padding-left: 15px;
   }
 }
@@ -3971,11 +3971,17 @@ select.uk-form-width-xsmall {
 /* Container
  ========================================================================== */
 /*
- * 1. Clip child elements
+ * Clip child elements
  */
 .uk-slider-container {
-  /* 1 */
   overflow: hidden;
+}
+/*
+ * Widen container to prevent box-shadows from clipping, `large-box-shadow`
+ */
+.uk-slider-container-offset {
+  margin: -11px -25px -39px -25px;
+  padding: 11px 25px 39px 25px;
 }
 /* Items
  ========================================================================== */
@@ -5599,27 +5605,21 @@ ul.uk-nav-sub {
    Component: Breadcrumb
  ========================================================================== */
 /*
- * 1. Allow items to wrap into the next line
- * 2. Reset list
+ * Reset list
  */
 .uk-breadcrumb {
-  display: flex;
-  /* 1 */
-  flex-wrap: wrap;
-  /* 2 */
   padding: 0;
   list-style: none;
 }
 /*
- * Space is allocated solely based on content dimensions: 0 0 auto
+ * 1. Doesn't generate any box and replaced by child boxes
  */
 .uk-breadcrumb > * {
-  flex: none;
+  display: contents;
 }
 /* Items
  ========================================================================== */
 .uk-breadcrumb > * > * {
-  display: inline-block;
   font-size: 0.875rem;
   color: #999;
 }
@@ -5638,11 +5638,15 @@ ul.uk-nav-sub {
 /*
  * Divider
  * `nth-child` makes it also work without JS if it's only one row
+ * 1. Remove space between inline block elements.
+ * 2. Style
  */
 .uk-breadcrumb > :nth-child(n+2):not(.uk-first-column)::before {
   content: "/";
   display: inline-block;
-  margin: 0 20px;
+  /* 1 */
+  margin: 0 20px 0 calc(20px - 4px);
+  /* 2 */
   font-size: 0.875rem;
   color: #999;
 }
@@ -5659,7 +5663,7 @@ ul.uk-nav-sub {
   /* 1 */
   flex-wrap: wrap;
   /* 2 */
-  margin-left: -20px;
+  margin-left: 0;
   /* 3 */
   padding: 0;
   list-style: none;
@@ -5673,7 +5677,7 @@ ul.uk-nav-sub {
   /* 1 */
   flex: none;
   /* 2 */
-  padding-left: 20px;
+  padding-left: 0;
   /* 3 */
   position: relative;
 }
@@ -5687,6 +5691,7 @@ ul.uk-nav-sub {
   /* 1 */
   display: block;
   /* 2 */
+  padding: 5px 10px;
   color: #999;
   transition: color 0.1s ease-in-out;
 }
@@ -6234,12 +6239,12 @@ ul.uk-nav-sub {
   justify-content: center;
   align-items: center;
 }
-/*
- * Hover
- */
-.uk-lightbox-button:hover {
+/* Hover + Focus */
+.uk-lightbox-button:hover,
+.uk-lightbox-button:focus {
   color: #fff;
 }
+/* OnClick */
 /* Caption
  ========================================================================== */
 .uk-lightbox-caption:empty {

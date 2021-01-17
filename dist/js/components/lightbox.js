@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -142,6 +142,8 @@
             duration: 200,
             origin: false,
             transition: 'linear',
+            clsEnter: 'uk-togglabe-enter',
+            clsLeave: 'uk-togglabe-leave',
 
             initProps: {
                 overflow: '',
@@ -181,61 +183,54 @@
 
         methods: {
 
-            toggleElement: function(targets, show, animate) {
+            toggleElement: function(targets, toggle, animate) {
                 var this$1 = this;
 
-                return uikitUtil.Promise.all(uikitUtil.toNodes(targets).map(function (el) { return new uikitUtil.Promise(function (resolve) { return this$1._toggleElement(el, show, animate).then(resolve, uikitUtil.noop); }
-                    ); }
-                ));
+                return new uikitUtil.Promise(function (resolve) { return uikitUtil.Promise.all(uikitUtil.toNodes(targets).map(function (el) {
+
+                        var show = uikitUtil.isBoolean(toggle) ? toggle : !this$1.isToggled(el);
+
+                        if (!uikitUtil.trigger(el, ("before" + (show ? 'show' : 'hide')), [this$1])) {
+                            return uikitUtil.Promise.reject();
+                        }
+
+                        var promise = (
+                            uikitUtil.isFunction(animate)
+                                ? animate
+                                : animate === false || !this$1.hasAnimation
+                                ? this$1._toggle
+                                : this$1.hasTransition
+                                    ? toggleHeight(this$1)
+                                    : toggleAnimation(this$1)
+                        )(el, show) || uikitUtil.Promise.resolve();
+
+                        uikitUtil.addClass(el, show ? this$1.clsEnter : this$1.clsLeave);
+
+                        uikitUtil.trigger(el, show ? 'show' : 'hide', [this$1]);
+
+                        promise
+                            .catch(uikitUtil.noop)
+                            .then(function () { return uikitUtil.removeClass(el, show ? this$1.clsEnter : this$1.clsLeave); });
+
+                        return promise.then(function () {
+                            uikitUtil.removeClass(el, show ? this$1.clsEnter : this$1.clsLeave);
+                            uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this$1]);
+                            this$1.$update(el);
+                        });
+                    })).then(resolve, uikitUtil.noop); }
+                );
             },
 
             isToggled: function(el) {
-                var nodes = uikitUtil.toNodes(el || this.$el);
-                return this.cls
-                    ? uikitUtil.hasClass(nodes, this.cls.split(' ')[0])
-                    : !uikitUtil.hasAttr(nodes, 'hidden');
-            },
+                if ( el === void 0 ) el = this.$el;
 
-            updateAria: function(el) {
-                if (this.cls === false) {
-                    uikitUtil.attr(el, 'aria-hidden', !this.isToggled(el));
-                }
-            },
-
-            _toggleElement: function(el, show, animate) {
-                var this$1 = this;
-
-
-                show = uikitUtil.isBoolean(show)
-                    ? show
-                    : uikitUtil.Animation.inProgress(el)
-                        ? uikitUtil.hasClass(el, 'uk-animation-leave')
-                        : uikitUtil.Transition.inProgress(el)
-                            ? el.style.height === '0px'
-                            : !this.isToggled(el);
-
-                if (!uikitUtil.trigger(el, ("before" + (show ? 'show' : 'hide')), [this])) {
-                    return uikitUtil.Promise.reject();
-                }
-
-                var promise = (
-                    uikitUtil.isFunction(animate)
-                        ? animate
-                        : animate === false || !this.hasAnimation
-                            ? this._toggle
-                            : this.hasTransition
-                                ? toggleHeight(this)
-                                : toggleAnimation(this)
-                )(el, show);
-
-                uikitUtil.trigger(el, show ? 'show' : 'hide', [this]);
-
-                var final = function () {
-                    uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this$1]);
-                    this$1.$update(el);
-                };
-
-                return (promise || uikitUtil.Promise.resolve()).then(final);
+                return uikitUtil.hasClass(el, this.clsEnter)
+                    ? true
+                    : uikitUtil.hasClass(el, this.clsLeave)
+                        ? false
+                        : this.cls
+                            ? uikitUtil.hasClass(el, this.cls.split(' ')[0])
+                            : !uikitUtil.hasAttr(el, 'hidden');
             },
 
             _toggle: function(el, toggled) {
@@ -251,16 +246,14 @@
                     changed = uikitUtil.includes(this.cls, ' ') || toggled !== uikitUtil.hasClass(el, this.cls);
                     changed && uikitUtil.toggleClass(el, this.cls, uikitUtil.includes(this.cls, ' ') ? undefined : toggled);
                 } else {
-                    changed = toggled === uikitUtil.hasAttr(el, 'hidden');
-                    changed && uikitUtil.attr(el, 'hidden', !toggled ? '' : null);
+                    changed = toggled === el.hidden;
+                    changed && (el.hidden = !toggled);
                 }
 
                 uikitUtil.$$('[autofocus]', el).some(function (el) { return uikitUtil.isVisible(el) ? el.focus() || true : el.blur(); });
 
-                this.updateAria(el);
-
                 if (changed) {
-                    uikitUtil.trigger(el, 'toggled', [this]);
+                    uikitUtil.trigger(el, 'toggled', [toggled, this]);
                     this.$update(el);
                 }
             }
@@ -475,7 +468,6 @@
                     if (this.escClose) {
                         uikitUtil.once(this.$el, 'hide', uikitUtil.on(document, 'keydown', function (e) {
                             if (e.keyCode === 27 && uikitUtil.last(active) === this$1) {
-                                e.preventDefault();
                                 this$1.hide();
                             }
                         }), {self: true});
@@ -522,7 +514,7 @@
                 var this$1 = this;
 
 
-                if (this.container && this.$el.parentNode !== this.container) {
+                if (this.container && uikitUtil.parent(this.$el) !== this.container) {
                     uikitUtil.append(this.container, this.$el);
                     return new uikitUtil.Promise(function (resolve) { return requestAnimationFrame(function () { return this$1.show().then(resolve); }
                         ); }
@@ -561,7 +553,7 @@
                     }, uikitUtil.toMs(uikitUtil.css(transitionElement, 'transitionDuration')));
 
                 }); }
-            ); };
+            ).then(function () { return delete el._reject; }); };
     }
 
     function Transitioner(prev, next, dir, ref) {
@@ -603,10 +595,6 @@
                 return deferred.promise;
             },
 
-            stop: function() {
-                return uikitUtil.Transition.stop([next, prev]);
-            },
-
             cancel: function() {
                 uikitUtil.Transition.cancel([next, prev]);
             },
@@ -622,7 +610,6 @@
 
                 uikitUtil.Transition.cancel([next, prev]);
                 return this.show(duration, percent, true);
-
             },
 
             translate: function(percent) {
@@ -819,7 +806,10 @@
                     this.prevIndex = this.index;
                 }
 
-                // See above workaround notice
+                // Workaround for iOS's inert scrolling preventing pointerdown event
+                // https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
+                uikitUtil.on(this.list, 'touchmove', this.move, {passive: false});
+
                 uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false});
                 uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
@@ -836,8 +826,6 @@
                 if (distance === 0 || this.prevPos === this.pos || !this.dragging && Math.abs(distance) < this.threshold) {
                     return;
                 }
-
-                uikitUtil.css(this.list, 'pointerEvents', 'none');
 
                 e.cancelable && e.preventDefault();
 
@@ -905,6 +893,7 @@
 
             end: function() {
 
+                uikitUtil.off(this.list, 'touchmove', this.move, {passive: false});
                 uikitUtil.off(document, uikitUtil.pointerMove, this.move, {passive: false});
                 uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
 
@@ -983,7 +972,7 @@
                     uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href></a></li>"); }).join(''));
                 }
 
-                uikitUtil.toggleClass(uikitUtil.$$(this.selNavItem, this.$el).concat(this.nav), 'uk-hidden', !this.maxIndex);
+                this.navItems.concat(this.nav).forEach(function (el) { return el && (el.hidden = !this$1.maxIndex); });
 
                 this.updateNav();
 
@@ -1069,7 +1058,7 @@
 
         connected: function() {
             this.prevIndex = -1;
-            this.index = this.getValidIndex(this.index);
+            this.index = this.getValidIndex(this.$props.index);
             this.stack = [];
         },
 

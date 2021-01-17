@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -96,12 +96,12 @@
                 var this$1 = this;
 
 
-                var removeFn = function () {
+                var removeFn = function (el) {
 
-                    var container = this$1.$el.parentNode;
+                    var container = uikitUtil.parent(el);
 
-                    uikitUtil.trigger(this$1.$el, 'close', [this$1]);
-                    uikitUtil.remove(this$1.$el);
+                    uikitUtil.trigger(el, 'close', [this$1]);
+                    uikitUtil.remove(el);
 
                     if (container && !container.hasChildNodes()) {
                         uikitUtil.remove(container);
@@ -114,7 +114,7 @@
                 }
 
                 if (immediate) {
-                    removeFn();
+                    removeFn(this.$el);
                 } else {
                     uikitUtil.Transition.start(this.$el, this.startProps).then(removeFn);
                 }

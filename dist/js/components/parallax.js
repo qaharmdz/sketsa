@@ -1,4 +1,4 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -40,6 +40,26 @@
 
         return value && !isNaN(value) ? ("(min-width: " + value + "px)") : false;
     }
+
+    var loadSVG = uikitUtil.cacheFunction(function (src) { return new uikitUtil.Promise(function (resolve, reject) {
+
+            if (!src) {
+                reject();
+                return;
+            }
+
+            if (uikitUtil.startsWith(src, 'data:')) {
+                resolve(decodeURIComponent(src.split(',')[1]));
+            } else {
+
+                uikitUtil.ajax(src).then(
+                    function (xhr) { return resolve(xhr.response); },
+                    function () { return reject('SVG not found.'); }
+                );
+
+            }
+        }); }
+    );
 
     function getMaxPathLength(el) {
         return Math.ceil(Math.max.apply(Math, [ 0 ].concat( uikitUtil.$$('[stroke]', el).map(function (stroke) {
@@ -83,7 +103,7 @@
                     var isCssProp = isColor || prop === 'opacity';
 
                     var pos, bgPos, diff;
-                    var steps = properties[prop].slice(0);
+                    var steps = properties[prop].slice();
 
                     if (isCssProp) {
                         uikitUtil.css($el, prop, '');
@@ -185,9 +205,7 @@
                 var this$1 = this;
 
 
-                data.active = this.matchMedia;
-
-                if (!data.active) {
+                if (!this.matchMedia) {
                     return;
                 }
 
@@ -251,10 +269,9 @@
 
             write: function(ref) {
                 var dim = ref.dim;
-                var active = ref.active;
 
 
-                if (!active) {
+                if (!this.matchMedia) {
                     uikitUtil.css(this.$el, {backgroundSize: '', backgroundRepeat: ''});
                     return;
                 }
@@ -435,16 +452,15 @@
 
         update: {
 
-            read: function(ref, type) {
+            read: function(ref, types) {
                 var percent = ref.percent;
-                var active = ref.active;
 
 
-                if (type !== 'scroll') {
+                if (!types.has('scroll')) {
                     percent = false;
                 }
 
-                if (!active) {
+                if (!this.matchMedia) {
                     return;
                 }
 
@@ -459,10 +475,9 @@
 
             write: function(ref) {
                 var style = ref.style;
-                var active = ref.active;
 
 
-                if (!active) {
+                if (!this.matchMedia) {
                     this.reset();
                     return;
                 }
@@ -485,7 +500,7 @@
         return el
             ? 'offsetTop' in el
                 ? el
-                : getOffsetElement(el.parentNode)
+                : getOffsetElement(uikitUtil.parent(el))
             : document.body;
     }
 

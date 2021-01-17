@@ -1,37 +1,22 @@
-/*! UIkit 3.5.7 | https://www.getuikit.com | (c) 2014 - 2020 YOOtheme | MIT License */
+/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
     factory();
 }((function () { 'use strict';
 
-    var objPrototype = Object.prototype;
-    var hasOwnProperty = objPrototype.hasOwnProperty;
+    var hyphenateRe = /\B([A-Z])/g;
 
-    function hasOwn(obj, key) {
-        return hasOwnProperty.call(obj, key);
-    }
+    var hyphenate = cacheFunction(function (str) { return str
+        .replace(hyphenateRe, '-$1')
+        .toLowerCase(); }
+    );
 
-    var hyphenateCache = {};
-    var hyphenateRe = /([a-z\d])([A-Z])/g;
-
-    function hyphenate(str) {
-
-        if (!(str in hyphenateCache)) {
-            hyphenateCache[str] = str
-                .replace(hyphenateRe, '$1-$2')
-                .toLowerCase();
-        }
-
-        return hyphenateCache[str];
-    }
+    var ucfirst = cacheFunction(function (str) { return str.length ? toUpper(null, str.charAt(0)) + str.slice(1) : ''; }
+    );
 
     function toUpper(_, c) {
         return c ? c.toUpperCase() : '';
-    }
-
-    function ucfirst(str) {
-        return str.length ? toUpper(null, str.charAt(0)) + str.slice(1) : '';
     }
 
     var strPrototype = String.prototype;
@@ -43,14 +28,6 @@
 
     var arrPrototype = Array.prototype;
 
-    var includesFn = function (search, i) { return !!~this.indexOf(search, i); };
-    var includesStr = strPrototype.includes || includesFn;
-    var includesArray = arrPrototype.includes || includesFn;
-
-    function includes(obj, search) {
-        return obj && (isString(obj) ? includesStr : includesArray).call(obj, search);
-    }
-
     var isArray = Array.isArray;
 
     function isFunction(obj) {
@@ -61,26 +38,24 @@
         return obj !== null && typeof obj === 'object';
     }
 
-    var toString = objPrototype.toString;
-
-    function isDocument(obj) {
-        return isObject(obj) && obj.nodeType === 9;
+    function isWindow(obj) {
+        return isObject(obj) && obj === obj.window;
     }
 
-    function isJQuery(obj) {
-        return isObject(obj) && !!obj.jquery;
+    function isDocument(obj) {
+        return nodeType(obj) === 9;
     }
 
     function isNode(obj) {
-        return isObject(obj) && obj.nodeType >= 1;
+        return nodeType(obj) >= 1;
     }
 
     function isElement(obj) {
-        return isObject(obj) && obj.nodeType === 1;
+        return nodeType(obj) === 1;
     }
 
-    function isNodeCollection(obj) {
-        return toString.call(obj).match(/^\[object (NodeList|HTMLCollection)\]$/);
+    function nodeType(obj) {
+        return !isWindow(obj) && isObject(obj) && obj.nodeType;
     }
 
     function isBoolean(value) {
@@ -103,26 +78,14 @@
         return value === void 0;
     }
 
+    var toArray = Array.from || (function (value) { return arrPrototype.slice.call(value); });
+
     function toNode(element) {
-        return isNode(element)
-            ? element
-            : isNodeCollection(element) || isJQuery(element)
-                ? element[0]
-                : isArray(element)
-                    ? toNode(element[0])
-                    : null;
+        return toNodes(element)[0];
     }
 
     function toNodes(element) {
-        return isNode(element)
-            ? [element]
-            : isNodeCollection(element)
-                ? arrPrototype.slice.call(element)
-                : isArray(element)
-                    ? element.map(toNode).filter(Boolean)
-                    : isJQuery(element)
-                        ? element.toArray()
-                        : [];
+        return element && (isNode(element) ? [element] : toArray(element).filter(isNode)) || [];
     }
 
     function each(obj, cb) {
@@ -135,6 +98,11 @@
     }
 
     function noop() {}
+
+    function cacheFunction(fn) {
+        var cache = Object.create(null);
+        return function (key) { return cache[key] || (cache[key] = fn(key)); };
+    }
 
     function attr(element, name, value) {
 
@@ -183,95 +151,13 @@
         || window.DocumentTouch && document instanceof DocumentTouch
         || navigator.maxTouchPoints); // IE >=11
 
-    function find(selector, context) {
-        return toNode(_query(selector, context, 'querySelector'));
+    function parent(element) {
+        element = toNode(element);
+        return element && isElement(element.parentNode) && element.parentNode;
     }
 
-    function findAll(selector, context) {
-        return toNodes(_query(selector, context, 'querySelectorAll'));
-    }
-
-    function _query(selector, context, queryFn) {
-        if ( context === void 0 ) context = document;
-
-
-        if (!selector || !isString(selector)) {
-            return null;
-        }
-
-        selector = selector.replace(contextSanitizeRe, '$1 *');
-
-        var removes;
-
-        if (isContextSelector(selector)) {
-
-            removes = [];
-
-            selector = splitSelector(selector).map(function (selector, i) {
-
-                var ctx = context;
-
-                if (selector[0] === '!') {
-
-                    var selectors = selector.substr(1).trim().split(' ');
-                    ctx = closest(parent(context), selectors[0]);
-                    selector = selectors.slice(1).join(' ').trim();
-
-                }
-
-                if (selector[0] === '-') {
-
-                    var selectors$1 = selector.substr(1).trim().split(' ');
-                    var prev = (ctx || context).previousElementSibling;
-                    ctx = matches(prev, selector.substr(1)) ? prev : null;
-                    selector = selectors$1.slice(1).join(' ');
-
-                }
-
-                if (!ctx) {
-                    return null;
-                }
-
-                if (!ctx.id) {
-                    ctx.id = "uk-" + (Date.now()) + i;
-                    removes.push(function () { return removeAttr(ctx, 'id'); });
-                }
-
-                return ("#" + (escape(ctx.id)) + " " + selector);
-
-            }).filter(Boolean).join(',');
-
-            context = document;
-
-        }
-
-        try {
-
-            return context[queryFn](selector);
-
-        } catch (e) {
-
-            return null;
-
-        } finally {
-
-            removes && removes.forEach(function (remove) { return remove(); });
-
-        }
-
-    }
-
-    var contextSelectorRe = /(^|[^\\],)\s*[!>+~-]/;
-    var contextSanitizeRe = /([!>+~-])(?=\s+[!>+~-]|\s*$)/g;
-
-    function isContextSelector(selector) {
-        return isString(selector) && selector.match(contextSelectorRe);
-    }
-
-    var selectorRe = /.*?[^\\](?:,|$)/g;
-
-    function splitSelector(selector) {
-        return selector.match(selectorRe).map(function (selector) { return selector.replace(/,$/, '').trim(); });
+    function filter(element, selector) {
+        return toNodes(element).filter(function (element) { return matches(element, selector); });
     }
 
     var elProto = inBrowser ? Element.prototype : {};
@@ -304,22 +190,123 @@
             : toNodes(element).map(function (element) { return closest(element, selector); }).filter(Boolean);
     }
 
-    function parent(element) {
-        element = toNode(element);
-        return element && isElement(element.parentNode) && element.parentNode;
-    }
-
-    var escapeFn = inBrowser && window.CSS && CSS.escape || function (css) { return css.replace(/([^\x7f-\uFFFF\w-])/g, function (match) { return ("\\" + match); }); };
-    function escape(css) {
-        return isString(css) ? escapeFn.call(null, css) : '';
-    }
-
     function within(element, selector) {
         return !isString(selector)
             ? element === selector || (isDocument(selector)
                 ? selector.documentElement
                 : toNode(selector)).contains(toNode(element)) // IE 11 document does not implement contains
             : matches(element, selector) || !!closest(element, selector);
+    }
+
+    function children(element, selector) {
+        element = toNode(element);
+        var children = element ? toNodes(element.children) : [];
+        return selector ? filter(children, selector) : children;
+    }
+
+    function index(element, ref) {
+        return ref
+            ? toNodes(element).indexOf(toNode(ref))
+            : children(parent(element)).indexOf(element);
+    }
+
+    function find(selector, context) {
+        return toNode(_query(selector, context, 'querySelector'));
+    }
+
+    function findAll(selector, context) {
+        return toNodes(_query(selector, context, 'querySelectorAll'));
+    }
+
+    function _query(selector, context, queryFn) {
+        if ( context === void 0 ) context = document;
+
+
+        if (!selector || !isString(selector)) {
+            return null;
+        }
+
+        selector = selector.replace(contextSanitizeRe, '$1 *');
+
+        if (isContextSelector(selector)) {
+
+            selector = splitSelector(selector).map(function (selector, i) {
+
+                var ctx = context;
+
+                if (selector[0] === '!') {
+
+                    var selectors = selector.substr(1).trim().split(' ');
+                    ctx = closest(parent(context), selectors[0]);
+                    selector = selectors.slice(1).join(' ').trim();
+
+                }
+
+                if (selector[0] === '-') {
+
+                    var selectors$1 = selector.substr(1).trim().split(' ');
+                    var prev = (ctx || context).previousElementSibling;
+                    ctx = matches(prev, selector.substr(1)) ? prev : null;
+                    selector = selectors$1.slice(1).join(' ');
+
+                }
+
+                if (!ctx) {
+                    return null;
+                }
+
+                return ((domPath(ctx)) + " " + selector);
+
+            }).filter(Boolean).join(',');
+
+            context = document;
+
+        }
+
+        try {
+
+            return context[queryFn](selector);
+
+        } catch (e) {
+
+            return null;
+
+        }
+
+    }
+
+    var contextSelectorRe = /(^|[^\\],)\s*[!>+~-]/;
+    var contextSanitizeRe = /([!>+~-])(?=\s+[!>+~-]|\s*$)/g;
+
+    var isContextSelector = cacheFunction(function (selector) { return selector.match(contextSelectorRe); });
+
+    var selectorRe = /.*?[^\\](?:,|$)/g;
+
+    var splitSelector = cacheFunction(function (selector) { return selector.match(selectorRe).map(function (selector) { return selector.replace(/,$/, '').trim(); }
+        ); }
+    );
+
+    function domPath(element) {
+        var names = [];
+        while (element.parentNode) {
+            if (element.id) {
+                names.unshift(("#" + (escape(element.id))));
+                break;
+            } else {
+                var tagName = element.tagName;
+                if (tagName !== 'HTML') {
+                    tagName += ":nth-child(" + (index(element) + 1) + ")";
+                }
+                names.unshift(tagName);
+                element = element.parentNode;
+            }
+        }
+        return names.join(' > ');
+    }
+
+    var escapeFn = inBrowser && window.CSS && CSS.escape || function (css) { return css.replace(/([^\x7f-\uFFFF\w-])/g, function (match) { return ("\\" + match); }); };
+    function escape(css) {
+        return isString(css) ? escapeFn.call(null, css) : '';
     }
 
     function on() {
@@ -345,7 +332,7 @@
         }
 
         if (selector) {
-            listener = delegate(targets, selector, listener);
+            listener = delegate(selector, listener);
         }
 
         useCapture = useCaptureFilter(useCapture);
@@ -373,25 +360,19 @@
         return args;
     }
 
-    function delegate(delegates, selector, listener) {
+    function delegate(selector, listener) {
         var this$1 = this;
 
         return function (e) {
 
-            delegates.forEach(function (delegate) {
+            var current = selector[0] === '>'
+                ? findAll(selector, e.currentTarget).reverse().filter(function (element) { return within(e.target, element); })[0]
+                : closest(e.target, selector);
 
-                var current = selector[0] === '>'
-                    ? findAll(selector, delegate).reverse().filter(function (element) { return within(e.target, element); })[0]
-                    : closest(e.target, selector);
-
-                if (current) {
-                    e.delegate = delegate;
-                    e.current = current;
-
-                    listener.call(this$1, e);
-                }
-
-            });
+            if (current) {
+                e.current = current;
+                listener.call(this$1, e);
+            }
 
         };
     }
@@ -505,45 +486,51 @@
     }
 
     function apply(element, args, fn) {
-        args = getArgs$1(args).filter(Boolean);
+        var ref;
 
-        args.length && toNodes(element).forEach(function (ref) {
-            var classList = ref.classList;
 
-            supports.Multiple
-                ? classList[fn].apply(classList, args)
-                : args.forEach(function (cls) { return classList[fn](cls); });
-        });
+        args = args.reduce(function (args, arg) { return args.concat(getClasses(arg)); }, []);
+
+        var nodes = toNodes(element);
+        var loop = function ( n ) {
+            if (supports.Multiple) {
+                (ref = nodes[n].classList)[fn].apply(ref, args);
+            } else {
+                args.forEach(function (cls) { return nodes[n].classList[fn](cls); });
+            }
+        };
+
+        for (var n = 0; n < nodes.length; n++) loop( n );
     }
 
-    function getArgs$1(args) {
-        return args.reduce(function (args, arg) { return args.concat.call(args, isString(arg) && includes(arg, ' ') ? arg.trim().split(' ') : arg); }
-            , []);
+    function getClasses(str) {
+        str = String(str);
+        return (~str.indexOf(' ') ? str.split(' ') : [str]).filter(Boolean);
     }
 
     // IE 11
     var supports = {
 
         get Multiple() {
-            return this.get('_multiple');
+            return this.get('Multiple');
         },
 
         get Force() {
-            return this.get('_force');
+            return this.get('Force');
         },
 
         get: function(key) {
 
-            if (!hasOwn(this, key)) {
-                var ref = document.createElement('_');
-                var classList = ref.classList;
-                classList.add('a', 'b');
-                classList.toggle('c', false);
-                this._multiple = classList.contains('b');
-                this._force = !classList.contains('c');
-            }
+            var ref = document.createElement('_');
+            var classList = ref.classList;
+            classList.add('a', 'b');
+            classList.toggle('c', false);
+            supports = {
+                Multiple: classList.contains('b'),
+                Force: !classList.contains('c')
+            };
 
-            return this[key];
+            return supports[key];
         }
 
     };
@@ -566,7 +553,9 @@
         'zoom': true
     };
 
-    function css(element, property, value) {
+    function css(element, property, value, priority) {
+        if ( priority === void 0 ) priority = '';
+
 
         return toNodes(element).map(function (element) {
 
@@ -579,7 +568,7 @@
                 } else if (!value && !isNumber(value)) {
                     element.style.removeProperty(property);
                 } else {
-                    element.style[property] = isNumeric(value) && !cssNumber[property] ? (value + "px") : value;
+                    element.style.setProperty(property, isNumeric(value) && !cssNumber[property] ? (value + "px") : value, priority);
                 }
 
             } else if (isArray(property)) {
@@ -592,7 +581,8 @@
                 }, {});
 
             } else if (isObject(property)) {
-                each(property, function (value, property) { return css(element, property, value); });
+                priority = value;
+                each(property, function (value, property) { return css(element, property, value, priority); });
             }
 
             return element;
@@ -610,16 +600,8 @@
         return getStyles(element, pseudoElt)[property];
     }
 
-    var cssProps = {};
-
-    function propName(name) {
-
-        var ret = cssProps[name];
-        if (!ret) {
-            ret = cssProps[name] = vendorPropName(name) || name;
-        }
-        return ret;
-    }
+    // https://drafts.csswg.org/cssom/#dom-cssstyledeclaration-setproperty
+    var propName = cacheFunction(function (name) { return vendorPropName(name); });
 
     var cssPrefixes = ['webkit', 'moz', 'ms'];
 
@@ -857,7 +839,8 @@
         },
 
         clear: function(task) {
-            return remove(this.reads, task) || remove(this.writes, task);
+            remove(this.reads, task);
+            remove(this.writes, task);
         },
 
         flush: flush
@@ -868,7 +851,7 @@
         if ( recursion === void 0 ) recursion = 1;
 
         runTasks(fastdom.reads);
-        runTasks(fastdom.writes.splice(0, fastdom.writes.length));
+        runTasks(fastdom.writes.splice(0));
 
         fastdom.scheduled = false;
 
@@ -896,13 +879,17 @@
     function runTasks(tasks) {
         var task;
         while ((task = tasks.shift())) {
-            task();
+            try {
+                task();
+            } catch (e) {
+                console.error(e);
+            }
         }
     }
 
     function remove(array, item) {
         var index = array.indexOf(item);
-        return !!~index && !!array.splice(index, 1);
+        return ~index && array.splice(index, 1);
     }
 
     /* global UIkit */
