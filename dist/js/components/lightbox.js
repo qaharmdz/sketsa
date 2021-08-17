@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitLightbox = factory(global.UIkit.util));
 }(this, (function (uikitUtil) { 'use strict';
 
-    var Animations = {
+    var Animations$1 = {
 
         slide: {
 
@@ -48,7 +48,7 @@
         return ("scale3d(" + value + ", " + value + ", 1)");
     }
 
-    var Animations$1 = uikitUtil.assign({}, Animations, {
+    var Animations = uikitUtil.assign({}, Animations$1, {
 
         fade: {
 
@@ -202,21 +202,25 @@
                                 : this$1.hasTransition
                                     ? toggleHeight(this$1)
                                     : toggleAnimation(this$1)
-                        )(el, show) || uikitUtil.Promise.resolve();
+                        )(el, show);
 
-                        uikitUtil.addClass(el, show ? this$1.clsEnter : this$1.clsLeave);
+                        var cls = show ? this$1.clsEnter : this$1.clsLeave;
+
+                        uikitUtil.addClass(el, cls);
 
                         uikitUtil.trigger(el, show ? 'show' : 'hide', [this$1]);
 
-                        promise
-                            .catch(uikitUtil.noop)
-                            .then(function () { return uikitUtil.removeClass(el, show ? this$1.clsEnter : this$1.clsLeave); });
-
-                        return promise.then(function () {
-                            uikitUtil.removeClass(el, show ? this$1.clsEnter : this$1.clsLeave);
+                        var done = function () {
+                            uikitUtil.removeClass(el, cls);
                             uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this$1]);
                             this$1.$update(el);
-                        });
+                        };
+
+                        return promise ? promise.then(done, function () {
+                            uikitUtil.removeClass(el, cls);
+                            return uikitUtil.Promise.reject();
+                        }) : done();
+
                     })).then(resolve, uikitUtil.noop); }
                 );
             },
@@ -433,7 +437,9 @@
                     var this$1 = this;
 
 
-                    if (uikitUtil.width(window) - uikitUtil.width(document) && this.overlay) {
+                    var docEl = document.documentElement;
+
+                    if (uikitUtil.width(window) > docEl.clientWidth && this.overlay) {
                         uikitUtil.css(document.body, 'overflowY', 'scroll');
                     }
 
@@ -441,7 +447,7 @@
                         uikitUtil.css(this.$el, 'zIndex', uikitUtil.toFloat(uikitUtil.css(this.$el, 'zIndex')) + active.length);
                     }
 
-                    uikitUtil.addClass(document.documentElement, this.clsPage);
+                    uikitUtil.addClass(docEl, this.clsPage);
 
                     if (this.bgClose) {
                         uikitUtil.once(this.$el, 'hide', uikitUtil.on(document, uikitUtil.pointerDown, function (ref) {
@@ -486,7 +492,9 @@
                     var this$1 = this;
 
 
-                    active.splice(active.indexOf(this), 1);
+                    if (uikitUtil.includes(active, this)) {
+                        active.splice(active.indexOf(this), 1);
+                    }
 
                     if (!active.length) {
                         uikitUtil.css(document.body, 'overflowY', '');
@@ -512,7 +520,6 @@
 
             show: function() {
                 var this$1 = this;
-
 
                 if (this.container && uikitUtil.parent(this.$el) !== this.container) {
                     uikitUtil.append(this.container, this.$el);
@@ -672,7 +679,9 @@
 
                 name: 'visibilitychange',
 
-                el: uikitUtil.inBrowser && document,
+                el: function() {
+                    return document;
+                },
 
                 filter: function() {
                     return this.autoplay;
@@ -806,12 +815,10 @@
                     this.prevIndex = this.index;
                 }
 
-                // Workaround for iOS's inert scrolling preventing pointerdown event
-                // https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
-                uikitUtil.on(this.list, 'touchmove', this.move, {passive: false});
-
                 uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false});
-                uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
+
+                // 'input' event is triggered by video controls
+                uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel + " input"), this.end, true);
 
                 uikitUtil.css(this.list, 'userSelect', 'none');
 
@@ -826,6 +833,9 @@
                 if (distance === 0 || this.prevPos === this.pos || !this.dragging && Math.abs(distance) < this.threshold) {
                     return;
                 }
+
+                // prevent click event
+                uikitUtil.css(this.list, 'pointerEvents', 'none');
 
                 e.cancelable && e.preventDefault();
 
@@ -893,9 +903,8 @@
 
             end: function() {
 
-                uikitUtil.off(this.list, 'touchmove', this.move, {passive: false});
                 uikitUtil.off(document, uikitUtil.pointerMove, this.move, {passive: false});
-                uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
+                uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel + " input"), this.end, true);
 
                 if (this.dragging) {
 
@@ -1294,7 +1303,7 @@
         data: {
             animation: 'slide',
             clsActivated: 'uk-transition-active',
-            Animations: Animations,
+            Animations: Animations$1,
             Transitioner: Transitioner
         },
 
@@ -1369,7 +1378,7 @@
             selCaption: '.uk-lightbox-caption',
             pauseOnHover: false,
             velocity: 2,
-            Animations: Animations$1,
+            Animations: Animations,
             template: "<div class=\"uk-lightbox uk-overflow-hidden\"> <ul class=\"uk-lightbox-items\"></ul> <div class=\"uk-lightbox-toolbar uk-position-top uk-text-right uk-transition-slide-top uk-transition-opaque\"> <button class=\"uk-lightbox-toolbar-icon uk-close-large\" type=\"button\" uk-close></button> </div> <a class=\"uk-lightbox-button uk-position-center-left uk-position-medium uk-transition-fade\" href uk-slidenav-previous uk-lightbox-item=\"previous\"></a> <a class=\"uk-lightbox-button uk-position-center-right uk-position-medium uk-transition-fade\" href uk-slidenav-next uk-lightbox-item=\"next\"></a> <div class=\"uk-lightbox-toolbar uk-lightbox-caption uk-position-bottom uk-text-center uk-transition-slide-bottom uk-transition-opaque\"></div> </div>"
         }); },
 
@@ -1388,7 +1397,7 @@
             caption: function(ref, $el) {
                 var selCaption = ref.selCaption;
 
-                return uikitUtil.$('.uk-lightbox-caption', $el);
+                return uikitUtil.$(selCaption, $el);
             }
 
         },
@@ -1468,7 +1477,9 @@
 
                 name: 'keyup',
 
-                el: uikitUtil.inBrowser && document,
+                el: function() {
+                    return document;
+                },
 
                 handler: function(e) {
 
@@ -1503,7 +1514,7 @@
 
                     this.toggleElement(this.$el, true, false);
 
-                    this.animation = Animations$1['scale'];
+                    this.animation = Animations['scale'];
                     uikitUtil.removeClass(e.target, this.clsActive);
                     this.stack.splice(1, 0, this.index);
 
@@ -1568,7 +1579,7 @@
                     };
 
                     // Image
-                    if (type === 'image' || src.match(/\.(jpe?g|png|gif|svg|webp)($|\?)/i)) {
+                    if (type === 'image' || src.match(/\.(avif|jpe?g|a?png|gif|svg|webp)($|\?)/i)) {
 
                         uikitUtil.getImage(src, attrs.srcset, attrs.size).then(
                             function (ref) {

@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -41,7 +41,7 @@
         return value && !isNaN(value) ? ("(min-width: " + value + "px)") : false;
     }
 
-    var loadSVG = uikitUtil.cacheFunction(function (src) { return new uikitUtil.Promise(function (resolve, reject) {
+    uikitUtil.memoize(function (src) { return new uikitUtil.Promise(function (resolve, reject) {
 
             if (!src) {
                 reject();

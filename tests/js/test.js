@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
@@ -7,12 +7,12 @@
 
     var hyphenateRe = /\B([A-Z])/g;
 
-    var hyphenate = cacheFunction(function (str) { return str
+    var hyphenate = memoize(function (str) { return str
         .replace(hyphenateRe, '-$1')
         .toLowerCase(); }
     );
 
-    var ucfirst = cacheFunction(function (str) { return str.length ? toUpper(null, str.charAt(0)) + str.slice(1) : ''; }
+    var ucfirst = memoize(function (str) { return str.length ? toUpper(null, str.charAt(0)) + str.slice(1) : ''; }
     );
 
     function toUpper(_, c) {
@@ -88,6 +88,21 @@
         return element && (isNode(element) ? [element] : toArray(element).filter(isNode)) || [];
     }
 
+    function toWindow(element) {
+        if (isWindow(element)) {
+            return element;
+        }
+
+        element = toNode(element);
+
+        return element
+            ? (isDocument(element)
+                ? element
+                : element.ownerDocument
+            ).defaultView
+            : window;
+    }
+
     function each(obj, cb) {
         for (var key in obj) {
             if (false === cb(obj[key], key)) {
@@ -99,7 +114,7 @@
 
     function noop() {}
 
-    function cacheFunction(fn) {
+    function memoize(fn) {
         var cache = Object.create(null);
         return function (key) { return cache[key] || (cache[key] = fn(key)); };
     }
@@ -144,10 +159,10 @@
 
     var inBrowser = typeof window !== 'undefined';
     var isIE = inBrowser && /msie|trident/i.test(window.navigator.userAgent);
-    var isRtl = inBrowser && attr(document.documentElement, 'dir') === 'rtl';
+    inBrowser && attr(document.documentElement, 'dir') === 'rtl';
 
     var hasTouchEvents = inBrowser && 'ontouchstart' in window;
-    var hasTouch = inBrowser && (hasTouchEvents
+    inBrowser && (hasTouchEvents
         || window.DocumentTouch && document instanceof DocumentTouch
         || navigator.maxTouchPoints); // IE >=11
 
@@ -223,14 +238,14 @@
 
 
         if (!selector || !isString(selector)) {
-            return null;
+            return selector;
         }
 
         selector = selector.replace(contextSanitizeRe, '$1 *');
 
         if (isContextSelector(selector)) {
 
-            selector = splitSelector(selector).map(function (selector, i) {
+            selector = splitSelector(selector).map(function (selector) {
 
                 var ctx = context;
 
@@ -278,11 +293,11 @@
     var contextSelectorRe = /(^|[^\\],)\s*[!>+~-]/;
     var contextSanitizeRe = /([!>+~-])(?=\s+[!>+~-]|\s*$)/g;
 
-    var isContextSelector = cacheFunction(function (selector) { return selector.match(contextSelectorRe); });
+    var isContextSelector = memoize(function (selector) { return selector.match(contextSelectorRe); });
 
     var selectorRe = /.*?[^\\](?:,|$)/g;
 
-    var splitSelector = cacheFunction(function (selector) { return selector.match(selectorRe).map(function (selector) { return selector.replace(/,$/, '').trim(); }
+    var splitSelector = memoize(function (selector) { return selector.match(selectorRe).map(function (selector) { return selector.replace(/,$/, '').trim(); }
         ); }
     );
 
@@ -460,15 +475,13 @@
     }
 
     function $(selector, context) {
-        return !isString(selector)
-            ? toNode(selector)
-            : isHtml(selector)
-                ? toNode(fragment(selector))
-                : find(selector, context);
+        return isHtml(selector)
+            ? toNode(fragment(selector))
+            : find(selector, context);
     }
 
     function isHtml(str) {
-        return str[0] === '<' || str.match(/^\s*</);
+        return isString(str) && (str[0] === '<' || str.match(/^\s*</));
     }
 
     function addClass(element) {
@@ -504,8 +517,7 @@
     }
 
     function getClasses(str) {
-        str = String(str);
-        return (~str.indexOf(' ') ? str.split(' ') : [str]).filter(Boolean);
+        return String(str).split(/\s|,/).filter(Boolean);
     }
 
     // IE 11
@@ -592,8 +604,7 @@
     }
 
     function getStyles(element, pseudoElt) {
-        element = toNode(element);
-        return element.ownerDocument.defaultView.getComputedStyle(element, pseudoElt);
+        return toWindow(element).getComputedStyle(element, pseudoElt);
     }
 
     function getStyle(element, property, pseudoElt) {
@@ -601,7 +612,7 @@
     }
 
     // https://drafts.csswg.org/cssom/#dom-cssstyledeclaration-setproperty
-    var propName = cacheFunction(function (name) { return vendorPropName(name); });
+    var propName = memoize(function (name) { return vendorPropName(name); });
 
     var cssPrefixes = ['webkit', 'moz', 'ms'];
 
@@ -628,7 +639,7 @@
 
     /* global setImmediate */
 
-    var Promise = inBrowser && window.Promise || PromiseFn;
+    var Promise$1 = inBrowser && window.Promise || PromiseFn;
 
     /**
      * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
@@ -869,7 +880,7 @@
 
         fastdom.scheduled = true;
         if (recursion && recursion < RECURSION_LIMIT) {
-            Promise.resolve().then(function () { return flush(recursion); });
+            Promise$1.resolve().then(function () { return flush(recursion); });
         } else {
             requestAnimationFrame(function () { return flush(); });
         }

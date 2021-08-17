@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -159,7 +159,7 @@
                             ['loadStart', 'load', 'loadEnd', 'abort'].forEach(function (type) { return uikitUtil.on(xhr, type.toLowerCase(), this$1[type]); }
                             );
 
-                            this$1.beforeSend(env);
+                            return this$1.beforeSend(env);
 
                         }
                     }).then(

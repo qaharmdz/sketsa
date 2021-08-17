@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -123,6 +123,8 @@
                     var nodes = uikitUtil.children(target);
                     var newHeight = uikitUtil.height(target);
 
+                    // Ensure Grid cells do not stretch when height is applied
+                    uikitUtil.css(target, 'alignContent', 'flex-start');
                     uikitUtil.height(target, oldHeight);
 
                     var transitionNodes = getTransitionNodes(target);
@@ -139,7 +141,7 @@
                     uikitUtil.Promise.all(transitions).then(function () {
                         uikitUtil.removeClass(target, clsEnter);
                         if (index === transitionIndex(target)) {
-                            uikitUtil.css(target, 'height', '');
+                            uikitUtil.css(target, {height: '', alignContent: ''});
                             uikitUtil.css(nodes, {opacity: ''});
                             delete target.dataset.transition;
                         }
@@ -173,23 +175,19 @@
         return getRows(uikitUtil.children(target)).reduce(function (nodes, row) { return nodes.concat(uikitUtil.sortBy(row.filter(function (el) { return uikitUtil.isInView(el); }), 'offsetLeft')); }, []);
     }
 
-    var targetClass = 'uk-animation-target';
-
     function slide (action, target, duration) {
 
         return new uikitUtil.Promise(function (resolve) { return requestAnimationFrame(function () {
-                addStyle();
 
                 var nodes = uikitUtil.children(target);
 
                 // Get current state
                 var currentProps = nodes.map(function (el) { return getProps(el, true); });
-                var oldHeight = uikitUtil.height(target);
+                var targetProps = uikitUtil.css(target, ['height', 'padding']);
 
                 // Cancel previous animations
                 uikitUtil.Transition.cancel(target);
                 nodes.forEach(uikitUtil.Transition.cancel);
-                uikitUtil.removeClass(target, targetClass);
                 reset(target);
 
                 // Adding, sorting, removing nodes
@@ -205,21 +203,20 @@
                     uikitUtil.fastdom.flush();
 
                     // Get new state
-                    var newHeight = uikitUtil.height(target);
+                    var targetPropsTo = uikitUtil.css(target, ['height', 'padding']);
                     var ref = getTransitionProps(target, nodes, currentProps);
                     var propsTo = ref[0];
                     var propsFrom = ref[1];
 
                     // Reset to previous state
-                    uikitUtil.addClass(target, targetClass);
                     nodes.forEach(function (el, i) { return propsFrom[i] && uikitUtil.css(el, propsFrom[i]); });
-                    uikitUtil.css(target, {height: oldHeight, display: 'block'});
+                    uikitUtil.css(target, uikitUtil.assign({display: 'block'}, targetProps));
 
                     // Start transitions on next frame
                     requestAnimationFrame(function () {
 
                         var transitions = nodes.map(function (el, i) { return uikitUtil.parent(el) === target && uikitUtil.Transition.start(el, propsTo[i], duration, 'ease'); }
-                            ).concat(uikitUtil.Transition.start(target, {height: newHeight}, duration, 'ease'));
+                            ).concat(uikitUtil.Transition.start(target, targetPropsTo, duration, 'ease'));
 
                         uikitUtil.Promise.all(transitions).then(function () {
                             nodes.forEach(function (el, i) { return uikitUtil.parent(el) === target && uikitUtil.css(el, 'display', propsTo[i].opacity === 0 ? 'none' : ''); });
@@ -290,11 +287,13 @@
             pointerEvents: '',
             position: '',
             top: '',
+            marginTop: '',
+            marginLeft: '',
+            transform: '',
             width: '',
             zIndex: ''
         });
-        uikitUtil.removeClass(el, targetClass);
-        uikitUtil.css(el, {height: '', display: ''});
+        uikitUtil.css(el, {height: '', display: '', padding: ''});
     }
 
     function getPositionWithMargin(el) {
@@ -304,24 +303,18 @@
         var ref$1 = uikitUtil.position(el);
         var top = ref$1.top;
         var left = ref$1.left;
+        var ref$2 = uikitUtil.css(el, ['marginTop', 'marginLeft']);
+        var marginLeft = ref$2.marginLeft;
+        var marginTop = ref$2.marginTop;
 
-        return {top: top, left: left, height: height, width: width};
-    }
-
-    var style;
-
-    function addStyle() {
-        if (style) {
-            return;
-        }
-        style = !!uikitUtil.append(document.head, ("<style> ." + targetClass + " > * {\n            margin-top: 0 !important;\n            transform: none !important;\n        } </style>"));
+        return {top: top, left: left, height: height, width: width, marginLeft: marginLeft, marginTop: marginTop, transform: ''};
     }
 
     var Animate = {
 
         props: {
             duration: Number,
-            animation: String
+            animation: Boolean
         },
 
         data: {
@@ -346,11 +339,17 @@
 
                             return fade.apply(void 0, args.concat( [40] ));
                 }
-                        : slide;
+                        : !name
+                            ? function () {
+                                action();
+                                return uikitUtil.Promise.resolve();
+                            }
+                            : slide;
 
                 return animationFn(action, target, this.duration)
                     .then(function () { return this$1.$update(target, 'resize'); }, uikitUtil.noop);
             }
+
         }
     };
 
@@ -380,7 +379,7 @@
                 get: function(ref, $el) {
                     var attrItem = ref.attrItem;
 
-                    return uikitUtil.$$(("[" + (this.attrItem) + "],[data-" + (this.attrItem) + "]"), $el);
+                    return uikitUtil.$$(("[" + attrItem + "],[data-" + attrItem + "]"), $el);
                 },
 
                 watch: function() {
@@ -409,10 +408,13 @@
                 },
 
                 watch: function(list, old) {
-                    if (!isEqualList(list, old)) {
+                    if (old && !isEqualList(list, old)) {
                         this.updateState();
                     }
-                }
+                },
+
+                immediate: true
+
             }
 
         },

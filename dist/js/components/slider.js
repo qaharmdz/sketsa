@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -46,7 +46,9 @@
 
                 name: 'visibilitychange',
 
-                el: uikitUtil.inBrowser && document,
+                el: function() {
+                    return document;
+                },
 
                 filter: function() {
                     return this.autoplay;
@@ -180,12 +182,10 @@
                     this.prevIndex = this.index;
                 }
 
-                // Workaround for iOS's inert scrolling preventing pointerdown event
-                // https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
-                uikitUtil.on(this.list, 'touchmove', this.move, {passive: false});
-
                 uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false});
-                uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
+
+                // 'input' event is triggered by video controls
+                uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel + " input"), this.end, true);
 
                 uikitUtil.css(this.list, 'userSelect', 'none');
 
@@ -200,6 +200,9 @@
                 if (distance === 0 || this.prevPos === this.pos || !this.dragging && Math.abs(distance) < this.threshold) {
                     return;
                 }
+
+                // prevent click event
+                uikitUtil.css(this.list, 'pointerEvents', 'none');
 
                 e.cancelable && e.preventDefault();
 
@@ -267,9 +270,8 @@
 
             end: function() {
 
-                uikitUtil.off(this.list, 'touchmove', this.move, {passive: false});
                 uikitUtil.off(document, uikitUtil.pointerMove, this.move, {passive: false});
-                uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
+                uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel + " input"), this.end, true);
 
                 if (this.dragging) {
 
@@ -717,7 +719,6 @@
 
                 this.translate(percent);
 
-                prev && this.updateTranslates();
                 percent = prev ? percent : uikitUtil.clamp(percent, 0, 1);
                 triggerUpdate(this.getItemIn(), 'itemin', {percent: percent, duration: duration, timing: timing, dir: dir});
                 prev && triggerUpdate(this.getItemIn(true), 'itemout', {percent: 1 - percent, duration: duration, timing: timing, dir: dir});
@@ -755,13 +756,29 @@
                     uikitUtil.dimensions(list).width
                 ) * (uikitUtil.isRtl ? -1 : 1), 'px'));
 
-                this.updateTranslates();
+                var actives = this.getActives();
+                var itemIn = this.getItemIn();
+                var itemOut = this.getItemIn(true);
 
-                if (prev) {
-                    percent = uikitUtil.clamp(percent, -1, 1);
-                    triggerUpdate(this.getItemIn(), 'itemtranslatein', {percent: percent, dir: dir});
-                    triggerUpdate(this.getItemIn(true), 'itemtranslateout', {percent: 1 - percent, dir: dir});
-                }
+                percent = prev ? uikitUtil.clamp(percent, -1, 1) : 0;
+
+                uikitUtil.children(list).forEach(function (slide) {
+                    var isActive = uikitUtil.includes(actives, slide);
+                    var isIn = slide === itemIn;
+                    var isOut = slide === itemOut;
+                    var translateIn = isIn || !isOut && (isActive || dir * (uikitUtil.isRtl ? -1 : 1) === -1 ^ getElLeft(slide, list) > getElLeft(prev || next));
+
+                    triggerUpdate(slide, ("itemtranslate" + (translateIn ? 'in' : 'out')), {
+                        dir: dir,
+                        percent: isOut
+                            ? 1 - percent
+                            : isIn
+                                ? percent
+                                : isActive
+                                    ? 1
+                                    : 0
+                    });
+                });
 
             },
 
@@ -777,33 +794,21 @@
                 if ( out === void 0 ) out = false;
 
 
-                var actives = uikitUtil.sortBy(this.getActives(), 'offsetLeft');
-                var all = uikitUtil.sortBy(uikitUtil.children(list), 'offsetLeft');
-                var i = uikitUtil.index(all, actives[dir * (out ? -1 : 1) > 0 ? actives.length - 1 : 0]);
+                var actives = this.getActives();
+                var nextActives = inView(list, getLeft(next || prev, list, center));
 
-                return ~i && all[i + (prev && !out ? dir : 0)];
+                if (out) {
+                    var temp = actives;
+                    actives = nextActives;
+                    nextActives = temp;
+                }
+
+                return nextActives[uikitUtil.findIndex(nextActives, function (el) { return !uikitUtil.includes(actives, el); })];
 
             },
 
             getActives: function() {
-                return [prev || next].concat(uikitUtil.children(list).filter(function (slide) {
-                    var slideLeft = getElLeft(slide, list);
-                    return slideLeft > from && slideLeft + uikitUtil.dimensions(slide).width <= uikitUtil.dimensions(list).width + from;
-                }));
-            },
-
-            updateTranslates: function() {
-
-                var actives = this.getActives();
-
-                uikitUtil.children(list).forEach(function (slide) {
-                    var isActive = uikitUtil.includes(actives, slide);
-
-                    triggerUpdate(slide, ("itemtranslate" + (isActive ? 'in' : 'out')), {
-                        percent: isActive ? 1 : 0,
-                        dir: slide.offsetLeft <= next.offsetLeft ? 1 : -1
-                    });
-                });
+                return inView(list, getLeft(prev || next, list, center));
             }
 
         };
@@ -834,6 +839,19 @@
 
     function getElLeft(el, list) {
         return el && (uikitUtil.position(el).left + (uikitUtil.isRtl ? uikitUtil.dimensions(el).width - uikitUtil.dimensions(list).width : 0)) * (uikitUtil.isRtl ? -1 : 1) || 0;
+    }
+
+    function inView(list, listLeft) {
+
+        listLeft -= 1;
+        var listRight = listLeft + uikitUtil.dimensions(list).width + 2;
+
+        return uikitUtil.children(list).filter(function (slide) {
+            var slideLeft = getElLeft(slide, list);
+            var slideRight = slideLeft + uikitUtil.dimensions(slide).width;
+
+            return slideLeft >= listLeft && slideRight <= listRight;
+        });
     }
 
     function triggerUpdate(el, type, data) {
@@ -872,8 +890,6 @@
             },
 
             maxIndex: function() {
-                var this$1 = this;
-
 
                 if (!this.finite || this.center && !this.sets) {
                     return this.length - 1;
@@ -883,10 +899,18 @@
                     return uikitUtil.last(this.sets);
                 }
 
-                uikitUtil.css(this.slides, 'order', '');
-
+                var lft = 0;
                 var max = getMax(this.list);
-                var index = uikitUtil.findIndex(this.slides, function (el) { return getElLeft(el, this$1.list) >= max; });
+                var index = uikitUtil.findIndex(this.slides, function (el) {
+
+                    if (lft >= max) {
+                        return true;
+                    }
+
+                    lft += uikitUtil.dimensions(el).width;
+
+                });
+
                 return ~index ? index : this.length - 1;
             },
 
@@ -972,8 +996,10 @@
 
                 var actives = this._getTransitioner(this.index).getActives();
                 this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActive, uikitUtil.includes(actives, slide)); });
-                (!this.sets || uikitUtil.includes(this.sets, uikitUtil.toFloat(this.index))) && this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActivated, uikitUtil.includes(actives, slide)); });
 
+                if (this.clsActivated && (!this.sets || uikitUtil.includes(this.sets, uikitUtil.toFloat(this.index)))) {
+                    this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActivated || '', uikitUtil.includes(actives, slide)); });
+                }
             },
 
             events: ['resize']
@@ -1012,7 +1038,9 @@
             },
 
             itemshow: function() {
-                ~this.prevIndex && uikitUtil.addClass(this._getTransitioner().getItemIn(), this.clsActive);
+                if (~this.prevIndex) {
+                    uikitUtil.addClass(this._getTransitioner().getItemIn(), this.clsActive);
+                }
             }
 
         },

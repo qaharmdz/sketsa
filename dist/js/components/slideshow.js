@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -14,7 +14,7 @@
 
     };
 
-    var Animations = {
+    var Animations$1 = {
 
         slide: {
 
@@ -172,7 +172,9 @@
 
                 name: 'visibilitychange',
 
-                el: uikitUtil.inBrowser && document,
+                el: function() {
+                    return document;
+                },
 
                 filter: function() {
                     return this.autoplay;
@@ -306,12 +308,10 @@
                     this.prevIndex = this.index;
                 }
 
-                // Workaround for iOS's inert scrolling preventing pointerdown event
-                // https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
-                uikitUtil.on(this.list, 'touchmove', this.move, {passive: false});
-
                 uikitUtil.on(document, uikitUtil.pointerMove, this.move, {passive: false});
-                uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
+
+                // 'input' event is triggered by video controls
+                uikitUtil.on(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel + " input"), this.end, true);
 
                 uikitUtil.css(this.list, 'userSelect', 'none');
 
@@ -326,6 +326,9 @@
                 if (distance === 0 || this.prevPos === this.pos || !this.dragging && Math.abs(distance) < this.threshold) {
                     return;
                 }
+
+                // prevent click event
+                uikitUtil.css(this.list, 'pointerEvents', 'none');
 
                 e.cancelable && e.preventDefault();
 
@@ -393,9 +396,8 @@
 
             end: function() {
 
-                uikitUtil.off(this.list, 'touchmove', this.move, {passive: false});
                 uikitUtil.off(document, uikitUtil.pointerMove, this.move, {passive: false});
-                uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel), this.end, true);
+                uikitUtil.off(document, (uikitUtil.pointerUp + " " + uikitUtil.pointerCancel + " input"), this.end, true);
 
                 if (this.dragging) {
 
@@ -794,7 +796,7 @@
         data: {
             animation: 'slide',
             clsActivated: 'uk-transition-active',
-            Animations: Animations,
+            Animations: Animations$1,
             Transitioner: Transitioner
         },
 
@@ -843,7 +845,7 @@
 
     };
 
-    var Animations$1 = uikitUtil.assign({}, Animations, {
+    var Animations = uikitUtil.assign({}, Animations$1, {
 
         fade: {
 
@@ -1000,7 +1002,7 @@
             selList: '.uk-slideshow-items',
             attrItem: 'uk-slideshow-item',
             selNav: '.uk-slideshow-nav',
-            Animations: Animations$1
+            Animations: Animations
         },
 
         update: {

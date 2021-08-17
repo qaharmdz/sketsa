@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300);
 /* ========================================================================
    Component: Base
@@ -1443,7 +1443,7 @@ button.uk-icon:not(:disabled) {
 }
 .uk-range:focus::-webkit-slider-runnable-track,
 .uk-range:active::-webkit-slider-runnable-track {
-  background: #cecece;
+  background: #dbdbdb;
 }
 /* Firefox */
 .uk-range::-moz-range-track {
@@ -1452,7 +1452,7 @@ button.uk-icon:not(:disabled) {
   border-radius: 500px;
 }
 .uk-range:focus::-moz-range-track {
-  background: #cecece;
+  background: #dbdbdb;
 }
 /* Edge */
 .uk-range::-ms-fill-lower,
@@ -1463,7 +1463,7 @@ button.uk-icon:not(:disabled) {
 }
 .uk-range:focus::-ms-fill-lower,
 .uk-range:focus::-ms-fill-upper {
-  background: #cecece;
+  background: #dbdbdb;
 }
 /* ========================================================================
    Component: Form
@@ -1622,6 +1622,10 @@ button.uk-icon:not(:disabled) {
   padding-bottom: 4px;
   vertical-align: top;
 }
+.uk-select[multiple],
+.uk-select[size] {
+  resize: vertical;
+}
 /* Focus */
 .uk-input:focus,
 .uk-select:focus,
@@ -1662,10 +1666,17 @@ button.uk-icon:not(:disabled) {
 .uk-form-small {
   font-size: 0.9rem;
 }
+/* Single-line */
 .uk-form-small:not(textarea):not([multiple]):not([size]) {
   height: 28px;
   padding-right: 8px;
   padding-left: 8px;
+}
+/* Multi-line */
+textarea.uk-form-small,
+[multiple].uk-form-small,
+[size].uk-form-small {
+  padding: 5px 8px;
 }
 .uk-form-small:not(select):not(input):not(textarea) {
   line-height: 26px;
@@ -1676,10 +1687,17 @@ button.uk-icon:not(:disabled) {
 .uk-form-large {
   font-size: 1.25rem;
 }
+/* Single-line */
 .uk-form-large:not(textarea):not([multiple]):not([size]) {
   height: 44px;
   padding-right: 12px;
   padding-left: 12px;
+}
+/* Multi-line */
+textarea.uk-form-large,
+[multiple].uk-form-large,
+[size].uk-form-large {
+  padding: 7px 12px;
 }
 .uk-form-large:not(select):not(input):not(textarea) {
   line-height: 42px;
@@ -1787,7 +1805,7 @@ select.uk-form-width-xsmall {
 }
 /* 1 */
 .uk-input[list]::-webkit-calendar-picker-indicator {
-  display: none;
+  display: none !important;
 }
 /* Radio and checkbox
  * Note: Does not work in IE11
@@ -1837,6 +1855,7 @@ td .uk-checkbox {
 /* Focus */
 .uk-radio:focus,
 .uk-checkbox:focus {
+  background-color: rgba(0, 0, 0, 0);
   outline: none;
   border-color: #1e87f0;
 }
@@ -2973,11 +2992,32 @@ td .uk-checkbox {
 }
 /* Badge
  ========================================================================== */
+/*
+ * 1. Position
+ * 2. Size
+ * 3. Style
+ * 4. Center child vertically
+ */
 .uk-card-badge {
+  /* 1 */
   position: absolute;
-  top: 30px;
-  left: 30px;
+  top: 15px;
+  left: 15px;
   z-index: 1;
+  /* 2 */
+  height: 22px;
+  padding: 0 10px;
+  /* 3 */
+  background: #1e87f0;
+  color: #fff;
+  font-size: 0.9rem;
+  /* 4 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+  border-radius: 2px;
+  text-transform: uppercase;
 }
 /*
  * Remove margin from adjacent element
@@ -2988,7 +3028,7 @@ td .uk-checkbox {
 /* Hover modifier
  ========================================================================== */
 .uk-card-hover:not(.uk-card-default):not(.uk-card-primary):not(.uk-card-secondary):hover {
-  background: #fff;
+  background-color: #fff;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 /* Style modifiers
@@ -2998,7 +3038,7 @@ td .uk-checkbox {
  * Note: Header and Footer are only implemented for the default style
  */
 .uk-card-default {
-  background: #fff;
+  background-color: #fff;
   color: #444;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -3019,7 +3059,7 @@ td .uk-checkbox {
  * Primary
  */
 .uk-card-primary {
-  background: #1e87f0;
+  background-color: #1e87f0;
   color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -3034,7 +3074,7 @@ td .uk-checkbox {
  * Secondary
  */
 .uk-card-secondary {
-  background: #222;
+  background-color: #222;
   color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -3161,7 +3201,7 @@ td .uk-checkbox {
   position: relative;
   box-sizing: border-box;
   transition: box-shadow 0.1s ease-in-out;
-  background: #fff;
+  background-color: #fff;
   color: #444;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -3415,19 +3455,20 @@ td .uk-checkbox {
  */
 .uk-badge {
   box-sizing: border-box;
-  min-width: 22px;
-  height: 22px;
+  min-width: 18px;
+  height: 18px;
   padding: 0 5px;
   border-radius: 500px;
   vertical-align: middle;
   /* 1 */
   background: #1e87f0;
-  color: #fff;
+  color: #fff !important;
   font-size: 0.8rem;
   /* 2 */
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  line-height: 0;
   line-height: 1.8;
 }
 /*
@@ -3435,7 +3476,6 @@ td .uk-checkbox {
  */
 .uk-badge:hover,
 .uk-badge:focus {
-  color: #fff;
   text-decoration: none;
   outline: none;
 }
@@ -3762,21 +3802,22 @@ td .uk-checkbox {
 /* Default modifier
  ========================================================================== */
 .uk-search-default {
-  width: 180px;
+  width: 240px;
 }
 /*
  * Input
  */
 .uk-search-default .uk-search-input {
   height: 36px;
-  padding-right: 6px;
-  padding-left: 6px;
+  padding-right: 10px;
+  padding-left: 10px;
   background: transparent;
   border: 1px solid #d4d4d4;
 }
 /* Focus */
 .uk-search-default .uk-search-input:focus {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: #1e87f0;
 }
 /*
  * Icon
@@ -4367,19 +4408,21 @@ td .uk-checkbox {
  ========================================================================== */
 /*
  * 1. Let items take content dimensions (0 0 auto)
- * 2. Create position context
- * 3. Disable horizontal panning gestures in IE11 and Edge
- * 4. Suppress outline on focus
+ *    `max-width` needed to keep image responsiveness and prevent content overflow
+ * 3. Create position context
+ * 4. Disable horizontal panning gestures in IE11 and Edge
+ * 5. Suppress outline on focus
  */
 .uk-slider-items > * {
   /* 1 */
   flex: none;
-  /* 2 */
-  position: relative;
+  max-width: 100%;
   /* 3 */
+  position: relative;
+  /* 4 */
   touch-action: pan-y;
 }
-/* 4 */
+/* 5 */
 .uk-slider-items > :focus {
   outline: none;
 }
@@ -4387,7 +4430,7 @@ td .uk-checkbox {
    Component: Sticky
  ========================================================================== */
 /*
- * 1. Resolve frame rate issues on devices with lower frame rates by forcing hardware acceleration
+ * 1. Force new layer to resolve frame rate issues on devices with lower frame rates
  */
 .uk-sticky-fixed {
   z-index: 980;
@@ -5326,23 +5369,35 @@ td .uk-checkbox {
  ========================================================================== */
 /*
  * Reset
- * 1. Prepare lists
- * 2. Prepare links
- * 3. Remove default focus style
  */
-/* 1 */
 .uk-nav,
 .uk-nav ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-/* 2 */
+/*
+* 1. Center content vertically, e.g. an icon
+* 2. Imitate white space gap when using flexbox
+* 3. Reset link
+* 4. Space is allocated solely based on content dimensions: 0 0 auto
+ */
 .uk-nav li > a {
-  display: block;
+  /* 1 */
+  display: flex;
+  align-items: center;
+  /* 2 */
+  column-gap: 0.25em;
+  /* 3*/
   text-decoration: none;
 }
-/* 3 */
+/* 4 */
+.uk-nav li > a > * {
+  flex: none;
+}
+/*
+ * Remove default focus style
+ */
 .uk-nav li > a:focus {
   outline: none;
 }
@@ -5381,7 +5436,7 @@ ul.uk-nav-sub {
   content: "";
   width: 1.5em;
   height: 1.5em;
-  float: left;
+  margin-right: auto;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolyline%20fill%3D%22none%22%20stroke%3D%22%23777%22%20stroke-width%3D%221.1%22%20points%3D%2210%201%204%207%2010%2013%22%20%2F%3E%0A%3C%2Fsvg%3E");
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -5402,7 +5457,7 @@ ul.uk-nav-sub {
 }
 /* Divider
  ========================================================================== */
-.uk-nav-divider {
+.uk-nav > .uk-nav-divider {
   margin: 5px 0;
 }
 /* Default modifier
@@ -5496,8 +5551,17 @@ ul.uk-nav-sub {
 }
 /* Alignment modifier
  ========================================================================== */
+/*
+ * 1. Center header
+ * 2. Center items
+ */
+/* 1 */
 .uk-nav-center {
   text-align: center;
+}
+/* 2 */
+.uk-nav-center li > a {
+  justify-content: center;
 }
 /* Sublists */
 .uk-nav-center .uk-nav-sub,
@@ -5506,7 +5570,14 @@ ul.uk-nav-sub {
 }
 /* Parent icon modifier  */
 .uk-nav-center.uk-nav-parent-icon > .uk-parent > a::after {
-  position: absolute;
+  margin-right: 0;
+}
+/* Style modifier
+ ========================================================================== */
+.uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider) {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 1px solid #d4d4d4;
 }
 /* ========================================================================
    Component: Navbar
@@ -5614,9 +5685,10 @@ ul.uk-nav-sub {
 /*
  * Items
  * 1. Center content vertically and horizontally
- * 2. Dimensions
- * 3. Style
- * 4. Required for `a`
+ * 2. Imitate white space gap when using flexbox
+ * 3. Dimensions
+ * 4. Style
+ * 5. Required for `a`
  */
 .uk-navbar-nav > li > a,
 .uk-navbar-item,
@@ -5626,13 +5698,15 @@ ul.uk-nav-sub {
   justify-content: center;
   align-items: center;
   /* 2 */
+  column-gap: 0.25em;
+  /* 3 */
   box-sizing: border-box;
   min-height: 80px;
   padding: 0 15px;
-  /* 3 */
+  /* 4 */
   font-size: 0.96rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  /* 4 */
+  /* 5 */
   text-decoration: none;
 }
 /*
@@ -5667,6 +5741,12 @@ ul.uk-nav-sub {
  ========================================================================== */
 .uk-navbar-item {
   color: #444;
+}
+/*
+ * Remove margin from the last-child
+ */
+.uk-navbar-item > :last-child {
+  margin-bottom: 0;
 }
 /* Toggle
  ========================================================================== */
@@ -5882,16 +5962,19 @@ ul.uk-nav-sub {
  ========================================================================== */
 /*
  * 1. Allow items to wrap into the next line
- * 2. Gutter
- * 3. Reset list
+ * 2. Center items vertically if they have a different height
+ * 3. Gutter
+ * 4. Reset list
  */
 .uk-subnav {
   display: flex;
   /* 1 */
   flex-wrap: wrap;
   /* 2 */
-  margin-right: -20px;
+  align-items: center;
   /* 3 */
+  margin-right: -20px;
+  /* 4 */
   padding: 0;
   list-style: none;
 }
@@ -5913,13 +5996,17 @@ ul.uk-nav-sub {
 /*
  * Items must target `a` elements to exclude other elements (e.g. dropdowns)
  * Using `:first-child` instead of `a` to support `span` elements for text
- * 1. Prevent gap if child element is `inline-block`, e.g. an icon
- * 2. Style
+ * 1. Center content vertically, e.g. an icon
+ * 2. Imitate white space gap when using flexbox
+ * 3. Style
  */
 .uk-subnav > * > :first-child {
   /* 1 */
-  display: block;
+  display: flex;
+  align-items: center;
   /* 2 */
+  column-gap: 0.25em;
+  /* 3 */
   color: #888;
   font-size: 0.9rem;
   text-transform: uppercase;
@@ -6148,14 +6235,20 @@ ul.uk-nav-sub {
  ========================================================================== */
 /*
  * Items must target `a` elements to exclude other elements (e.g. dropdowns)
- * 1. Center text if a width is set
- * 2. Style
+ * 1. Center content vertically, e.g. an icon
+ * 2. Imitate white space gap when using flexbox
+ * 3. Center content if a width is set
+ * 4. Style
  */
 .uk-tab > * > a {
   /* 1 */
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
   /* 2 */
+  column-gap: 0.25em;
+  /* 3 */
+  justify-content: center;
+  /* 4 */
   padding: 5px 10px;
   color: #888;
   border-bottom: 3px solid transparent;
@@ -6223,12 +6316,12 @@ ul.uk-nav-sub {
   border-bottom: none;
 }
 .uk-tab-right > * > a {
-  text-align: right;
+  justify-content: left;
   border-left: 3px solid transparent;
   border-bottom: none;
 }
 .uk-tab-left > * > a {
-  text-align: right;
+  justify-content: left;
   border-right: 3px solid transparent;
   border-bottom: none;
 }
@@ -6467,14 +6560,27 @@ ul.uk-nav-sub {
  ========================================================================== */
 /*
  * Items must target `a` elements to exclude other elements (e.g. dropdowns)
- * 1. Prevent gap if child element is `inline-block`, e.g. an icon
- * 2. Style
+ * 1. Center content vertically if there is still some text
+ * 2. Imitate white space gap when using flexbox
+ * 3. Force text not to affect item height
+ * 4. Style
+ * 5. Required for `a` if there is still some text
  */
 .uk-iconnav > * > a {
   /* 1 */
-  display: block;
+  display: flex;
+  align-items: center;
   /* 2 */
+  column-gap: 0.25em;
+  /* 3 */
+  line-height: 0;
+  /* 4 */
   color: #888;
+  /* 5 */
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.1s ease-in-out;
+  transition-property: color, background-color;
 }
 /* Hover + Focus */
 .uk-iconnav > * > a:hover,
@@ -8173,6 +8279,11 @@ ul.uk-nav-sub {
 .uk-text-lowercase {
   text-transform: lowercase !important;
 }
+/* Decoration modifier
+ ========================================================================== */
+.uk-text-decoration-none {
+  text-decoration: none !important;
+}
 /* Color modifiers
  ========================================================================== */
 .uk-text-muted {
@@ -8530,7 +8641,9 @@ iframe.uk-cover {
 /* Size
  ========================================================================== */
 .uk-background-cover,
-.uk-background-contain {
+.uk-background-contain,
+.uk-background-width-1-1,
+.uk-background-height-1-1 {
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
@@ -8539,6 +8652,12 @@ iframe.uk-cover {
 }
 .uk-background-contain {
   background-size: contain;
+}
+.uk-background-width-1-1 {
+  background-size: 100%;
+}
+.uk-background-height-1-1 {
+  background-size: auto 100%;
 }
 /* Position
  ========================================================================== */
@@ -9044,7 +9163,7 @@ iframe.uk-cover {
  * 2. Create position context
  * 3. Prevent content overflow
  * 4. Behave like most inline-block elements
- * 5. Force hardware acceleration without creating a new stacking context
+ * 5. Force new layer without creating a new stacking context
  *    to fix 1px glitch when combined with overlays and transitions in Webkit
  * 6. Clip child elements
  */
@@ -9162,32 +9281,31 @@ iframe.uk-cover {
 /*
  * 1. Set position.
  * 2. Set style
- * 3. Blur doesn't work on pseudo elements with negative `z-index` in Edge.
- *    Solved by using `before` and add position context to child elements.
+ * 3. Fix shadow being clipped in Safari if container is animated
  */
 @supports (filter: blur(0)) {
   .uk-box-shadow-bottom {
     display: inline-block;
     position: relative;
+    z-index: 0;
     max-width: 100%;
     vertical-align: middle;
   }
-  .uk-box-shadow-bottom::before {
+  .uk-box-shadow-bottom::after {
     content: '';
     /* 1 */
     position: absolute;
     bottom: -30px;
     right: 0;
     left: 0;
+    z-index: -1;
     /* 2 */
     height: 30px;
     border-radius: 100%;
     background: #444;
     filter: blur(20px);
-  }
-  /* 3 */
-  .uk-box-shadow-bottom > * {
-    position: relative;
+    /* 3 */
+    will-change: filter;
   }
 }
 /* Drop cap
@@ -10190,14 +10308,14 @@ iframe.uk-cover {
   transform: scale(1, 1);
 }
 .uk-transition-scale-down {
-  transform: scale(1.1, 1.1);
+  transform: scale(1.03, 1.03);
 }
 /* Show */
 .uk-transition-toggle:hover .uk-transition-scale-up,
 .uk-transition-toggle:focus .uk-transition-scale-up,
 .uk-transition-active.uk-active .uk-transition-scale-up {
   opacity: 1;
-  transform: scale(1.1, 1.1);
+  transform: scale(1.03, 1.03);
 }
 .uk-transition-toggle:hover .uk-transition-scale-down,
 .uk-transition-toggle:focus .uk-transition-scale-down,
@@ -10441,26 +10559,48 @@ iframe.uk-cover {
 }
 .uk-light a:hover,
 .uk-light .uk-link:hover,
+.uk-light .uk-link-toggle:hover .uk-link,
+.uk-light .uk-link-toggle:focus .uk-link,
 .uk-section-primary:not(.uk-preserve-color) a:hover,
 .uk-section-primary:not(.uk-preserve-color) .uk-link:hover,
+.uk-section-primary:not(.uk-preserve-color) .uk-link-toggle:hover .uk-link,
+.uk-section-primary:not(.uk-preserve-color) .uk-link-toggle:focus .uk-link,
 .uk-section-secondary:not(.uk-preserve-color) a:hover,
 .uk-section-secondary:not(.uk-preserve-color) .uk-link:hover,
+.uk-section-secondary:not(.uk-preserve-color) .uk-link-toggle:hover .uk-link,
+.uk-section-secondary:not(.uk-preserve-color) .uk-link-toggle:focus .uk-link,
 .uk-tile-primary:not(.uk-preserve-color) a:hover,
 .uk-tile-primary:not(.uk-preserve-color) .uk-link:hover,
+.uk-tile-primary:not(.uk-preserve-color) .uk-link-toggle:hover .uk-link,
+.uk-tile-primary:not(.uk-preserve-color) .uk-link-toggle:focus .uk-link,
 .uk-tile-secondary:not(.uk-preserve-color) a:hover,
 .uk-tile-secondary:not(.uk-preserve-color) .uk-link:hover,
+.uk-tile-secondary:not(.uk-preserve-color) .uk-link-toggle:hover .uk-link,
+.uk-tile-secondary:not(.uk-preserve-color) .uk-link-toggle:focus .uk-link,
 .uk-card-primary.uk-card-body a:hover,
 .uk-card-primary.uk-card-body .uk-link:hover,
+.uk-card-primary.uk-card-body .uk-link-toggle:hover .uk-link,
+.uk-card-primary.uk-card-body .uk-link-toggle:focus .uk-link,
 .uk-card-primary > :not([class*='uk-card-media']) a:hover,
 .uk-card-primary > :not([class*='uk-card-media']) .uk-link:hover,
+.uk-card-primary > :not([class*='uk-card-media']) .uk-link-toggle:hover .uk-link,
+.uk-card-primary > :not([class*='uk-card-media']) .uk-link-toggle:focus .uk-link,
 .uk-card-secondary.uk-card-body a:hover,
 .uk-card-secondary.uk-card-body .uk-link:hover,
+.uk-card-secondary.uk-card-body .uk-link-toggle:hover .uk-link,
+.uk-card-secondary.uk-card-body .uk-link-toggle:focus .uk-link,
 .uk-card-secondary > :not([class*='uk-card-media']) a:hover,
 .uk-card-secondary > :not([class*='uk-card-media']) .uk-link:hover,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk-link-toggle:hover .uk-link,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk-link-toggle:focus .uk-link,
 .uk-overlay-primary a:hover,
 .uk-overlay-primary .uk-link:hover,
+.uk-overlay-primary .uk-link-toggle:hover .uk-link,
+.uk-overlay-primary .uk-link-toggle:focus .uk-link,
 .uk-offcanvas-bar a:hover,
-.uk-offcanvas-bar .uk-link:hover {
+.uk-offcanvas-bar .uk-link:hover,
+.uk-offcanvas-bar .uk-link-toggle:hover .uk-link,
+.uk-offcanvas-bar .uk-link-toggle:focus .uk-link {
   color: #fff;
 }
 .uk-light :not(pre) > code,
@@ -11364,7 +11504,7 @@ iframe.uk-cover {
 .uk-overlay-primary .uk-icon-button:focus,
 .uk-offcanvas-bar .uk-icon-button:hover,
 .uk-offcanvas-bar .uk-icon-button:focus {
-  background-color: rgba(242, 242, 242, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
   color: rgba(255, 255, 255, 0.9);
 }
 .uk-light .uk-icon-button:active,
@@ -11378,7 +11518,7 @@ iframe.uk-cover {
 .uk-card-secondary > :not([class*='uk-card-media']) .uk-icon-button:active,
 .uk-overlay-primary .uk-icon-button:active,
 .uk-offcanvas-bar .uk-icon-button:active {
-  background-color: rgba(230, 230, 230, 0.1);
+  background-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.9);
 }
 .uk-light .uk-input,
@@ -11452,7 +11592,7 @@ iframe.uk-cover {
 .uk-offcanvas-bar .uk-input:focus,
 .uk-offcanvas-bar .uk-select:focus,
 .uk-offcanvas-bar .uk-textarea:focus {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
   color: rgba(255, 255, 255, 0.9);
   border-color: rgba(255, 255, 255, 0.9);
 }
@@ -11567,7 +11707,7 @@ iframe.uk-cover {
 .uk-overlay-primary .uk-checkbox,
 .uk-offcanvas-bar .uk-radio,
 .uk-offcanvas-bar .uk-checkbox {
-  background-color: rgba(242, 242, 242, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
 }
 .uk-light .uk-radio:focus,
@@ -11592,6 +11732,7 @@ iframe.uk-cover {
 .uk-overlay-primary .uk-checkbox:focus,
 .uk-offcanvas-bar .uk-radio:focus,
 .uk-offcanvas-bar .uk-checkbox:focus {
+  background-color: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.9);
 }
 .uk-light .uk-radio:checked,
@@ -11663,7 +11804,7 @@ iframe.uk-cover {
 .uk-offcanvas-bar .uk-radio:checked:focus,
 .uk-offcanvas-bar .uk-checkbox:checked:focus,
 .uk-offcanvas-bar .uk-checkbox:indeterminate:focus {
-  background-color: #e6e6e6;
+  background-color: #ffffff;
 }
 .uk-light .uk-radio:checked,
 .uk-section-primary:not(.uk-preserve-color) .uk-radio:checked,
@@ -12012,7 +12153,7 @@ iframe.uk-cover {
 .uk-card-secondary > :not([class*='uk-card-media']) .uk-button-link,
 .uk-overlay-primary .uk-button-link,
 .uk-offcanvas-bar .uk-button-link {
-  color: rgba(255, 255, 255, 0.6);
+  color: #fff;
 }
 .uk-light .uk-button-link:hover,
 .uk-light .uk-button-link:focus,
@@ -12036,7 +12177,21 @@ iframe.uk-cover {
 .uk-overlay-primary .uk-button-link:focus,
 .uk-offcanvas-bar .uk-button-link:hover,
 .uk-offcanvas-bar .uk-button-link:focus {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.6);
+}
+.uk-light.uk-card-badge,
+.uk-section-primary:not(.uk-preserve-color).uk-card-badge,
+.uk-section-secondary:not(.uk-preserve-color).uk-card-badge,
+.uk-tile-primary:not(.uk-preserve-color).uk-card-badge,
+.uk-tile-secondary:not(.uk-preserve-color).uk-card-badge,
+.uk-card-primary.uk-card-body.uk-card-badge,
+.uk-card-primary > :not([class*='uk-card-media']).uk-card-badge,
+.uk-card-secondary.uk-card-body.uk-card-badge,
+.uk-card-secondary > :not([class*='uk-card-media']).uk-card-badge,
+.uk-overlay-primary.uk-card-badge,
+.uk-offcanvas-bar.uk-card-badge {
+  background-color: #fff;
+  color: #444;
 }
 .uk-light .uk-close,
 .uk-section-primary:not(.uk-preserve-color) .uk-close,
@@ -12175,31 +12330,7 @@ iframe.uk-cover {
 .uk-overlay-primary .uk-badge,
 .uk-offcanvas-bar .uk-badge {
   background-color: #fff;
-  color: #444;
-}
-.uk-light .uk-badge:hover,
-.uk-light .uk-badge:focus,
-.uk-section-primary:not(.uk-preserve-color) .uk-badge:hover,
-.uk-section-primary:not(.uk-preserve-color) .uk-badge:focus,
-.uk-section-secondary:not(.uk-preserve-color) .uk-badge:hover,
-.uk-section-secondary:not(.uk-preserve-color) .uk-badge:focus,
-.uk-tile-primary:not(.uk-preserve-color) .uk-badge:hover,
-.uk-tile-primary:not(.uk-preserve-color) .uk-badge:focus,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-badge:hover,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-badge:focus,
-.uk-card-primary.uk-card-body .uk-badge:hover,
-.uk-card-primary.uk-card-body .uk-badge:focus,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-badge:hover,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-badge:focus,
-.uk-card-secondary.uk-card-body .uk-badge:hover,
-.uk-card-secondary.uk-card-body .uk-badge:focus,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-badge:hover,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-badge:focus,
-.uk-overlay-primary .uk-badge:hover,
-.uk-overlay-primary .uk-badge:focus,
-.uk-offcanvas-bar .uk-badge:hover,
-.uk-offcanvas-bar .uk-badge:focus {
-  color: #444;
+  color: #444 !important;
 }
 .uk-light .uk-label,
 .uk-section-primary:not(.uk-preserve-color) .uk-label,
@@ -12318,7 +12449,7 @@ iframe.uk-cover {
 .uk-card-secondary > :not([class*='uk-card-media']) .uk-search-default .uk-search-input:focus,
 .uk-overlay-primary .uk-search-default .uk-search-input:focus,
 .uk-offcanvas-bar .uk-search-default .uk-search-input:focus {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 .uk-light .uk-search-navbar .uk-search-input,
 .uk-section-primary:not(.uk-preserve-color) .uk-search-navbar .uk-search-input,
@@ -12723,6 +12854,19 @@ iframe.uk-cover {
 .uk-overlay-primary .uk-nav-primary .uk-nav-sub li.uk-active > a,
 .uk-offcanvas-bar .uk-nav-primary .uk-nav-sub li.uk-active > a {
   color: #fff;
+}
+.uk-light .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-section-primary:not(.uk-preserve-color) .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-section-secondary:not(.uk-preserve-color) .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-tile-primary:not(.uk-preserve-color) .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-tile-secondary:not(.uk-preserve-color) .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-card-primary.uk-card-body .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-card-primary > :not([class*='uk-card-media']) .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-card-secondary.uk-card-body .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-card-secondary > :not([class*='uk-card-media']) .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-overlay-primary .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider),
+.uk-offcanvas-bar .uk-nav.uk-nav-divider > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider) {
+  border-top-color: rgba(255, 255, 255, 0.2);
 }
 .uk-light .uk-navbar-nav > li > a,
 .uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a,

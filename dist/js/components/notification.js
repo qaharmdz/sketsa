@@ -1,4 +1,4 @@
-/*! UIkit 3.6.11 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -6,9 +6,33 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitNotification = factory(global.UIkit.util));
 }(this, (function (uikitUtil) { 'use strict';
 
+    var Container = {
+
+        props: {
+            container: Boolean
+        },
+
+        data: {
+            container: true
+        },
+
+        computed: {
+
+            container: function(ref) {
+                var container = ref.container;
+
+                return container === true && this.$container || container && uikitUtil.$(container);
+            }
+
+        }
+
+    };
+
     var obj;
 
     var Component = {
+
+        mixins: [Container],
 
         functional: true,
 
@@ -45,8 +69,8 @@
 
         created: function() {
 
-            var container = uikitUtil.$(("." + (this.clsContainer) + "-" + (this.pos)), this.$container)
-                || uikitUtil.append(this.$container, ("<div class=\"" + (this.clsContainer) + " " + (this.clsContainer) + "-" + (this.pos) + "\" style=\"display: block\"></div>"));
+            var container = uikitUtil.$(("." + (this.clsContainer) + "-" + (this.pos)), this.container)
+                || uikitUtil.append(this.container, ("<div class=\"" + (this.clsContainer) + " " + (this.clsContainer) + "-" + (this.pos) + "\" style=\"display: block\"></div>"));
 
             this.$mount(uikitUtil.append(container,
                 ("<div class=\"" + (this.clsMsg) + (this.status ? (" " + (this.clsMsg) + "-" + (this.status)) : '') + "\"> <a href class=\"" + (this.clsClose) + "\" data-uk-close></a> <div>" + (this.message) + "</div> </div>")
