@@ -1,10 +1,10 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitfilter', ['uikit-util'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitFilter = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+})(this, (function (uikitUtil) { 'use strict';
 
     function getRows(items) {
         return sortBy(items, 'top', 'bottom');
@@ -325,7 +325,7 @@
         methods: {
 
             animate: function(action, target) {
-                var this$1 = this;
+                var this$1$1 = this;
                 if ( target === void 0 ) target = this.$el;
 
 
@@ -347,7 +347,7 @@
                             : slide;
 
                 return animationFn(action, target, this.duration)
-                    .then(function () { return this$1.$update(target, 'resize'); }, uikitUtil.noop);
+                    .then(function () { return this$1$1.$update(target, 'resize'); }, uikitUtil.noop);
             }
 
         }
@@ -383,14 +383,14 @@
                 },
 
                 watch: function() {
-                    var this$1 = this;
+                    var this$1$1 = this;
 
 
                     this.updateState();
 
                     if (this.selActive !== false) {
                         var actives = uikitUtil.$$(this.selActive, this.$el);
-                        this.toggles.forEach(function (el) { return uikitUtil.toggleClass(el, this$1.cls, uikitUtil.includes(actives, el)); });
+                        this.toggles.forEach(function (el) { return uikitUtil.toggleClass(el, this$1$1.cls, uikitUtil.includes(actives, el)); });
                     }
 
                 },
@@ -452,15 +452,15 @@
             },
 
             getState: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
                 return this.toggles
-                    .filter(function (item) { return uikitUtil.hasClass(item, this$1.cls); })
-                    .reduce(function (state, el) { return mergeState(el, this$1.attrItem, state); }, {filter: {'': ''}, sort: []});
+                    .filter(function (item) { return uikitUtil.hasClass(item, this$1$1.cls); })
+                    .reduce(function (state, el) { return mergeState(el, this$1$1.attrItem, state); }, {filter: {'': ''}, sort: []});
             },
 
             setState: function(state, animate) {
-                var this$1 = this;
+                var this$1$1 = this;
                 if ( animate === void 0 ) animate = true;
 
 
@@ -468,22 +468,22 @@
 
                 uikitUtil.trigger(this.$el, 'beforeFilter', [this, state]);
 
-                this.toggles.forEach(function (el) { return uikitUtil.toggleClass(el, this$1.cls, !!matchFilter(el, this$1.attrItem, state)); });
+                this.toggles.forEach(function (el) { return uikitUtil.toggleClass(el, this$1$1.cls, !!matchFilter(el, this$1$1.attrItem, state)); });
 
                 uikitUtil.Promise.all(uikitUtil.$$(this.target, this.$el).map(function (target) {
                     var filterFn = function () {
                         applyState(state, target, uikitUtil.children(target));
-                        this$1.$update(this$1.$el);
+                        this$1$1.$update(this$1$1.$el);
                     };
-                    return animate ? this$1.animate(filterFn, target) : filterFn();
-                })).then(function () { return uikitUtil.trigger(this$1.$el, 'afterFilter', [this$1]); });
+                    return animate ? this$1$1.animate(filterFn, target) : filterFn();
+                })).then(function () { return uikitUtil.trigger(this$1$1.$el, 'afterFilter', [this$1$1]); });
 
             },
 
             updateState: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
-                uikitUtil.fastdom.write(function () { return this$1.setState(this$1.getState(), false); });
+                uikitUtil.fastdom.write(function () { return this$1$1.setState(this$1$1.getState(), false); });
             }
 
         }
@@ -594,4 +594,4 @@
 
     return Component;
 
-})));
+}));

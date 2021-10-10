@@ -1,10 +1,10 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitcountdown', ['uikit-util'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitCountdown = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+})(this, (function (uikitUtil) { 'use strict';
 
     var Class = {
 
@@ -61,9 +61,9 @@
             },
 
             units: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
-                return ['days', 'hours', 'minutes', 'seconds'].filter(function (unit) { return this$1[unit]; });
+                return ['days', 'hours', 'minutes', 'seconds'].filter(function (unit) { return this$1$1[unit]; });
             }
 
         },
@@ -73,10 +73,10 @@
         },
 
         disconnected: function() {
-            var this$1 = this;
+            var this$1$1 = this;
 
             this.stop();
-            this.units.forEach(function (unit) { return uikitUtil.empty(this$1[unit]); });
+            this.units.forEach(function (unit) { return uikitUtil.empty(this$1$1[unit]); });
         },
 
         events: [
@@ -104,7 +104,7 @@
         update: {
 
             write: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 var timespan = getTimeSpan(this.date);
@@ -126,7 +126,7 @@
 
                     digits = digits.length < 2 ? ("0" + digits) : digits;
 
-                    var el = this$1[unit];
+                    var el = this$1$1[unit];
                     if (el.textContent !== digits) {
                         digits = digits.split('');
 
@@ -188,4 +188,4 @@
 
     return Component;
 
-})));
+}));

@@ -1,10 +1,10 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitslider', ['uikit-util'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitSlider = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+})(this, (function (uikitUtil) { 'use strict';
 
     var Class = {
 
@@ -69,16 +69,16 @@
         methods: {
 
             startAutoplay: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 this.stopAutoplay();
 
                 this.interval = setInterval(
-                    function () { return (!this$1.draggable || !uikitUtil.$(':focus', this$1.$el))
-                        && (!this$1.pauseOnHover || !uikitUtil.matches(this$1.$el, ':hover'))
-                        && !this$1.stack.length
-                        && this$1.show('next'); },
+                    function () { return (!this$1$1.draggable || !uikitUtil.$(':focus', this$1$1.$el))
+                        && (!this$1$1.pauseOnHover || !uikitUtil.matches(this$1$1.$el, ':hover'))
+                        && !this$1$1.stack.length
+                        && this$1$1.show('next'); },
                     this.autoplayInterval
                 );
 
@@ -104,18 +104,18 @@
         },
 
         created: function() {
-            var this$1 = this;
+            var this$1$1 = this;
 
 
             ['start', 'move', 'end'].forEach(function (key) {
 
-                var fn = this$1[key];
-                this$1[key] = function (e) {
+                var fn = this$1$1[key];
+                this$1$1[key] = function (e) {
 
                     var pos = uikitUtil.getEventPos(e).x * (uikitUtil.isRtl ? -1 : 1);
 
-                    this$1.prevPos = pos !== this$1.pos ? this$1.pos : this$1.prevPos;
-                    this$1.pos = pos;
+                    this$1$1.prevPos = pos !== this$1$1.pos ? this$1$1.pos : this$1$1.prevPos;
+                    this$1$1.pos = pos;
 
                     fn(e);
                 };
@@ -192,7 +192,7 @@
             },
 
             move: function(e) {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 var distance = this.pos - this.drag;
@@ -238,11 +238,11 @@
                 var itemShown;
 
                 [this.index, this.prevIndex].filter(function (i) { return !uikitUtil.includes([nextIndex, prevIndex], i); }).forEach(function (i) {
-                    uikitUtil.trigger(slides[i], 'itemhidden', [this$1]);
+                    uikitUtil.trigger(slides[i], 'itemhidden', [this$1$1]);
 
                     if (edge) {
                         itemShown = true;
-                        this$1.prevIndex = prevIndex;
+                        this$1$1.prevIndex = prevIndex;
                     }
 
                 });
@@ -341,14 +341,14 @@
         update: {
 
             write: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 if (this.nav && this.length !== this.nav.children.length) {
-                    uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1.attrItem) + "=\"" + i + "\"><a href></a></li>"); }).join(''));
+                    uikitUtil.html(this.nav, this.slides.map(function (_, i) { return ("<li " + (this$1$1.attrItem) + "=\"" + i + "\"><a href></a></li>"); }).join(''));
                 }
 
-                this.navItems.concat(this.nav).forEach(function (el) { return el && (el.hidden = !this$1.maxIndex); });
+                this.navItems.concat(this.nav).forEach(function (el) { return el && (el.hidden = !this$1$1.maxIndex); });
 
                 this.updateNav();
 
@@ -387,16 +387,16 @@
         methods: {
 
             updateNav: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 var i = this.getValidIndex();
                 this.navItems.forEach(function (el) {
 
-                    var cmd = uikitUtil.data(el, this$1.attrItem);
+                    var cmd = uikitUtil.data(el, this$1$1.attrItem);
 
-                    uikitUtil.toggleClass(el, this$1.clsActive, uikitUtil.toNumber(cmd) === i);
-                    uikitUtil.toggleClass(el, 'uk-invisible', this$1.finite && (cmd === 'previous' && i === 0 || cmd === 'next' && i >= this$1.maxIndex));
+                    uikitUtil.toggleClass(el, this$1$1.clsActive, uikitUtil.toNumber(cmd) === i);
+                    uikitUtil.toggleClass(el, 'uk-invisible', this$1$1.finite && (cmd === 'previous' && i === 0 || cmd === 'next' && i >= this$1$1.maxIndex));
                 });
 
             }
@@ -496,7 +496,7 @@
         methods: {
 
             show: function(index, force) {
-                var this$1 = this;
+                var this$1$1 = this;
                 if ( force === void 0 ) force = false;
 
 
@@ -511,7 +511,7 @@
                     stack.splice(queueIndex, 1);
 
                     if (stack.length) {
-                        this$1.show(stack.shift(), true);
+                        this$1$1.show(stack.shift(), true);
                     }
                 };
 
@@ -550,16 +550,16 @@
 
                 var promise = this._show(prev, next, force).then(function () {
 
-                    prev && uikitUtil.trigger(prev, 'itemhidden', [this$1]);
-                    uikitUtil.trigger(next, 'itemshown', [this$1]);
+                    prev && uikitUtil.trigger(prev, 'itemhidden', [this$1$1]);
+                    uikitUtil.trigger(next, 'itemshown', [this$1$1]);
 
                     return new uikitUtil.Promise(function (resolve) {
                         uikitUtil.fastdom.write(function () {
                             stack.shift();
                             if (stack.length) {
-                                this$1.show(stack.shift(), true);
+                                this$1$1.show(stack.shift(), true);
                             } else {
-                                this$1._transitioner = null;
+                                this$1$1._transitioner = null;
                             }
                             resolve();
                         });
@@ -844,11 +844,12 @@
     function inView(list, listLeft) {
 
         listLeft -= 1;
-        var listRight = listLeft + uikitUtil.dimensions(list).width + 2;
+        var listWidth = uikitUtil.dimensions(list).width;
+        var listRight = listLeft + listWidth + 2;
 
         return uikitUtil.children(list).filter(function (slide) {
             var slideLeft = getElLeft(slide, list);
-            var slideRight = slideLeft + uikitUtil.dimensions(slide).width;
+            var slideRight = slideLeft + Math.min(uikitUtil.dimensions(slide).width, listWidth);
 
             return slideLeft >= listLeft && slideRight <= listRight;
         });
@@ -915,7 +916,7 @@
             },
 
             sets: function(ref) {
-                var this$1 = this;
+                var this$1$1 = this;
                 var sets = ref.sets;
 
 
@@ -936,19 +937,19 @@
 
                     if (slideRight > left) {
 
-                        if (!this$1.center && i > this$1.maxIndex) {
-                            i = this$1.maxIndex;
+                        if (!this$1$1.center && i > this$1$1.maxIndex) {
+                            i = this$1$1.maxIndex;
                         }
 
                         if (!uikitUtil.includes(sets, i)) {
 
-                            var cmp = this$1.slides[i + 1];
-                            if (this$1.center && cmp && slideWidth < leftCenter - uikitUtil.dimensions(cmp).width / 2) {
+                            var cmp = this$1$1.slides[i + 1];
+                            if (this$1$1.center && cmp && slideWidth < leftCenter - uikitUtil.dimensions(cmp).width / 2) {
                                 leftCenter -= slideWidth;
                             } else {
                                 leftCenter = width;
                                 sets.push(i);
-                                left = slideLeft + width + (this$1.center ? slideWidth / 2 : 0);
+                                left = slideLeft + width + (this$1$1.center ? slideWidth / 2 : 0);
                             }
 
                         }
@@ -980,12 +981,12 @@
         update: {
 
             write: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
                 this.navItems.forEach(function (el) {
-                    var index = uikitUtil.toNumber(uikitUtil.data(el, this$1.attrItem));
+                    var index = uikitUtil.toNumber(uikitUtil.data(el, this$1$1.attrItem));
                     if (index !== false) {
-                        el.hidden = !this$1.maxIndex || index > this$1.maxIndex || this$1.sets && !uikitUtil.includes(this$1.sets, index);
+                        el.hidden = !this$1$1.maxIndex || index > this$1$1.maxIndex || this$1$1.sets && !uikitUtil.includes(this$1$1.sets, index);
                     }
                 });
 
@@ -995,10 +996,10 @@
                 }
 
                 var actives = this._getTransitioner(this.index).getActives();
-                this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActive, uikitUtil.includes(actives, slide)); });
+                this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1$1.clsActive, uikitUtil.includes(actives, slide)); });
 
                 if (this.clsActivated && (!this.sets || uikitUtil.includes(this.sets, uikitUtil.toFloat(this.index)))) {
-                    this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1.clsActivated || '', uikitUtil.includes(actives, slide)); });
+                    this.slides.forEach(function (slide) { return uikitUtil.toggleClass(slide, this$1$1.clsActivated || '', uikitUtil.includes(actives, slide)); });
                 }
             },
 
@@ -1048,7 +1049,7 @@
         methods: {
 
             reorder: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 if (this.finite) {
@@ -1058,9 +1059,9 @@
 
                 var index = this.dir > 0 && this.slides[this.prevIndex] ? this.prevIndex : this.index;
 
-                this.slides.forEach(function (slide, i) { return uikitUtil.css(slide, 'order', this$1.dir > 0 && i < index
+                this.slides.forEach(function (slide, i) { return uikitUtil.css(slide, 'order', this$1$1.dir > 0 && i < index
                         ? 1
-                        : this$1.dir < 0 && i >= this$1.index
+                        : this$1$1.dir < 0 && i >= this$1$1.index
                             ? -1
                             : ''
                     ); }
@@ -1125,4 +1126,4 @@
 
     return Component;
 
-})));
+}));

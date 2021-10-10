@@ -1,10 +1,10 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitnotification', ['uikit-util'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitNotification = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+})(this, (function (uikitUtil) { 'use strict';
 
     var Container = {
 
@@ -79,7 +79,7 @@
         },
 
         connected: function() {
-            var this$1 = this;
+            var this$1$1 = this;
             var obj;
 
 
@@ -88,8 +88,8 @@
                 uikitUtil.css(this.$el, this.startProps),
                 ( obj = {opacity: 1}, obj[this.marginProp] = margin, obj )
             ).then(function () {
-                if (this$1.timeout) {
-                    this$1.timer = setTimeout(this$1.close, this$1.timeout);
+                if (this$1$1.timeout) {
+                    this$1$1.timer = setTimeout(this$1$1.close, this$1$1.timeout);
                 }
             });
 
@@ -117,14 +117,14 @@
         methods: {
 
             close: function(immediate) {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 var removeFn = function (el) {
 
                     var container = uikitUtil.parent(el);
 
-                    uikitUtil.trigger(el, 'close', [this$1]);
+                    uikitUtil.trigger(el, 'close', [this$1$1]);
                     uikitUtil.remove(el);
 
                     if (container && !container.hasChildNodes()) {
@@ -165,4 +165,4 @@
 
     return Component;
 
-})));
+}));

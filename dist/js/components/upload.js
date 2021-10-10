@@ -1,10 +1,10 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitupload', ['uikit-util'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitUpload = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+})(this, (function (uikitUtil) { 'use strict';
 
     var Component = {
 
@@ -103,7 +103,7 @@
         methods: {
 
             upload: function(files) {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 if (!files.length) {
@@ -142,39 +142,39 @@
 
                     var data = new FormData();
 
-                    files.forEach(function (file) { return data.append(this$1.name, file); });
+                    files.forEach(function (file) { return data.append(this$1$1.name, file); });
 
-                    for (var key in this$1.params) {
-                        data.append(key, this$1.params[key]);
+                    for (var key in this$1$1.params) {
+                        data.append(key, this$1$1.params[key]);
                     }
 
-                    uikitUtil.ajax(this$1.url, {
+                    uikitUtil.ajax(this$1$1.url, {
                         data: data,
-                        method: this$1.method,
-                        responseType: this$1.type,
+                        method: this$1$1.method,
+                        responseType: this$1$1.type,
                         beforeSend: function (env) {
 
                             var xhr = env.xhr;
-                            xhr.upload && uikitUtil.on(xhr.upload, 'progress', this$1.progress);
-                            ['loadStart', 'load', 'loadEnd', 'abort'].forEach(function (type) { return uikitUtil.on(xhr, type.toLowerCase(), this$1[type]); }
+                            xhr.upload && uikitUtil.on(xhr.upload, 'progress', this$1$1.progress);
+                            ['loadStart', 'load', 'loadEnd', 'abort'].forEach(function (type) { return uikitUtil.on(xhr, type.toLowerCase(), this$1$1[type]); }
                             );
 
-                            return this$1.beforeSend(env);
+                            return this$1$1.beforeSend(env);
 
                         }
                     }).then(
                         function (xhr) {
 
-                            this$1.complete(xhr);
+                            this$1$1.complete(xhr);
 
                             if (chunks.length) {
                                 upload(chunks.shift());
                             } else {
-                                this$1.completeAll(xhr);
+                                this$1$1.completeAll(xhr);
                             }
 
                         },
-                        function (e) { return this$1.error(e); }
+                        function (e) { return this$1$1.error(e); }
                     );
 
                 };
@@ -214,4 +214,4 @@
 
     return Component;
 
-})));
+}));

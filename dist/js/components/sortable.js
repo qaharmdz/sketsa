@@ -1,10 +1,10 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitsortable', ['uikit-util'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitSortable = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+})(this, (function (uikitUtil) { 'use strict';
 
     function getRows(items) {
         return sortBy(items, 'top', 'bottom');
@@ -325,7 +325,7 @@
         methods: {
 
             animate: function(action, target) {
-                var this$1 = this;
+                var this$1$1 = this;
                 if ( target === void 0 ) target = this.$el;
 
 
@@ -347,7 +347,7 @@
                             : slide;
 
                 return animationFn(action, target, this.duration)
-                    .then(function () { return this$1.$update(target, 'resize'); }, uikitUtil.noop);
+                    .then(function () { return this$1$1.$update(target, 'resize'); }, uikitUtil.noop);
             }
 
         }
@@ -395,12 +395,12 @@
         },
 
         created: function() {
-            var this$1 = this;
+            var this$1$1 = this;
 
             ['init', 'start', 'move', 'end'].forEach(function (key) {
-                var fn = this$1[key];
-                this$1[key] = function (e) {
-                    uikitUtil.assign(this$1.pos, uikitUtil.getEventPos(e));
+                var fn = this$1$1[key];
+                this$1$1[key] = function (e) {
+                    uikitUtil.assign(this$1$1.pos, uikitUtil.getEventPos(e));
                     fn(e);
                 };
             });
@@ -590,7 +590,7 @@
             },
 
             end: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 uikitUtil.off(document, uikitUtil.pointerMove, this.move);
@@ -623,7 +623,7 @@
                         var clsPlaceholder = ref.clsPlaceholder;
                         var clsItem = ref.clsItem;
 
-                        return this$1.touched.forEach(function (sortable) { return uikitUtil.removeClass(sortable.items, clsPlaceholder, clsItem); }
+                        return this$1$1.touched.forEach(function (sortable) { return uikitUtil.removeClass(sortable.items, clsPlaceholder, clsItem); }
                     );
                 }
                 );
@@ -633,14 +633,14 @@
             },
 
             insert: function(element, target) {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 uikitUtil.addClass(this.items, this.clsItem);
 
                 var insert = function () { return target
                     ? uikitUtil.before(target, element)
-                    : uikitUtil.append(this$1.target, element); };
+                    : uikitUtil.append(this$1$1.target, element); };
 
                 this.animate(insert);
 
@@ -816,4 +816,4 @@
 
     return Component;
 
-})));
+}));

@@ -1,10 +1,10 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
     typeof define === 'function' && define.amd ? define('uikitparallax', ['uikit-util'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitParallax = factory(global.UIkit.util));
-}(this, (function (uikitUtil) { 'use strict';
+})(this, (function (uikitUtil) { 'use strict';
 
     var Media = {
 
@@ -90,7 +90,7 @@
         computed: {
 
             props: function(properties, $el) {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 return props.reduce(function (props, prop) {
@@ -129,12 +129,12 @@
                     } else if (uikitUtil.startsWith(prop, 'bg')) {
 
                         var attr = prop === 'bgy' ? 'height' : 'width';
-                        steps = steps.map(function (step) { return uikitUtil.toPx(step, attr, this$1.$el); });
+                        steps = steps.map(function (step) { return uikitUtil.toPx(step, attr, this$1$1.$el); });
 
                         uikitUtil.css($el, ("background-position-" + (prop[2])), '');
                         bgPos = uikitUtil.css($el, 'backgroundPosition').split(' ')[prop[2] === 'x' ? 0 : 1]; // IE 11 can't read background-position-[x|y]
 
-                        if (this$1.covers) {
+                        if (this$1$1.covers) {
 
                             var min = Math.min.apply(Math, steps);
                             var max = Math.max.apply(Math, steps);
@@ -163,7 +163,7 @@
                             return props;
                         }
 
-                        var length = getMaxPathLength(this$1.$el);
+                        var length = getMaxPathLength(this$1$1.$el);
                         uikitUtil.css($el, 'strokeDasharray', length);
 
                         if (unit === '%') {
@@ -184,9 +184,9 @@
             },
 
             bgProps: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
-                return ['bgx', 'bgy'].filter(function (bg) { return bg in this$1.props; });
+                return ['bgx', 'bgy'].filter(function (bg) { return bg in this$1$1.props; });
             },
 
             covers: function(_, $el) {
@@ -202,7 +202,7 @@
         update: {
 
             read: function(data) {
-                var this$1 = this;
+                var this$1$1 = this;
 
 
                 if (!this.matchMedia) {
@@ -218,7 +218,7 @@
                         data.image = img;
 
                         if (!img.naturalWidth) {
-                            img.onload = function () { return this$1.$update(); };
+                            img.onload = function () { return this$1$1.$update(); };
                         }
                     }
 
@@ -243,7 +243,7 @@
 
                 this.bgProps.forEach(function (prop) {
 
-                    var ref = this$1.props[prop];
+                    var ref = this$1$1.props[prop];
                     var diff = ref.diff;
                     var bgPos = ref.bgPos;
                     var steps = ref.steps;
@@ -254,10 +254,10 @@
                         dimEl[attr] = dim[attr] + diff - span;
                     } else if (span > diff) {
 
-                        var posPercentage = dimEl[attr] / uikitUtil.toPx(bgPos, attr, this$1.$el);
+                        var posPercentage = dimEl[attr] / uikitUtil.toPx(bgPos, attr, this$1$1.$el);
 
                         if (posPercentage) {
-                            this$1.props[prop].steps = steps.map(function (step) { return step - (span - diff) / posPercentage; });
+                            this$1$1.props[prop].steps = steps.map(function (step) { return step - (span - diff) / posPercentage; });
                         }
                     }
 
@@ -290,9 +290,9 @@
         methods: {
 
             reset: function() {
-                var this$1 = this;
+                var this$1$1 = this;
 
-                uikitUtil.each(this.getCss(0), function (_, prop) { return uikitUtil.css(this$1.$el, prop, ''); });
+                uikitUtil.each(this.getCss(0), function (_, prop) { return uikitUtil.css(this$1$1.$el, prop, ''); });
             },
 
             getCss: function(percent) {
@@ -510,4 +510,4 @@
 
     return Component;
 
-})));
+}));

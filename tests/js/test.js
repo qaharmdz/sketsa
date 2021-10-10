@@ -1,9 +1,9 @@
-/*! UIkit 3.7.2 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
     factory();
-}((function () { 'use strict';
+})((function () { 'use strict';
 
     var hyphenateRe = /\B([A-Z])/g;
 
@@ -376,7 +376,7 @@
     }
 
     function delegate(selector, listener) {
-        var this$1 = this;
+        var this$1$1 = this;
 
         return function (e) {
 
@@ -386,7 +386,7 @@
 
             if (current) {
                 e.current = current;
-                listener.call(this$1, e);
+                listener.call(this$1$1, e);
             }
 
         };
@@ -780,29 +780,29 @@
     };
 
     p.notify = function notify() {
-        var this$1 = this;
+        var this$1$1 = this;
 
         async(function () {
-            if (this$1.state !== PENDING) {
-                while (this$1.deferred.length) {
-                    var ref = this$1.deferred.shift();
+            if (this$1$1.state !== PENDING) {
+                while (this$1$1.deferred.length) {
+                    var ref = this$1$1.deferred.shift();
                     var onResolved = ref[0];
                     var onRejected = ref[1];
                     var resolve = ref[2];
                     var reject = ref[3];
 
                     try {
-                        if (this$1.state === RESOLVED) {
+                        if (this$1$1.state === RESOLVED) {
                             if (isFunction(onResolved)) {
-                                resolve(onResolved.call(undefined, this$1.value));
+                                resolve(onResolved.call(undefined, this$1$1.value));
                             } else {
-                                resolve(this$1.value);
+                                resolve(this$1$1.value);
                             }
-                        } else if (this$1.state === REJECTED) {
+                        } else if (this$1$1.state === REJECTED) {
                             if (isFunction(onRejected)) {
-                                resolve(onRejected.call(undefined, this$1.value));
+                                resolve(onRejected.call(undefined, this$1$1.value));
                             } else {
-                                reject(this$1.value);
+                                reject(this$1$1.value);
                             }
                         }
                     } catch (e) {
@@ -814,11 +814,11 @@
     };
 
     p.then = function then(onResolved, onRejected) {
-        var this$1 = this;
+        var this$1$1 = this;
 
         return new PromiseFn(function (resolve, reject) {
-            this$1.deferred.push([onResolved, onRejected, resolve, reject]);
-            this$1.notify();
+            this$1$1.deferred.push([onResolved, onRejected, resolve, reject]);
+            this$1$1.notify();
         });
     };
 
@@ -1040,4 +1040,4 @@
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     }
 
-})));
+}));
