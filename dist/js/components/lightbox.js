@@ -1,4 +1,4 @@
-/*! UIkit 3.7.6 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.8.0 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -401,7 +401,6 @@
 
                     e.preventDefault();
 
-                    this.target = toggle.$el;
                     if (this.isToggled() === uikitUtil.includes(active, this)) {
                         this.toggle();
                     }
@@ -492,28 +491,13 @@
 
                 handler: function() {
                     if (!uikitUtil.isFocusable(this.$el)) {
-                        uikitUtil.attr(this.$el, 'tabindex', '0');
+                        uikitUtil.attr(this.$el, 'tabindex', '-1');
                     }
 
                     if (!uikitUtil.$(':focus', this.$el)) {
                         this.$el.focus();
                     }
                 }
-            },
-
-            {
-
-                name: 'hide',
-
-                self: true,
-
-                handler: function() {
-                    if (uikitUtil.isFocusable(this.target)) {
-                        this.target.focus();
-                        this.target = null;
-                    }
-                }
-
             },
 
             {
