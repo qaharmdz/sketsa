@@ -1,4 +1,4 @@
-/*! UIkit 3.8.0 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -7,535 +7,520 @@
 })(this, (function (uikitUtil) { 'use strict';
 
     var Media = {
+      props: {
+        media: Boolean },
 
-        props: {
-            media: Boolean
-        },
 
-        data: {
-            media: false
-        },
+      data: {
+        media: false },
 
-        computed: {
 
-            matchMedia: function() {
-                var media = toMedia(this.media);
-                return !media || window.matchMedia(media).matches;
-            }
-
+      connected() {
+        const media = toMedia(this.media, this.$el);
+        this.matchMedia = true;
+        if (media) {
+          this.mediaObj = window.matchMedia(media);
+          const handler = () => {
+            this.matchMedia = this.mediaObj.matches;
+            uikitUtil.trigger(this.$el, uikitUtil.createEvent('mediachange', false, true, [this.mediaObj]));
+          };
+          this.offMediaObj = uikitUtil.on(this.mediaObj, 'change', () => {
+            handler();
+            this.$emit('resize');
+          });
+          handler();
         }
+      },
 
-    };
+      disconnected() {var _this$offMediaObj;
+        (_this$offMediaObj = this.offMediaObj) == null ? void 0 : _this$offMediaObj.call(this);
+      } };
 
-    function toMedia(value) {
 
-        if (uikitUtil.isString(value)) {
-            if (value[0] === '@') {
-                var name = "breakpoint-" + (value.substr(1));
-                value = uikitUtil.toFloat(uikitUtil.getCssVar(name));
-            } else if (isNaN(value)) {
-                return value;
-            }
+    function toMedia(value, element) {
+      if (uikitUtil.isString(value)) {
+        if (uikitUtil.startsWith(value, '@')) {
+          value = uikitUtil.toFloat(uikitUtil.css(element, "--uk-breakpoint-" + value.substr(1)));
+        } else if (isNaN(value)) {
+          return value;
         }
+      }
 
-        return value && !isNaN(value) ? ("(min-width: " + value + "px)") : false;
+      return value && uikitUtil.isNumeric(value) ? "(min-width: " + value + "px)" : '';
     }
 
-    uikitUtil.memoize(function (src) { return new uikitUtil.Promise(function (resolve, reject) {
-
-            if (!src) {
-                reject();
-                return;
-            }
-
-            if (uikitUtil.startsWith(src, 'data:')) {
-                resolve(decodeURIComponent(src.split(',')[1]));
-            } else {
-
-                uikitUtil.ajax(src).then(
-                    function (xhr) { return resolve(xhr.response); },
-                    function () { return reject('SVG not found.'); }
-                );
-
-            }
-        }); }
-    );
+    uikitUtil.memoize(async (src) => {
+      if (src) {
+        if (uikitUtil.startsWith(src, 'data:')) {
+          return decodeURIComponent(src.split(',')[1]);
+        } else {
+          return (await fetch(src)).text();
+        }
+      } else {
+        return Promise.reject();
+      }
+    });
 
     function getMaxPathLength(el) {
-        return Math.ceil(Math.max.apply(Math, [ 0 ].concat( uikitUtil.$$('[stroke]', el).map(function (stroke) {
-            try {
-                return stroke.getTotalLength();
-            } catch (e) {
-                return 0;
-            }
-        }) )));
+      return Math.ceil(
+      Math.max(
+      0,
+      ...uikitUtil.$$('[stroke]', el).map((stroke) => {
+        try {
+          return stroke.getTotalLength();
+        } catch (e) {
+          return 0;
+        }
+      })));
+
+
     }
 
-    var props = ['x', 'y', 'bgx', 'bgy', 'rotate', 'scale', 'color', 'backgroundColor', 'borderColor', 'opacity', 'blur', 'hue', 'grayscale', 'invert', 'saturate', 'sepia', 'fopacity', 'stroke'];
+    const props = {
+      x: transformFn,
+      y: transformFn,
+      rotate: transformFn,
+      scale: transformFn,
+      color: colorFn,
+      backgroundColor: colorFn,
+      borderColor: colorFn,
+      blur: filterFn,
+      hue: filterFn,
+      fopacity: filterFn,
+      grayscale: filterFn,
+      invert: filterFn,
+      saturate: filterFn,
+      sepia: filterFn,
+      opacity: cssPropFn,
+      stroke: strokeFn,
+      bgx: backgroundFn,
+      bgy: backgroundFn };
+
+
+    const { keys } = Object;
 
     var Parallax = {
+      mixins: [Media],
 
-        mixins: [Media],
+      props: fillObject(keys(props), 'list'),
 
-        props: props.reduce(function (props, prop) {
-            props[prop] = 'list';
-            return props;
-        }, {}),
+      data: fillObject(keys(props), undefined),
 
-        data: props.reduce(function (data, prop) {
-            data[prop] = undefined;
-            return data;
-        }, {}),
-
-        computed: {
-
-            props: function(properties, $el) {
-                var this$1$1 = this;
-
-
-                return props.reduce(function (props, prop) {
-
-                    if (uikitUtil.isUndefined(properties[prop])) {
-                        return props;
-                    }
-
-                    var isColor = prop.match(/color/i);
-                    var isCssProp = isColor || prop === 'opacity';
-
-                    var pos, bgPos, diff;
-                    var steps = properties[prop].slice();
-
-                    if (isCssProp) {
-                        uikitUtil.css($el, prop, '');
-                    }
-
-                    if (steps.length < 2) {
-                        steps.unshift((prop === 'scale'
-                            ? 1
-                            : isCssProp
-                                ? uikitUtil.css($el, prop)
-                                : 0) || 0);
-                    }
-
-                    var unit = getUnit(steps);
-
-                    if (isColor) {
-
-                        var ref = $el.style;
-                        var color = ref.color;
-                        steps = steps.map(function (step) { return parseColor($el, step); });
-                        $el.style.color = color;
-
-                    } else if (uikitUtil.startsWith(prop, 'bg')) {
-
-                        var attr = prop === 'bgy' ? 'height' : 'width';
-                        steps = steps.map(function (step) { return uikitUtil.toPx(step, attr, this$1$1.$el); });
-
-                        uikitUtil.css($el, ("background-position-" + (prop[2])), '');
-                        bgPos = uikitUtil.css($el, 'backgroundPosition').split(' ')[prop[2] === 'x' ? 0 : 1]; // IE 11 can't read background-position-[x|y]
-
-                        if (this$1$1.covers) {
-
-                            var min = Math.min.apply(Math, steps);
-                            var max = Math.max.apply(Math, steps);
-                            var down = steps.indexOf(min) < steps.indexOf(max);
-
-                            diff = max - min;
-
-                            steps = steps.map(function (step) { return step - (down ? min : max); });
-                            pos = (down ? -diff : 0) + "px";
-
-                        } else {
-
-                            pos = bgPos;
-
-                        }
-
-                    } else {
-
-                        steps = steps.map(uikitUtil.toFloat);
-
-                    }
-
-                    if (prop === 'stroke') {
-
-                        if (!steps.some(function (step) { return step; })) {
-                            return props;
-                        }
-
-                        var length = getMaxPathLength(this$1$1.$el);
-                        uikitUtil.css($el, 'strokeDasharray', length);
-
-                        if (unit === '%') {
-                            steps = steps.map(function (step) { return step * length / 100; });
-                        }
-
-                        steps = steps.reverse();
-
-                        prop = 'strokeDashoffset';
-                    }
-
-                    props[prop] = {steps: steps, unit: unit, pos: pos, bgPos: bgPos, diff: diff};
-
-                    return props;
-
-                }, {});
-
-            },
-
-            bgProps: function() {
-                var this$1$1 = this;
-
-                return ['bgx', 'bgy'].filter(function (bg) { return bg in this$1$1.props; });
-            },
-
-            covers: function(_, $el) {
-                return covers($el);
+      computed: {
+        props(properties, $el) {
+          const stops = {};
+          for (const prop in properties) {
+            if (prop in props && !uikitUtil.isUndefined(properties[prop])) {
+              stops[prop] = properties[prop].slice();
             }
+          }
+          const result = {};
+          for (const prop in stops) {
+            result[prop] = props[prop](prop, $el, stops[prop], stops);
+          }
+          return result;
+        } },
 
+
+      events: {
+        load() {
+          this.$emit();
+        } },
+
+
+      methods: {
+        reset() {
+          for (const prop in this.getCss(0)) {
+            uikitUtil.css(this.$el, prop, '');
+          }
         },
 
-        disconnected: function() {
-            delete this._image;
-        },
-
-        update: {
-
-            read: function(data) {
-                var this$1$1 = this;
-
-
-                if (!this.matchMedia) {
-                    return;
-                }
-
-                if (!data.image && this.covers && this.bgProps.length) {
-                    var src = uikitUtil.css(this.$el, 'backgroundImage').replace(/^none|url\(["']?(.+?)["']?\)$/, '$1');
-
-                    if (src) {
-                        var img = new Image();
-                        img.src = src;
-                        data.image = img;
-
-                        if (!img.naturalWidth) {
-                            img.onload = function () { return this$1$1.$update(); };
-                        }
-                    }
-
-                }
-
-                var image = data.image;
-
-                if (!image || !image.naturalWidth) {
-                    return;
-                }
-
-                var dimEl = {
-                    width: this.$el.offsetWidth,
-                    height: this.$el.offsetHeight
-                };
-                var dimImage = {
-                    width: image.naturalWidth,
-                    height: image.naturalHeight
-                };
-
-                var dim = uikitUtil.Dimensions.cover(dimImage, dimEl);
-
-                this.bgProps.forEach(function (prop) {
-
-                    var ref = this$1$1.props[prop];
-                    var diff = ref.diff;
-                    var bgPos = ref.bgPos;
-                    var steps = ref.steps;
-                    var attr = prop === 'bgy' ? 'height' : 'width';
-                    var span = dim[attr] - dimEl[attr];
-
-                    if (span < diff) {
-                        dimEl[attr] = dim[attr] + diff - span;
-                    } else if (span > diff) {
-
-                        var posPercentage = dimEl[attr] / uikitUtil.toPx(bgPos, attr, this$1$1.$el);
-
-                        if (posPercentage) {
-                            this$1$1.props[prop].steps = steps.map(function (step) { return step - (span - diff) / posPercentage; });
-                        }
-                    }
-
-                    dim = uikitUtil.Dimensions.cover(dimImage, dimEl);
-                });
-
-                data.dim = dim;
-            },
-
-            write: function(ref) {
-                var dim = ref.dim;
+        getCss(percent) {
+          const css = { transform: '', filter: '' };
+          for (const prop in this.props) {
+            this.props[prop](css, percent);
+          }
+          return css;
+        } } };
 
 
-                if (!this.matchMedia) {
-                    uikitUtil.css(this.$el, {backgroundSize: '', backgroundRepeat: ''});
-                    return;
-                }
 
-                dim && uikitUtil.css(this.$el, {
-                    backgroundSize: ((dim.width) + "px " + (dim.height) + "px"),
-                    backgroundRepeat: 'no-repeat'
-                });
+    function transformFn(prop, el, stops) {
+      let unit = getUnit(stops) || { x: 'px', y: 'px', rotate: 'deg' }[prop] || '';
+      let transformFn;
 
-            },
+      if (prop === 'x' || prop === 'y') {
+        prop = "translate" + uikitUtil.ucfirst(prop);
+        transformFn = (stop) => uikitUtil.toFloat(uikitUtil.toFloat(stop).toFixed(unit === 'px' ? 0 : 6));
+      } else if (prop === 'scale') {
+        unit = '';
+        transformFn = (stop) =>
+        getUnit([stop]) ? uikitUtil.toPx(stop, 'width', el, true) / el.offsetWidth : stop;
+      }
 
-            events: ['resize']
+      if (stops.length === 1) {
+        stops.unshift(prop === 'scale' ? 1 : 0);
+      }
 
-        },
+      stops = parseStops(stops, transformFn);
 
-        methods: {
+      return (css, percent) => {
+        css.transform += " " + prop + "(" + getValue(stops, percent) + unit + ")";
+      };
+    }
 
-            reset: function() {
-                var this$1$1 = this;
+    function colorFn(prop, el, stops) {
+      if (stops.length === 1) {
+        stops.unshift(getCssValue(el, prop, ''));
+      }
 
-                uikitUtil.each(this.getCss(0), function (_, prop) { return uikitUtil.css(this$1$1.$el, prop, ''); });
-            },
+      stops = parseStops(stops, (stop) => parseColor(el, stop));
 
-            getCss: function(percent) {
-
-                var ref = this;
-                var props = ref.props;
-                return Object.keys(props).reduce(function (css, prop) {
-
-                    var ref = props[prop];
-                    var steps = ref.steps;
-                    var unit = ref.unit;
-                    var pos = ref.pos;
-                    var value = getValue(steps, percent);
-
-                    switch (prop) {
-
-                        // transforms
-                        case 'x':
-                        case 'y': {
-                            unit = unit || 'px';
-                            css.transform += " translate" + (uikitUtil.ucfirst(prop)) + "(" + (uikitUtil.toFloat(value).toFixed(unit === 'px' ? 0 : 2)) + unit + ")";
-                            break;
-                        }
-                        case 'rotate':
-                            unit = unit || 'deg';
-                            css.transform += " rotate(" + (value + unit) + ")";
-                            break;
-                        case 'scale':
-                            css.transform += " scale(" + value + ")";
-                            break;
-
-                        // bg image
-                        case 'bgy':
-                        case 'bgx':
-                            css[("background-position-" + (prop[2]))] = "calc(" + pos + " + " + value + "px)";
-                            break;
-
-                        // color
-                        case 'color':
-                        case 'backgroundColor':
-                        case 'borderColor': {
-
-                            var ref$1 = getStep(steps, percent);
-                            var start = ref$1[0];
-                            var end = ref$1[1];
-                            var p = ref$1[2];
-
-                            css[prop] = "rgba(" + (start.map(function (value, i) {
-                                    value = value + p * (end[i] - value);
-                                    return i === 3 ? uikitUtil.toFloat(value) : parseInt(value, 10);
-                                }).join(',')) + ")";
-                            break;
-                        }
-                        // CSS Filter
-                        case 'blur':
-                            unit = unit || 'px';
-                            css.filter += " blur(" + (value + unit) + ")";
-                            break;
-                        case 'hue':
-                            unit = unit || 'deg';
-                            css.filter += " hue-rotate(" + (value + unit) + ")";
-                            break;
-                        case 'fopacity':
-                            unit = unit || '%';
-                            css.filter += " opacity(" + (value + unit) + ")";
-                            break;
-                        case 'grayscale':
-                        case 'invert':
-                        case 'saturate':
-                        case 'sepia':
-                            unit = unit || '%';
-                            css.filter += " " + prop + "(" + (value + unit) + ")";
-                            break;
-                        default:
-                            css[prop] = value;
-                    }
-
-                    return css;
-
-                }, {transform: '', filter: ''});
-
-            }
-
-        }
-
-    };
+      return (css, percent) => {
+        const [start, end, p] = getStop(stops, percent);
+        const value = start.
+        map((value, i) => {
+          value += p * (end[i] - value);
+          return i === 3 ? uikitUtil.toFloat(value) : parseInt(value, 10);
+        }).
+        join(',');
+        css[prop] = "rgba(" + value + ")";
+      };
+    }
 
     function parseColor(el, color) {
-        return uikitUtil.css(uikitUtil.css(el, 'color', color), 'color')
-            .split(/[(),]/g)
-            .slice(1, -1)
-            .concat(1)
-            .slice(0, 4)
-            .map(uikitUtil.toFloat);
+      return getCssValue(el, 'color', color).
+      split(/[(),]/g).
+      slice(1, -1).
+      concat(1).
+      slice(0, 4).
+      map(uikitUtil.toFloat);
     }
 
-    function getStep(steps, percent) {
-        var count = steps.length - 1;
-        var index = Math.min(Math.floor(count * percent), count - 1);
-        var step = steps.slice(index, index + 2);
+    function filterFn(prop, el, stops) {
+      if (stops.length === 1) {
+        stops.unshift(0);
+      }
 
-        step.push(percent === 1 ? 1 : percent % (1 / count) * count);
+      const unit = getUnit(stops) || { blur: 'px', hue: 'deg' }[prop] || '%';
+      prop = { fopacity: 'opacity', hue: 'hue-rotate' }[prop] || prop;
+      stops = parseStops(stops);
 
-        return step;
+      return (css, percent) => {
+        const value = getValue(stops, percent);
+        css.filter += " " + prop + "(" + (value + unit) + ")";
+      };
     }
 
-    function getValue(steps, percent, digits) {
-        if ( digits === void 0 ) digits = 2;
+    function cssPropFn(prop, el, stops) {
+      if (stops.length === 1) {
+        stops.unshift(getCssValue(el, prop, ''));
+      }
 
-        var ref = getStep(steps, percent);
-        var start = ref[0];
-        var end = ref[1];
-        var p = ref[2];
-        return (uikitUtil.isNumber(start)
-            ? start + Math.abs(start - end) * p * (start < end ? 1 : -1)
-            : +end
-        ).toFixed(digits);
+      stops = parseStops(stops);
+
+      return (css, percent) => {
+        css[prop] = getValue(stops, percent);
+      };
     }
 
-    function getUnit(steps) {
-        return steps.reduce(function (unit, step) { return uikitUtil.isString(step) && step.replace(/-|\d/g, '').trim() || unit; }, '');
+    function strokeFn(prop, el, stops) {
+      if (stops.length === 1) {
+        stops.unshift(0);
+      }
+
+      const unit = getUnit(stops);
+      const length = getMaxPathLength(el);
+      stops = parseStops(stops.reverse(), (stop) => {
+        stop = uikitUtil.toFloat(stop);
+        return unit === '%' ? stop * length / 100 : stop;
+      });
+
+      if (!stops.some((_ref) => {let [value] = _ref;return value;})) {
+        return uikitUtil.noop;
+      }
+
+      uikitUtil.css(el, 'strokeDasharray', length);
+
+      return (css, percent) => {
+        css.strokeDashoffset = getValue(stops, percent);
+      };
     }
 
-    function covers(el) {
-        var ref = el.style;
-        var backgroundSize = ref.backgroundSize;
-        var covers = uikitUtil.css(uikitUtil.css(el, 'backgroundSize', ''), 'backgroundSize') === 'cover';
-        el.style.backgroundSize = backgroundSize;
-        return covers;
+    function backgroundFn(prop, el, stops, props) {
+      if (stops.length === 1) {
+        stops.unshift(0);
+      }
+
+      const attr = prop === 'bgy' ? 'height' : 'width';
+      props[prop] = parseStops(stops, (stop) => uikitUtil.toPx(stop, attr, el));
+
+      const bgProps = ['bgx', 'bgy'].filter((prop) => prop in props);
+      if (bgProps.length === 2 && prop === 'bgx') {
+        return uikitUtil.noop;
+      }
+
+      if (getCssValue(el, 'backgroundSize', '') === 'cover') {
+        return backgroundCoverFn(prop, el, stops, props);
+      }
+
+      const positions = {};
+      for (const prop of bgProps) {
+        positions[prop] = getBackgroundPos(el, prop);
+      }
+
+      return setBackgroundPosFn(bgProps, positions, props);
+    }
+
+    function backgroundCoverFn(prop, el, stops, props) {
+      const dimImage = getBackgroundImageDimensions(el);
+
+      if (!dimImage.width) {
+        return uikitUtil.noop;
+      }
+
+      const dimEl = {
+        width: el.offsetWidth,
+        height: el.offsetHeight };
+
+
+      const bgProps = ['bgx', 'bgy'].filter((prop) => prop in props);
+
+      const positions = {};
+      for (const prop of bgProps) {
+        const values = props[prop].map((_ref2) => {let [value] = _ref2;return value;});
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const down = values.indexOf(min) < values.indexOf(max);
+        const diff = max - min;
+
+        positions[prop] = (down ? -diff : 0) - (down ? min : max) + "px";
+        dimEl[prop === 'bgy' ? 'height' : 'width'] += diff;
+      }
+
+      const dim = uikitUtil.Dimensions.cover(dimImage, dimEl);
+
+      for (const prop of bgProps) {
+        const attr = prop === 'bgy' ? 'height' : 'width';
+        const overflow = dim[attr] - dimEl[attr];
+        positions[prop] = "max(" + getBackgroundPos(el, prop) + ",-" + overflow + "px) + " + positions[prop];
+      }
+
+      const fn = setBackgroundPosFn(bgProps, positions, props);
+      return (css, percent) => {
+        fn(css, percent);
+        css.backgroundSize = dim.width + "px " + dim.height + "px";
+        css.backgroundRepeat = 'no-repeat';
+      };
+    }
+
+    function getBackgroundPos(el, prop) {
+      return getCssValue(el, "background-position-" + prop.substr(-1), '');
+    }
+
+    function setBackgroundPosFn(bgProps, positions, props) {
+      return function (css, percent) {
+        for (const prop of bgProps) {
+          const value = getValue(props[prop], percent);
+          css["background-position-" + prop.substr(-1)] = "calc(" + positions[prop] + " + " + value + "px)";
+        }
+      };
+    }
+
+    const dimensions = {};
+    function getBackgroundImageDimensions(el) {
+      const src = uikitUtil.css(el, 'backgroundImage').replace(/^none|url\(["']?(.+?)["']?\)$/, '$1');
+
+      if (dimensions[src]) {
+        return dimensions[src];
+      }
+
+      const image = new Image();
+      if (src) {
+        image.src = src;
+
+        if (!image.naturalWidth) {
+          image.onload = () => {
+            dimensions[src] = toDimensions(image);
+            uikitUtil.trigger(el, uikitUtil.createEvent('load', false));
+          };
+          return toDimensions(image);
+        }
+      }
+
+      return dimensions[src] = toDimensions(image);
+    }
+
+    function toDimensions(image) {
+      return {
+        width: image.naturalWidth,
+        height: image.naturalHeight };
+
+    }
+
+    function parseStops(stops, fn) {if (fn === void 0) {fn = uikitUtil.toFloat;}
+      const result = [];
+      const { length } = stops;
+      let nullIndex = 0;
+      for (let i = 0; i < length; i++) {
+        let [value, percent] = uikitUtil.isString(stops[i]) ? stops[i].trim().split(' ') : [stops[i]];
+        value = fn(value);
+        percent = percent ? uikitUtil.toFloat(percent) / 100 : null;
+
+        if (i === 0) {
+          if (percent === null) {
+            percent = 0;
+          } else if (percent) {
+            result.push([value, 0]);
+          }
+        } else if (i === length - 1) {
+          if (percent === null) {
+            percent = 1;
+          } else if (percent !== 1) {
+            result.push([value, percent]);
+            percent = 1;
+          }
+        }
+
+        result.push([value, percent]);
+
+        if (percent === null) {
+          nullIndex++;
+        } else if (nullIndex) {
+          const leftPercent = result[i - nullIndex - 1][1];
+          const p = (percent - leftPercent) / (nullIndex + 1);
+          for (let j = nullIndex; j > 0; j--) {
+            result[i - j][1] = leftPercent + p * (nullIndex - j + 1);
+          }
+
+          nullIndex = 0;
+        }
+      }
+
+      return result;
+    }
+
+    function getStop(stops, percent) {
+      const index = uikitUtil.findIndex(stops.slice(1), (_ref3) => {let [, targetPercent] = _ref3;return percent <= targetPercent;}) + 1;
+      return [
+      stops[index - 1][0],
+      stops[index][0],
+      (percent - stops[index - 1][1]) / (stops[index][1] - stops[index - 1][1])];
+
+    }
+
+    function getValue(stops, percent) {
+      const [start, end, p] = getStop(stops, percent);
+      return uikitUtil.isNumber(start) ? start + Math.abs(start - end) * p * (start < end ? 1 : -1) : +end;
+    }
+
+    const unitRe = /^-?\d+(\S+)/;
+    function getUnit(stops, defaultUnit) {
+      for (const stop of stops) {
+        const match = stop.match == null ? void 0 : stop.match(unitRe);
+        if (match) {
+          return match[1];
+        }
+      }
+      return defaultUnit;
+    }
+
+    function getCssValue(el, prop, value) {
+      const prev = el.style[prop];
+      const val = uikitUtil.css(uikitUtil.css(el, prop, value), prop);
+      el.style[prop] = prev;
+      return val;
+    }
+
+    function fillObject(keys, value) {
+      return keys.reduce((data, prop) => {
+        data[prop] = value;
+        return data;
+      }, {});
     }
 
     var Component = {
+      mixins: [Parallax],
 
-        mixins: [Parallax],
+      data: {
+        selItem: '!li' },
 
-        data: {
-            selItem: '!li'
+
+      beforeConnect() {
+        this.item = uikitUtil.query(this.selItem, this.$el);
+      },
+
+      disconnected() {
+        this.item = null;
+      },
+
+      events: [
+      {
+        name: 'itemin itemout',
+
+        self: true,
+
+        el() {
+          return this.item;
         },
 
-        computed: {
+        handler(_ref) {let { type, detail: { percent, duration, timing, dir } } = _ref;
+          uikitUtil.fastdom.read(() => {
+            const propsFrom = this.getCss(getCurrentPercent(type, dir, percent));
+            const propsTo = this.getCss(isIn(type) ? 0.5 : dir > 0 ? 1 : 0);
+            uikitUtil.fastdom.write(() => {
+              uikitUtil.css(this.$el, propsFrom);
+              uikitUtil.Transition.start(this.$el, propsTo, duration, timing).catch(uikitUtil.noop);
+            });
+          });
+        } },
 
-            item: function(ref, $el) {
-                var selItem = ref.selItem;
 
-                return uikitUtil.query(selItem, $el);
-            }
+      {
+        name: 'transitioncanceled transitionend',
 
+        self: true,
+
+        el() {
+          return this.item;
         },
 
-        events: [
-
-            {
-                name: 'itemin itemout',
-
-                self: true,
-
-                el: function() {
-                    return this.item;
-                },
-
-                handler: function(ref) {
-                    var this$1$1 = this;
-                    var type = ref.type;
-                    var ref_detail = ref.detail;
-                    var percent = ref_detail.percent;
-                    var duration = ref_detail.duration;
-                    var timing = ref_detail.timing;
-                    var dir = ref_detail.dir;
+        handler() {
+          uikitUtil.Transition.cancel(this.$el);
+        } },
 
 
-                    uikitUtil.fastdom.read(function () {
-                        var propsFrom = this$1$1.getCss(getCurrentPercent(type, dir, percent));
-                        var propsTo = this$1$1.getCss(isIn(type) ? .5 : dir > 0 ? 1 : 0);
-                        uikitUtil.fastdom.write(function () {
-                            uikitUtil.css(this$1$1.$el, propsFrom);
-                            uikitUtil.Transition.start(this$1$1.$el, propsTo, duration, timing).catch(uikitUtil.noop);
-                        });
-                    });
+      {
+        name: 'itemtranslatein itemtranslateout',
 
-                }
-            },
+        self: true,
 
-            {
-                name: 'transitioncanceled transitionend',
+        el() {
+          return this.item;
+        },
 
-                self: true,
+        handler(_ref2) {let { type, detail: { percent, dir } } = _ref2;
+          uikitUtil.fastdom.read(() => {
+            const props = this.getCss(getCurrentPercent(type, dir, percent));
+            uikitUtil.fastdom.write(() => uikitUtil.css(this.$el, props));
+          });
+        } }] };
 
-                el: function() {
-                    return this.item;
-                },
 
-                handler: function() {
-                    uikitUtil.Transition.cancel(this.$el);
-                }
 
-            },
-
-            {
-                name: 'itemtranslatein itemtranslateout',
-
-                self: true,
-
-                el: function() {
-                    return this.item;
-                },
-
-                handler: function(ref) {
-                    var this$1$1 = this;
-                    var type = ref.type;
-                    var ref_detail = ref.detail;
-                    var percent = ref_detail.percent;
-                    var dir = ref_detail.dir;
-
-                    uikitUtil.fastdom.read(function () {
-                        var props = this$1$1.getCss(getCurrentPercent(type, dir, percent));
-                        uikitUtil.fastdom.write(function () { return uikitUtil.css(this$1$1.$el, props); });
-                    });
-                }
-            }
-
-        ]
-
-    };
 
     function isIn(type) {
-        return uikitUtil.endsWith(type, 'in');
+      return uikitUtil.endsWith(type, 'in');
     }
 
     function getCurrentPercent(type, dir, percent) {
+      percent /= 2;
 
-        percent /= 2;
-
-        return !isIn(type)
-            ? dir < 0
-                ? percent
-                : 1 - percent
-            : dir < 0
-                ? 1 - percent
-                : percent;
+      return isIn(type) ^ dir < 0 ? percent : 1 - percent;
     }
 
     if (typeof window !== 'undefined' && window.UIkit) {
-        window.UIkit.component('sliderParallax', Component);
+      window.UIkit.component('sliderParallax', Component);
     }
 
     return Component;

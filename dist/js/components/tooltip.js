@@ -1,4 +1,4 @@
-/*! UIkit 3.8.0 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -7,434 +7,500 @@
 })(this, (function (uikitUtil) { 'use strict';
 
     var Container = {
+      props: {
+        container: Boolean },
 
-        props: {
-            container: Boolean
-        },
 
-        data: {
-            container: true
-        },
+      data: {
+        container: true },
 
-        computed: {
 
-            container: function(ref) {
-                var container = ref.container;
-
-                return container === true && this.$container || container && uikitUtil.$(container);
-            }
-
-        }
-
-    };
+      computed: {
+        container(_ref) {let { container } = _ref;
+          return container === true && this.$container || container && uikitUtil.$(container);
+        } } };
 
     var Togglable = {
+      props: {
+        cls: Boolean,
+        animation: 'list',
+        duration: Number,
+        velocity: Number,
+        origin: String,
+        transition: String },
 
-        props: {
-            cls: Boolean,
-            animation: 'list',
-            duration: Number,
-            origin: String,
-            transition: String
+
+      data: {
+        cls: false,
+        animation: [false],
+        duration: 200,
+        velocity: 0.2,
+        origin: false,
+        transition: 'ease',
+        clsEnter: 'uk-togglabe-enter',
+        clsLeave: 'uk-togglabe-leave' },
+
+
+      computed: {
+        hasAnimation(_ref) {let { animation } = _ref;
+          return !!animation[0];
         },
 
-        data: {
-            cls: false,
-            animation: [false],
-            duration: 200,
-            origin: false,
-            transition: 'linear',
-            clsEnter: 'uk-togglabe-enter',
-            clsLeave: 'uk-togglabe-leave',
+        hasTransition(_ref2) {let { animation } = _ref2;
+          return ['slide', 'reveal'].some((transition) => uikitUtil.startsWith(animation[0], transition));
+        } },
 
-            initProps: {
-                overflow: '',
-                height: '',
-                paddingTop: '',
-                paddingBottom: '',
-                marginTop: '',
-                marginBottom: ''
-            },
 
-            hideProps: {
-                overflow: 'hidden',
-                height: 0,
-                paddingTop: 0,
-                paddingBottom: 0,
-                marginTop: 0,
-                marginBottom: 0
+      methods: {
+        toggleElement(targets, toggle, animate) {
+          return new Promise((resolve) =>
+          Promise.all(
+          uikitUtil.toNodes(targets).map((el) => {
+            const show = uikitUtil.isBoolean(toggle) ? toggle : !this.isToggled(el);
+
+            if (!uikitUtil.trigger(el, "before" + (show ? 'show' : 'hide'), [this])) {
+              return Promise.reject();
             }
+
+            const promise = (
+            uikitUtil.isFunction(animate) ?
+            animate :
+            animate === false || !this.hasAnimation ?
+            toggleInstant :
+            this.hasTransition ?
+            toggleTransition :
+            toggleAnimation)(
+            el, show, this);
+
+            const cls = show ? this.clsEnter : this.clsLeave;
+
+            uikitUtil.addClass(el, cls);
+
+            uikitUtil.trigger(el, show ? 'show' : 'hide', [this]);
+
+            const done = () => {
+              uikitUtil.removeClass(el, cls);
+              uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this]);
+            };
+
+            return promise ?
+            promise.then(done, () => {
+              uikitUtil.removeClass(el, cls);
+              return Promise.reject();
+            }) :
+            done();
+          })).
+          then(resolve, uikitUtil.noop));
 
         },
 
-        computed: {
-
-            hasAnimation: function(ref) {
-                var animation = ref.animation;
-
-                return !!animation[0];
-            },
-
-            hasTransition: function(ref) {
-                var animation = ref.animation;
-
-                return this.hasAnimation && animation[0] === true;
-            }
-
+        isToggled(el) {if (el === void 0) {el = this.$el;}
+          [el] = uikitUtil.toNodes(el);
+          return uikitUtil.hasClass(el, this.clsEnter) ?
+          true :
+          uikitUtil.hasClass(el, this.clsLeave) ?
+          false :
+          this.cls ?
+          uikitUtil.hasClass(el, this.cls.split(' ')[0]) :
+          uikitUtil.isVisible(el);
         },
 
-        methods: {
+        _toggle(el, toggled) {
+          if (!el) {
+            return;
+          }
 
-            toggleElement: function(targets, toggle, animate) {
-                var this$1$1 = this;
+          toggled = Boolean(toggled);
 
-                return new uikitUtil.Promise(function (resolve) { return uikitUtil.Promise.all(uikitUtil.toNodes(targets).map(function (el) {
+          let changed;
+          if (this.cls) {
+            changed = uikitUtil.includes(this.cls, ' ') || toggled !== uikitUtil.hasClass(el, this.cls);
+            changed && uikitUtil.toggleClass(el, this.cls, uikitUtil.includes(this.cls, ' ') ? undefined : toggled);
+          } else {
+            changed = toggled === el.hidden;
+            changed && (el.hidden = !toggled);
+          }
 
-                        var show = uikitUtil.isBoolean(toggle) ? toggle : !this$1$1.isToggled(el);
+          uikitUtil.$$('[autofocus]', el).some((el) => uikitUtil.isVisible(el) ? el.focus() || true : el.blur());
 
-                        if (!uikitUtil.trigger(el, ("before" + (show ? 'show' : 'hide')), [this$1$1])) {
-                            return uikitUtil.Promise.reject();
-                        }
+          if (changed) {
+            uikitUtil.trigger(el, 'toggled', [toggled, this]);
+          }
+        } } };
 
-                        var promise = (
-                            uikitUtil.isFunction(animate)
-                                ? animate
-                                : animate === false || !this$1$1.hasAnimation
-                                ? this$1$1._toggle
-                                : this$1$1.hasTransition
-                                    ? toggleHeight(this$1$1)
-                                    : toggleAnimation(this$1$1)
-                        )(el, show);
 
-                        var cls = show ? this$1$1.clsEnter : this$1$1.clsLeave;
 
-                        uikitUtil.addClass(el, cls);
-
-                        uikitUtil.trigger(el, show ? 'show' : 'hide', [this$1$1]);
-
-                        var done = function () {
-                            uikitUtil.removeClass(el, cls);
-                            uikitUtil.trigger(el, show ? 'shown' : 'hidden', [this$1$1]);
-                            this$1$1.$update(el);
-                        };
-
-                        return promise ? promise.then(done, function () {
-                            uikitUtil.removeClass(el, cls);
-                            return uikitUtil.Promise.reject();
-                        }) : done();
-
-                    })).then(resolve, uikitUtil.noop); }
-                );
-            },
-
-            isToggled: function(el) {
-                var assign;
-
-                if ( el === void 0 ) el = this.$el;
-                (assign = uikitUtil.toNodes(el), el = assign[0]);
-                return uikitUtil.hasClass(el, this.clsEnter)
-                    ? true
-                    : uikitUtil.hasClass(el, this.clsLeave)
-                        ? false
-                        : this.cls
-                            ? uikitUtil.hasClass(el, this.cls.split(' ')[0])
-                            : uikitUtil.isVisible(el);
-            },
-
-            _toggle: function(el, toggled) {
-
-                if (!el) {
-                    return;
-                }
-
-                toggled = Boolean(toggled);
-
-                var changed;
-                if (this.cls) {
-                    changed = uikitUtil.includes(this.cls, ' ') || toggled !== uikitUtil.hasClass(el, this.cls);
-                    changed && uikitUtil.toggleClass(el, this.cls, uikitUtil.includes(this.cls, ' ') ? undefined : toggled);
-                } else {
-                    changed = toggled === el.hidden;
-                    changed && (el.hidden = !toggled);
-                }
-
-                uikitUtil.$$('[autofocus]', el).some(function (el) { return uikitUtil.isVisible(el) ? el.focus() || true : el.blur(); });
-
-                if (changed) {
-                    uikitUtil.trigger(el, 'toggled', [toggled, this]);
-                    this.$update(el);
-                }
-            }
-
-        }
-
-    };
-
-    function toggleHeight(ref) {
-        var isToggled = ref.isToggled;
-        var duration = ref.duration;
-        var initProps = ref.initProps;
-        var hideProps = ref.hideProps;
-        var transition = ref.transition;
-        var _toggle = ref._toggle;
-
-        return function (el, show) {
-
-            var inProgress = uikitUtil.Transition.inProgress(el);
-            var inner = el.hasChildNodes ? uikitUtil.toFloat(uikitUtil.css(el.firstElementChild, 'marginTop')) + uikitUtil.toFloat(uikitUtil.css(el.lastElementChild, 'marginBottom')) : 0;
-            var currentHeight = uikitUtil.isVisible(el) ? uikitUtil.height(el) + (inProgress ? 0 : inner) : 0;
-
-            uikitUtil.Transition.cancel(el);
-
-            if (!isToggled(el)) {
-                _toggle(el, true);
-            }
-
-            uikitUtil.height(el, '');
-
-            // Update child components first
-            uikitUtil.fastdom.flush();
-
-            var endHeight = uikitUtil.height(el) + (inProgress ? 0 : inner);
-            uikitUtil.height(el, currentHeight);
-
-            return (show
-                ? uikitUtil.Transition.start(el, uikitUtil.assign({}, initProps, {overflow: 'hidden', height: endHeight}), Math.round(duration * (1 - currentHeight / endHeight)), transition)
-                : uikitUtil.Transition.start(el, hideProps, Math.round(duration * (currentHeight / endHeight)), transition).then(function () { return _toggle(el, false); })
-            ).then(function () { return uikitUtil.css(el, initProps); });
-
-        };
+    function toggleInstant(el, show, _ref3) {let { _toggle } = _ref3;
+      uikitUtil.Animation.cancel(el);
+      uikitUtil.Transition.cancel(el);
+      return _toggle(el, show);
     }
 
-    function toggleAnimation(cmp) {
-        return function (el, show) {
+    async function toggleTransition(
+    el,
+    show, _ref4)
 
-            uikitUtil.Animation.cancel(el);
+    {var _animation$;let { animation, duration, velocity, transition, _toggle } = _ref4;
+      const [mode = 'reveal', startProp = 'top'] = ((_animation$ = animation[0]) == null ? void 0 : _animation$.split('-')) || [];
 
-            var animation = cmp.animation;
-            var duration = cmp.duration;
-            var _toggle = cmp._toggle;
+      const dirs = [
+      ['left', 'right'],
+      ['top', 'bottom']];
 
-            if (show) {
-                _toggle(el, true);
-                return uikitUtil.Animation.in(el, animation[0], duration, cmp.origin);
-            }
+      const dir = dirs[uikitUtil.includes(dirs[0], startProp) ? 0 : 1];
+      const end = dir[1] === startProp;
+      const props = ['width', 'height'];
+      const dimProp = props[dirs.indexOf(dir)];
+      const marginProp = "margin-" + dir[0];
+      const marginStartProp = "margin-" + startProp;
 
-            return uikitUtil.Animation.out(el, animation[1] || animation[0], duration, cmp.origin).then(function () { return _toggle(el, false); });
-        };
+      let currentDim = uikitUtil.dimensions(el)[dimProp];
+
+      const inProgress = uikitUtil.Transition.inProgress(el);
+      await uikitUtil.Transition.cancel(el);
+
+      if (show) {
+        _toggle(el, true);
+      }
+
+      const prevProps = Object.fromEntries(
+      [
+      'padding',
+      'border',
+      'width',
+      'height',
+      'minWidth',
+      'minHeight',
+      'overflowY',
+      'overflowX',
+      marginProp,
+      marginStartProp].
+      map((key) => [key, el.style[key]]));
+
+
+      const dim = uikitUtil.dimensions(el);
+      const currentMargin = uikitUtil.toFloat(uikitUtil.css(el, marginProp));
+      const marginStart = uikitUtil.toFloat(uikitUtil.css(el, marginStartProp));
+      const endDim = dim[dimProp] + marginStart;
+
+      if (!inProgress && !show) {
+        currentDim += marginStart;
+      }
+
+      const [wrapper] = uikitUtil.wrapInner(el, '<div>');
+      uikitUtil.css(wrapper, {
+        boxSizing: 'border-box',
+        height: dim.height,
+        width: dim.width,
+        ...uikitUtil.css(el, [
+        'overflow',
+        'padding',
+        'borderTop',
+        'borderRight',
+        'borderBottom',
+        'borderLeft',
+        'borderImage',
+        marginStartProp]) });
+
+
+
+      uikitUtil.css(el, {
+        padding: 0,
+        border: 0,
+        minWidth: 0,
+        minHeight: 0,
+        [marginStartProp]: 0,
+        width: dim.width,
+        height: dim.height,
+        overflow: 'hidden',
+        [dimProp]: currentDim });
+
+
+      const percent = currentDim / endDim;
+      duration = (velocity * endDim + duration) * (show ? 1 - percent : percent);
+      const endProps = { [dimProp]: show ? endDim : 0 };
+
+      if (end) {
+        uikitUtil.css(el, marginProp, endDim - currentDim + currentMargin);
+        endProps[marginProp] = show ? currentMargin : endDim + currentMargin;
+      }
+
+      if (!end ^ mode === 'reveal') {
+        uikitUtil.css(wrapper, marginProp, -endDim + currentDim);
+        uikitUtil.Transition.start(wrapper, { [marginProp]: show ? 0 : -endDim }, duration, transition);
+      }
+
+      try {
+        await uikitUtil.Transition.start(el, endProps, duration, transition);
+      } finally {
+        uikitUtil.css(el, prevProps);
+        uikitUtil.unwrap(wrapper.firstChild);
+
+        if (!show) {
+          _toggle(el, false);
+        }
+      }
+    }
+
+    function toggleAnimation(el, show, cmp) {
+      uikitUtil.Animation.cancel(el);
+
+      const { animation, duration, _toggle } = cmp;
+
+      if (show) {
+        _toggle(el, true);
+        return uikitUtil.Animation.in(el, animation[0], duration, cmp.origin);
+      }
+
+      return uikitUtil.Animation.out(el, animation[1] || animation[0], duration, cmp.origin).then(() =>
+      _toggle(el, false));
+
     }
 
     var Position = {
+      props: {
+        pos: String,
+        offset: null,
+        flip: Boolean,
+        shift: Boolean,
+        inset: Boolean },
 
-        props: {
-            pos: String,
-            offset: null,
-            flip: Boolean,
-            clsPos: String
-        },
 
-        data: {
-            pos: ("bottom-" + (!uikitUtil.isRtl ? 'left' : 'right')),
-            flip: true,
-            offset: false,
-            clsPos: ''
-        },
+      data: {
+        pos: "bottom-" + (uikitUtil.isRtl ? 'right' : 'left'),
+        offset: false,
+        flip: true,
+        shift: true,
+        inset: false },
 
-        computed: {
 
-            pos: function(ref) {
-                var pos = ref.pos;
+      connected() {
+        this.pos = this.$props.pos.split('-').concat('center').slice(0, 2);
+        [this.dir, this.align] = this.pos;
+        this.axis = uikitUtil.includes(['top', 'bottom'], this.dir) ? 'y' : 'x';
+      },
 
-                return (pos + (!uikitUtil.includes(pos, '-') ? '-center' : '')).split('-');
-            },
+      methods: {
+        positionAt(element, target, boundary) {
+          let offset = [this.getPositionOffset(element), this.getShiftOffset(element)];
+          const placement = [this.flip && 'flip', this.shift && 'shift'];
 
-            dir: function() {
-                return this.pos[0];
-            },
+          const attach = {
+            element: [this.inset ? this.dir : uikitUtil.flipPosition(this.dir), this.align],
+            target: [this.dir, this.align] };
 
-            align: function() {
-                return this.pos[1];
+
+          if (this.axis === 'y') {
+            for (const prop in attach) {
+              attach[prop].reverse();
             }
+            offset.reverse();
+            placement.reverse();
+          }
+
+          const [scrollElement] = uikitUtil.scrollParents(element, /auto|scroll/);
+          const { scrollTop, scrollLeft } = scrollElement;
+
+          // Ensure none positioned element does not generate scrollbars
+          const elDim = uikitUtil.dimensions(element);
+          uikitUtil.css(element, { top: -elDim.height, left: -elDim.width });
+
+          uikitUtil.positionAt(element, target, {
+            attach,
+            offset,
+            boundary,
+            placement,
+            viewportOffset: this.getViewportOffset(element) });
+
+
+          // Restore scroll position
+          scrollElement.scrollTop = scrollTop;
+          scrollElement.scrollLeft = scrollLeft;
+        },
+
+        getPositionOffset(element) {
+          return (
+            uikitUtil.toPx(
+            this.offset === false ? uikitUtil.css(element, '--uk-position-offset') : this.offset,
+            this.axis === 'x' ? 'width' : 'height',
+            element) * (
+
+            uikitUtil.includes(['left', 'top'], this.dir) ? -1 : 1) * (
+            this.inset ? -1 : 1));
 
         },
 
-        methods: {
+        getShiftOffset(element) {
+          return this.align === 'center' ?
+          0 :
+          uikitUtil.toPx(
+          uikitUtil.css(element, '--uk-position-shift-offset'),
+          this.axis === 'y' ? 'width' : 'height',
+          element) * (
+          uikitUtil.includes(['left', 'top'], this.align) ? 1 : -1);
+        },
 
-            positionAt: function(element, target, boundary) {
-
-                uikitUtil.removeClasses(element, ((this.clsPos) + "-(top|bottom|left|right)(-[a-z]+)?"));
-
-                var ref = this;
-                var offset = ref.offset;
-                var axis = this.getAxis();
-
-                if (!uikitUtil.isNumeric(offset)) {
-                    var node = uikitUtil.$(offset);
-                    offset = node
-                        ? uikitUtil.offset(node)[axis === 'x' ? 'left' : 'top'] - uikitUtil.offset(target)[axis === 'x' ? 'right' : 'bottom']
-                        : 0;
-                }
-
-                var ref$1 = uikitUtil.positionAt(
-                    element,
-                    target,
-                    axis === 'x' ? ((uikitUtil.flipPosition(this.dir)) + " " + (this.align)) : ((this.align) + " " + (uikitUtil.flipPosition(this.dir))),
-                    axis === 'x' ? ((this.dir) + " " + (this.align)) : ((this.align) + " " + (this.dir)),
-                    axis === 'x' ? ("" + (this.dir === 'left' ? -offset : offset)) : (" " + (this.dir === 'top' ? -offset : offset)),
-                    null,
-                    this.flip,
-                    boundary
-                ).target;
-                var x = ref$1.x;
-                var y = ref$1.y;
-
-                this.dir = axis === 'x' ? x : y;
-                this.align = axis === 'x' ? y : x;
-
-                uikitUtil.toggleClass(element, ((this.clsPos) + "-" + (this.dir) + "-" + (this.align)), this.offset === false);
-
-            },
-
-            getAxis: function() {
-                return this.dir === 'top' || this.dir === 'bottom' ? 'y' : 'x';
-            }
-
-        }
-
-    };
-
-    var obj;
+        getViewportOffset(element) {
+          return uikitUtil.toPx(uikitUtil.css(element, '--uk-position-viewport-offset'));
+        } } };
 
     var Component = {
+      mixins: [Container, Togglable, Position],
 
-        mixins: [Container, Togglable, Position],
+      args: 'title',
 
-        args: 'title',
+      props: {
+        delay: Number,
+        title: String },
 
-        props: {
-            delay: Number,
-            title: String
+
+      data: {
+        pos: 'top',
+        title: '',
+        delay: 0,
+        animation: ['uk-animation-scale-up'],
+        duration: 100,
+        cls: 'uk-active' },
+
+
+      beforeConnect() {
+        this.id = "uk-tooltip-" + this._uid;
+        this._hasTitle = uikitUtil.hasAttr(this.$el, 'title');
+        uikitUtil.attr(this.$el, {
+          title: '',
+          'aria-describedby': this.id });
+
+        makeFocusable(this.$el);
+      },
+
+      disconnected() {
+        this.hide();
+        uikitUtil.attr(this.$el, 'title', this._hasTitle ? this.title : null);
+      },
+
+      methods: {
+        show() {
+          if (this.isToggled(this.tooltip || null) || !this.title) {
+            return;
+          }
+
+          this._unbind = uikitUtil.once(
+          document, "keydown " +
+          uikitUtil.pointerDown,
+          this.hide,
+          false,
+          (e) =>
+          e.type === uikitUtil.pointerDown && !uikitUtil.within(e.target, this.$el) ||
+          e.type === 'keydown' && e.keyCode === 27);
+
+
+          clearTimeout(this.showTimer);
+          this.showTimer = setTimeout(this._show, this.delay);
         },
 
-        data: {
-            pos: 'top',
-            title: '',
-            delay: 0,
-            animation: ['uk-animation-scale-up'],
-            duration: 100,
-            cls: 'uk-active',
-            clsPos: 'uk-tooltip'
+        async hide() {
+          if (uikitUtil.matches(this.$el, 'input:focus')) {
+            return;
+          }
+
+          clearTimeout(this.showTimer);
+
+          if (!this.isToggled(this.tooltip || null)) {
+            return;
+          }
+
+          await this.toggleElement(this.tooltip, false, false);
+          uikitUtil.remove(this.tooltip);
+          this.tooltip = null;
+          this._unbind();
         },
 
-        beforeConnect: function() {
-            this._hasTitle = uikitUtil.hasAttr(this.$el, 'title');
-            uikitUtil.attr(this.$el, 'title', '');
-            this.updateAria(false);
-            makeFocusable(this.$el);
-        },
-
-        disconnected: function() {
-            this.hide();
-            uikitUtil.attr(this.$el, 'title', this._hasTitle ? this.title : null);
-        },
-
-        methods: {
-
-            show: function() {
-                var this$1$1 = this;
+        _show() {
+          this.tooltip = uikitUtil.append(
+          this.container, "<div id=\"" +
+          this.id + "\" class=\"uk-" + this.$options.name + "\" role=\"tooltip\"> <div class=\"uk-" +
+          this.$options.name + "-inner\">" + this.title + "</div> </div>");
 
 
-                if (this.isToggled(this.tooltip || null) || !this.title) {
-                    return;
-                }
 
-                this._unbind = uikitUtil.once(document, ("show keydown " + uikitUtil.pointerDown), this.hide, false, function (e) { return e.type === uikitUtil.pointerDown && !uikitUtil.within(e.target, this$1$1.$el)
-                    || e.type === 'keydown' && e.keyCode === 27
-                    || e.type === 'show' && e.detail[0] !== this$1$1 && e.detail[0].$name === this$1$1.$name; }
-                );
-
-                clearTimeout(this.showTimer);
-                this.showTimer = setTimeout(this._show, this.delay);
-            },
-
-            hide: function() {
-                var this$1$1 = this;
-
-
-                if (uikitUtil.matches(this.$el, 'input:focus')) {
-                    return;
-                }
-
-                clearTimeout(this.showTimer);
-
-                if (!this.isToggled(this.tooltip || null)) {
-                    return;
-                }
-
-                this.toggleElement(this.tooltip, false, false).then(function () {
-                    this$1$1.tooltip = uikitUtil.remove(this$1$1.tooltip);
-                    this$1$1._unbind();
-                });
-            },
-
-            _show: function() {
-                var this$1$1 = this;
-
-
-                this.tooltip = uikitUtil.append(this.container,
-                    ("<div class=\"" + (this.clsPos) + "\"> <div class=\"" + (this.clsPos) + "-inner\">" + (this.title) + "</div> </div>")
-                );
-
-                uikitUtil.on(this.tooltip, 'toggled', function (e, toggled) {
-
-                    this$1$1.updateAria(toggled);
-
-                    if (!toggled) {
-                        return;
-                    }
-
-                    this$1$1.positionAt(this$1$1.tooltip, this$1$1.$el);
-
-                    this$1$1.origin = this$1$1.getAxis() === 'y'
-                        ? ((uikitUtil.flipPosition(this$1$1.dir)) + "-" + (this$1$1.align))
-                        : ((this$1$1.align) + "-" + (uikitUtil.flipPosition(this$1$1.dir)));
-                });
-
-                this.toggleElement(this.tooltip, true);
-
-            },
-
-            updateAria: function(toggled) {
-                uikitUtil.attr(this.$el, 'aria-expanded', toggled);
+          uikitUtil.on(this.tooltip, 'toggled', (e, toggled) => {
+            if (!toggled) {
+              return;
             }
 
+            this.positionAt(this.tooltip, this.$el);
+
+            const [dir, align] = getAlignment(this.tooltip, this.$el, this.pos);
+
+            this.origin =
+            this.axis === 'y' ?
+            uikitUtil.flipPosition(dir) + "-" + align :
+            align + "-" + uikitUtil.flipPosition(dir);
+          });
+
+          this.toggleElement(this.tooltip, true);
+        } },
+
+
+      events: {
+        focus: 'show',
+        blur: 'hide',
+
+        [uikitUtil.pointerEnter + " " + uikitUtil.pointerLeave](e) {
+          if (!uikitUtil.isTouch(e)) {
+            this[e.type === uikitUtil.pointerEnter ? 'show' : 'hide']();
+          }
         },
 
-        events: ( obj = {
+        // Clicking a button does not give it focus on all browsers and platforms
+        // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#clicking_and_focus
+        [uikitUtil.pointerDown](e) {
+          if (uikitUtil.isTouch(e)) {
+            this.show();
+          }
+        } } };
 
-            focus: 'show',
-            blur: 'hide'
 
-        }, obj[(uikitUtil.pointerEnter + " " + uikitUtil.pointerLeave)] = function (e) {
-                if (!uikitUtil.isTouch(e)) {
-                    this[e.type === uikitUtil.pointerEnter ? 'show' : 'hide']();
-                }
-            }, obj[uikitUtil.pointerDown] = function (e) {
-                if (uikitUtil.isTouch(e)) {
-                    this.show();
-                }
-            }, obj )
-
-    };
 
     function makeFocusable(el) {
-        if (!uikitUtil.isFocusable(el)) {
-            uikitUtil.attr(el, 'tabindex', '0');
+      if (!uikitUtil.isFocusable(el)) {
+        uikitUtil.attr(el, 'tabindex', '0');
+      }
+    }
+
+    function getAlignment(el, target, _ref) {let [dir, align] = _ref;
+      const elOffset = uikitUtil.offset(el);
+      const targetOffset = uikitUtil.offset(target);
+      const properties = [
+      ['left', 'right'],
+      ['top', 'bottom']];
+
+
+      for (const props of properties) {
+        if (elOffset[props[0]] >= targetOffset[props[1]]) {
+          dir = props[1];
+          break;
         }
+        if (elOffset[props[1]] <= targetOffset[props[0]]) {
+          dir = props[0];
+          break;
+        }
+      }
+
+      const props = uikitUtil.includes(properties[0], dir) ? properties[1] : properties[0];
+      if (elOffset[props[0]] === targetOffset[props[0]]) {
+        align = props[0];
+      } else if (elOffset[props[1]] === targetOffset[props[1]]) {
+        align = props[1];
+      } else {
+        align = 'center';
+      }
+
+      return [dir, align];
     }
 
     if (typeof window !== 'undefined' && window.UIkit) {
-        window.UIkit.component('tooltip', Component);
+      window.UIkit.component('tooltip', Component);
     }
 
     return Component;

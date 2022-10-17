@@ -5,10 +5,10 @@ Aim to provide an alternative UIkit 3 theme with a minimum change. Sketsa versio
 ### Usage
 
 ```
-https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.8.0/dist/css/uikit.sketsa.min.css
-https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.8.0/dist/css/uikit.sketsa-rtl.min.css
-https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.8.0/dist/js/uikit.min.js
-https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.8.0/dist/js/uikit-icons.min.js
+https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.15.10/dist/css/uikit.sketsa.min.css
+https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.15.10/dist/css/uikit.sketsa-rtl.min.css
+https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.15.10/dist/js/uikit.min.js
+https://cdn.jsdelivr.net/gh/qaharmdz/sketsa@3.15.10/dist/js/uikit-icons.min.js
 ```
 
 ### [Demo](https://qaharmdz.github.io/sketsa/)

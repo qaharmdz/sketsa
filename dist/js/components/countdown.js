@@ -1,4 +1,4 @@
-/*! UIkit 3.8.0 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -7,183 +7,111 @@
 })(this, (function (uikitUtil) { 'use strict';
 
     var Class = {
+      connected() {
+        uikitUtil.addClass(this.$el, this.$options.id);
+      } };
 
-        connected: function() {
-            !uikitUtil.hasClass(this.$el, this.$name) && uikitUtil.addClass(this.$el, this.$name);
-        }
-
-    };
+    const units = ['days', 'hours', 'minutes', 'seconds'];
 
     var Component = {
+      mixins: [Class],
 
-        mixins: [Class],
+      props: {
+        date: String,
+        clsWrapper: String },
 
-        props: {
-            date: String,
-            clsWrapper: String
+
+      data: {
+        date: '',
+        clsWrapper: '.uk-countdown-%unit%' },
+
+
+      connected() {
+        this.date = Date.parse(this.$props.date);
+        this.start();
+      },
+
+      disconnected() {
+        this.stop();
+      },
+
+      events: [
+      {
+        name: 'visibilitychange',
+
+        el() {
+          return document;
         },
 
-        data: {
-            date: '',
-            clsWrapper: '.uk-countdown-%unit%'
-        },
-
-        computed: {
-
-            date: function(ref) {
-                var date = ref.date;
-
-                return Date.parse(date);
-            },
-
-            days: function(ref, $el) {
-                var clsWrapper = ref.clsWrapper;
-
-                return uikitUtil.$(clsWrapper.replace('%unit%', 'days'), $el);
-            },
-
-            hours: function(ref, $el) {
-                var clsWrapper = ref.clsWrapper;
-
-                return uikitUtil.$(clsWrapper.replace('%unit%', 'hours'), $el);
-            },
-
-            minutes: function(ref, $el) {
-                var clsWrapper = ref.clsWrapper;
-
-                return uikitUtil.$(clsWrapper.replace('%unit%', 'minutes'), $el);
-            },
-
-            seconds: function(ref, $el) {
-                var clsWrapper = ref.clsWrapper;
-
-                return uikitUtil.$(clsWrapper.replace('%unit%', 'seconds'), $el);
-            },
-
-            units: function() {
-                var this$1$1 = this;
-
-                return ['days', 'hours', 'minutes', 'seconds'].filter(function (unit) { return this$1$1[unit]; });
-            }
-
-        },
-
-        connected: function() {
-            this.start();
-        },
-
-        disconnected: function() {
-            var this$1$1 = this;
-
+        handler() {
+          if (document.hidden) {
             this.stop();
-            this.units.forEach(function (unit) { return uikitUtil.empty(this$1$1[unit]); });
+          } else {
+            this.start();
+          }
+        } }],
+
+
+
+      methods: {
+        start() {
+          this.stop();
+          this.update();
+          this.timer = setInterval(this.update, 1000);
         },
 
-        events: [
-
-            {
-
-                name: 'visibilitychange',
-
-                el: function() {
-                    return document;
-                },
-
-                handler: function() {
-                    if (document.hidden) {
-                        this.stop();
-                    } else {
-                        this.start();
-                    }
-                }
-
-            }
-
-        ],
-
-        update: {
-
-            write: function() {
-                var this$1$1 = this;
-
-
-                var timespan = getTimeSpan(this.date);
-
-                if (timespan.total <= 0) {
-
-                    this.stop();
-
-                    timespan.days
-                        = timespan.hours
-                        = timespan.minutes
-                        = timespan.seconds
-                        = 0;
-                }
-
-                this.units.forEach(function (unit) {
-
-                    var digits = String(Math.floor(timespan[unit]));
-
-                    digits = digits.length < 2 ? ("0" + digits) : digits;
-
-                    var el = this$1$1[unit];
-                    if (el.textContent !== digits) {
-                        digits = digits.split('');
-
-                        if (digits.length !== el.children.length) {
-                            uikitUtil.html(el, digits.map(function () { return '<span></span>'; }).join(''));
-                        }
-
-                        digits.forEach(function (digit, i) { return el.children[i].textContent = digit; });
-                    }
-
-                });
-
-            }
-
+        stop() {
+          clearInterval(this.timer);
         },
 
-        methods: {
+        update() {
+          const timespan = getTimeSpan(this.date);
 
-            start: function() {
+          if (!this.date || timespan.total <= 0) {
+            this.stop();
 
-                this.stop();
+            timespan.days = timespan.hours = timespan.minutes = timespan.seconds = 0;
+          }
 
-                if (this.date && this.units.length) {
-                    this.$update();
-                    this.timer = setInterval(this.$update, 1000);
-                }
+          for (const unit of units) {
+            const el = uikitUtil.$(this.clsWrapper.replace('%unit%', unit), this.$el);
 
-            },
-
-            stop: function() {
-
-                if (this.timer) {
-                    clearInterval(this.timer);
-                    this.timer = null;
-                }
-
+            if (!el) {
+              continue;
             }
 
-        }
+            let digits = String(Math.trunc(timespan[unit]));
 
-    };
+            digits = digits.length < 2 ? "0" + digits : digits;
+
+            if (el.textContent !== digits) {
+              digits = digits.split('');
+
+              if (digits.length !== el.children.length) {
+                uikitUtil.html(el, digits.map(() => '<span></span>').join(''));
+              }
+
+              digits.forEach((digit, i) => el.children[i].textContent = digit);
+            }
+          }
+        } } };
+
+
 
     function getTimeSpan(date) {
+      const total = date - Date.now();
 
-        var total = date - Date.now();
+      return {
+        total,
+        seconds: total / 1000 % 60,
+        minutes: total / 1000 / 60 % 60,
+        hours: total / 1000 / 60 / 60 % 24,
+        days: total / 1000 / 60 / 60 / 24 };
 
-        return {
-            total: total,
-            seconds: total / 1000 % 60,
-            minutes: total / 1000 / 60 % 60,
-            hours: total / 1000 / 60 / 60 % 24,
-            days: total / 1000 / 60 / 60 / 24
-        };
     }
 
     if (typeof window !== 'undefined' && window.UIkit) {
-        window.UIkit.component('countdown', Component);
+      window.UIkit.component('countdown', Component);
     }
 
     return Component;

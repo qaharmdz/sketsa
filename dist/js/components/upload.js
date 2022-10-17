@@ -1,4 +1,4 @@
-/*! UIkit 3.8.0 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -7,209 +7,199 @@
 })(this, (function (uikitUtil) { 'use strict';
 
     var Component = {
+      props: {
+        allow: String,
+        clsDragover: String,
+        concurrent: Number,
+        maxSize: Number,
+        method: String,
+        mime: String,
+        msgInvalidMime: String,
+        msgInvalidName: String,
+        msgInvalidSize: String,
+        multiple: Boolean,
+        name: String,
+        params: Object,
+        type: String,
+        url: String },
 
-        props: {
-            allow: String,
-            clsDragover: String,
-            concurrent: Number,
-            maxSize: Number,
-            method: String,
-            mime: String,
-            msgInvalidMime: String,
-            msgInvalidName: String,
-            msgInvalidSize: String,
-            multiple: Boolean,
-            name: String,
-            params: Object,
-            type: String,
-            url: String
+
+      data: {
+        allow: false,
+        clsDragover: 'uk-dragover',
+        concurrent: 1,
+        maxSize: 0,
+        method: 'POST',
+        mime: false,
+        msgInvalidMime: 'Invalid File Type: %s',
+        msgInvalidName: 'Invalid File Name: %s',
+        msgInvalidSize: 'Invalid File Size: %s Kilobytes Max',
+        multiple: false,
+        name: 'files[]',
+        params: {},
+        type: '',
+        url: '',
+        abort: uikitUtil.noop,
+        beforeAll: uikitUtil.noop,
+        beforeSend: uikitUtil.noop,
+        complete: uikitUtil.noop,
+        completeAll: uikitUtil.noop,
+        error: uikitUtil.noop,
+        fail: uikitUtil.noop,
+        load: uikitUtil.noop,
+        loadEnd: uikitUtil.noop,
+        loadStart: uikitUtil.noop,
+        progress: uikitUtil.noop },
+
+
+      events: {
+        change(e) {
+          if (!uikitUtil.matches(e.target, 'input[type="file"]')) {
+            return;
+          }
+
+          e.preventDefault();
+
+          if (e.target.files) {
+            this.upload(e.target.files);
+          }
+
+          e.target.value = '';
         },
 
-        data: {
-            allow: false,
-            clsDragover: 'uk-dragover',
-            concurrent: 1,
-            maxSize: 0,
-            method: 'POST',
-            mime: false,
-            msgInvalidMime: 'Invalid File Type: %s',
-            msgInvalidName: 'Invalid File Name: %s',
-            msgInvalidSize: 'Invalid File Size: %s Kilobytes Max',
-            multiple: false,
-            name: 'files[]',
-            params: {},
-            type: '',
-            url: '',
-            abort: uikitUtil.noop,
-            beforeAll: uikitUtil.noop,
-            beforeSend: uikitUtil.noop,
-            complete: uikitUtil.noop,
-            completeAll: uikitUtil.noop,
-            error: uikitUtil.noop,
-            fail: uikitUtil.noop,
-            load: uikitUtil.noop,
-            loadEnd: uikitUtil.noop,
-            loadStart: uikitUtil.noop,
-            progress: uikitUtil.noop
+        drop(e) {
+          stop(e);
+
+          const transfer = e.dataTransfer;
+
+          if (!(transfer != null && transfer.files)) {
+            return;
+          }
+
+          uikitUtil.removeClass(this.$el, this.clsDragover);
+
+          this.upload(transfer.files);
         },
 
-        events: {
+        dragenter(e) {
+          stop(e);
+        },
 
-            change: function(e) {
+        dragover(e) {
+          stop(e);
+          uikitUtil.addClass(this.$el, this.clsDragover);
+        },
 
-                if (!uikitUtil.matches(e.target, 'input[type="file"]')) {
-                    return;
-                }
+        dragleave(e) {
+          stop(e);
+          uikitUtil.removeClass(this.$el, this.clsDragover);
+        } },
 
-                e.preventDefault();
 
-                if (e.target.files) {
-                    this.upload(e.target.files);
-                }
+      methods: {
+        async upload(files) {
+          files = uikitUtil.toArray(files);
 
-                e.target.value = '';
-            },
+          if (!files.length) {
+            return;
+          }
 
-            drop: function(e) {
-                stop(e);
+          uikitUtil.trigger(this.$el, 'upload', [files]);
 
-                var transfer = e.dataTransfer;
-
-                if (!transfer || !transfer.files) {
-                    return;
-                }
-
-                uikitUtil.removeClass(this.$el, this.clsDragover);
-
-                this.upload(transfer.files);
-            },
-
-            dragenter: function(e) {
-                stop(e);
-            },
-
-            dragover: function(e) {
-                stop(e);
-                uikitUtil.addClass(this.$el, this.clsDragover);
-            },
-
-            dragleave: function(e) {
-                stop(e);
-                uikitUtil.removeClass(this.$el, this.clsDragover);
+          for (const file of files) {
+            if (this.maxSize && this.maxSize * 1000 < file.size) {
+              this.fail(this.msgInvalidSize.replace('%s', this.maxSize));
+              return;
             }
 
-        },
-
-        methods: {
-
-            upload: function(files) {
-                var this$1$1 = this;
-
-
-                if (!files.length) {
-                    return;
-                }
-
-                uikitUtil.trigger(this.$el, 'upload', [files]);
-
-                for (var i = 0; i < files.length; i++) {
-
-                    if (this.maxSize && this.maxSize * 1000 < files[i].size) {
-                        this.fail(this.msgInvalidSize.replace('%s', this.maxSize));
-                        return;
-                    }
-
-                    if (this.allow && !match(this.allow, files[i].name)) {
-                        this.fail(this.msgInvalidName.replace('%s', this.allow));
-                        return;
-                    }
-
-                    if (this.mime && !match(this.mime, files[i].type)) {
-                        this.fail(this.msgInvalidMime.replace('%s', this.mime));
-                        return;
-                    }
-
-                }
-
-                if (!this.multiple) {
-                    files = [files[0]];
-                }
-
-                this.beforeAll(this, files);
-
-                var chunks = chunk(files, this.concurrent);
-                var upload = function (files) {
-
-                    var data = new FormData();
-
-                    files.forEach(function (file) { return data.append(this$1$1.name, file); });
-
-                    for (var key in this$1$1.params) {
-                        data.append(key, this$1$1.params[key]);
-                    }
-
-                    uikitUtil.ajax(this$1$1.url, {
-                        data: data,
-                        method: this$1$1.method,
-                        responseType: this$1$1.type,
-                        beforeSend: function (env) {
-
-                            var xhr = env.xhr;
-                            xhr.upload && uikitUtil.on(xhr.upload, 'progress', this$1$1.progress);
-                            ['loadStart', 'load', 'loadEnd', 'abort'].forEach(function (type) { return uikitUtil.on(xhr, type.toLowerCase(), this$1$1[type]); }
-                            );
-
-                            return this$1$1.beforeSend(env);
-
-                        }
-                    }).then(
-                        function (xhr) {
-
-                            this$1$1.complete(xhr);
-
-                            if (chunks.length) {
-                                upload(chunks.shift());
-                            } else {
-                                this$1$1.completeAll(xhr);
-                            }
-
-                        },
-                        function (e) { return this$1$1.error(e); }
-                    );
-
-                };
-
-                upload(chunks.shift());
-
+            if (this.allow && !match(this.allow, file.name)) {
+              this.fail(this.msgInvalidName.replace('%s', this.allow));
+              return;
             }
 
-        }
+            if (this.mime && !match(this.mime, file.type)) {
+              this.fail(this.msgInvalidMime.replace('%s', this.mime));
+              return;
+            }
+          }
 
-    };
+          if (!this.multiple) {
+            files = files.slice(0, 1);
+          }
+
+          this.beforeAll(this, files);
+
+          const chunks = chunk(files, this.concurrent);
+          const upload = async (files) => {
+            const data = new FormData();
+
+            files.forEach((file) => data.append(this.name, file));
+
+            for (const key in this.params) {
+              data.append(key, this.params[key]);
+            }
+
+            try {
+              const xhr = await uikitUtil.ajax(this.url, {
+                data,
+                method: this.method,
+                responseType: this.type,
+                beforeSend: (env) => {
+                  const { xhr } = env;
+                  xhr.upload && uikitUtil.on(xhr.upload, 'progress', this.progress);
+                  for (const type of ['loadStart', 'load', 'loadEnd', 'abort']) {
+                    uikitUtil.on(xhr, type.toLowerCase(), this[type]);
+                  }
+
+                  return this.beforeSend(env);
+                } });
+
+
+              this.complete(xhr);
+
+              if (chunks.length) {
+                await upload(chunks.shift());
+              } else {
+                this.completeAll(xhr);
+              }
+            } catch (e) {
+              this.error(e);
+            }
+          };
+
+          await upload(chunks.shift());
+        } } };
+
+
 
     function match(pattern, path) {
-        return path.match(new RegExp(("^" + (pattern.replace(/\//g, '\\/').replace(/\*\*/g, '(\\/[^\\/]+)*').replace(/\*/g, '[^\\/]+').replace(/((?!\\))\?/g, '$1.')) + "$"), 'i'));
+      return path.match(
+      new RegExp("^" +
+      pattern.
+      replace(/\//g, '\\/').
+      replace(/\*\*/g, '(\\/[^\\/]+)*').
+      replace(/\*/g, '[^\\/]+').
+      replace(/((?!\\))\?/g, '$1.') + "$",
+      'i'));
+
+
     }
 
     function chunk(files, size) {
-        var chunks = [];
-        for (var i = 0; i < files.length; i += size) {
-            var chunk = [];
-            for (var j = 0; j < size; j++) {
-                chunk.push(files[i + j]);
-            }
-            chunks.push(chunk);
-        }
-        return chunks;
+      const chunks = [];
+      for (let i = 0; i < files.length; i += size) {
+        chunks.push(files.slice(i, i + size));
+      }
+      return chunks;
     }
 
     function stop(e) {
-        e.preventDefault();
-        e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
     }
 
     if (typeof window !== 'undefined' && window.UIkit) {
-        window.UIkit.component('upload', Component);
+      window.UIkit.component('upload', Component);
     }
 
     return Component;

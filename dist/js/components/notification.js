@@ -1,4 +1,4 @@
-/*! UIkit 3.8.0 | https://www.getuikit.com | (c) 2014 - 2021 YOOtheme | MIT License */
+/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -7,160 +7,142 @@
 })(this, (function (uikitUtil) { 'use strict';
 
     var Container = {
+      props: {
+        container: Boolean },
 
-        props: {
-            container: Boolean
-        },
 
-        data: {
-            container: true
-        },
+      data: {
+        container: true },
 
-        computed: {
 
-            container: function(ref) {
-                var container = ref.container;
-
-                return container === true && this.$container || container && uikitUtil.$(container);
-            }
-
-        }
-
-    };
-
-    var obj;
+      computed: {
+        container(_ref) {let { container } = _ref;
+          return container === true && this.$container || container && uikitUtil.$(container);
+        } } };
 
     var Component = {
+      mixins: [Container],
 
-        mixins: [Container],
+      functional: true,
 
-        functional: true,
+      args: ['message', 'status'],
 
-        args: ['message', 'status'],
+      data: {
+        message: '',
+        status: '',
+        timeout: 5000,
+        group: null,
+        pos: 'top-center',
+        clsContainer: 'uk-notification',
+        clsClose: 'uk-notification-close',
+        clsMsg: 'uk-notification-message' },
 
-        data: {
-            message: '',
-            status: '',
-            timeout: 5000,
-            group: null,
-            pos: 'top-center',
-            clsContainer: 'uk-notification',
-            clsClose: 'uk-notification-close',
-            clsMsg: 'uk-notification-message'
+
+      install,
+
+      computed: {
+        marginProp(_ref) {let { pos } = _ref;
+          return "margin" + (uikitUtil.startsWith(pos, 'top') ? 'Top' : 'Bottom');
         },
 
-        install: install,
-
-        computed: {
-
-            marginProp: function(ref) {
-                var pos = ref.pos;
-
-                return ("margin" + (uikitUtil.startsWith(pos, 'top') ? 'Top' : 'Bottom'));
-            },
-
-            startProps: function() {
-                var obj;
-
-                return ( obj = {opacity: 0}, obj[this.marginProp] = -this.$el.offsetHeight, obj );
-            }
-
-        },
-
-        created: function() {
-
-            var container = uikitUtil.$(("." + (this.clsContainer) + "-" + (this.pos)), this.container)
-                || uikitUtil.append(this.container, ("<div class=\"" + (this.clsContainer) + " " + (this.clsContainer) + "-" + (this.pos) + "\" style=\"display: block\"></div>"));
-
-            this.$mount(uikitUtil.append(container,
-                ("<div class=\"" + (this.clsMsg) + (this.status ? (" " + (this.clsMsg) + "-" + (this.status)) : '') + "\"> <a href class=\"" + (this.clsClose) + "\" data-uk-close></a> <div>" + (this.message) + "</div> </div>")
-            ));
-
-        },
-
-        connected: function() {
-            var this$1$1 = this;
-            var obj;
+        startProps() {
+          return { opacity: 0, [this.marginProp]: -this.$el.offsetHeight };
+        } },
 
 
-            var margin = uikitUtil.toFloat(uikitUtil.css(this.$el, this.marginProp));
-            uikitUtil.Transition.start(
-                uikitUtil.css(this.$el, this.startProps),
-                ( obj = {opacity: 1}, obj[this.marginProp] = margin, obj )
-            ).then(function () {
-                if (this$1$1.timeout) {
-                    this$1$1.timer = setTimeout(this$1$1.close, this$1$1.timeout);
-                }
-            });
-
-        },
-
-        events: ( obj = {
-
-            click: function(e) {
-                if (uikitUtil.closest(e.target, 'a[href="#"],a[href=""]')) {
-                    e.preventDefault();
-                }
-                this.close();
-            }
-
-        }, obj[uikitUtil.pointerEnter] = function () {
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                }
-            }, obj[uikitUtil.pointerLeave] = function () {
-                if (this.timeout) {
-                    this.timer = setTimeout(this.close, this.timeout);
-                }
-            }, obj ),
-
-        methods: {
-
-            close: function(immediate) {
-                var this$1$1 = this;
+      created() {
+        const container =
+        uikitUtil.$("." + this.clsContainer + "-" + this.pos, this.container) ||
+        uikitUtil.append(
+        this.container, "<div class=\"" +
+        this.clsContainer + " " + this.clsContainer + "-" + this.pos + "\" style=\"display: block\"></div>");
 
 
-                var removeFn = function (el) {
+        this.$mount(
+        uikitUtil.append(
+        container, "<div class=\"" +
+        this.clsMsg + (
+        this.status ? " " + this.clsMsg + "-" + this.status : '') + "\" role=\"alert\"> <a href class=\"" +
 
-                    var container = uikitUtil.parent(el);
+        this.clsClose + "\" data-uk-close></a> <div>" +
+        this.message + "</div> </div>"));
 
-                    uikitUtil.trigger(el, 'close', [this$1$1]);
-                    uikitUtil.remove(el);
 
-                    if (container && !container.hasChildNodes()) {
-                        uikitUtil.remove(container);
-                    }
 
-                };
+      },
 
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                }
+      async connected() {
+        const margin = uikitUtil.toFloat(uikitUtil.css(this.$el, this.marginProp));
+        await uikitUtil.Transition.start(uikitUtil.css(this.$el, this.startProps), {
+          opacity: 1,
+          [this.marginProp]: margin });
 
-                if (immediate) {
-                    removeFn(this.$el);
-                } else {
-                    uikitUtil.Transition.start(this.$el, this.startProps).then(removeFn);
-                }
-            }
 
+        if (this.timeout) {
+          this.timer = setTimeout(this.close, this.timeout);
         }
+      },
 
-    };
+      events: {
+        click(e) {
+          if (uikitUtil.closest(e.target, 'a[href="#"],a[href=""]')) {
+            e.preventDefault();
+          }
+          this.close();
+        },
+
+        [uikitUtil.pointerEnter]() {
+          if (this.timer) {
+            clearTimeout(this.timer);
+          }
+        },
+
+        [uikitUtil.pointerLeave]() {
+          if (this.timeout) {
+            this.timer = setTimeout(this.close, this.timeout);
+          }
+        } },
+
+
+      methods: {
+        async close(immediate) {
+          const removeFn = (el) => {
+            const container = uikitUtil.parent(el);
+
+            uikitUtil.trigger(el, 'close', [this]);
+            uikitUtil.remove(el);
+
+            if (!(container != null && container.hasChildNodes())) {
+              uikitUtil.remove(container);
+            }
+          };
+
+          if (this.timer) {
+            clearTimeout(this.timer);
+          }
+
+          if (!immediate) {
+            await uikitUtil.Transition.start(this.$el, this.startProps);
+          }
+
+          removeFn(this.$el);
+        } } };
+
+
 
     function install(UIkit) {
-        UIkit.notification.closeAll = function (group, immediate) {
-            uikitUtil.apply(document.body, function (el) {
-                var notification = UIkit.getComponent(el, 'notification');
-                if (notification && (!group || group === notification.group)) {
-                    notification.close(immediate);
-                }
-            });
-        };
+      UIkit.notification.closeAll = function (group, immediate) {
+        uikitUtil.apply(document.body, (el) => {
+          const notification = UIkit.getComponent(el, 'notification');
+          if (notification && (!group || group === notification.group)) {
+            notification.close(immediate);
+          }
+        });
+      };
     }
 
     if (typeof window !== 'undefined' && window.UIkit) {
-        window.UIkit.component('notification', Component);
+      window.UIkit.component('notification', Component);
     }
 
     return Component;
