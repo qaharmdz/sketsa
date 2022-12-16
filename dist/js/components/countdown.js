@@ -1,4 +1,4 @@
-/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -9,7 +9,8 @@
     var Class = {
       connected() {
         uikitUtil.addClass(this.$el, this.$options.id);
-      } };
+      }
+    };
 
     const units = ['days', 'hours', 'minutes', 'seconds'];
 
@@ -18,13 +19,13 @@
 
       props: {
         date: String,
-        clsWrapper: String },
-
+        clsWrapper: String
+      },
 
       data: {
         date: '',
-        clsWrapper: '.uk-countdown-%unit%' },
-
+        clsWrapper: '.uk-countdown-%unit%'
+      },
 
       connected() {
         this.date = Date.parse(this.$props.date);
@@ -49,8 +50,8 @@
           } else {
             this.start();
           }
-        } }],
-
+        }
+      }],
 
 
       methods: {
@@ -82,7 +83,7 @@
 
             let digits = String(Math.trunc(timespan[unit]));
 
-            digits = digits.length < 2 ? "0" + digits : digits;
+            digits = digits.length < 2 ? `0${digits}` : digits;
 
             if (el.textContent !== digits) {
               digits = digits.split('');
@@ -94,9 +95,9 @@
               digits.forEach((digit, i) => el.children[i].textContent = digit);
             }
           }
-        } } };
-
-
+        }
+      }
+    };
 
     function getTimeSpan(date) {
       const total = date - Date.now();
@@ -106,8 +107,8 @@
         seconds: total / 1000 % 60,
         minutes: total / 1000 / 60 % 60,
         hours: total / 1000 / 60 / 60 % 24,
-        days: total / 1000 / 60 / 60 / 24 };
-
+        days: total / 1000 / 60 / 60 / 24
+      };
     }
 
     if (typeof window !== 'undefined' && window.UIkit) {

@@ -1,4 +1,4 @@
-/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -8,17 +8,19 @@
 
     var Container = {
       props: {
-        container: Boolean },
-
+        container: Boolean
+      },
 
       data: {
-        container: true },
-
+        container: true
+      },
 
       computed: {
-        container(_ref) {let { container } = _ref;
+        container({ container }) {
           return container === true && this.$container || container && uikitUtil.$(container);
-        } } };
+        }
+      }
+    };
 
     var Togglable = {
       props: {
@@ -27,8 +29,8 @@
         duration: Number,
         velocity: Number,
         origin: String,
-        transition: String },
-
+        transition: String
+      },
 
       data: {
         cls: false,
@@ -38,27 +40,26 @@
         origin: false,
         transition: 'ease',
         clsEnter: 'uk-togglabe-enter',
-        clsLeave: 'uk-togglabe-leave' },
-
+        clsLeave: 'uk-togglabe-leave'
+      },
 
       computed: {
-        hasAnimation(_ref) {let { animation } = _ref;
+        hasAnimation({ animation }) {
           return !!animation[0];
         },
 
-        hasTransition(_ref2) {let { animation } = _ref2;
+        hasTransition({ animation }) {
           return ['slide', 'reveal'].some((transition) => uikitUtil.startsWith(animation[0], transition));
-        } },
-
+        }
+      },
 
       methods: {
         toggleElement(targets, toggle, animate) {
-          return new Promise((resolve) =>
-          Promise.all(
+          return new Promise((resolve) => Promise.all(
           uikitUtil.toNodes(targets).map((el) => {
             const show = uikitUtil.isBoolean(toggle) ? toggle : !this.isToggled(el);
 
-            if (!uikitUtil.trigger(el, "before" + (show ? 'show' : 'hide'), [this])) {
+            if (!uikitUtil.trigger(el, `before${show ? 'show' : 'hide'}`, [this])) {
               return Promise.reject();
             }
 
@@ -94,7 +95,7 @@
 
         },
 
-        isToggled(el) {if (el === void 0) {el = this.$el;}
+        isToggled(el = this.$el) {
           [el] = uikitUtil.toNodes(el);
           return uikitUtil.hasClass(el, this.clsEnter) ?
           true :
@@ -126,11 +127,11 @@
           if (changed) {
             uikitUtil.trigger(el, 'toggled', [toggled, this]);
           }
-        } } };
+        }
+      }
+    };
 
-
-
-    function toggleInstant(el, show, _ref3) {let { _toggle } = _ref3;
+    function toggleInstant(el, show, { _toggle }) {
       uikitUtil.Animation.cancel(el);
       uikitUtil.Transition.cancel(el);
       return _toggle(el, show);
@@ -138,9 +139,9 @@
 
     async function toggleTransition(
     el,
-    show, _ref4)
-
-    {var _animation$;let { animation, duration, velocity, transition, _toggle } = _ref4;
+    show,
+    { animation, duration, velocity, transition, _toggle })
+    {var _animation$;
       const [mode = 'reveal', startProp = 'top'] = ((_animation$ = animation[0]) == null ? void 0 : _animation$.split('-')) || [];
 
       const dirs = [
@@ -151,8 +152,8 @@
       const end = dir[1] === startProp;
       const props = ['width', 'height'];
       const dimProp = props[dirs.indexOf(dir)];
-      const marginProp = "margin-" + dir[0];
-      const marginStartProp = "margin-" + startProp;
+      const marginProp = `margin-${dir[0]}`;
+      const marginStartProp = `margin-${startProp}`;
 
       let currentDim = uikitUtil.dimensions(el)[dimProp];
 
@@ -200,9 +201,9 @@
         'borderBottom',
         'borderLeft',
         'borderImage',
-        marginStartProp]) });
+        marginStartProp])
 
-
+      });
 
       uikitUtil.css(el, {
         padding: 0,
@@ -213,8 +214,8 @@
         width: dim.width,
         height: dim.height,
         overflow: 'hidden',
-        [dimProp]: currentDim });
-
+        [dimProp]: currentDim
+      });
 
       const percent = currentDim / endDim;
       duration = (velocity * endDim + duration) * (show ? 1 - percent : percent);
@@ -252,8 +253,7 @@
         return uikitUtil.Animation.in(el, animation[0], duration, cmp.origin);
       }
 
-      return uikitUtil.Animation.out(el, animation[1] || animation[0], duration, cmp.origin).then(() =>
-      _toggle(el, false));
+      return uikitUtil.Animation.out(el, animation[1] || animation[0], duration, cmp.origin).then(() => _toggle(el, false));
 
     }
 
@@ -263,16 +263,16 @@
         offset: null,
         flip: Boolean,
         shift: Boolean,
-        inset: Boolean },
-
+        inset: Boolean
+      },
 
       data: {
-        pos: "bottom-" + (uikitUtil.isRtl ? 'right' : 'left'),
+        pos: `bottom-${uikitUtil.isRtl ? 'right' : 'left'}`,
         offset: false,
         flip: true,
         shift: true,
-        inset: false },
-
+        inset: false
+      },
 
       connected() {
         this.pos = this.$props.pos.split('-').concat('center').slice(0, 2);
@@ -287,8 +287,8 @@
 
           const attach = {
             element: [this.inset ? this.dir : uikitUtil.flipPosition(this.dir), this.align],
-            target: [this.dir, this.align] };
-
+            target: [this.dir, this.align]
+          };
 
           if (this.axis === 'y') {
             for (const prop in attach) {
@@ -310,8 +310,8 @@
             offset,
             boundary,
             placement,
-            viewportOffset: this.getViewportOffset(element) });
-
+            viewportOffset: this.getViewportOffset(element)
+          });
 
           // Restore scroll position
           scrollElement.scrollTop = scrollTop;
@@ -342,7 +342,9 @@
 
         getViewportOffset(element) {
           return uikitUtil.toPx(uikitUtil.css(element, '--uk-position-viewport-offset'));
-        } } };
+        }
+      }
+    };
 
     var Component = {
       mixins: [Container, Togglable, Position],
@@ -351,8 +353,8 @@
 
       props: {
         delay: Number,
-        title: String },
-
+        title: String
+      },
 
       data: {
         pos: 'top',
@@ -360,22 +362,25 @@
         delay: 0,
         animation: ['uk-animation-scale-up'],
         duration: 100,
-        cls: 'uk-active' },
-
+        cls: 'uk-active'
+      },
 
       beforeConnect() {
-        this.id = "uk-tooltip-" + this._uid;
+        this.id = `uk-tooltip-${this._uid}`;
         this._hasTitle = uikitUtil.hasAttr(this.$el, 'title');
         uikitUtil.attr(this.$el, {
           title: '',
-          'aria-describedby': this.id });
-
+          'aria-describedby': this.id
+        });
         makeFocusable(this.$el);
       },
 
       disconnected() {
         this.hide();
-        uikitUtil.attr(this.$el, 'title', this._hasTitle ? this.title : null);
+
+        if (!uikitUtil.attr(this.$el, 'title')) {
+          uikitUtil.attr(this.$el, 'title', this._hasTitle ? this.title : null);
+        }
       },
 
       methods: {
@@ -385,12 +390,11 @@
           }
 
           this._unbind = uikitUtil.once(
-          document, "keydown " +
-          uikitUtil.pointerDown,
+          document,
+          `keydown ${uikitUtil.pointerDown}`,
           this.hide,
           false,
-          (e) =>
-          e.type === uikitUtil.pointerDown && !uikitUtil.within(e.target, this.$el) ||
+          (e) => e.type === uikitUtil.pointerDown && !uikitUtil.within(e.target, this.$el) ||
           e.type === 'keydown' && e.keyCode === 27);
 
 
@@ -417,10 +421,8 @@
 
         _show() {
           this.tooltip = uikitUtil.append(
-          this.container, "<div id=\"" +
-          this.id + "\" class=\"uk-" + this.$options.name + "\" role=\"tooltip\"> <div class=\"uk-" +
-          this.$options.name + "-inner\">" + this.title + "</div> </div>");
-
+          this.container,
+          `<div id="${this.id}" class="uk-${this.$options.name}" role="tooltip"> <div class="uk-${this.$options.name}-inner">${this.title}</div> </div>`);
 
 
           uikitUtil.on(this.tooltip, 'toggled', (e, toggled) => {
@@ -434,19 +436,19 @@
 
             this.origin =
             this.axis === 'y' ?
-            uikitUtil.flipPosition(dir) + "-" + align :
-            align + "-" + uikitUtil.flipPosition(dir);
+            `${uikitUtil.flipPosition(dir)}-${align}` :
+            `${align}-${uikitUtil.flipPosition(dir)}`;
           });
 
           this.toggleElement(this.tooltip, true);
-        } },
-
+        }
+      },
 
       events: {
         focus: 'show',
         blur: 'hide',
 
-        [uikitUtil.pointerEnter + " " + uikitUtil.pointerLeave](e) {
+        [`${uikitUtil.pointerEnter} ${uikitUtil.pointerLeave}`](e) {
           if (!uikitUtil.isTouch(e)) {
             this[e.type === uikitUtil.pointerEnter ? 'show' : 'hide']();
           }
@@ -458,9 +460,9 @@
           if (uikitUtil.isTouch(e)) {
             this.show();
           }
-        } } };
-
-
+        }
+      }
+    };
 
     function makeFocusable(el) {
       if (!uikitUtil.isFocusable(el)) {
@@ -468,7 +470,7 @@
       }
     }
 
-    function getAlignment(el, target, _ref) {let [dir, align] = _ref;
+    function getAlignment(el, target, [dir, align]) {
       const elOffset = uikitUtil.offset(el);
       const targetOffset = uikitUtil.offset(target);
       const properties = [

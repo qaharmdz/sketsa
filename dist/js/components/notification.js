@@ -1,4 +1,4 @@
-/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -8,17 +8,19 @@
 
     var Container = {
       props: {
-        container: Boolean },
-
+        container: Boolean
+      },
 
       data: {
-        container: true },
-
+        container: true
+      },
 
       computed: {
-        container(_ref) {let { container } = _ref;
+        container({ container }) {
           return container === true && this.$container || container && uikitUtil.$(container);
-        } } };
+        }
+      }
+    };
 
     var Component = {
       mixins: [Container],
@@ -35,38 +37,35 @@
         pos: 'top-center',
         clsContainer: 'uk-notification',
         clsClose: 'uk-notification-close',
-        clsMsg: 'uk-notification-message' },
-
+        clsMsg: 'uk-notification-message'
+      },
 
       install,
 
       computed: {
-        marginProp(_ref) {let { pos } = _ref;
-          return "margin" + (uikitUtil.startsWith(pos, 'top') ? 'Top' : 'Bottom');
+        marginProp({ pos }) {
+          return `margin${uikitUtil.startsWith(pos, 'top') ? 'Top' : 'Bottom'}`;
         },
 
         startProps() {
           return { opacity: 0, [this.marginProp]: -this.$el.offsetHeight };
-        } },
-
+        }
+      },
 
       created() {
         const container =
-        uikitUtil.$("." + this.clsContainer + "-" + this.pos, this.container) ||
+        uikitUtil.$(`.${this.clsContainer}-${this.pos}`, this.container) ||
         uikitUtil.append(
-        this.container, "<div class=\"" +
-        this.clsContainer + " " + this.clsContainer + "-" + this.pos + "\" style=\"display: block\"></div>");
+        this.container,
+        `<div class="${this.clsContainer} ${this.clsContainer}-${this.pos}" style="display: block"></div>`);
 
 
         this.$mount(
         uikitUtil.append(
-        container, "<div class=\"" +
-        this.clsMsg + (
-        this.status ? " " + this.clsMsg + "-" + this.status : '') + "\" role=\"alert\"> <a href class=\"" +
-
-        this.clsClose + "\" data-uk-close></a> <div>" +
-        this.message + "</div> </div>"));
-
+        container,
+        `<div class="${this.clsMsg}${
+    this.status ? ` ${this.clsMsg}-${this.status}` : ''
+    }" role="alert"> <a href class="${this.clsClose}" data-uk-close></a> <div>${this.message}</div> </div>`));
 
 
       },
@@ -75,8 +74,8 @@
         const margin = uikitUtil.toFloat(uikitUtil.css(this.$el, this.marginProp));
         await uikitUtil.Transition.start(uikitUtil.css(this.$el, this.startProps), {
           opacity: 1,
-          [this.marginProp]: margin });
-
+          [this.marginProp]: margin
+        });
 
         if (this.timeout) {
           this.timer = setTimeout(this.close, this.timeout);
@@ -101,8 +100,8 @@
           if (this.timeout) {
             this.timer = setTimeout(this.close, this.timeout);
           }
-        } },
-
+        }
+      },
 
       methods: {
         async close(immediate) {
@@ -126,9 +125,9 @@
           }
 
           removeFn(this.$el);
-        } } };
-
-
+        }
+      }
+    };
 
     function install(UIkit) {
       UIkit.notification.closeAll = function (group, immediate) {

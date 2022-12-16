@@ -1,4 +1,4 @@
-/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -9,29 +9,30 @@
     var Class = {
       connected() {
         uikitUtil.addClass(this.$el, this.$options.id);
-      } };
+      }
+    };
 
     var Resize = {
       connected() {var _this$$options$resize;
         this.registerObserver(
-        uikitUtil.observeResize(((_this$$options$resize = this.$options.resizeTargets) == null ? void 0 : _this$$options$resize.call(this)) || this.$el, () =>
-        this.$emit('resize')));
+        uikitUtil.observeResize(((_this$$options$resize = this.$options.resizeTargets) == null ? void 0 : _this$$options$resize.call(this)) || this.$el, () => this.$emit('resize')));
 
 
-      } };
+      }
+    };
 
     var SliderAutoplay = {
       props: {
         autoplay: Boolean,
         autoplayInterval: Number,
-        pauseOnHover: Boolean },
-
+        pauseOnHover: Boolean
+      },
 
       data: {
         autoplay: false,
         autoplayInterval: 7000,
-        pauseOnHover: true },
-
+        pauseOnHover: true
+      },
 
       connected() {
         this.autoplay && this.startAutoplay();
@@ -63,8 +64,8 @@
           } else {
             this.startAutoplay();
           }
-        } }],
-
+        }
+      }],
 
 
       methods: {
@@ -72,8 +73,7 @@
           this.stopAutoplay();
 
           this.interval = setInterval(
-          () =>
-          (!this.draggable || !uikitUtil.$(':focus', this.$el)) && (
+          () => (!this.draggable || !uikitUtil.$(':focus', this.$el)) && (
           !this.pauseOnHover || !uikitUtil.matches(this.$el, ':hover')) &&
           !this.stack.length &&
           this.show('next'),
@@ -83,7 +83,9 @@
 
         stopAutoplay() {
           this.interval && clearInterval(this.interval);
-        } } };
+        }
+      }
+    };
 
     const pointerOptions = { passive: false, capture: true };
     const pointerUpOptions = { passive: true, capture: true };
@@ -93,13 +95,13 @@
 
     var SliderDrag = {
       props: {
-        draggable: Boolean },
-
+        draggable: Boolean
+      },
 
       data: {
         draggable: true,
-        threshold: 10 },
-
+        threshold: 10
+      },
 
       created() {
         for (const key of ['start', 'move', 'end']) {
@@ -122,7 +124,7 @@
         passive: true,
 
         delegate() {
-          return this.selSlides;
+          return `${this.selList} > *`;
         },
 
         handler(e) {
@@ -137,16 +139,16 @@
           }
 
           this.start(e);
-        } },
-
+        }
+      },
 
       {
         name: 'dragstart',
 
         handler(e) {
           e.preventDefault();
-        } },
-
+        }
+      },
 
       {
         // iOS workaround for slider stopping if swiping fast
@@ -155,8 +157,8 @@
           return this.list;
         },
         handler: uikitUtil.noop,
-        ...pointerOptions }],
-
+        ...pointerOptions
+      }],
 
 
       methods: {
@@ -293,9 +295,9 @@
           uikitUtil.css(this.list, { userSelect: '', pointerEvents: '' });
 
           this.drag = this.percent = null;
-        } } };
-
-
+        }
+      }
+    };
 
     function hasSelectableText(el) {
       return (
@@ -306,22 +308,22 @@
 
     var SliderNav = {
       data: {
-        selNav: false },
-
+        selNav: false
+      },
 
       computed: {
-        nav(_ref, $el) {let { selNav } = _ref;
+        nav({ selNav }, $el) {
           return uikitUtil.$(selNav, $el);
         },
 
-        selNavItem(_ref2) {let { attrItem } = _ref2;
-          return "[" + attrItem + "],[data-" + attrItem + "]";
+        selNavItem({ attrItem }) {
+          return `[${attrItem}],[data-${attrItem}]`;
         },
 
         navItems(_, $el) {
           return uikitUtil.$$(this.selNavItem, $el);
-        } },
-
+        }
+      },
 
       update: {
         write() {
@@ -329,7 +331,7 @@
             uikitUtil.html(
             this.nav,
             this.slides.
-            map((_, i) => "<li " + this.attrItem + "=\"" + i + "\"><a href></a></li>").
+            map((_, i) => `<li ${this.attrItem}="${i}"><a href></a></li>`).
             join(''));
 
           }
@@ -339,8 +341,8 @@
           this.updateNav();
         },
 
-        events: ['resize'] },
-
+        events: ['resize']
+      },
 
       events: [
       {
@@ -353,13 +355,13 @@
         handler(e) {
           e.preventDefault();
           this.show(uikitUtil.data(e.current, this.attrItem));
-        } },
-
+        }
+      },
 
       {
         name: 'itemshow',
-        handler: 'updateNav' }],
-
+        handler: 'updateNav'
+      }],
 
 
       methods: {
@@ -376,7 +378,9 @@
             cmd === 'previous' && i === 0 || cmd === 'next' && i >= this.maxIndex));
 
           }
-        } } };
+        }
+      }
+    };
 
     var Slider = {
       mixins: [SliderAutoplay, SliderDrag, SliderNav, Resize],
@@ -386,9 +390,8 @@
         easing: String,
         index: Number,
         finite: Boolean,
-        velocity: Number,
-        selSlides: String },
-
+        velocity: Number
+      },
 
       data: () => ({
         easing: 'ease',
@@ -401,8 +404,8 @@
         clsActive: 'uk-active',
         clsActivated: false,
         Transitioner: false,
-        transitionOptions: {} }),
-
+        transitionOptions: {}
+      }),
 
       connected() {
         this.prevIndex = -1;
@@ -415,11 +418,11 @@
       },
 
       computed: {
-        duration(_ref, $el) {let { velocity } = _ref;
+        duration({ velocity }, $el) {
           return speedUp($el.offsetWidth / velocity);
         },
 
-        list(_ref2, $el) {let { selList } = _ref2;
+        list({ selList }, $el) {
           return uikitUtil.$(selList, $el);
         },
 
@@ -427,27 +430,23 @@
           return this.length - 1;
         },
 
-        selSlides(_ref3) {let { selList, selSlides } = _ref3;
-          return selList + " " + (selSlides || '> *');
-        },
-
         slides: {
           get() {
-            return uikitUtil.$$(this.selSlides, this.$el);
+            return uikitUtil.children(this.list);
           },
 
           watch() {
             this.$emit('resize');
-          } },
-
+          }
+        },
 
         length() {
           return this.slides.length;
-        } },
-
+        }
+      },
 
       methods: {
-        show(index, force) {if (force === void 0) {force = false;}
+        show(index, force = false) {
           if (this.dragging || !this.length) {
             return;
           }
@@ -518,11 +517,11 @@
           return promise;
         },
 
-        getIndex(index, prev) {if (index === void 0) {index = this.index;}if (prev === void 0) {prev = this.index;}
+        getIndex(index = this.index, prev = this.index) {
           return uikitUtil.clamp(uikitUtil.getIndex(index, this.slides, prev, this.finite), 0, this.maxIndex);
         },
 
-        getValidIndex(index, prevIndex) {if (index === void 0) {index = this.index;}if (prevIndex === void 0) {prevIndex = this.prevIndex;}
+        getValidIndex(index = this.index, prevIndex = this.prevIndex) {
           return this.getIndex(index, prevIndex);
         },
 
@@ -533,8 +532,8 @@
             'cubic-bezier(0.25, 0.46, 0.45, 0.94)' /* easeOutQuad */ :
             'cubic-bezier(0.165, 0.84, 0.44, 1)' /* easeOutQuart */ :
             this.easing,
-            ...this.transitionOptions });
-
+            ...this.transitionOptions
+          });
 
           if (!force && !prev) {
             this._translate(1);
@@ -552,27 +551,27 @@
           return this._getTransitioner(prev, prev !== next && next).getDistance();
         },
 
-        _translate(percent, prev, next) {if (prev === void 0) {prev = this.prevIndex;}if (next === void 0) {next = this.index;}
+        _translate(percent, prev = this.prevIndex, next = this.index) {
           const transitioner = this._getTransitioner(prev !== next ? prev : false, next);
           transitioner.translate(percent);
           return transitioner;
         },
 
         _getTransitioner(
-        prev,
-        next,
-        dir,
-        options)
-        {if (prev === void 0) {prev = this.prevIndex;}if (next === void 0) {next = this.index;}if (dir === void 0) {dir = this.dir || 1;}if (options === void 0) {options = this.transitionOptions;}
+        prev = this.prevIndex,
+        next = this.index,
+        dir = this.dir || 1,
+        options = this.transitionOptions)
+        {
           return new this.Transitioner(
           uikitUtil.isNumber(prev) ? this.slides[prev] : prev,
           uikitUtil.isNumber(next) ? this.slides[next] : next,
           dir * (uikitUtil.isRtl ? -1 : 1),
           options);
 
-        } } };
-
-
+        }
+      }
+    };
 
     function getDirection(index, prevIndex) {
       return index === 'next' ? 1 : index === 'previous' ? -1 : index < prevIndex ? -1 : 1;
@@ -598,15 +597,17 @@
           }
         },
 
-        events: ['resize'] } };
+        events: ['resize']
+      }
+    };
 
     var Lazyload = {
       data: {
-        preload: 5 },
-
+        preload: 5
+      },
 
       methods: {
-        lazyload(observeTargets, targets) {if (observeTargets === void 0) {observeTargets = this.$el;}if (targets === void 0) {targets = this.$el;}
+        lazyload(observeTargets = this.$el, targets = this.$el) {
           this.registerObserver(
           uikitUtil.observeIntersection(observeTargets, (entries, observer) => {
             for (const el of uikitUtil.toNodes(uikitUtil.isFunction(targets) ? targets() : targets)) {
@@ -616,27 +617,30 @@
             }
 
             for (const el of entries.
-            filter((_ref) => {let { isIntersecting } = _ref;return isIntersecting;}).
-            map((_ref2) => {let { target } = _ref2;return target;})) {
+            filter(({ isIntersecting }) => isIntersecting).
+            map(({ target }) => target)) {
               observer.unobserve(el);
             }
           }));
 
-        } } };
+        }
+      }
+    };
 
     var SliderPreload = {
       mixins: [Lazyload],
 
       connected() {
         this.lazyload(this.slides, this.getAdjacentSlides);
-      } };
+      }
+    };
 
-    function translate(value, unit) {if (value === void 0) {value = 0;}if (unit === void 0) {unit = '%';}
+    function translate(value = 0, unit = '%') {
       value += value ? unit : '';
-      return "translate3d(" + value + ", 0, 0)";
+      return `translate3d(${value}, 0, 0)`;
     }
 
-    function Transitioner (prev, next, dir, _ref) {let { center, easing, list } = _ref;
+    function Transitioner (prev, next, dir, { center, easing, list }) {
       const deferred = new uikitUtil.Deferred();
 
       const from = prev ?
@@ -649,7 +653,7 @@
       return {
         dir,
 
-        show(duration, percent, linear) {if (percent === void 0) {percent = 0;}
+        show(duration, percent = 0, linear) {
           const timing = linear ? 'linear' : easing;
           duration -= Math.round(duration * uikitUtil.clamp(percent, -1, 1));
 
@@ -662,8 +666,8 @@
             percent: 1 - percent,
             duration,
             timing,
-            dir });
-
+            dir
+          });
 
           uikitUtil.Transition.start(
           list,
@@ -683,7 +687,7 @@
           uikitUtil.css(list, 'transform', '');
         },
 
-        forward(duration, percent) {if (percent === void 0) {percent = this.percent();}
+        forward(duration, percent = this.percent()) {
           uikitUtil.Transition.cancel(list);
           return this.show(duration, percent, true);
         },
@@ -721,10 +725,10 @@
             dir * (uikitUtil.isRtl ? -1 : 1) === -1 ^
             getElLeft(slide, list) > getElLeft(prev || next));
 
-            triggerUpdate(slide, "itemtranslate" + (translateIn ? 'in' : 'out'), {
+            triggerUpdate(slide, `itemtranslate${translateIn ? 'in' : 'out'}`, {
               dir,
-              percent: isOut ? 1 - percent : isIn ? percent : isActive ? 1 : 0 });
-
+              percent: isOut ? 1 - percent : isIn ? percent : isActive ? 1 : 0
+            });
           }
         },
 
@@ -738,7 +742,7 @@
           return Math.abs(to - from);
         },
 
-        getItemIn(out) {if (out === void 0) {out = false;}
+        getItemIn(out = false) {
           let actives = this.getActives();
           let nextActives = inView(list, getLeft(next || prev, list, center));
 
@@ -753,8 +757,8 @@
 
         getActives() {
           return inView(list, getLeft(prev || next, list, center));
-        } };
-
+        }
+      };
     }
 
     function getLeft(el, list, center) {
@@ -768,7 +772,7 @@
     }
 
     function getWidth(list) {
-      return uikitUtil.children(list).reduce((right, el) => uikitUtil.dimensions(el).width + right, 0);
+      return uikitUtil.sumBy(uikitUtil.children(list), (el) => uikitUtil.dimensions(el).width);
     }
 
     function centerEl(el, list) {
@@ -806,8 +810,8 @@
 
       props: {
         center: Boolean,
-        sets: Boolean },
-
+        sets: Boolean
+      },
 
       data: {
         center: false,
@@ -816,20 +820,16 @@
         selList: '.uk-slider-items',
         selNav: '.uk-slider-nav',
         clsContainer: 'uk-slider-container',
-        Transitioner },
-
+        Transitioner
+      },
 
       computed: {
         avgWidth() {
           return getWidth(this.list) / this.length;
         },
 
-        finite(_ref) {let { finite } = _ref;
-          return (
-            finite ||
-            Math.ceil(getWidth(this.list)) <
-            Math.trunc(uikitUtil.dimensions(this.list).width + getMaxElWidth(this.list) + this.center));
-
+        finite({ finite }) {
+          return finite || isFinite(this.list, this.center);
         },
 
         maxIndex() {
@@ -854,7 +854,7 @@
           return ~index ? index : this.length - 1;
         },
 
-        sets(_ref2) {let { sets: enabled } = _ref2;
+        sets({ sets: enabled }) {
           if (!enabled) {
             return;
           }
@@ -862,7 +862,7 @@
           let left = 0;
           const sets = [];
           const width = uikitUtil.dimensions(this.list).width;
-          for (let i = 0; i < this.slides.length; i++) {
+          for (let i = 0; i < this.length; i++) {
             const slideWidth = uikitUtil.dimensions(this.slides[i]).width;
 
             if (left + slideWidth > width) {
@@ -892,13 +892,13 @@
         transitionOptions() {
           return {
             center: this.center,
-            list: this.list };
-
-        } },
-
+            list: this.list
+          };
+        }
+      },
 
       connected() {
-        uikitUtil.toggleClass(this.$el, this.clsContainer, !uikitUtil.$("." + this.clsContainer, this.$el));
+        uikitUtil.toggleClass(this.$el, this.clsContainer, !uikitUtil.$(`.${this.clsContainer}`, this.$el));
       },
 
       update: {
@@ -921,8 +921,8 @@
           this.updateActiveClasses();
         },
 
-        events: ['resize'] },
-
+        events: ['resize']
+      },
 
       events: {
         beforeitemshow(e) {
@@ -970,8 +970,8 @@
 
         itemshown() {
           this.updateActiveClasses();
-        } },
-
+        }
+      },
 
       methods: {
         reorder() {
@@ -982,8 +982,7 @@
 
           const index = this.dir > 0 && this.slides[this.prevIndex] ? this.prevIndex : this.index;
 
-          this.slides.forEach((slide, i) =>
-          uikitUtil.css(
+          this.slides.forEach((slide, i) => uikitUtil.css(
           slide,
           'order',
           this.dir > 0 && i < index ? 1 : this.dir < 0 && i >= this.index ? -1 : ''));
@@ -1019,7 +1018,7 @@
           }
         },
 
-        getValidIndex(index, prevIndex) {if (index === void 0) {index = this.index;}if (prevIndex === void 0) {prevIndex = this.prevIndex;}
+        getValidIndex(index = this.index, prevIndex = this.prevIndex) {
           index = this.getIndex(index, prevIndex);
 
           if (!this.sets) {
@@ -1054,12 +1053,68 @@
               const slide = this.slides[this.getIndex(this.index + i + j++ * i)];
               currentLeft += uikitUtil.dimensions(slide).width * i;
               slides.add(slide);
-            } while (this.slides.length > j && currentLeft > left && currentLeft < right);
+            } while (this.length > j && currentLeft > left && currentLeft < right);
           }
           return Array.from(slides);
-        } } };
+        }
+      }
+    };
 
+    function isFinite(list, center) {
+      const { length } = list;
 
+      if (length < 2) {
+        return true;
+      }
+
+      const { width: listWidth } = uikitUtil.dimensions(list);
+      if (!center) {
+        return Math.ceil(getWidth(list)) < Math.trunc(listWidth + getMaxElWidth(list));
+      }
+
+      const slides = uikitUtil.children(list);
+      const listHalf = Math.trunc(listWidth / 2);
+      for (const index in slides) {
+        const slide = slides[index];
+        const slideWidth = uikitUtil.dimensions(slide).width;
+        const slidesInView = new Set([slide]);
+
+        let diff = 0;
+        for (const i of [-1, 1]) {
+          let left = slideWidth / 2;
+
+          let j = 0;
+
+          while (left < listHalf) {
+            const nextSlide = slides[uikitUtil.getIndex(+index + i + j++ * i, slides)];
+
+            if (slidesInView.has(nextSlide)) {
+              return true;
+            }
+
+            left += uikitUtil.dimensions(nextSlide).width;
+            slidesInView.add(nextSlide);
+          }
+          diff = Math.max(
+          diff,
+          slideWidth / 2 +
+          uikitUtil.dimensions(slides[uikitUtil.getIndex(+index + i, slides)]).width / 2 - (
+          left - listHalf));
+
+        }
+
+        if (
+        diff > uikitUtil.sumBy(
+        slides.filter((slide) => !slidesInView.has(slide)),
+        (slide) => uikitUtil.dimensions(slide).width))
+
+        {
+          return true;
+        }
+      }
+
+      return false;
+    }
 
     function getMaxElWidth(list) {
       return Math.max(0, ...uikitUtil.children(list).map((el) => uikitUtil.dimensions(el).width));

@@ -1,4 +1,4 @@
-/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
@@ -86,6 +86,13 @@
         }
       }
       return true;
+    }
+
+    function sumBy(array, iteratee) {
+      return array.reduce(
+      (sum, item) => sum + toFloat(isFunction(iteratee) ? iteratee(item) : item[iteratee]),
+      0);
+
     }
 
     function memoize(fn) {
@@ -177,7 +184,7 @@
     const contextSanitizeRe = /([!>+~-])(?=\s+[!>+~-]|\s*$)/g;
     const sanatize = memoize((selector) => selector.replace(contextSanitizeRe, '$1 *'));
 
-    function _query(selector, context, queryFn) {if (context === void 0) {context = document;}
+    function _query(selector, context = document, queryFn) {
       if (!selector || !isString(selector)) {
         return selector;
       }
@@ -207,7 +214,7 @@
           }
 
           if (ctx) {
-            selector += "" + (selector ? ',' : '') + domPath(ctx) + " " + sel;
+            selector += `${selector ? ',' : ''}${domPath(ctx)} ${sel}`;
           }
         }
 
@@ -232,12 +239,12 @@
       while (element.parentNode) {
         const id = attr(element, 'id');
         if (id) {
-          names.unshift("#" + escape(id));
+          names.unshift(`#${escape(id)}`);
           break;
         } else {
           let { tagName } = element;
           if (tagName !== 'HTML') {
-            tagName += ":nth-child(" + (index(element) + 1) + ")";
+            tagName += `:nth-child(${index(element) + 1})`;
           }
           names.unshift(tagName);
           element = element.parentNode;
@@ -250,7 +257,7 @@
       return isString(css) ? CSS.escape(css) : '';
     }
 
-    function on() {for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {args[_key] = arguments[_key];}
+    function on(...args) {
       let [targets, types, selector, listener, useCapture = false] = getArgs(args);
 
       if (listener.length > 1) {
@@ -274,7 +281,7 @@
       return () => off(targets, types, listener, useCapture);
     }
 
-    function off() {for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {args[_key2] = arguments[_key2];}
+    function off(...args) {
       let [targets, types,, listener, useCapture = false] = getArgs(args);
       for (const type of types) {
         for (const target of targets) {
@@ -361,10 +368,10 @@
       'stroke-dashoffset': true,
       widows: true,
       'z-index': true,
-      zoom: true };
+      zoom: true
+    };
 
-
-    function css(element, property, value, priority) {if (priority === void 0) {priority = '';}
+    function css(element, property, value, priority = '') {
       const elements = toNodes(element);
       for (const element of elements) {
         if (isString(property)) {
@@ -376,7 +383,7 @@
             element.style.setProperty(
             property,
             isNumeric(value) && !cssNumber[property] ?
-            value + "px" :
+            `${value}px` :
             value || isNumber(value) ?
             value :
             '',
@@ -414,18 +421,18 @@
       }
 
       for (const prefix of ['webkit', 'moz']) {
-        const prefixedName = "-" + prefix + "-" + name;
+        const prefixedName = `-${prefix}-${name}`;
         if (prefixedName in style) {
           return prefixedName;
         }
       }
     }
 
-    function addClass(element) {for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {args[_key - 1] = arguments[_key];}
+    function addClass(element, ...args) {
       apply(element, args, 'add');
     }
 
-    function removeClass(element) {for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {args[_key2 - 1] = arguments[_key2];}
+    function removeClass(element, ...args) {
       apply(element, args, 'remove');
     }
 
@@ -439,56 +446,6 @@
 
     function getClasses(str) {
       return String(str).split(/\s|,/).filter(Boolean);
-    }
-
-    const dirs = {
-      width: ['left', 'right'],
-      height: ['top', 'bottom'] };
-
-    dimension('height');
-    dimension('width');
-
-    function dimension(prop) {
-      const propName = ucfirst(prop);
-      return (element, value) => {
-        if (isUndefined(value)) {
-          if (isWindow(element)) {
-            return element["inner" + propName];
-          }
-
-          if (isDocument(element)) {
-            const doc = element.documentElement;
-            return Math.max(doc["offset" + propName], doc["scroll" + propName]);
-          }
-
-          element = toNode(element);
-
-          value = css(element, prop);
-          value = value === 'auto' ? element["offset" + propName] : toFloat(value) || 0;
-
-          return value - boxModelAdjust(element, prop);
-        } else {
-          return css(
-          element,
-          prop,
-          !value && value !== 0 ? '' : +value + boxModelAdjust(element, prop) + 'px');
-
-        }
-      };
-    }
-
-    function boxModelAdjust(element, prop, sizing) {if (sizing === void 0) {sizing = 'border-box';}
-      return css(element, 'boxSizing') === sizing ?
-      dirs[prop].
-      map(ucfirst).
-      reduce(
-      (value, prop) =>
-      value +
-      toFloat(css(element, "padding" + prop)) +
-      toFloat(css(element, "border" + prop + "Width")),
-      0) :
-
-      0;
     }
 
     const prepend = applyFn('prepend');
@@ -532,8 +489,52 @@
       return isString(str) && startsWith(str.trim(), '<');
     }
 
-    const inBrowser = typeof window !== 'undefined';
-    inBrowser && attr(document.documentElement, 'dir') === 'rtl';
+    const dirs = {
+      width: ['left', 'right'],
+      height: ['top', 'bottom']
+    };
+
+    dimension('height');
+    dimension('width');
+
+    function dimension(prop) {
+      const propName = ucfirst(prop);
+      return (element, value) => {
+        if (isUndefined(value)) {
+          if (isWindow(element)) {
+            return element[`inner${propName}`];
+          }
+
+          if (isDocument(element)) {
+            const doc = element.documentElement;
+            return Math.max(doc[`offset${propName}`], doc[`scroll${propName}`]);
+          }
+
+          element = toNode(element);
+
+          value = css(element, prop);
+          value = value === 'auto' ? element[`offset${propName}`] : toFloat(value) || 0;
+
+          return value - boxModelAdjust(element, prop);
+        } else {
+          return css(
+          element,
+          prop,
+          !value && value !== 0 ? '' : +value + boxModelAdjust(element, prop) + 'px');
+
+        }
+      };
+    }
+
+    function boxModelAdjust(element, prop, sizing = 'border-box') {
+      return css(element, 'boxSizing') === sizing ?
+      sumBy(
+      dirs[prop].map(ucfirst),
+      (prop) => toFloat(css(element, `padding${prop}`)) +
+      toFloat(css(element, `border${prop}Width`))) :
+
+      0;
+    }
 
     /* global ["accordion","alert","align","animation","article","background","badge","base","breadcrumb","button","card","close","column","comment","container","countdown","cover","description-list","divider","dotnav","drop","dropbar","dropdown","filter","flex","form","grid-masonry","grid-parallax","grid","heading","height-expand","height-viewport","height","icon","iconnav","image","label","leader","lightbox","link","list","margin","marker","modal","nav","navbar","notification","offcanvas","overlay","padding","pagination","parallax","placeholder","position","progress","scroll","scrollspy","search","section","slidenav","slider","slideshow","sortable","spinner","sticky-navbar","sticky-parallax","sticky","subnav","svg","switcher","tab","table","text","thumbnav","tile","toggle","tooltip","totop","transition","upload","utility","video","visibility","width"] */
 
@@ -552,8 +553,8 @@
     const styles = {
       core: { css: '../dist/css/uikit-core.css' },
       theme: { css: '../dist/css/uikit.css' },
-      ...themes };
-
+      ...themes
+    };
     const component = location.pathname.
     split('/').
     pop().
@@ -562,8 +563,8 @@
     const variations = {
       '': 'Default',
       light: 'Dark',
-      dark: 'Light' };
-
+      dark: 'Light'
+    };
 
     if (getParam('style') && getParam('style').match(/\.(json|css)$/)) {
       styles.custom = getParam('style');
@@ -580,16 +581,16 @@
     const style = styles[storage[key]] || styles.theme;
 
     // add style
-    document.writeln("<link rel=\"stylesheet\" href=\"" + (
-
-    dir !== 'rtl' ? style.css : style.css.replace('.css', '-rtl.css')) + "\">");
-
+    document.writeln(
+`<link rel="stylesheet" href="${
+dir !== 'rtl' ? style.css : style.css.replace('.css', '-rtl.css')
+}">`    );
 
 
     // add javascript
     document.writeln('<script src="../dist/js/uikit.js"></script>');
-    document.writeln("<script src=\"" + (
-    style.icons ? style.icons : '../dist/js/uikit-icons.js') + "\"></script>");
+    document.writeln(
+`<script src="${style.icons ? style.icons : '../dist/js/uikit-icons.js'}"></script>`    );
 
 
     on(window, 'load', () =>
@@ -598,37 +599,19 @@
     requestAnimationFrame(() => {
       const $body = document.body;
       const $container = prepend(
-      $body, " <div class=\"uk-container\"> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px 20px 20px 0\"> <option value=\"index.html\">Overview</option> " +
+      $body,
+      ` <div class="uk-container"> <select class="uk-select uk-form-width-small" style="margin: 20px 20px 20px 0" aria-label="Component switcher"> <option value="index.html">Overview</option> ${tests.
+  map(
+  (name) => `<option value="${name}.html">${name.
+  split('-').
+  map(ucfirst).
+  join(' ')}</option>`).
 
-
-
-
-      tests.
-      map(
-      (name) => "<option value=\"" +
-      name + ".html\">" + name.
-      split('-').
-      map(ucfirst).
-      join(' ') + "</option>").
-
-      join('') + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " +
-
-
-      Object.keys(styles).
-      map((style) => "<option value=\"" + style + "\">" + ucfirst(style) + "</option>").
-      join('') + " </select> <select class=\"uk-select uk-form-width-small\" style=\"margin: 20px\"> " +
-
-
-      Object.keys(variations).
-      map((name) => "<option value=\"" + name + "\">" + variations[name] + "</option>").
-      join('') + " </select> <label style=\"margin: 20px\"> <input type=\"checkbox\" class=\"uk-checkbox\"/> <span style=\"margin: 5px\">RTL</span> </label> </div> ");
-
-
-
-
-
-
-
+  join('')} </select> <select class="uk-select uk-form-width-small" style="margin: 20px" aria-label="Theme switcher"> ${Object.keys(styles).
+  map((style) => `<option value="${style}">${ucfirst(style)}</option>`).
+  join('')} </select> <select class="uk-select uk-form-width-small" style="margin: 20px" aria-label="Inverse switcher"> ${Object.keys(variations).
+  map((name) => `<option value="${name}">${variations[name]}</option>`).
+  join('')} </select> <label style="margin: 20px"> <input type="checkbox" class="uk-checkbox"/> <span style="margin: 5px">RTL</span> </label> </div> `);
 
 
       const [$tests, $styles, $inverse, $rtl] = $container.children;
@@ -638,12 +621,12 @@
 
       on($tests, 'change', () => {
         if ($tests.value) {
-          location.href = "" + $tests.value + (
-          styles.custom ? "?style=" + getParam('style') : '');
-
+          location.href = `${$tests.value}${
+      styles.custom ? `?style=${getParam('style')}` : ''
+      }`;
         }
       });
-      $tests.value = (component || 'index') + ".html";
+      $tests.value = `${component || 'index'}.html`;
 
       // Styles
       // ------------------------------
@@ -680,7 +663,7 @@
 
 
         css(docEl, 'background', $inverse.value === 'dark' ? '#fff' : '#222');
-        addClass($body, "uk-" + $inverse.value);
+        addClass($body, `uk-${$inverse.value}`);
       }
 
       on($inverse, 'change', () => {
@@ -691,7 +674,7 @@
       // RTL
       // ------------------------------
 
-      on($rtl, 'change', (_ref) => {let { target } = _ref;
+      on($rtl, 'change', ({ target }) => {
         storage._uikit_dir = target.checked ? 'rtl' : 'ltr';
         location.reload();
       });
@@ -706,7 +689,7 @@
     css(docEl, 'paddingTop', '80px');
 
     function getParam(name) {
-      const match = new RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search);
+      const match = new RegExp(`[?&]${name}=([^&]*)`).exec(window.location.search);
       return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     }
 

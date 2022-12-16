@@ -1,4 +1,4 @@
-/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -56,7 +56,7 @@
       return sorted;
     }
 
-    function getOffset(element, offset) {if (offset === void 0) {offset = false;}
+    function getOffset(element, offset = false) {
       let { offsetTop, offsetLeft, offsetHeight, offsetWidth } = element;
 
       if (offset) {
@@ -67,14 +67,14 @@
         top: offsetTop,
         left: offsetLeft,
         bottom: offsetTop + offsetHeight,
-        right: offsetLeft + offsetWidth };
-
+        right: offsetLeft + offsetWidth
+      };
     }
 
     const clsLeave = 'uk-transition-leave';
     const clsEnter = 'uk-transition-enter';
 
-    function fade(action, target, duration, stagger) {if (stagger === void 0) {stagger = 0;}
+    function fade(action, target, duration, stagger = 0) {
       const index = transitionIndex(target, true);
       const propsIn = { opacity: 1 };
       const propsOut = { opacity: 0 };
@@ -86,11 +86,8 @@
 
         await Promise.all(
         getTransitionNodes(target).map(
-        (child, i) =>
-        new Promise((resolve) =>
-        setTimeout(
-        () =>
-        uikitUtil.Transition.start(child, propsOut, duration / 2, 'ease').then(
+        (child, i) => new Promise((resolve) => setTimeout(
+        () => uikitUtil.Transition.start(child, propsOut, duration / 2, 'ease').then(
         resolve),
 
         i * stagger))));
@@ -169,16 +166,14 @@
       uikitUtil.children(target).
       filter(uikitUtil.Transition.inProgress).
       map(
-      (el) =>
-      new Promise((resolve) => uikitUtil.once(el, 'transitionend transitioncanceled', resolve))));
+      (el) => new Promise((resolve) => uikitUtil.once(el, 'transitionend transitioncanceled', resolve))));
 
 
     }
 
     function getTransitionNodes(target) {
       return getRows(uikitUtil.children(target)).reduce(
-      (nodes, row) =>
-      nodes.concat(
+      (nodes, row) => nodes.concat(
       uikitUtil.sortBy(
       row.filter((el) => uikitUtil.isInView(el)),
       'offsetLeft')),
@@ -224,10 +219,7 @@
       const targetStyle = uikitUtil.attr(target, 'style');
       const targetPropsTo = uikitUtil.css(target, ['height', 'padding']);
       const [propsTo, propsFrom] = getTransitionProps(target, nodes, currentProps);
-      const attrsTo = nodes.map((el) => ({
-        class: uikitUtil.attr(el, 'class'),
-        style: uikitUtil.attr(el, 'style') }));
-
+      const attrsTo = nodes.map((el) => ({ style: uikitUtil.attr(el, 'style') }));
 
       // Reset to previous state
       nodes.forEach((el, i) => propsFrom[i] && uikitUtil.css(el, propsFrom[i]));
@@ -265,14 +257,13 @@
         pointerEvents: 'none',
         position: 'absolute',
         zIndex: zIndex === 'auto' ? uikitUtil.index(el) : zIndex,
-        ...getPositionWithMargin(el) } :
-
+        ...getPositionWithMargin(el)
+      } :
       false;
     }
 
     function getTransitionProps(target, nodes, currentProps) {
-      const propsTo = nodes.map((el, i) =>
-      uikitUtil.parent(el) && i in currentProps ?
+      const propsTo = nodes.map((el, i) => uikitUtil.parent(el) && i in currentProps ?
       currentProps[i] ?
       uikitUtil.isVisible(el) ?
       getPositionWithMargin(el) :
@@ -320,8 +311,8 @@
         width,
         transform: '',
         ...uikitUtil.position(el),
-        ...uikitUtil.css(el, ['marginTop', 'marginLeft']) };
-
+        ...uikitUtil.css(el, ['marginTop', 'marginLeft'])
+      };
     }
 
     function awaitFrame() {
@@ -331,22 +322,22 @@
     var Animate = {
       props: {
         duration: Number,
-        animation: Boolean },
-
+        animation: Boolean
+      },
 
       data: {
         duration: 150,
-        animation: 'slide' },
-
+        animation: 'slide'
+      },
 
       methods: {
-        animate(action, target) {if (target === void 0) {target = this.$el;}
+        animate(action, target = this.$el) {
           const name = this.animation;
           const animationFn =
           name === 'fade' ?
           fade :
           name === 'delayed-fade' ?
-          function () {for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {args[_key] = arguments[_key];}return fade(...args, 40);} :
+          (...args) => fade(...args, 40) :
           name ?
           slide :
           () => {
@@ -355,7 +346,9 @@
           };
 
           return animationFn(action, target, this.duration).catch(uikitUtil.noop);
-        } } };
+        }
+      }
+    };
 
     var Component = {
       mixins: [Animate],
@@ -364,21 +357,21 @@
 
       props: {
         target: Boolean,
-        selActive: Boolean },
-
+        selActive: Boolean
+      },
 
       data: {
         target: null,
         selActive: false,
         attrItem: 'uk-filter-control',
         cls: 'uk-active',
-        duration: 250 },
-
+        duration: 250
+      },
 
       computed: {
         toggles: {
-          get(_ref, $el) {let { attrItem } = _ref;
-            return uikitUtil.$$("[" + attrItem + "],[data-" + attrItem + "]", $el);
+          get({ attrItem }, $el) {
+            return uikitUtil.$$(`[${attrItem}],[data-${attrItem}]`, $el);
           },
 
           watch() {
@@ -390,12 +383,12 @@
             }
           },
 
-          immediate: true },
-
+          immediate: true
+        },
 
         children: {
-          get(_ref2, $el) {let { target } = _ref2;
-            return uikitUtil.$$(target + " > *", $el);
+          get({ target }, $el) {
+            return uikitUtil.$$(`${target} > *`, $el);
           },
 
           watch(list, old) {
@@ -404,23 +397,23 @@
             }
           },
 
-          immediate: true } },
-
-
+          immediate: true
+        }
+      },
 
       events: [
       {
         name: 'click',
 
         delegate() {
-          return "[" + this.attrItem + "],[data-" + this.attrItem + "]";
+          return `[${this.attrItem}],[data-${this.attrItem}]`;
         },
 
         handler(e) {
           e.preventDefault();
           this.apply(e.current);
-        } }],
-
+        }
+      }],
 
 
       methods: {
@@ -438,17 +431,16 @@
           filter((item) => uikitUtil.hasClass(item, this.cls)).
           reduce((state, el) => mergeState(el, this.attrItem, state), {
             filter: { '': '' },
-            sort: [] });
-
+            sort: []
+          });
         },
 
-        async setState(state, animate) {if (animate === void 0) {animate = true;}
+        async setState(state, animate = true) {
           state = { filter: { '': '' }, sort: [], ...state };
 
           uikitUtil.trigger(this.$el, 'beforeFilter', [this, state]);
 
-          this.toggles.forEach((el) =>
-          uikitUtil.toggleClass(el, this.cls, !!matchFilter(el, this.attrItem, state)));
+          this.toggles.forEach((el) => uikitUtil.toggleClass(el, this.cls, !!matchFilter(el, this.attrItem, state)));
 
 
           await Promise.all(
@@ -466,9 +458,9 @@
 
         updateState() {
           uikitUtil.fastdom.write(() => this.setState(this.getState(), false));
-        } } };
-
-
+        }
+      }
+    };
 
     function getFilter(el, attr) {
       return uikitUtil.parseOptions(uikitUtil.data(el, attr), ['filter']);
@@ -522,9 +514,9 @@
 
     function matchFilter(
     el,
-    attr, _ref3)
-
-    {let { filter: stateFilter = { '': '' }, sort: [stateSort, stateOrder] } = _ref3;
+    attr,
+    { filter: stateFilter = { '': '' }, sort: [stateSort, stateOrder] })
+    {
       const { filter = '', group = '', sort, order = 'asc' } = getFilter(el, attr);
 
       return uikitUtil.isUndefined(sort) ?
@@ -537,7 +529,7 @@
       return listA.length === listB.length && listA.every((el) => listB.includes(el));
     }
 
-    function getSelector(_ref4) {let { filter } = _ref4;
+    function getSelector({ filter }) {
       let selector = '';
       uikitUtil.each(filter, (value) => selector += value || '');
       return selector;
@@ -545,8 +537,7 @@
 
     function sortItems(nodes, sort, order) {
       return [...nodes].sort(
-      (a, b) =>
-      uikitUtil.data(a, sort).localeCompare(uikitUtil.data(b, sort), undefined, { numeric: true }) * (
+      (a, b) => uikitUtil.data(a, sort).localeCompare(uikitUtil.data(b, sort), undefined, { numeric: true }) * (
       order === 'asc' || -1));
 
     }

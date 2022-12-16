@@ -1,4 +1,4 @@
-/*! UIkit 3.15.10 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -21,8 +21,8 @@
         name: String,
         params: Object,
         type: String,
-        url: String },
-
+        url: String
+      },
 
       data: {
         allow: false,
@@ -49,8 +49,8 @@
         load: uikitUtil.noop,
         loadEnd: uikitUtil.noop,
         loadStart: uikitUtil.noop,
-        progress: uikitUtil.noop },
-
+        progress: uikitUtil.noop
+      },
 
       events: {
         change(e) {
@@ -93,8 +93,8 @@
         dragleave(e) {
           stop(e);
           uikitUtil.removeClass(this.$el, this.clsDragover);
-        } },
-
+        }
+      },
 
       methods: {
         async upload(files) {
@@ -152,8 +152,8 @@
                   }
 
                   return this.beforeSend(env);
-                } });
-
+                }
+              });
 
               this.complete(xhr);
 
@@ -168,18 +168,18 @@
           };
 
           await upload(chunks.shift());
-        } } };
-
-
+        }
+      }
+    };
 
     function match(pattern, path) {
       return path.match(
-      new RegExp("^" +
-      pattern.
-      replace(/\//g, '\\/').
-      replace(/\*\*/g, '(\\/[^\\/]+)*').
-      replace(/\*/g, '[^\\/]+').
-      replace(/((?!\\))\?/g, '$1.') + "$",
+      new RegExp(
+      `^${pattern.
+  replace(/\//g, '\\/').
+  replace(/\*\*/g, '(\\/[^\\/]+)*').
+  replace(/\*/g, '[^\\/]+').
+  replace(/((?!\\))\?/g, '$1.')}$`,
       'i'));
 
 
