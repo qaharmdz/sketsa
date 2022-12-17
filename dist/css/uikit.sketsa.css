@@ -18,7 +18,7 @@ html {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 14.5px;
   font-weight: normal;
-  line-height: 1.55em;
+  line-height: 1.55;
   /* 2 */
   -webkit-text-size-adjust: 100%;
   /* 3 */
@@ -816,7 +816,7 @@ a.uk-link-reset,
   left: -30px;
   width: 30px;
   height: 1.55em;
-  margin-bottom: -1.55;
+  margin-bottom: -1.55em;
   display: list-item;
   list-style-position: inside;
   text-align: right;
@@ -863,7 +863,7 @@ a.uk-link-reset,
   left: -30px;
   width: 30px;
   height: 1.55em;
-  margin-bottom: -1.55;
+  margin-bottom: -1.55em;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%226%22%20height%3D%226%22%20viewBox%3D%220%200%206%206%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Ccircle%20fill%3D%22%23444%22%20cx%3D%223%22%20cy%3D%223%22%20r%3D%223%22%20%2F%3E%0A%3C%2Fsvg%3E");
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -2241,7 +2241,7 @@ td .uk-checkbox {
 .uk-button-text {
   /* 1 */
   padding: 0;
-  line-height: 1.55em;
+  line-height: 1.55;
   background: none;
   /* 2 */
   color: #888;
@@ -2278,7 +2278,7 @@ td .uk-checkbox {
 .uk-button-link {
   /* 1 */
   padding: 0;
-  line-height: 1.55em;
+  line-height: 1.55;
   background: none;
   /* 2 */
   color: #1e87f0;
@@ -5410,7 +5410,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 .uk-nav-default {
   font-size: 0.96rem;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 /*
  * Items
@@ -5449,7 +5449,7 @@ ul.uk-nav-sub {
  */
 .uk-nav-default .uk-nav-sub {
   font-size: 0.96rem;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 .uk-nav-default .uk-nav-sub a {
   color: #888;
@@ -5464,7 +5464,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 .uk-nav-primary {
   font-size: 1.6rem;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 /*
  * Items
@@ -5503,7 +5503,7 @@ ul.uk-nav-sub {
  */
 .uk-nav-primary .uk-nav-sub {
   font-size: 1.25rem;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 .uk-nav-primary .uk-nav-sub a {
   color: #888;
@@ -5518,7 +5518,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 .uk-nav-secondary {
   font-size: 14.5px;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 .uk-nav-secondary > :not(.uk-nav-divider) + :not(.uk-nav-header, .uk-nav-divider) {
   margin-top: 0;
@@ -5572,7 +5572,7 @@ ul.uk-nav-sub {
  */
 .uk-nav-secondary .uk-nav-sub {
   font-size: 0.9rem;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 .uk-nav-secondary .uk-nav-sub a {
   color: #888;
@@ -8214,7 +8214,7 @@ ul.uk-nav-sub {
 }
 .uk-text-default {
   font-size: 14.5px;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 /* Weight modifier
  ========================================================================== */
@@ -8414,7 +8414,7 @@ td.uk-text-break {
 .uk-text-reset {
   color: #444;
   font-size: 1rem;
-  line-height: 1.55em;
+  line-height: 1.55;
 }
 .uk-text-mini {
   font-size: 0.84rem;
