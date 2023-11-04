@@ -81,10 +81,10 @@
                     <h2>Dialogs</h2>
 
                     <p uk-margin>
-                        <a id="js-modal-dialog" class="uk-button uk-button-default" href="#">Dialog</a>
-                        <a id="js-modal-alert" class="uk-button uk-button-default" href="#">Alert</a>
-                        <a id="js-modal-confirm" class="uk-button uk-button-default" href="#">Confirm</a>
-                        <a id="js-modal-prompt" class="uk-button uk-button-default" href="#">Prompt</a>
+                        <a id="js-modal-dialog" class="uk-button uk-button-default" href role="button">Dialog</a>
+                        <a id="js-modal-alert" class="uk-button uk-button-default" href role="button">Alert</a>
+                        <a id="js-modal-confirm" class="uk-button uk-button-default" href role="button">Confirm</a>
+                        <a id="js-modal-prompt" class="uk-button uk-button-default" href role="button">Prompt</a>
                     </p>
 
                 </div>
@@ -137,7 +137,6 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
 
             <h2>JavaScript Options</h2>
 
@@ -458,37 +457,38 @@
         </div>
 
         <script>
-            const {on} = UIkit.util;
+            const { modal, util: { on } } = UIkit;
 
             on('#js-modal-dialog', 'click', e => {
                 e.preventDefault();
                 e.target.blur();
-                UIkit.modal.dialog('<p class="uk-modal-body">UIkit dialog!</p>');
+                modal.dialog('<p class="uk-modal-body">UIkit dialog!</p>');
             });
 
-            on('#js-modal-alert', 'click', e => {
+            on('#js-modal-alert', 'click', async e => {
                 e.preventDefault();
                 e.target.blur();
-                UIkit.modal.alert('UIkit alert!').then(() =>
-                    console.log('Alert closed.')
-                );
+                await modal.alert('UIkit alert!');
+                console.log('Alert closed.');
             });
 
-            on('#js-modal-confirm', 'click', e => {
+            on('#js-modal-confirm', 'click', async e => {
                 e.preventDefault();
                 e.target.blur();
-                UIkit.modal.confirm('UIkit confirm!').then(
-                    () => console.log('Confirmed.'),
-                    () => console.log('Rejected.')
-                );
+
+                try {
+                    await modal.confirm('UIkit confirm!');
+                    console.log('Confirmed.');
+                } catch (e) {
+                    console.log('Rejected.')
+                }
             });
 
-            on('#js-modal-prompt', 'click', e => {
+            on('#js-modal-prompt', 'click', async e => {
                 e.preventDefault();
                 e.target.blur();
-                UIkit.modal.prompt('Name:', 'Your name').then(name =>
-                    console.log('Prompted:', name)
-                );
+                const name = await modal.prompt('Name:', 'Your name');
+                console.log('Prompted:', name);
             });
 
           </script>

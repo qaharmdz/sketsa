@@ -1,5 +1,5 @@
 /* global TESTS */
-import { addClass, css, on, prepend, removeClass, ucfirst } from 'uikit-util';
+import { $$, addClass, css, on, prepend, removeClass, ucfirst } from 'uikit-util';
 
 const tests = TESTS;
 const storage = window.sessionStorage;
@@ -47,13 +47,13 @@ const style = styles[storage[key]] || styles.theme;
 document.writeln(
     `<link rel="stylesheet" href="${
         dir !== 'rtl' ? style.css : style.css.replace('.css', '-rtl.css')
-    }">`
+    }">`,
 );
 
 // add javascript
 document.writeln('<script src="../dist/js/uikit.js"></script>');
 document.writeln(
-    `<script src="${style.icons ? style.icons : '../dist/js/uikit-icons.js'}"></script>`
+    `<script src="${style.icons ? style.icons : '../dist/js/uikit-icons.js'}"></script>`,
 );
 
 on(window, 'load', () =>
@@ -73,7 +73,7 @@ on(window, 'load', () =>
                             `<option value="${name}.html">${name
                                 .split('-')
                                 .map(ucfirst)
-                                .join(' ')}</option>`
+                                .join(' ')}</option>`,
                     )
                     .join('')}
             </select>
@@ -92,7 +92,7 @@ on(window, 'load', () =>
                 <span style="margin: 5px">RTL</span>
             </label>
         </div>
-    `
+    `,
                 );
 
                 const [$tests, $styles, $inverse, $rtl] = $container.children;
@@ -125,8 +125,7 @@ on(window, 'load', () =>
 
                 if ($inverse.value) {
                     removeClass(
-                        document.querySelectorAll('*'),
-                        'uk-navbar-container',
+                        $$('*'),
                         'uk-card-default',
                         'uk-card-muted',
                         'uk-card-primary',
@@ -140,8 +139,10 @@ on(window, 'load', () =>
                         'uk-section-primary',
                         'uk-section-secondary',
                         'uk-overlay-default',
-                        'uk-overlay-primary'
+                        'uk-overlay-primary',
                     );
+
+                    addClass($$('.uk-navbar-container'), 'uk-navbar-transparent');
 
                     css(docEl, 'background', $inverse.value === 'dark' ? '#fff' : '#222');
                     addClass($body, `uk-${$inverse.value}`);
@@ -163,8 +164,8 @@ on(window, 'load', () =>
 
                 css(docEl, 'paddingTop', '');
             }),
-        100
-    )
+        100,
+    ),
 );
 
 css(docEl, 'paddingTop', '80px');

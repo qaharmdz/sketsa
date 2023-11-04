@@ -1,4 +1,4 @@
-/*! UIkit 3.15.18 | https://www.getuikit.com | (c) 2014 - 2022 YOOtheme | MIT License */
+/*! UIkit 3.17.8 | https://www.getuikit.com | (c) 2014 - 2023 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -6,55 +6,85 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitParallax = factory(global.UIkit.util));
 })(this, (function (uikitUtil) { 'use strict';
 
-    var Resize = {
-      connected() {var _this$$options$resize;
-        this.registerObserver(
-        uikitUtil.observeResize(((_this$$options$resize = this.$options.resizeTargets) == null ? void 0 : _this$$options$resize.call(this)) || this.$el, () => this.$emit('resize')));
-
-
+    function callUpdate(instance, e = "update") {
+      if (!instance._connected) {
+        return;
       }
-    };
-
-    var Scroll = {
-      connected() {
-        registerScrollListener(this._uid, () => this.$emit('scroll'));
-      },
-
-      disconnected() {
-        unregisterScrollListener(this._uid);
+      if (!instance._updates.length) {
+        return;
       }
-    };
-
-    const scrollListeners = new Map();
-    let unbindScrollListener;
-    function registerScrollListener(id, listener) {
-      unbindScrollListener =
-      unbindScrollListener ||
-      uikitUtil.on(window, 'scroll', () => scrollListeners.forEach((listener) => listener()), {
-        passive: true,
-        capture: true
-      });
-
-      scrollListeners.set(id, listener);
+      if (!instance._queued) {
+        instance._queued = /* @__PURE__ */ new Set();
+        uikitUtil.fastdom.read(() => {
+          if (instance._connected) {
+            runUpdates(instance, instance._queued);
+          }
+          delete instance._queued;
+        });
+      }
+      instance._queued.add(e.type || e);
+    }
+    function runUpdates(instance, types) {
+      for (const { read, write, events = [] } of instance._updates) {
+        if (!types.has("update") && !events.some((type) => types.has(type))) {
+          continue;
+        }
+        let result;
+        if (read) {
+          result = read.call(instance, instance._data, types);
+          if (result && uikitUtil.isPlainObject(result)) {
+            uikitUtil.assign(instance._data, result);
+          }
+        }
+        if (write && result !== false) {
+          uikitUtil.fastdom.write(() => {
+            if (instance._connected) {
+              write.call(instance, instance._data, types);
+            }
+          });
+        }
+      }
     }
 
-    function unregisterScrollListener(id) {
-      scrollListeners.delete(id);
-      if (unbindScrollListener && !scrollListeners.size) {
-        unbindScrollListener();
-        unbindScrollListener = null;
-      }
+    function resize(options) {
+      return observe(uikitUtil.observeResize, options, "resize");
+    }
+    function viewport(options) {
+      return observe((target, handler) => uikitUtil.observeViewportResize(handler), options);
+    }
+    function scroll(options) {
+      return observe(
+        (target, handler) => ({
+          disconnect: uikitUtil.on(toScrollTargets(target), "scroll", handler, { passive: true })
+        }),
+        options,
+        "scroll"
+      );
+    }
+    function observe(observe2, options, emit) {
+      return {
+        observe: observe2,
+        handler() {
+          callUpdate(this, emit);
+        },
+        ...options
+      };
+    }
+    function toScrollTargets(elements) {
+      return uikitUtil.toNodes(elements).map((node) => {
+        const { ownerDocument } = node;
+        const parent2 = uikitUtil.scrollParent(node, true);
+        return parent2 === ownerDocument.scrollingElement ? ownerDocument : parent2;
+      });
     }
 
     var Media = {
       props: {
         media: Boolean
       },
-
       data: {
         media: false
       },
-
       connected() {
         const media = toMedia(this.media, this.$el);
         this.matchMedia = true;
@@ -62,58 +92,220 @@
           this.mediaObj = window.matchMedia(media);
           const handler = () => {
             this.matchMedia = this.mediaObj.matches;
-            uikitUtil.trigger(this.$el, uikitUtil.createEvent('mediachange', false, true, [this.mediaObj]));
+            uikitUtil.trigger(this.$el, uikitUtil.createEvent("mediachange", false, true, [this.mediaObj]));
           };
-          this.offMediaObj = uikitUtil.on(this.mediaObj, 'change', () => {
+          this.offMediaObj = uikitUtil.on(this.mediaObj, "change", () => {
             handler();
-            this.$emit('resize');
+            this.$emit("resize");
           });
           handler();
         }
       },
-
-      disconnected() {var _this$offMediaObj;
-        (_this$offMediaObj = this.offMediaObj) == null ? void 0 : _this$offMediaObj.call(this);
+      disconnected() {
+        var _a;
+        (_a = this.offMediaObj) == null ? void 0 : _a.call(this);
       }
     };
-
     function toMedia(value, element) {
       if (uikitUtil.isString(value)) {
-        if (uikitUtil.startsWith(value, '@')) {
+        if (uikitUtil.startsWith(value, "@")) {
           value = uikitUtil.toFloat(uikitUtil.css(element, `--uk-breakpoint-${value.substr(1)}`));
         } else if (isNaN(value)) {
           return value;
         }
       }
-
-      return value && uikitUtil.isNumeric(value) ? `(min-width: ${value}px)` : '';
+      return value && uikitUtil.isNumeric(value) ? `(min-width: ${value}px)` : "";
     }
 
-    uikitUtil.memoize(async (src) => {
-      if (src) {
-        if (uikitUtil.startsWith(src, 'data:')) {
-          return decodeURIComponent(src.split(',')[1]);
-        } else {
-          return (await fetch(src)).text();
+    function startsWith(str, search) {
+      var _a;
+      return (_a = str == null ? void 0 : str.startsWith) == null ? void 0 : _a.call(str, search);
+    }
+    const { isArray, from: toArray } = Array;
+    function isFunction(obj) {
+      return typeof obj === "function";
+    }
+    function isObject(obj) {
+      return obj !== null && typeof obj === "object";
+    }
+    function isWindow(obj) {
+      return isObject(obj) && obj === obj.window;
+    }
+    function isNode(obj) {
+      return nodeType(obj) >= 1;
+    }
+    function nodeType(obj) {
+      return !isWindow(obj) && isObject(obj) && obj.nodeType;
+    }
+    function isString(value) {
+      return typeof value === "string";
+    }
+    function isUndefined(value) {
+      return value === void 0;
+    }
+    function toNode(element) {
+      return toNodes(element)[0];
+    }
+    function toNodes(element) {
+      return isNode(element) ? [element] : Array.from(element || []).filter(isNode);
+    }
+    function memoize(fn) {
+      const cache = /* @__PURE__ */ Object.create(null);
+      return (key) => cache[key] || (cache[key] = fn(key));
+    }
+
+    function parent(element) {
+      var _a;
+      return (_a = toNode(element)) == null ? void 0 : _a.parentElement;
+    }
+    function filter(element, selector) {
+      return toNodes(element).filter((element2) => matches(element2, selector));
+    }
+    function matches(element, selector) {
+      return toNodes(element).some((element2) => element2.matches(selector));
+    }
+    function closest(element, selector) {
+      var _a;
+      return (_a = toNode(element)) == null ? void 0 : _a.closest(startsWith(selector, ">") ? selector.slice(1) : selector);
+    }
+    function children(element, selector) {
+      element = toNode(element);
+      const children2 = element ? toArray(element.children) : [];
+      return selector ? filter(children2, selector) : children2;
+    }
+    function index(element, ref) {
+      return ref ? toNodes(element).indexOf(toNode(ref)) : children(parent(element)).indexOf(element);
+    }
+
+    function attr(element, name, value) {
+      var _a;
+      if (isObject(name)) {
+        for (const key in name) {
+          attr(element, key, name[key]);
         }
-      } else {
-        return Promise.reject();
+        return;
       }
-    });
+      if (isUndefined(value)) {
+        return (_a = toNode(element)) == null ? void 0 : _a.getAttribute(name);
+      } else {
+        for (const el of toNodes(element)) {
+          if (isFunction(value)) {
+            value = value.call(el, attr(el, name));
+          }
+          if (value === null) {
+            removeAttr(el, name);
+          } else {
+            el.setAttribute(name, value);
+          }
+        }
+      }
+    }
+    function removeAttr(element, name) {
+      toNodes(element).forEach((element2) => element2.removeAttribute(name));
+    }
+
+    function findAll(selector, context) {
+      return toNodes(_query(selector, toNode(context), "querySelectorAll"));
+    }
+    const contextSelectorRe = /(^|[^\\],)\s*[!>+~-]/;
+    const isContextSelector = memoize((selector) => selector.match(contextSelectorRe));
+    const contextSanitizeRe = /([!>+~-])(?=\s+[!>+~-]|\s*$)/g;
+    const sanatize = memoize((selector) => selector.replace(contextSanitizeRe, "$1 *"));
+    function _query(selector, context = document, queryFn) {
+      if (!selector || !isString(selector)) {
+        return selector;
+      }
+      selector = sanatize(selector);
+      if (isContextSelector(selector)) {
+        const split = splitSelector(selector);
+        selector = "";
+        for (let sel of split) {
+          let ctx = context;
+          if (sel[0] === "!") {
+            const selectors = sel.substr(1).trim().split(" ");
+            ctx = closest(parent(context), selectors[0]);
+            sel = selectors.slice(1).join(" ").trim();
+            if (!sel.length && split.length === 1) {
+              return ctx;
+            }
+          }
+          if (sel[0] === "-") {
+            const selectors = sel.substr(1).trim().split(" ");
+            const prev = (ctx || context).previousElementSibling;
+            ctx = matches(prev, sel.substr(1)) ? prev : null;
+            sel = selectors.slice(1).join(" ");
+          }
+          if (ctx) {
+            selector += `${selector ? "," : ""}${domPath(ctx)} ${sel}`;
+          }
+        }
+        context = document;
+      }
+      try {
+        return context[queryFn](selector);
+      } catch (e) {
+        return null;
+      }
+    }
+    const selectorRe = /.*?[^\\](?:,|$)/g;
+    const splitSelector = memoize(
+      (selector) => selector.match(selectorRe).map((selector2) => selector2.replace(/,$/, "").trim())
+    );
+    function domPath(element) {
+      const names = [];
+      while (element.parentNode) {
+        const id = attr(element, "id");
+        if (id) {
+          names.unshift(`#${escape(id)}`);
+          break;
+        } else {
+          let { tagName } = element;
+          if (tagName !== "HTML") {
+            tagName += `:nth-child(${index(element) + 1})`;
+          }
+          names.unshift(tagName);
+          element = element.parentNode;
+        }
+      }
+      return names.join(" > ");
+    }
+    function escape(css) {
+      return isString(css) ? CSS.escape(css) : "";
+    }
+
+    const singleTagRe = /^<(\w+)\s*\/?>(?:<\/\1>)?$/;
+    function fragment(html2) {
+      const matches = singleTagRe.exec(html2);
+      if (matches) {
+        return document.createElement(matches[1]);
+      }
+      const container = document.createElement("template");
+      container.innerHTML = html2.trim();
+      return unwrapSingle(container.content.childNodes);
+    }
+    function unwrapSingle(nodes) {
+      return nodes.length > 1 ? nodes : nodes[0];
+    }
+    function $$(selector, context) {
+      return isHtml(selector) ? toNodes(fragment(selector)) : findAll(selector, context);
+    }
+    function isHtml(str) {
+      return isString(str) && startsWith(str.trim(), "<");
+    }
 
     function getMaxPathLength(el) {
       return Math.ceil(
-      Math.max(
-      0,
-      ...uikitUtil.$$('[stroke]', el).map((stroke) => {
-        try {
-          return stroke.getTotalLength();
-        } catch (e) {
-          return 0;
-        }
-      })));
-
-
+        Math.max(
+          0,
+          ...$$("[stroke]", el).map((stroke) => {
+            try {
+              return stroke.getTotalLength();
+            } catch (e) {
+              return 0;
+            }
+          })
+        )
+      );
     }
 
     const props = {
@@ -136,16 +328,11 @@
       bgx: backgroundFn,
       bgy: backgroundFn
     };
-
     const { keys } = Object;
-
     var Parallax = {
       mixins: [Media],
-
-      props: fillObject(keys(props), 'list'),
-
-      data: fillObject(keys(props), undefined),
-
+      props: fillObject(keys(props), "list"),
+      data: fillObject(keys(props), void 0),
       computed: {
         props(properties, $el) {
           const stops = {};
@@ -161,254 +348,200 @@
           return result;
         }
       },
-
       events: {
         load() {
           this.$emit();
         }
       },
-
       methods: {
         reset() {
           for (const prop in this.getCss(0)) {
-            uikitUtil.css(this.$el, prop, '');
+            uikitUtil.css(this.$el, prop, "");
           }
         },
-
         getCss(percent) {
-          const css = { transform: '', filter: '' };
+          const css2 = {};
           for (const prop in this.props) {
-            this.props[prop](css, percent);
+            this.props[prop](css2, uikitUtil.clamp(percent));
           }
-          css.willChange = Object.keys(css).
-          filter((key) => css[key] !== '').
-          join(',');
-          return css;
+          css2.willChange = Object.keys(css2).map(uikitUtil.propName).join(",");
+          return css2;
         }
       }
     };
-
     function transformFn(prop, el, stops) {
-      let unit = getUnit(stops) || { x: 'px', y: 'px', rotate: 'deg' }[prop] || '';
-      let transformFn;
-
-      if (prop === 'x' || prop === 'y') {
+      let unit = getUnit(stops) || { x: "px", y: "px", rotate: "deg" }[prop] || "";
+      let transformFn2;
+      if (prop === "x" || prop === "y") {
         prop = `translate${uikitUtil.ucfirst(prop)}`;
-        transformFn = (stop) => uikitUtil.toFloat(uikitUtil.toFloat(stop).toFixed(unit === 'px' ? 0 : 6));
-      } else if (prop === 'scale') {
-        unit = '';
-        transformFn = (stop) => getUnit([stop]) ? uikitUtil.toPx(stop, 'width', el, true) / el.offsetWidth : stop;
+        transformFn2 = (stop) => uikitUtil.toFloat(uikitUtil.toFloat(stop).toFixed(unit === "px" ? 0 : 6));
+      } else if (prop === "scale") {
+        unit = "";
+        transformFn2 = (stop) => {
+          var _a;
+          return getUnit([stop]) ? uikitUtil.toPx(stop, "width", el, true) / el[`offset${((_a = stop.endsWith) == null ? void 0 : _a.call(stop, "vh")) ? "Height" : "Width"}`] : uikitUtil.toFloat(stop);
+        };
       }
-
       if (stops.length === 1) {
-        stops.unshift(prop === 'scale' ? 1 : 0);
+        stops.unshift(prop === "scale" ? 1 : 0);
       }
-
-      stops = parseStops(stops, transformFn);
-
-      return (css, percent) => {
-        css.transform += ` ${prop}(${getValue(stops, percent)}${unit})`;
+      stops = parseStops(stops, transformFn2);
+      return (css2, percent) => {
+        css2.transform = `${css2.transform || ""} ${prop}(${getValue(stops, percent)}${unit})`;
       };
     }
-
     function colorFn(prop, el, stops) {
       if (stops.length === 1) {
-        stops.unshift(getCssValue(el, prop, ''));
+        stops.unshift(getCssValue(el, prop, ""));
       }
-
       stops = parseStops(stops, (stop) => parseColor(el, stop));
-
-      return (css, percent) => {
+      return (css2, percent) => {
         const [start, end, p] = getStop(stops, percent);
-        const value = start.
-        map((value, i) => {
-          value += p * (end[i] - value);
-          return i === 3 ? uikitUtil.toFloat(value) : parseInt(value, 10);
-        }).
-        join(',');
-        css[prop] = `rgba(${value})`;
+        const value = start.map((value2, i) => {
+          value2 += p * (end[i] - value2);
+          return i === 3 ? uikitUtil.toFloat(value2) : parseInt(value2, 10);
+        }).join(",");
+        css2[prop] = `rgba(${value})`;
       };
     }
-
     function parseColor(el, color) {
-      return getCssValue(el, 'color', color).
-      split(/[(),]/g).
-      slice(1, -1).
-      concat(1).
-      slice(0, 4).
-      map(uikitUtil.toFloat);
+      return getCssValue(el, "color", color).split(/[(),]/g).slice(1, -1).concat(1).slice(0, 4).map(uikitUtil.toFloat);
     }
-
     function filterFn(prop, el, stops) {
       if (stops.length === 1) {
         stops.unshift(0);
       }
-
-      const unit = getUnit(stops) || { blur: 'px', hue: 'deg' }[prop] || '%';
-      prop = { fopacity: 'opacity', hue: 'hue-rotate' }[prop] || prop;
+      const unit = getUnit(stops) || { blur: "px", hue: "deg" }[prop] || "%";
+      prop = { fopacity: "opacity", hue: "hue-rotate" }[prop] || prop;
       stops = parseStops(stops);
-
-      return (css, percent) => {
+      return (css2, percent) => {
         const value = getValue(stops, percent);
-        css.filter += ` ${prop}(${value + unit})`;
+        css2.filter = `${css2.filter || ""} ${prop}(${value + unit})`;
       };
     }
-
     function cssPropFn(prop, el, stops) {
       if (stops.length === 1) {
-        stops.unshift(getCssValue(el, prop, ''));
+        stops.unshift(getCssValue(el, prop, ""));
       }
-
       stops = parseStops(stops);
-
-      return (css, percent) => {
-        css[prop] = getValue(stops, percent);
+      return (css2, percent) => {
+        css2[prop] = getValue(stops, percent);
       };
     }
-
     function strokeFn(prop, el, stops) {
       if (stops.length === 1) {
         stops.unshift(0);
       }
-
       const unit = getUnit(stops);
       const length = getMaxPathLength(el);
       stops = parseStops(stops.reverse(), (stop) => {
         stop = uikitUtil.toFloat(stop);
-        return unit === '%' ? stop * length / 100 : stop;
+        return unit === "%" ? stop * length / 100 : stop;
       });
-
       if (!stops.some(([value]) => value)) {
         return uikitUtil.noop;
       }
-
-      uikitUtil.css(el, 'strokeDasharray', length);
-
-      return (css, percent) => {
-        css.strokeDashoffset = getValue(stops, percent);
+      uikitUtil.css(el, "strokeDasharray", length);
+      return (css2, percent) => {
+        css2.strokeDashoffset = getValue(stops, percent);
       };
     }
-
-    function backgroundFn(prop, el, stops, props) {
+    function backgroundFn(prop, el, stops, props2) {
       if (stops.length === 1) {
         stops.unshift(0);
       }
-
-      const attr = prop === 'bgy' ? 'height' : 'width';
-      props[prop] = parseStops(stops, (stop) => uikitUtil.toPx(stop, attr, el));
-
-      const bgProps = ['bgx', 'bgy'].filter((prop) => prop in props);
-      if (bgProps.length === 2 && prop === 'bgx') {
+      const attr = prop === "bgy" ? "height" : "width";
+      props2[prop] = parseStops(stops, (stop) => uikitUtil.toPx(stop, attr, el));
+      const bgProps = ["bgx", "bgy"].filter((prop2) => prop2 in props2);
+      if (bgProps.length === 2 && prop === "bgx") {
         return uikitUtil.noop;
       }
-
-      if (getCssValue(el, 'backgroundSize', '') === 'cover') {
-        return backgroundCoverFn(prop, el, stops, props);
+      if (getCssValue(el, "backgroundSize", "") === "cover") {
+        return backgroundCoverFn(prop, el, stops, props2);
       }
-
       const positions = {};
-      for (const prop of bgProps) {
-        positions[prop] = getBackgroundPos(el, prop);
+      for (const prop2 of bgProps) {
+        positions[prop2] = getBackgroundPos(el, prop2);
       }
-
-      return setBackgroundPosFn(bgProps, positions, props);
+      return setBackgroundPosFn(bgProps, positions, props2);
     }
-
-    function backgroundCoverFn(prop, el, stops, props) {
+    function backgroundCoverFn(prop, el, stops, props2) {
       const dimImage = getBackgroundImageDimensions(el);
-
       if (!dimImage.width) {
         return uikitUtil.noop;
       }
-
       const dimEl = {
         width: el.offsetWidth,
         height: el.offsetHeight
       };
-
-      const bgProps = ['bgx', 'bgy'].filter((prop) => prop in props);
-
+      const bgProps = ["bgx", "bgy"].filter((prop2) => prop2 in props2);
       const positions = {};
-      for (const prop of bgProps) {
-        const values = props[prop].map(([value]) => value);
+      for (const prop2 of bgProps) {
+        const values = props2[prop2].map(([value]) => value);
         const min = Math.min(...values);
         const max = Math.max(...values);
         const down = values.indexOf(min) < values.indexOf(max);
         const diff = max - min;
-
-        positions[prop] = `${(down ? -diff : 0) - (down ? min : max)}px`;
-        dimEl[prop === 'bgy' ? 'height' : 'width'] += diff;
+        positions[prop2] = `${(down ? -diff : 0) - (down ? min : max)}px`;
+        dimEl[prop2 === "bgy" ? "height" : "width"] += diff;
       }
-
       const dim = uikitUtil.Dimensions.cover(dimImage, dimEl);
-
-      for (const prop of bgProps) {
-        const attr = prop === 'bgy' ? 'height' : 'width';
+      for (const prop2 of bgProps) {
+        const attr = prop2 === "bgy" ? "height" : "width";
         const overflow = dim[attr] - dimEl[attr];
-        positions[prop] = `max(${getBackgroundPos(el, prop)},-${overflow}px) + ${positions[prop]}`;
+        positions[prop2] = `max(${getBackgroundPos(el, prop2)},-${overflow}px) + ${positions[prop2]}`;
       }
-
-      const fn = setBackgroundPosFn(bgProps, positions, props);
-      return (css, percent) => {
-        fn(css, percent);
-        css.backgroundSize = `${dim.width}px ${dim.height}px`;
-        css.backgroundRepeat = 'no-repeat';
+      const fn = setBackgroundPosFn(bgProps, positions, props2);
+      return (css2, percent) => {
+        fn(css2, percent);
+        css2.backgroundSize = `${dim.width}px ${dim.height}px`;
+        css2.backgroundRepeat = "no-repeat";
       };
     }
-
     function getBackgroundPos(el, prop) {
-      return getCssValue(el, `background-position-${prop.substr(-1)}`, '');
+      return getCssValue(el, `background-position-${prop.substr(-1)}`, "");
     }
-
-    function setBackgroundPosFn(bgProps, positions, props) {
-      return function (css, percent) {
+    function setBackgroundPosFn(bgProps, positions, props2) {
+      return function(css2, percent) {
         for (const prop of bgProps) {
-          const value = getValue(props[prop], percent);
-          css[`background-position-${prop.substr(-1)}`] = `calc(${positions[prop]} + ${value}px)`;
+          const value = getValue(props2[prop], percent);
+          css2[`background-position-${prop.substr(-1)}`] = `calc(${positions[prop]} + ${value}px)`;
         }
       };
     }
-
     const dimensions = {};
     function getBackgroundImageDimensions(el) {
-      const src = uikitUtil.css(el, 'backgroundImage').replace(/^none|url\(["']?(.+?)["']?\)$/, '$1');
-
+      const src = uikitUtil.css(el, "backgroundImage").replace(/^none|url\(["']?(.+?)["']?\)$/, "$1");
       if (dimensions[src]) {
         return dimensions[src];
       }
-
       const image = new Image();
       if (src) {
         image.src = src;
-
         if (!image.naturalWidth) {
           image.onload = () => {
             dimensions[src] = toDimensions(image);
-            uikitUtil.trigger(el, uikitUtil.createEvent('load', false));
+            uikitUtil.trigger(el, uikitUtil.createEvent("load", false));
           };
           return toDimensions(image);
         }
       }
-
       return dimensions[src] = toDimensions(image);
     }
-
     function toDimensions(image) {
       return {
         width: image.naturalWidth,
         height: image.naturalHeight
       };
     }
-
     function parseStops(stops, fn = uikitUtil.toFloat) {
       const result = [];
       const { length } = stops;
       let nullIndex = 0;
       for (let i = 0; i < length; i++) {
-        let [value, percent] = uikitUtil.isString(stops[i]) ? stops[i].trim().split(' ') : [stops[i]];
+        let [value, percent] = uikitUtil.isString(stops[i]) ? stops[i].trim().split(/ (?![^(]*\))/) : [stops[i]];
         value = fn(value);
         percent = percent ? uikitUtil.toFloat(percent) / 100 : null;
-
         if (i === 0) {
           if (percent === null) {
             percent = 0;
@@ -423,9 +556,7 @@
             percent = 1;
           }
         }
-
         result.push([value, percent]);
-
         if (percent === null) {
           nullIndex++;
         } else if (nullIndex) {
@@ -434,64 +565,57 @@
           for (let j = nullIndex; j > 0; j--) {
             result[i - j][1] = leftPercent + p * (nullIndex - j + 1);
           }
-
           nullIndex = 0;
         }
       }
-
       return result;
     }
-
     function getStop(stops, percent) {
       const index = uikitUtil.findIndex(stops.slice(1), ([, targetPercent]) => percent <= targetPercent) + 1;
       return [
-      stops[index - 1][0],
-      stops[index][0],
-      (percent - stops[index - 1][1]) / (stops[index][1] - stops[index - 1][1])];
-
+        stops[index - 1][0],
+        stops[index][0],
+        (percent - stops[index - 1][1]) / (stops[index][1] - stops[index - 1][1])
+      ];
     }
-
     function getValue(stops, percent) {
       const [start, end, p] = getStop(stops, percent);
-      return uikitUtil.isNumber(start) ? start + Math.abs(start - end) * p * (start < end ? 1 : -1) : +end;
+      return start + Math.abs(start - end) * p * (start < end ? 1 : -1);
     }
-
-    const unitRe = /^-?\d+(\S+)?/;
+    const unitRe = /^-?\d+(?:\.\d+)?(\S+)?/;
     function getUnit(stops, defaultUnit) {
+      var _a;
       for (const stop of stops) {
-        const match = stop.match == null ? void 0 : stop.match(unitRe);
+        const match = (_a = stop.match) == null ? void 0 : _a.call(stop, unitRe);
         if (match) {
           return match[1];
         }
       }
       return defaultUnit;
     }
-
     function getCssValue(el, prop, value) {
       const prev = el.style[prop];
       const val = uikitUtil.css(uikitUtil.css(el, prop, value), prop);
       el.style[prop] = prev;
       return val;
     }
-
-    function fillObject(keys, value) {
-      return keys.reduce((data, prop) => {
+    function fillObject(keys2, value) {
+      return keys2.reduce((data, prop) => {
         data[prop] = value;
         return data;
       }, {});
     }
 
     var Component = {
-      mixins: [Parallax, Resize, Scroll],
-
+      mixins: [Parallax],
       props: {
         target: String,
-        viewport: Number, // Deprecated
+        viewport: Number,
+        // Deprecated
         easing: Number,
         start: String,
         end: String
       },
-
       data: {
         target: false,
         viewport: 1,
@@ -499,92 +623,62 @@
         start: 0,
         end: 0
       },
-
       computed: {
-        target({ target }, $el) {
-          return getOffsetElement(target && uikitUtil.query(target, $el) || $el);
-        },
-
+        target: ({ target }, $el) => getOffsetElement(target && uikitUtil.query(target, $el) || $el),
         start({ start }) {
-          return uikitUtil.toPx(start, 'height', this.target, true);
+          return uikitUtil.toPx(start, "height", this.target, true);
         },
-
-        end({ end, viewport }) {
+        end({ end, viewport: viewport2 }) {
           return uikitUtil.toPx(
-          end || (viewport = (1 - viewport) * 100) && `${viewport}vh+${viewport}%`,
-          'height',
-          this.target,
-          true);
-
+            end || (viewport2 = (1 - viewport2) * 100) && `${viewport2}vh+${viewport2}%`,
+            "height",
+            this.target,
+            true
+          );
         }
       },
-
-      resizeTargets() {
-        return [this.$el, this.target];
-      },
-
+      observe: [
+        viewport(),
+        scroll({ target: ({ target }) => target }),
+        resize({ target: ({ $el, target }) => [$el, target, uikitUtil.scrollParent(target, true)] })
+      ],
       update: {
         read({ percent }, types) {
-          if (!types.has('scroll')) {
+          if (!types.has("scroll")) {
             percent = false;
           }
-
           if (!uikitUtil.isVisible(this.$el)) {
             return false;
           }
-
           if (!this.matchMedia) {
             return;
           }
-
           const prev = percent;
           percent = ease(uikitUtil.scrolledOver(this.target, this.start, this.end), this.easing);
-
           return {
             percent,
             style: prev === percent ? false : this.getCss(percent)
           };
         },
-
         write({ style }) {
           if (!this.matchMedia) {
             this.reset();
             return;
           }
-
           style && uikitUtil.css(this.$el, style);
         },
-
-        events: ['scroll', 'resize']
+        events: ["scroll", "resize"]
       }
     };
-
-    /*
-     * Inspired by https://gist.github.com/gre/1650294?permalink_comment_id=3477425#gistcomment-3477425
-     *
-     * linear: 0
-     * easeInSine: 0.5
-     * easeOutSine: -0.5
-     * easeInQuad: 1
-     * easeOutQuad: -1
-     * easeInCubic: 2
-     * easeOutCubic: -2
-     * easeInQuart: 3
-     * easeOutQuart: -3
-     * easeInQuint: 4
-     * easeOutQuint: -4
-     */
     function ease(percent, easing) {
       return easing >= 0 ? Math.pow(percent, easing + 1) : 1 - Math.pow(1 - percent, 1 - easing);
     }
-
-    // SVG elements do not inherit from HTMLElement
     function getOffsetElement(el) {
-      return el ? 'offsetTop' in el ? el : getOffsetElement(uikitUtil.parent(el)) : document.documentElement;
+      return el ? "offsetTop" in el ? el : getOffsetElement(uikitUtil.parent(el)) : document.documentElement;
     }
 
-    if (typeof window !== 'undefined' && window.UIkit) {
-      window.UIkit.component('parallax', Component);
+    if (typeof window !== "undefined" && window.UIkit) {
+      window.UIkit.component("parallax", Component);
     }
 
     return Component;
