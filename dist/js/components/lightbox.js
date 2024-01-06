@@ -1,4 +1,4 @@
-/*! UIkit 3.17.8 | https://www.getuikit.com | (c) 2014 - 2023 YOOtheme | MIT License */
+/*! UIkit 3.17.11 | https://www.getuikit.com | (c) 2014 - 2024 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -300,7 +300,7 @@
           handler(e) {
             const { current, defaultPrevented } = e;
             const { hash } = current;
-            if (!defaultPrevented && hash && util.isSameSiteAnchor(current) && !util.within(hash, this.$el) && util.$(hash, document.body)) {
+            if (!defaultPrevented && hash && util.isSameSiteAnchor(current) && !this.$el.contains(util.$(hash))) {
               this.hide();
             } else if (util.matches(current, this.selClose)) {
               e.preventDefault();
@@ -435,14 +435,14 @@
     }
     function preventBackgroundFocus(modal) {
       return util.on(document, "focusin", (e) => {
-        if (util.last(active) === modal && !util.within(e.target, modal.$el)) {
+        if (util.last(active) === modal && !modal.$el.contains(e.target)) {
           modal.$el.focus();
         }
       });
     }
     function listenForBackgroundClose(modal) {
       return util.on(document, util.pointerDown, ({ target }) => {
-        if (util.last(active) !== modal || modal.overlay && !util.within(target, modal.$el) || util.within(target, modal.panel)) {
+        if (util.last(active) !== modal || modal.overlay && !modal.$el.contains(target) || modal.panel.contains(target)) {
           return;
         }
         util.once(
@@ -705,7 +705,7 @@
             return `${this.selList} > *`;
           },
           handler(e) {
-            if (!this.draggable || !util.isTouch(e) && hasSelectableText(e.target) || util.closest(e.target, util.selInput) || e.button > 0 || this.length < 2) {
+            if (!this.draggable || !util.isTouch(e) && hasSelectableText(e.target) || e.target.closest(util.selInput) || e.button > 0 || this.length < 2) {
               return;
             }
             this.start(e);
@@ -828,15 +828,15 @@
       return util.css(el, "userSelect") !== "none" && util.toArray(el.childNodes).some((el2) => el2.nodeType === 3 && el2.textContent.trim());
     }
 
-    function generateId(instance, el = instance.$el, postfix = "") {
-      if (el.id) {
-        return el.id;
-      }
-      let id = `${instance.$options.id}-${instance._uid}${postfix}`;
-      if (util.$(`#${id}`)) {
-        id = generateId(instance, el, `${postfix}-2`);
-      }
-      return id;
+    util.memoize((id, props) => {
+      const attributes = Object.keys(props);
+      const filter = attributes.concat(id).map((key) => [util.hyphenate(key), `data-${util.hyphenate(key)}`]).flat();
+      return { attributes, filter };
+    });
+
+    let id = 1;
+    function generateId(instance, el = null) {
+      return (el == null ? void 0 : el.id) || `${instance.$options.id}-${id++}`;
     }
 
     const keyMap = {
@@ -897,7 +897,7 @@
               const slide = this.slides[item];
               if (slide) {
                 if (!slide.id) {
-                  slide.id = generateId(this, slide, `-item-${cmd}`);
+                  slide.id = generateId(this, slide);
                 }
                 ariaControls = slide.id;
               }
@@ -906,7 +906,7 @@
             } else {
               if (this.list) {
                 if (!this.list.id) {
-                  this.list.id = generateId(this, this.list, "-items");
+                  this.list.id = generateId(this, this.list);
                 }
                 ariaControls = this.list.id;
               }
@@ -959,7 +959,7 @@
             return this.selNavItem;
           },
           handler(e) {
-            if (util.closest(e.target, "a,button") && (e.type === "click" || e.keyCode === keyMap.SPACE)) {
+            if (e.target.closest("a,button") && (e.type === "click" || e.keyCode === keyMap.SPACE)) {
               e.preventDefault();
               this.show(util.data(e.current, this.attrItem));
             }

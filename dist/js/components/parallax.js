@@ -1,4 +1,4 @@
-/*! UIkit 3.17.8 | https://www.getuikit.com | (c) 2014 - 2023 YOOtheme | MIT License */
+/*! UIkit 3.17.11 | https://www.getuikit.com | (c) 2014 - 2024 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -151,30 +151,7 @@
     }
     function memoize(fn) {
       const cache = /* @__PURE__ */ Object.create(null);
-      return (key) => cache[key] || (cache[key] = fn(key));
-    }
-
-    function parent(element) {
-      var _a;
-      return (_a = toNode(element)) == null ? void 0 : _a.parentElement;
-    }
-    function filter(element, selector) {
-      return toNodes(element).filter((element2) => matches(element2, selector));
-    }
-    function matches(element, selector) {
-      return toNodes(element).some((element2) => element2.matches(selector));
-    }
-    function closest(element, selector) {
-      var _a;
-      return (_a = toNode(element)) == null ? void 0 : _a.closest(startsWith(selector, ">") ? selector.slice(1) : selector);
-    }
-    function children(element, selector) {
-      element = toNode(element);
-      const children2 = element ? toArray(element.children) : [];
-      return selector ? filter(children2, selector) : children2;
-    }
-    function index(element, ref) {
-      return ref ? toNodes(element).indexOf(toNode(ref)) : children(parent(element)).indexOf(element);
+      return (key, ...args) => cache[key] || (cache[key] = fn(key, ...args));
     }
 
     function attr(element, name, value) {
@@ -204,6 +181,25 @@
       toNodes(element).forEach((element2) => element2.removeAttribute(name));
     }
 
+    function parent(element) {
+      var _a;
+      return (_a = toNode(element)) == null ? void 0 : _a.parentElement;
+    }
+    function filter(element, selector) {
+      return toNodes(element).filter((element2) => matches(element2, selector));
+    }
+    function matches(element, selector) {
+      return toNodes(element).some((element2) => element2.matches(selector));
+    }
+    function children(element, selector) {
+      element = toNode(element);
+      const children2 = element ? toArray(element.children) : [];
+      return selector ? filter(children2, selector) : children2;
+    }
+    function index(element, ref) {
+      return ref ? toNodes(element).indexOf(toNode(ref)) : children(parent(element)).indexOf(element);
+    }
+
     function findAll(selector, context) {
       return toNodes(_query(selector, toNode(context), "querySelectorAll"));
     }
@@ -223,7 +219,7 @@
           let ctx = context;
           if (sel[0] === "!") {
             const selectors = sel.substr(1).trim().split(" ");
-            ctx = closest(parent(context), selectors[0]);
+            ctx = parent(context).closest(selectors[0]);
             sel = selectors.slice(1).join(" ").trim();
             if (!sel.length && split.length === 1) {
               return ctx;

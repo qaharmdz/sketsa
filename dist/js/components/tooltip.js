@@ -1,4 +1,4 @@
-/*! UIkit 3.17.8 | https://www.getuikit.com | (c) 2014 - 2023 YOOtheme | MIT License */
+/*! UIkit 3.17.11 | https://www.getuikit.com | (c) 2014 - 2024 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -6,15 +6,29 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.UIkitTooltip = factory(global.UIkit.util));
 })(this, (function (util) { 'use strict';
 
-    function generateId(instance, el = instance.$el, postfix = "") {
-      if (el.id) {
-        return el.id;
+    function parseOptions(options, args = []) {
+      try {
+        return options ? util.startsWith(options, "{") ? JSON.parse(options) : args.length && !util.includes(options, ":") ? { [args[0]]: options } : options.split(";").reduce((options2, option) => {
+          const [key, value] = option.split(/:(.*)/);
+          if (key && !util.isUndefined(value)) {
+            options2[key.trim()] = value.trim();
+          }
+          return options2;
+        }, {}) : {};
+      } catch (e) {
+        return {};
       }
-      let id = `${instance.$options.id}-${instance._uid}${postfix}`;
-      if (util.$(`#${id}`)) {
-        id = generateId(instance, el, `${postfix}-2`);
-      }
-      return id;
+    }
+
+    util.memoize((id, props) => {
+      const attributes = Object.keys(props);
+      const filter = attributes.concat(id).map((key) => [util.hyphenate(key), `data-${util.hyphenate(key)}`]).flat();
+      return { attributes, filter };
+    });
+
+    let id = 1;
+    function generateId(instance, el = null) {
+      return (el == null ? void 0 : el.id) || `${instance.$options.id}-${id++}`;
     }
 
     var Container = {
@@ -300,43 +314,40 @@
 
     var Component = {
       mixins: [Container, Togglable, Position],
-      args: "title",
-      props: {
-        delay: Number,
-        title: String
-      },
       data: {
         pos: "top",
-        title: "",
-        delay: 0,
         animation: ["uk-animation-scale-up"],
         duration: 100,
         cls: "uk-active"
       },
-      beforeConnect() {
-        this.id = generateId(this, {});
-        this._hasTitle = util.hasAttr(this.$el, "title");
-        util.attr(this.$el, {
-          title: "",
-          "aria-describedby": this.id
-        });
+      connected() {
         makeFocusable(this.$el);
       },
       disconnected() {
         this.hide();
-        if (!util.attr(this.$el, "title")) {
-          util.attr(this.$el, "title", this._hasTitle ? this.title : null);
-        }
       },
       methods: {
         show() {
-          if (this.isToggled(this.tooltip || null) || !this.title) {
+          if (this.isToggled(this.tooltip || null)) {
             return;
           }
+          const { delay = 0, title } = parseProps(this.$options);
+          if (!title) {
+            return;
+          }
+          const titleAttr = util.attr(this.$el, "title");
+          const off = util.on(this.$el, ["blur", util.pointerLeave], (e) => !util.isTouch(e) && this.hide());
+          this.reset = () => {
+            util.attr(this.$el, { title: titleAttr, "aria-describedby": null });
+            off();
+          };
+          const id = generateId(this);
+          util.attr(this.$el, { title: null, "aria-describedby": id });
           clearTimeout(this.showTimer);
-          this.showTimer = setTimeout(this._show, this.delay);
+          this.showTimer = setTimeout(() => this._show(title, id), delay);
         },
         async hide() {
+          var _a;
           if (util.matches(this.$el, "input:focus")) {
             return;
           }
@@ -344,13 +355,14 @@
           if (this.isToggled(this.tooltip || null)) {
             await this.toggleElement(this.tooltip, false, false);
           }
+          (_a = this.reset) == null ? void 0 : _a.call(this);
           util.remove(this.tooltip);
           this.tooltip = null;
         },
-        async _show() {
+        async _show(title, id) {
           this.tooltip = util.append(
             this.container,
-            `<div id="${this.id}" class="uk-${this.$options.name}" role="tooltip"> <div class="uk-${this.$options.name}-inner">${this.title}</div> </div>`
+            `<div id="${id}" class="uk-${this.$options.name}" role="tooltip"> <div class="uk-${this.$options.name}-inner">${title}</div> </div>`
           );
           util.on(this.tooltip, "toggled", (e, toggled) => {
             if (!toggled) {
@@ -366,7 +378,7 @@
                 `keydown ${util.pointerDown}`,
                 this.hide,
                 false,
-                (e2) => e2.type === util.pointerDown && !util.within(e2.target, this.$el) || e2.type === "keydown" && e2.keyCode === keyMap.ESC
+                (e2) => e2.type === util.pointerDown && !this.$el.contains(e2.target) || e2.type === "keydown" && e2.keyCode === keyMap.ESC
               ),
               util.on([document, ...util.overflowParents(this.$el)], "scroll", update, {
                 passive: true
@@ -382,17 +394,10 @@
         }
       },
       events: {
-        focus: "show",
-        blur: "hide",
-        [`${util.pointerEnter} ${util.pointerLeave}`](e) {
-          if (!util.isTouch(e)) {
-            this[e.type === util.pointerEnter ? "show" : "hide"]();
-          }
-        },
         // Clicking a button does not give it focus on all browsers and platforms
         // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#clicking_and_focus
-        [util.pointerDown](e) {
-          if (util.isTouch(e)) {
+        [`focus ${util.pointerEnter} ${util.pointerDown}`](e) {
+          if (!util.isTouch(e)) {
             this.show();
           }
         }
@@ -429,6 +434,13 @@
         align = "center";
       }
       return [dir, align];
+    }
+    function parseProps(options) {
+      const { el, id, data } = options;
+      return ["delay", "title"].reduce((obj, key) => ({ [key]: util.data(el, key), ...obj }), {
+        ...parseOptions(util.data(el, id), ["title"]),
+        ...data
+      });
     }
 
     if (typeof window !== "undefined" && window.UIkit) {

@@ -1,4 +1,4 @@
-/*! UIkit 3.17.8 | https://www.getuikit.com | (c) 2014 - 2023 YOOtheme | MIT License */
+/*! UIkit 3.17.11 | https://www.getuikit.com | (c) 2014 - 2024 YOOtheme | MIT License */
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('uikit-util')) :
@@ -469,8 +469,8 @@
       methods: {
         init(e) {
           const { target, button, defaultPrevented } = e;
-          const [placeholder] = this.items.filter((el) => uikitUtil.within(target, el));
-          if (!placeholder || defaultPrevented || button > 0 || uikitUtil.isInput(target) || uikitUtil.within(target, `.${this.clsNoDrag}`) || this.handle && !uikitUtil.within(target, this.handle)) {
+          const [placeholder] = this.items.filter((el) => el.contains(target));
+          if (!placeholder || defaultPrevented || button > 0 || uikitUtil.isInput(target) || target.closest(`.${this.clsNoDrag}`) || this.handle && !target.closest(this.handle)) {
             return;
           }
           e.preventDefault();
@@ -535,7 +535,7 @@
           this.animate(insert);
         },
         remove(element) {
-          if (!uikitUtil.within(element, this.target)) {
+          if (!this.target.contains(element)) {
             return;
           }
           this.animate(() => uikitUtil.remove(element));

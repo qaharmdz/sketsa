@@ -1,4 +1,4 @@
-/*! UIkit 3.17.8 | https://www.getuikit.com | (c) 2014 - 2023 YOOtheme | MIT License */
+/*! UIkit 3.17.11 | https://www.getuikit.com | (c) 2014 - 2024 YOOtheme | MIT License */
 
 (function (factory) {
     typeof define === 'function' && define.amd ? define('uikittest', factory) :
@@ -68,7 +68,7 @@
     }
     function memoize(fn) {
       const cache = /* @__PURE__ */ Object.create(null);
-      return (key) => cache[key] || (cache[key] = fn(key));
+      return (key, ...args) => cache[key] || (cache[key] = fn(key, ...args));
     }
 
     function attr(element, name, value) {
@@ -119,7 +119,7 @@
       return toNodes(element).some((node) => node.classList.contains(cls));
     }
     function toClasses(str) {
-      return isArray(str) ? str.map(toClasses).flat() : String(str).split(/[ ,]/).filter(Boolean);
+      return str ? isArray(str) ? str.map(toClasses).flat() : String(str).split(/[ ,]/).filter(Boolean) : [];
     }
 
     function parent(element) {
@@ -131,13 +131,6 @@
     }
     function matches(element, selector) {
       return toNodes(element).some((element2) => element2.matches(selector));
-    }
-    function closest(element, selector) {
-      var _a;
-      return (_a = toNode(element)) == null ? void 0 : _a.closest(startsWith(selector, ">") ? selector.slice(1) : selector);
-    }
-    function within(element, selector) {
-      return isString(selector) ? !!closest(element, selector) : toNode(selector).contains(toNode(element));
     }
     function children(element, selector) {
       element = toNode(element);
@@ -170,7 +163,7 @@
           let ctx = context;
           if (sel[0] === "!") {
             const selectors = sel.substr(1).trim().split(" ");
-            ctx = closest(parent(context), selectors[0]);
+            ctx = parent(context).closest(selectors[0]);
             sel = selectors.slice(1).join(" ").trim();
             if (!sel.length && split.length === 1) {
               return ctx;
@@ -258,7 +251,7 @@
     }
     function delegate(selector, listener) {
       return (e) => {
-        const current = selector[0] === ">" ? findAll(selector, e.currentTarget).reverse().filter((element) => within(e.target, element))[0] : closest(e.target, selector);
+        const current = selector[0] === ">" ? findAll(selector, e.currentTarget).reverse().find((element) => element.contains(e.target)) : e.target.closest(selector);
         if (current) {
           e.current = current;
           listener.call(this, e);
