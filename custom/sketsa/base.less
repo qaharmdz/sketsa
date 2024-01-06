@@ -7,14 +7,19 @@
 // Variables
 // ========================================================================
 
-@base-body-background:                          @global-background;
+@base-body-color:                               var(--uk-font-color);
+@base-body-background:                          var(--uk-background);
+@base-body-line-height:                         var(--uk-line-height);
+
+@base-code-font-size:                           @extra-mini-font-size;
+@base-code-background:                          rgba(0,0,0,.06);
 
 @base-margin-vertical:                          @global-margin;
 
-@base-heading-font-family:                      'Roboto Condensed', @global-font-family;
+@base-heading-font-family:                      var(--uk-font-family-heading);
 
-@base-pre-font-size:                            @extra-mini-font-size;
-@base-pre-background:                           #f7f8f9;
+@base-pre-font-size:                            @base-code-font-size;
+@base-pre-background:                           @base-code-background;
 
 
 // Component
