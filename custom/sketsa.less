@@ -2,20 +2,23 @@
 
 :root {
     --uk-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --uk-font-size: 15px;
+    --uk-font-size: 16px;
     --uk-line-height: @global-line-height;
 
     --uk-font-family-heading: 'Roboto Condensed', var(--uk-font-family);
 
     --uk-font-color: @global-color;
+    --uk-font-color-inverse: @global-inverse-color;
+    --uk-background: @global-background;
+
     --uk-font-color-emphasis: #111;
     --uk-font-color-muted: #929292;
-    --uk-font-color-inverse: @global-inverse-color;
     --uk-font-color-link: #1e87f0;
     --uk-font-color-link-hover: #0f6ecd;
 
-    --uk-background: @global-background;
+    --uk-margin: @global-margin;
 
+    // Utilities
     --uk-red: @extra-color-red;
     --uk-pink: @extra-color-pink;
     --uk-purple: @extra-color-purple;
@@ -33,12 +36,38 @@
     --uk-orange: @extra-color-orange;
     --uk-orange-deep: @extra-color-orange-deep;
     --uk-brown: @extra-color-brown;
+    --uk-blackjack: @extra-color-blackjack;
     --uk-gray: @extra-color-gray;
     --uk-gray-light: @extra-color-gray-light;
     --uk-gray-blue: @extra-color-gray-blue;
     --uk-gray-deep: @extra-color-gray-deep;
     --uk-gray-dark: @extra-color-gray-dark;
-    --uk-blackjack: @extra-color-blackjack;
+    --uk-gray-100: #f8f9fa;
+    --uk-gray-200: #e9ecef;
+    --uk-gray-300: #dee2e6;
+    --uk-gray-400: #ced4da;
+    --uk-gray-500: #adb5bd;
+    --uk-gray-600: #6c757d;
+    --uk-gray-700: #495057;
+    --uk-gray-800: #343a40;
+    --uk-gray-900: #212529;
+
+    --uk-space-0: 0rem;
+    --uk-space-1: 0.25rem;
+    --uk-space-2: 0.5rem;
+    --uk-space-3: 0.75rem;
+    --uk-space-4: 1rem;
+    --uk-space-5: 1.25rem;
+    --uk-space-6: 1.5rem;
+    --uk-space-7: 1.75rem;
+    --uk-space-8: 2rem;
+    --uk-space-9: 2.5rem;
+    --uk-space-10: 3rem;
+    --uk-space-11: 5rem;
+    --uk-space-12: 7rem;
+    --uk-space-13: 9rem;
+    --uk-space-14: 11rem;
+    --uk-space-15: 14rem;
 }
 
 *, *:before, *:after {
