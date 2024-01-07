@@ -10,12 +10,12 @@
 @dropdown-min-width:                            180px;
 @dropdown-color:                                @global-color;
 @dropdown-background:                           @global-background;
-@dropdown-padding:                              8px; // @global-small-margin;
+@dropdown-padding:                              @extra-mini-margin;
 @dropdown-margin:                               @global-small-margin;
 @dropdown-box-shadow:                           @global-small-box-shadow;
 
-@dropdown-nav-font-size:                        0.95rem; // @global-small-font-size;
-@dropdown-nav-line-height:                      1.5;
+@dropdown-nav-font-size:                        @global-small-font-size;
+@dropdown-nav-line-height:                      1.4;
 
 @dropdown-nav-item-color:                       @global-color;
 @dropdown-nav-item-hover-color:                 @global-emphasis-color;
@@ -23,7 +23,7 @@
 @dropdown-nav-item-padding-vertical:            @nav-item-padding-vertical;
 @dropdown-nav-item-padding-horizontal:          @dropdown-padding;
 
-@dropdown-nav-header-color:                     @global-muted-color; // @global-emphasis-color;
+@dropdown-nav-header-color:                     @global-muted-color;
 @dropdown-nav-header-padding-vertical:          @dropdown-nav-item-padding-vertical;
 @dropdown-nav-header-padding-horizontal:        @dropdown-nav-item-padding-horizontal;
 
@@ -58,4 +58,26 @@
 }
 .hook-dropdown-nav-divider {
     margin: @dropdown-nav-item-padding-vertical @dropdown-nav-item-padding-horizontal;
+}
+
+
+// Miscellaneous
+// ========================================================================
+
+.hook-dropdown-misc() {
+    .uk-dropdown-mini {
+        padding: 0.22rem;
+        min-width: 125px;
+    }
+    .uk-dropdown-mini .uk-nav-header {
+        font-size: 0.844rem;
+        padding: 0.33rem 0;
+    }
+    .uk-dropdown-mini .uk-dropdown-nav > li > a {
+        font-size: 0.775rem;
+        line-height: 1.2;
+        margin: 0 -0.22rem;
+        padding: 0.22rem 0.33rem !important;
+        text-transform: none;
+    }
 }

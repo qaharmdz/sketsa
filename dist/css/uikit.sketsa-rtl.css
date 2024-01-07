@@ -146,7 +146,7 @@ strong {
   /* 1 */
   font-family: Consolas, monaco, monospace;
   /* 2 */
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   /* 3 */
   color: #f53123;
   white-space: nowrap;
@@ -454,7 +454,7 @@ blockquote footer::before {
  * 1. Contain overflow in all browsers.
  */
 pre {
-  font: 0.85rem / 1.5 Consolas, monaco, monospace;
+  font: 0.8rem / 1.5 Consolas, monaco, monospace;
   color: #333;
   -moz-tab-size: 4;
   tab-size: 4;
@@ -1105,7 +1105,7 @@ a.uk-link-reset,
 .uk-table-small th,
 .uk-table-small td {
   padding: 7px 6px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 .uk-table-large th,
 .uk-table-large td {
@@ -2129,7 +2129,7 @@ td .uk-checkbox {
   /* 7 */
   display: inline-block;
   box-sizing: border-box;
-  padding: 0 1.75rem;
+  padding: 0 2rem;
   vertical-align: middle;
   font-size: 0.9rem;
   /* 8 */
@@ -2274,7 +2274,7 @@ td .uk-checkbox {
   font-size: 0.8rem;
 }
 .uk-button-large {
-  padding: 0 2.25rem;
+  padding: 0 2.5rem;
   line-height: 2.75rem;
   font-size: 1.125rem;
 }
@@ -2329,7 +2329,7 @@ td .uk-checkbox {
   background: none;
   /* 2 */
   color: var(--uk-font-color-link);
-  padding: 0 1.75rem;
+  padding: 0 2rem;
 }
 /* Hover */
 .uk-button-link:hover {
@@ -3454,7 +3454,7 @@ td .uk-checkbox {
   padding: 0 0.625rem;
   background: #1e87f0;
   line-height: 1.6;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #fff;
   vertical-align: middle;
   white-space: nowrap;
@@ -5348,7 +5348,7 @@ td .uk-checkbox {
  * Must target `a` elements to exclude other elements (e.g. lists)
  */
 .uk-nav > li > a {
-  padding: 5px 0;
+  padding: 0.33rem 0;
 }
 /* Sublists
  ========================================================================== */
@@ -5358,7 +5358,7 @@ td .uk-checkbox {
  */
 ul.uk-nav-sub {
   padding: 3px 15px 3px 0;
-  font-size: 0.9rem;
+  font-size: 0.93rem;
 }
 /*
  * Level 3 and deeper
@@ -5384,7 +5384,7 @@ ul.uk-nav-sub {
 /* Header
  ========================================================================== */
 .uk-nav-header {
-  padding: 5px 0;
+  padding: 0.33rem 0;
   text-transform: uppercase;
   font-size: var(--uk-font-size);
   font-family: var(--uk-font-family-heading);
@@ -5828,7 +5828,7 @@ ul.uk-nav-sub {
   /* 1 */
   width: 200px;
   /* 2 */
-  padding: 8px;
+  padding: 0.33rem;
   background: #fff;
   color: #333;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -5848,14 +5848,14 @@ ul.uk-nav-sub {
  */
 /* Gutter Horizontal */
 .uk-navbar-dropdown .uk-drop-grid {
-  margin-right: -16px;
+  margin-right: -0.66rem;
 }
 .uk-navbar-dropdown .uk-drop-grid > * {
-  padding-right: 16px;
+  padding-right: 0.66rem;
 }
 /* Gutter Vertical */
 .uk-navbar-dropdown .uk-drop-grid > .uk-grid-margin {
-  margin-top: 16px;
+  margin-top: 0.66rem;
 }
 /*
  * Width modifier
@@ -5891,7 +5891,7 @@ ul.uk-nav-sub {
   /* 2 */
   background: transparent;
   /* 3 */
-  padding: 8px 0 8px 0;
+  padding: 0.33rem 0 0.33rem 0;
   --uk-position-offset: 0;
   --uk-position-shift-offset: 0;
   --uk-position-viewport-offset: 15px;
@@ -5918,14 +5918,14 @@ ul.uk-nav-sub {
  * Adopts `uk-nav`
  ========================================================================== */
 .uk-navbar-dropdown-nav {
-  font-size: 0.9rem;
+  font-size: 0.93rem;
 }
 /*
  * Items
  */
 .uk-navbar-dropdown-nav > li > a {
   color: var(--uk-font-color-muted);
-  padding: 5px 8px;
+  padding: 0.33rem 0.33rem;
 }
 /* Hover */
 .uk-navbar-dropdown-nav > li > a:hover {
@@ -5947,14 +5947,14 @@ ul.uk-nav-sub {
  */
 .uk-navbar-dropdown-nav .uk-nav-header {
   color: var(--uk-font-color-emphasis);
-  padding: 5px 8px;
+  padding: 0.33rem 0.33rem;
 }
 /*
  * Divider
  */
 .uk-navbar-dropdown-nav .uk-nav-divider {
   border-top: 1px solid #d4d4d4;
-  margin: 5px 8px;
+  margin: 0.33rem 0.33rem;
 }
 /*
  * Sublists
@@ -6657,7 +6657,7 @@ ul.uk-nav-sub {
   /* 2 */
   min-width: 180px;
   /* 3 */
-  padding: 8px;
+  padding: 0.33rem;
   background: #fff;
   color: #333;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -6689,7 +6689,7 @@ ul.uk-nav-sub {
   /* 2 */
   background: transparent;
   /* 3 */
-  padding: 5px 0 8px 0;
+  padding: 5px 0 0.33rem 0;
   --uk-position-viewport-offset: 15px;
   box-shadow: none;
 }
@@ -6713,15 +6713,15 @@ ul.uk-nav-sub {
  * Adopts `uk-nav`
  ========================================================================== */
 .uk-dropdown-nav {
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 /*
  * Items
  */
 .uk-dropdown-nav > li > a {
   color: #333;
-  padding: 5px 8px !important;
+  padding: 0.33rem 0.33rem !important;
 }
 /* Hover + Active */
 .uk-dropdown-nav > li > a:hover,
@@ -6740,14 +6740,14 @@ ul.uk-nav-sub {
  */
 .uk-dropdown-nav .uk-nav-header {
   color: var(--uk-font-color-muted);
-  padding: 5px 8px;
+  padding: 0.33rem 0.33rem;
 }
 /*
  * Divider
  */
 .uk-dropdown-nav .uk-nav-divider {
   border-top: 1px solid #d4d4d4;
-  margin: 5px 8px;
+  margin: 0.33rem 0.33rem;
 }
 /*
  * Sublists
@@ -6758,6 +6758,21 @@ ul.uk-nav-sub {
 .uk-dropdown-nav .uk-nav-sub a:hover,
 .uk-dropdown-nav .uk-nav-sub li.uk-active > a {
   color: #333;
+}
+.uk-dropdown-mini {
+  padding: 0.22rem;
+  min-width: 125px;
+}
+.uk-dropdown-mini .uk-nav-header {
+  font-size: 0.844rem;
+  padding: 0.33rem 0;
+}
+.uk-dropdown-mini .uk-dropdown-nav > li > a {
+  font-size: 0.775rem;
+  line-height: 1.2;
+  margin: 0 -0.22rem;
+  padding: 0.22rem 0.33rem !important;
+  text-transform: none;
 }
 /* ========================================================================
    Component: Lightbox
@@ -8537,7 +8552,7 @@ td.uk-text-break {
   line-height: 1.5;
 }
 .uk-text-mini {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 /* ========================================================================
    Component: Column
@@ -13686,17 +13701,17 @@ iframe[data-uk-cover] {
   font-weight: normal;
 }
 .hook-dropdown-nav-header {
-  padding: 5px 8px;
+  padding: 0.33rem 0.33rem;
 }
 .hook-dropdown-nav-divider {
-  margin: 5px 8px;
+  margin: 0.33rem 0.33rem;
 }
 .hook-navbar-dropdown-nav-item {
-  padding: 5px 8px;
+  padding: 0.33rem 0.33rem;
 }
 .hook-navbar-dropdown-nav-header {
-  padding: 5px 8px;
+  padding: 0.33rem 0.33rem;
 }
 .hook-navbar-dropdown-nav-divider {
-  margin: 5px 8px;
+  margin: 0.33rem 0.33rem;
 }

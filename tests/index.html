@@ -135,11 +135,28 @@
             </div>
 
             <div class="uk-grid-small uk-child-width-auto uk-flex-middle uk-margin-medium" uk-grid>
-              <p uk-margin>
+              <div uk-margin>
+                <div class="uk-button-group">
+                  <button class="uk-button uk-button-default uk-button-small">Default</button>
+                  <div class="uk-inline">
+                    <button class="uk-button uk-button-default uk-button-small" type="button"><span uk-icon="icon:  triangle-down"></span></button>
+                    <div class="uk-dropdown-mini" uk-dropdown="mode: click; animation: slide-top; animate-out: true;">
+                      <ul class="uk-nav uk-dropdown-nav">
+                        <li class="uk-active"><a href="#">Active</a></li>
+                        <li><a href="#">Item</a></li>
+                        <li class="uk-nav-header">Header</li>
+                        <li><a href="#">Item</a></li>
+                        <li><a href="#">Item</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="#">Item</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
                 <button class="uk-button uk-button-default uk-button-small">Small button</button>
                 <button class="uk-button uk-button-primary uk-button-small">Small button</button>
                 <button class="uk-button uk-button-secondary uk-button-small">Small button</button>
-              </p>
+              </div>
 
               <p uk-margin>
                 <button class="uk-button uk-button-default uk-button-large">Large button</button>
