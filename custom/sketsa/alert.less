@@ -8,26 +8,26 @@
 // ========================================================================
 
 @alert-font-size:                               @global-font-size;
-@alert-line-height:                             1.5;
+@alert-line-height:                             1.4;
 @alert-color:                                   @global-color;
 @alert-border:                                  darken(@global-border, 10%);
 @alert-background:                              @global-muted-background;
 
 @alert-margin-vertical:                         @global-margin;
 @alert-padding:                                 @global-small-gutter;
-@alert-padding-right:                           @alert-padding + 20px;
+@alert-padding-right:                           @global-small-gutter * 1.8;
 
-@alert-close-top:                               @alert-padding + 3px;
+@alert-close-top:                               40%;
 @alert-close-right:                             @alert-padding;
 @alert-close-opacity:                           0.2;
 @alert-close-hover-opacity:                     0.8;
 
 @alert-small-font-size:                         @global-small-font-size;
-@alert-small-line-height:                       1.5;
-@alert-small-padding:                           10px;
-@alert-small-padding-right:                     @alert-small-padding + 12px;
+@alert-small-line-height:                       1.3;
+@alert-small-padding:                           @extra-mini-gutter;
+@alert-small-padding-right:                     @extra-mini-gutter * 1.8;
 
-@alert-small-close-top:                         @alert-small-padding + 4px;
+@alert-small-close-top:                         40%;
 @alert-small-close-right:                       @alert-small-padding;
 
 @alert-primary-color:                           @text-primary-color;
@@ -54,7 +54,7 @@
     font-size: @alert-font-size;
     line-height: @alert-line-height;
 
-    border-left: 3px solid @alert-border;
+    border-left: 4px solid @alert-border;
 
     &:hover .uk-alert-close {
         display: block;
@@ -81,7 +81,8 @@
     .uk-alert-small {
         font-size: @alert-small-font-size;
         line-height: @alert-small-line-height;
-        padding: @alert-small-padding @alert-small-padding-right @alert-small-padding @alert-padding;
+        padding: @alert-small-padding @alert-small-padding-right @alert-small-padding @alert-small-padding;
+        border-width: 2px;
 
         .uk-alert-close {
             top: @alert-small-close-top;

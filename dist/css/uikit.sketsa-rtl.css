@@ -3268,12 +3268,12 @@ td .uk-checkbox {
 .uk-alert {
   position: relative;
   margin-bottom: 1.25rem;
-  padding: 1rem 1rem 1rem 21rem;
+  padding: 1rem 1rem 1rem 1.8rem;
   background: #f4f4f4;
   color: #333;
   font-size: var(--uk-font-size);
-  line-height: 1.5;
-  border-right: 3px solid #bbbbbb;
+  line-height: 1.4;
+  border-right: 4px solid #bbbbbb;
 }
 .uk-alert:hover .uk-alert-close {
   display: block;
@@ -3293,7 +3293,7 @@ td .uk-checkbox {
  ========================================================================== */
 .uk-alert-close {
   position: absolute;
-  top: 4rem;
+  top: 40%;
   left: 1rem;
   color: inherit;
   opacity: 0.2;
@@ -3366,18 +3366,19 @@ td .uk-checkbox {
 }
 .uk-alert-small {
   font-size: 0.9rem;
-  line-height: 1.5;
-  padding: 10px 1rem 10px 22px;
+  line-height: 1.3;
+  padding: 0.75rem 0.75rem 0.75rem 1.35rem;
+  border-width: 2px;
 }
 .uk-alert-small .uk-alert-close {
-  top: 14px;
-  left: 10px;
+  top: 40%;
+  left: 0.75rem;
 }
 .uk-alert-noclose {
   padding: 1rem;
 }
 .uk-alert-noclose.uk-alert-small {
-  padding: 10px;
+  padding: 0.75rem;
 }
 .uk-alert-noclose .uk-alert-close,
 .uk-alert-noclose:hover .uk-alert-close {
