@@ -7,16 +7,17 @@
 }
 :root {
   --uk-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --uk-font-size: 15px;
+  --uk-font-size: 16px;
   --uk-line-height: 1.5;
   --uk-font-family-heading: 'Roboto Condensed', var(--uk-font-family);
   --uk-font-color: #333;
+  --uk-font-color-inverse: #fff;
+  --uk-background: #fff;
   --uk-font-color-emphasis: #111;
   --uk-font-color-muted: #929292;
-  --uk-font-color-inverse: #fff;
   --uk-font-color-link: #1e87f0;
   --uk-font-color-link-hover: #0f6ecd;
-  --uk-background: #fff;
+  --uk-margin: 1.25rem;
   --uk-red: #f53123;
   --uk-pink: #ff387b;
   --uk-purple: #9c27b0;
@@ -34,12 +35,37 @@
   --uk-orange: #ff9800;
   --uk-orange-deep: #ff5722;
   --uk-brown: #795548;
+  --uk-blackjack: #111;
   --uk-gray: #9e9e9e;
   --uk-gray-light: #f4f4f4;
   --uk-gray-blue: #607d8b;
   --uk-gray-deep: #2b2b2b;
   --uk-gray-dark: #222;
-  --uk-blackjack: #111;
+  --uk-gray-100: #f8f9fa;
+  --uk-gray-200: #e9ecef;
+  --uk-gray-300: #dee2e6;
+  --uk-gray-400: #ced4da;
+  --uk-gray-500: #adb5bd;
+  --uk-gray-600: #6c757d;
+  --uk-gray-700: #495057;
+  --uk-gray-800: #343a40;
+  --uk-gray-900: #212529;
+  --uk-space-0: 0rem;
+  --uk-space-1: 0.25rem;
+  --uk-space-2: 0.5rem;
+  --uk-space-3: 0.75rem;
+  --uk-space-4: 1rem;
+  --uk-space-5: 1.25rem;
+  --uk-space-6: 1.5rem;
+  --uk-space-7: 1.75rem;
+  --uk-space-8: 2rem;
+  --uk-space-9: 2.5rem;
+  --uk-space-10: 3rem;
+  --uk-space-11: 5rem;
+  --uk-space-12: 7rem;
+  --uk-space-13: 9rem;
+  --uk-space-14: 11rem;
+  --uk-space-15: 14rem;
 }
 *,
 *:before,
@@ -236,7 +262,7 @@ pre,
 address,
 fieldset,
 figure {
-  margin: 0 0 20px 0;
+  margin: 0 0 1.25rem 0;
 }
 /* Add margin if adjacent element */
 * + p,
@@ -247,7 +273,7 @@ figure {
 * + address,
 * + fieldset,
 * + figure {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /* Headings
  ========================================================================== */
@@ -269,7 +295,7 @@ h6,
 .uk-heading-xlarge,
 .uk-heading-2xlarge,
 .uk-heading-3xlarge {
-  margin: 0 0 20px 0;
+  margin: 0 0 1.25rem 0;
   font-family: var(--uk-font-family-heading);
   font-weight: normal;
   color: var(--uk-font-color-emphasis);
@@ -294,7 +320,7 @@ h6,
 * + .uk-heading-xlarge,
 * + .uk-heading-2xlarge,
 * + .uk-heading-3xlarge {
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 /*
  * Sizes
@@ -377,14 +403,14 @@ hr,
   /* 2 */
   text-align: inherit;
   /* 3 */
-  margin: 0 0 20px 0;
+  margin: 0 0 1.25rem 0;
   border: 0;
   border-top: 1px solid #d4d4d4;
 }
 /* Add margin if adjacent element */
 * + hr,
 * + .uk-hr {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /* Address
  ========================================================================== */
@@ -394,7 +420,7 @@ address {
 /* Blockquotes
  ========================================================================== */
 blockquote {
-  margin: 0 0 20px 0;
+  margin: 0 0 1.25rem 0;
   font-size: 1.25rem;
   line-height: 1.5;
   font-style: italic;
@@ -402,7 +428,7 @@ blockquote {
 }
 /* Add margin if adjacent element */
 * + blockquote {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /*
  * Content
@@ -411,7 +437,7 @@ blockquote p:last-of-type {
   margin-bottom: 0;
 }
 blockquote footer {
-  margin-top: 10px;
+  margin-top: 0.625rem;
   font-size: 0.9rem;
   line-height: 1.5;
   color: #333;
@@ -719,11 +745,11 @@ a.uk-link-reset,
   /* 1 */
   border: none;
   /* 2 */
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 /* Add margin if adjacent element */
 * + [class*='uk-divider'] {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /* Icon
  ========================================================================== */
@@ -802,7 +828,7 @@ a.uk-link-reset,
  */
 .uk-list > :nth-child(n+2),
 .uk-list > * > ul {
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 /* Marker modifiers
  * Moving `::marker` inside `::before` to style it differently
@@ -892,15 +918,15 @@ a.uk-link-reset,
  * Divider
  */
 .uk-list-divider > :nth-child(n+2) {
-  margin-top: 10px;
-  padding-top: 10px;
+  margin-top: 0.625rem;
+  padding-top: 0.625rem;
   border-top: 1px solid #d4d4d4;
 }
 /*
  * Striped
  */
 .uk-list-striped > * {
-  padding: 10px 10px;
+  padding: 0.625rem 0.625rem;
 }
 .uk-list-striped > *:nth-of-type(odd) {
   border-top: 1px solid #d4d4d4;
@@ -916,7 +942,7 @@ a.uk-link-reset,
  ========================================================================== */
 .uk-list-large > :nth-child(n+2),
 .uk-list-large > * > ul {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 .uk-list-collapse > :nth-child(n+2),
 .uk-list-collapse > * > ul {
@@ -926,8 +952,8 @@ a.uk-link-reset,
  * Divider
  */
 .uk-list-large.uk-list-divider > :nth-child(n+2) {
-  margin-top: 20px;
-  padding-top: 20px;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
 }
 .uk-list-collapse.uk-list-divider > :nth-child(n+2) {
   margin-top: 0;
@@ -937,7 +963,7 @@ a.uk-link-reset,
  * Striped
  */
 .uk-list-large.uk-list-striped > * {
-  padding: 20px 10px;
+  padding: 1.25rem 0.625rem;
 }
 .uk-list-collapse.uk-list-striped > * {
   padding-top: 0;
@@ -960,7 +986,7 @@ a.uk-link-reset,
   text-transform: uppercase;
 }
 .uk-description-list > dt:nth-child(n+2) {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /*
  * Description
@@ -971,8 +997,8 @@ a.uk-link-reset,
  * Line
  */
 .uk-description-list-divider > dt:nth-child(n+2) {
-  margin-top: 20px;
-  padding-top: 20px;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
   border-top: 1px solid #d4d4d4;
 }
 /* ========================================================================
@@ -990,12 +1016,12 @@ a.uk-link-reset,
   /* 2 */
   width: 100%;
   /* 3 */
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   font-size: 0.92rem;
 }
 /* Add margin if adjacent element */
 * + .uk-table {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /* Header cell
  ========================================================================== */
@@ -1577,7 +1603,7 @@ button.uk-icon:not(:disabled) {
  */
 .uk-input,
 .uk-select:not([multiple]):not([size]) {
-  height: 36px;
+  height: 2.25rem;
   vertical-align: middle;
   /* 1 */
   display: inline-block;
@@ -1585,7 +1611,7 @@ button.uk-icon:not(:disabled) {
 /* 2 */
 .uk-input:not(input),
 .uk-select:not(select) {
-  line-height: 34px;
+  line-height: 0.25rem;
 }
 /*
  * Multi-line
@@ -1637,7 +1663,7 @@ button.uk-icon:not(:disabled) {
 }
 /* Single-line */
 .uk-form-small:not(textarea):not([multiple]):not([size]) {
-  height: 28px;
+  height: 1.75rem;
   padding-left: 8px;
   padding-right: 8px;
 }
@@ -1648,7 +1674,7 @@ textarea.uk-form-small,
   padding: 5px 8px;
 }
 .uk-form-small:not(select):not(input):not(textarea) {
-  line-height: 26px;
+  line-height: -0.25rem;
 }
 /*
  * Large
@@ -1658,7 +1684,7 @@ textarea.uk-form-small,
 }
 /* Single-line */
 .uk-form-large:not(textarea):not([multiple]):not([size]) {
-  height: 44px;
+  height: 2.75rem;
   padding-left: 12px;
   padding-right: 12px;
 }
@@ -1669,7 +1695,7 @@ textarea.uk-form-large,
   padding: 7px 12px;
 }
 .uk-form-large:not(select):not(input):not(textarea) {
-  line-height: 42px;
+  line-height: 0.75rem;
 }
 /* Style modifier (`uk-input`, `uk-select` and `uk-textarea`)
  ========================================================================== */
@@ -1803,7 +1829,7 @@ select.uk-form-width-xsmall {
   border: 1px solid #bbbbbb;
   transition: 0.2s ease-in-out;
   transition-property: background-color, border;
-  margin-right: 5px;
+  margin-right: 0.33rem;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 th .uk-radio,
@@ -1993,7 +2019,7 @@ td .uk-checkbox {
   bottom: 0;
   left: 0;
   /* 2 */
-  width: 36px;
+  width: 2.25rem;
   /* 3 */
   display: inline-flex;
   justify-content: center;
@@ -2017,7 +2043,7 @@ td .uk-checkbox {
  * Input padding
  */
 .uk-form-icon:not(.uk-form-icon-flip) ~ .uk-input {
-  padding-left: 36px !important;
+  padding-left: 2.25rem !important;
 }
 /*
  * Position modifier
@@ -2027,7 +2053,7 @@ td .uk-checkbox {
   left: auto;
 }
 .uk-form-icon-flip ~ .uk-input {
-  padding-right: 36px !important;
+  padding-right: 2.25rem !important;
 }
 .uk-input,
 .uk-select,
@@ -2043,11 +2069,11 @@ td .uk-checkbox {
   min-width: 0;
 }
 .uk-fieldset + .uk-fieldset {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 .uk-form-label .uk-text-meta,
 .uk-form-controls .uk-text-meta {
-  margin-top: 5px;
+  margin-top: 0.33rem;
 }
 .uk-form-width-xlarge {
   width: 650px;
@@ -2103,11 +2129,11 @@ td .uk-checkbox {
   /* 7 */
   display: inline-block;
   box-sizing: border-box;
-  padding: 0 22px;
+  padding: 0 1.75rem;
   vertical-align: middle;
-  font-size: var(--uk-font-size);
+  font-size: 0.9rem;
   /* 8 */
-  line-height: 34px;
+  line-height: 2.25rem;
   /* 9 */
   text-align: center;
   /* 10 */
@@ -2243,14 +2269,14 @@ td .uk-checkbox {
 /* Size modifiers
  ========================================================================== */
 .uk-button-small {
-  padding: 0 14px;
-  line-height: 26px;
-  font-size: 0.9rem;
+  padding: 0 1rem;
+  line-height: 1.75rem;
+  font-size: 0.8rem;
 }
 .uk-button-large {
-  padding: 0 40px;
-  line-height: 42px;
-  font-size: 16px;
+  padding: 0 2.25rem;
+  line-height: 2.75rem;
+  font-size: 1.125rem;
 }
 /* Text modifiers
  ========================================================================== */
@@ -2303,7 +2329,7 @@ td .uk-checkbox {
   background: none;
   /* 2 */
   color: var(--uk-font-color-link);
-  padding: 0 22px;
+  padding: 0 1.75rem;
 }
 /* Hover */
 .uk-button-link:hover {
@@ -2485,14 +2511,14 @@ td .uk-checkbox {
   /* 4 */
   background-color: #f4f4f4;
   /* 5 */
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   height: 15px;
   border-radius: 500px;
   overflow: hidden;
 }
 /* Add margin if adjacent element */
 * + .uk-progress {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /*
  * Show background color set on `uk-progress` in Chrome, Safari and Edge.
@@ -2524,14 +2550,14 @@ td .uk-checkbox {
   display: flow-root;
   box-sizing: border-box;
   /* 1 */
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 /* Desktop and bigger */
 @media (min-width: 960px) {
   .uk-section {
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 }
 /*
@@ -2546,42 +2572,42 @@ td .uk-checkbox {
  * XSmall
  */
 .uk-section-xsmall {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 /*
  * Small
  */
 .uk-section-small {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 /*
  * Large
  */
 .uk-section-large {
-  padding-top: 70px;
-  padding-bottom: 70px;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-section-large {
-    padding-top: 140px;
-    padding-bottom: 140px;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
 }
 /*
  * XLarge
  */
 .uk-section-xlarge {
-  padding-top: 140px;
-  padding-bottom: 140px;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-section-xlarge {
-    padding-top: 210px;
-    padding-bottom: 210px;
+    padding-top: 12rem;
+    padding-bottom: 12rem;
   }
 }
 /* Style modifiers
@@ -2640,15 +2666,15 @@ td .uk-checkbox {
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-container {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-container {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 /*
@@ -2696,34 +2722,34 @@ td .uk-checkbox {
 @media (min-width: 640px) {
   .uk-container-expand-left.uk-container-xsmall,
   .uk-container-expand-right.uk-container-xsmall {
-    max-width: calc(50% + (750px / 2) - 30px);
+    max-width: calc(50% + (750px / 2) - 2rem);
   }
   .uk-container-expand-left.uk-container-small,
   .uk-container-expand-right.uk-container-small {
-    max-width: calc(50% + (900px / 2) - 30px);
+    max-width: calc(50% + (900px / 2) - 2rem);
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-container-expand-left,
   .uk-container-expand-right {
-    max-width: calc(50% + (1200px / 2) - 40px);
+    max-width: calc(50% + (1200px / 2) - 2.5rem);
   }
   .uk-container-expand-left.uk-container-xsmall,
   .uk-container-expand-right.uk-container-xsmall {
-    max-width: calc(50% + (750px / 2) - 40px);
+    max-width: calc(50% + (750px / 2) - 2.5rem);
   }
   .uk-container-expand-left.uk-container-small,
   .uk-container-expand-right.uk-container-small {
-    max-width: calc(50% + (900px / 2) - 40px);
+    max-width: calc(50% + (900px / 2) - 2.5rem);
   }
   .uk-container-expand-left.uk-container-large,
   .uk-container-expand-right.uk-container-large {
-    max-width: calc(50% + (1400px / 2) - 40px);
+    max-width: calc(50% + (1400px / 2) - 2.5rem);
   }
   .uk-container-expand-left.uk-container-xlarge,
   .uk-container-expand-right.uk-container-xlarge {
-    max-width: calc(50% + (1600px / 2) - 40px);
+    max-width: calc(50% + (1600px / 2) - 2.5rem);
   }
 }
 /* Item
@@ -2746,26 +2772,26 @@ td .uk-checkbox {
 @media (min-width: 640px) {
   .uk-container-item-padding-remove-left,
   .uk-container-item-padding-remove-right {
-    width: calc(100% + 30px);
+    width: calc(100% + 2rem);
   }
   .uk-container-item-padding-remove-left {
-    margin-left: -30px;
+    margin-left: -2rem;
   }
   .uk-container-item-padding-remove-right {
-    margin-right: -30px;
+    margin-right: -2rem;
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-container-item-padding-remove-left,
   .uk-container-item-padding-remove-right {
-    width: calc(100% + 40px);
+    width: calc(100% + 2.5rem);
   }
   .uk-container-item-padding-remove-left {
-    margin-left: -40px;
+    margin-left: -2.5rem;
   }
   .uk-container-item-padding-remove-right {
-    margin-right: -40px;
+    margin-right: -2.5rem;
   }
 }
 /* ========================================================================
@@ -2777,23 +2803,23 @@ td .uk-checkbox {
   box-sizing: border-box;
   padding-left: 15px;
   padding-right: 15px;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-tile {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-tile {
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 }
 /*
@@ -2808,42 +2834,42 @@ td .uk-checkbox {
  * XSmall
  */
 .uk-tile-xsmall {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 /*
  * Small
  */
 .uk-tile-small {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 /*
  * Large
  */
 .uk-tile-large {
-  padding-top: 70px;
-  padding-bottom: 70px;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-tile-large {
-    padding-top: 140px;
-    padding-bottom: 140px;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
 }
 /*
  * XLarge
  */
 .uk-tile-xlarge {
-  padding-top: 140px;
-  padding-bottom: 140px;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-tile-xlarge {
-    padding-top: 210px;
-    padding-bottom: 210px;
+    padding-top: 12rem;
+    padding-bottom: 12rem;
   }
 }
 /* Style modifiers
@@ -2888,11 +2914,11 @@ td .uk-checkbox {
 }
 .uk-card-header {
   display: flow-root;
-  padding: 15px 30px;
+  padding: 1rem 2rem;
 }
 .uk-card-footer {
   display: flow-root;
-  padding: 15px 30px;
+  padding: 1rem 2rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
@@ -3028,13 +3054,13 @@ td .uk-checkbox {
  */
 .uk-card-small.uk-card-body,
 .uk-card-small .uk-card-body {
-  padding: 20px 20px;
+  padding: 1.25rem 1.25rem;
 }
 .uk-card-small .uk-card-header {
-  padding: 13px 20px;
+  padding: 1rem 1.25rem;
 }
 .uk-card-small .uk-card-footer {
-  padding: 13px 20px;
+  padding: 1rem 1.25rem;
 }
 /*
  * Large
@@ -3043,13 +3069,13 @@ td .uk-checkbox {
 @media (min-width: 1200px) {
   .uk-card-large.uk-card-body,
   .uk-card-large .uk-card-body {
-    padding: 70px 70px;
+    padding: 4rem 4rem;
   }
   .uk-card-large .uk-card-header {
-    padding: 35px 70px;
+    padding: 2rem 4rem;
   }
   .uk-card-large .uk-card-footer {
-    padding: 35px 70px;
+    padding: 2rem 4rem;
   }
 }
 /*
@@ -3096,21 +3122,21 @@ td .uk-checkbox {
      * Small
      */
 .uk-card-small > .uk-nav-default {
-  margin-left: -20px;
-  margin-right: -20px;
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
 }
 .uk-card-small > .uk-nav-default:only-child {
-  margin-top: -5px;
-  margin-bottom: -5px;
+  margin-top: 13.75rem;
+  margin-bottom: 13.75rem;
 }
 .uk-card-small > .uk-nav-default > li > a,
 .uk-card-small > .uk-nav-default .uk-nav-header,
 .uk-card-small > .uk-nav-default .uk-nav-divider {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 .uk-card-small > .uk-nav-default .uk-nav-sub {
-  padding-left: 35px;
+  padding-left: 16.25px;
 }
 /*
      * Large
@@ -3240,8 +3266,8 @@ td .uk-checkbox {
  ========================================================================== */
 .uk-alert {
   position: relative;
-  margin-bottom: 20px;
-  padding: 15px 35px 15px 15px;
+  margin-bottom: 1.25rem;
+  padding: 1rem 21rem 1rem 1rem;
   background: #f4f4f4;
   color: #333;
   font-size: var(--uk-font-size);
@@ -3253,7 +3279,7 @@ td .uk-checkbox {
 }
 /* Add margin if adjacent element */
 * + .uk-alert {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /*
  * Remove margin from the last-child
@@ -3266,8 +3292,8 @@ td .uk-checkbox {
  ========================================================================== */
 .uk-alert-close {
   position: absolute;
-  top: 18px;
-  right: 15px;
+  top: 4rem;
+  right: 1rem;
   color: inherit;
   opacity: 0.2;
 }
@@ -3340,14 +3366,14 @@ td .uk-checkbox {
 .uk-alert-small {
   font-size: 0.9rem;
   line-height: 1.5;
-  padding: 10px 22px 10px 15px;
+  padding: 10px 22px 10px 1rem;
 }
 .uk-alert-small .uk-alert-close {
   top: 14px;
   right: 10px;
 }
 .uk-alert-noclose {
-  padding: 15px;
+  padding: 1rem;
 }
 .uk-alert-noclose.uk-alert-small {
   padding: 10px;
@@ -3360,14 +3386,14 @@ td .uk-checkbox {
    Component: Placeholder
  ========================================================================== */
 .uk-placeholder {
-  margin-bottom: 20px;
-  padding: 30px 30px;
+  margin-bottom: 1.25rem;
+  padding: 2rem 2rem;
   background: transparent;
   border: 1px dashed #d4d4d4;
 }
 /* Add margin if adjacent element */
 * + .uk-placeholder {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /*
  * Remove margin from the last-child
@@ -3425,7 +3451,7 @@ td .uk-checkbox {
  ========================================================================== */
 .uk-label {
   display: inline-block;
-  padding: 0 10px;
+  padding: 0 0.625rem;
   background: #1e87f0;
   line-height: 1.6;
   font-size: 0.85rem;
@@ -3462,7 +3488,7 @@ td .uk-checkbox {
    Component: Overlay
  ========================================================================== */
 .uk-overlay {
-  padding: 30px 30px;
+  padding: 2rem 2rem;
 }
 /*
  * Remove margin from the last-child
@@ -3501,7 +3527,7 @@ td .uk-checkbox {
 /* Adjacent sibling
  ========================================================================== */
 .uk-article + .uk-article {
-  margin-top: 70px;
+  margin-top: 4rem;
 }
 /* Title
  ========================================================================== */
@@ -3545,7 +3571,7 @@ td .uk-checkbox {
 }
 .uk-comment-header {
   display: flow-root;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 /*
  * Remove margin from the last-child
@@ -3577,14 +3603,14 @@ td .uk-checkbox {
 }
 /* Adjacent siblings */
 .uk-comment-list > :nth-child(n+2) {
-  margin-top: 70px;
+  margin-top: 4rem;
 }
 /*
  * Sublists
  * Note: General sibling selector allows reply block between comment and sublist
  */
 .uk-comment-list .uk-comment ~ ul {
-  margin: 70px 0 0 0;
+  margin: 4rem 0 0 0;
   padding-left: 30px;
   list-style: none;
 }
@@ -3596,12 +3622,12 @@ td .uk-checkbox {
 }
 /* Adjacent siblings */
 .uk-comment-list .uk-comment ~ ul > :nth-child(n+2) {
-  margin-top: 70px;
+  margin-top: 4rem;
 }
 /* Style modifier
  ========================================================================== */
 .uk-comment-primary {
-  padding: 30px;
+  padding: 2rem;
   background-color: #f4f4f4;
 }
 /* ========================================================================
@@ -3726,7 +3752,7 @@ td .uk-checkbox {
  * Input
  */
 .uk-search-default .uk-search-input {
-  height: 36px;
+  height: 2.25rem;
   padding-left: 10px;
   padding-right: 10px;
   background: transparent;
@@ -3741,13 +3767,13 @@ td .uk-checkbox {
  * Icon
  */
 .uk-search-default .uk-search-icon {
-  width: 36px;
+  width: 2.25rem;
 }
 .uk-search-default .uk-search-icon:not(.uk-search-icon-flip) ~ .uk-search-input {
-  padding-left: 36px;
+  padding-left: 2.25rem;
 }
 .uk-search-default .uk-search-icon-flip ~ .uk-search-input {
-  padding-right: 36px;
+  padding-right: 2.25rem;
 }
 /* Navbar modifier
  ========================================================================== */
@@ -3820,7 +3846,7 @@ td .uk-checkbox {
 /* Item
  ========================================================================== */
 .uk-accordion > :nth-child(n+2) {
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /* Title
  ========================================================================== */
@@ -3853,7 +3879,7 @@ td .uk-checkbox {
  ========================================================================== */
 .uk-accordion-content {
   display: flow-root;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 /*
  * Remove margin from the last-child
@@ -3875,7 +3901,7 @@ td .uk-checkbox {
   /* 2 */
   position: absolute;
   z-index: 1020;
-  --uk-position-offset: 20px;
+  --uk-position-offset: 1.25rem;
   --uk-position-viewport-offset: 15px;
   /* 3 */
   box-sizing: border-box;
@@ -3927,15 +3953,15 @@ td .uk-checkbox {
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-dropbar {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-dropbar {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 .uk-dropbar :focus-visible {
@@ -4013,14 +4039,14 @@ td .uk-checkbox {
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-modal {
-    padding: 50px 30px;
+    padding: 50px 2rem;
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-modal {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 /*
@@ -4117,13 +4143,13 @@ td .uk-checkbox {
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-modal-body {
-    padding: 30px 30px;
+    padding: 2rem 2rem;
   }
   .uk-modal-header {
-    padding: 15px 30px;
+    padding: 1rem 2rem;
   }
   .uk-modal-footer {
-    padding: 15px 30px;
+    padding: 1rem 2rem;
   }
 }
 /*
@@ -4146,8 +4172,8 @@ td .uk-checkbox {
 [class*='uk-modal-close-'] {
   position: absolute;
   z-index: 1010;
-  top: 10px;
-  right: 10px;
+  top: 0.625rem;
+  right: 0.625rem;
   padding: 5px;
 }
 /*
@@ -4196,7 +4222,7 @@ td .uk-checkbox {
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-modal-close-full {
-    padding: 20px;
+    padding: 1.25rem;
   }
 }
 /* ========================================================================
@@ -4427,7 +4453,7 @@ td .uk-checkbox {
   .uk-offcanvas-bar {
     left: -350px;
     width: 350px;
-    padding: 30px 30px;
+    padding: 2rem 2rem;
   }
 }
 /* Flip modifier */
@@ -4647,7 +4673,7 @@ td .uk-checkbox {
 .uk-leader-fill::after {
   /* 1 */
   display: inline-block;
-  margin-left: 15px;
+  margin-left: 1rem;
   /* 2 */
   width: 0;
   /* 3 */
@@ -4717,7 +4743,7 @@ td .uk-checkbox {
 ========================================================================== */
 .uk-notification-message {
   position: relative;
-  padding: 15px;
+  padding: 1rem;
   background: #fafafa;
   color: #333;
   font-size: 0.9rem;
@@ -4731,7 +4757,7 @@ td .uk-checkbox {
 }
 .uk-notification-message.uk-icon-emphasis .uk-icon:not(.uk-close) {
   color: #fff;
-  padding: 10px 15px;
+  padding: -4rem 1rem;
   position: absolute;
   top: 0;
   bottom: -1px;
@@ -4752,8 +4778,8 @@ td .uk-checkbox {
 .uk-notification-close {
   display: none;
   position: absolute;
-  top: 20px;
-  right: 15px;
+  top: 6rem;
+  right: 1rem;
 }
 .uk-notification-message:hover .uk-notification-close {
   display: block;
@@ -4957,31 +4983,31 @@ td .uk-checkbox {
  */
 /* Horizontal */
 .uk-grid {
-  margin-left: -30px;
+  margin-left: -2rem;
 }
 .uk-grid > * {
-  padding-left: 30px;
+  padding-left: 2rem;
 }
 /* Vertical */
 .uk-grid + .uk-grid,
 .uk-grid > .uk-grid-margin,
 * + .uk-grid-margin {
-  margin-top: 30px;
+  margin-top: 2rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   /* Horizontal */
   .uk-grid {
-    margin-left: -30px;
+    margin-left: -2rem;
   }
   .uk-grid > * {
-    padding-left: 30px;
+    padding-left: 2rem;
   }
   /* Vertical */
   .uk-grid + .uk-grid,
   .uk-grid > .uk-grid-margin,
   * + .uk-grid-margin {
-    margin-top: 30px;
+    margin-top: 2rem;
   }
 }
 /*
@@ -4990,11 +5016,11 @@ td .uk-checkbox {
 /* Horizontal */
 .uk-grid-small,
 .uk-grid-column-small {
-  margin-left: -15px;
+  margin-left: -1rem;
 }
 .uk-grid-small > *,
 .uk-grid-column-small > * {
-  padding-left: 15px;
+  padding-left: 1rem;
 }
 /* Vertical */
 .uk-grid + .uk-grid-small,
@@ -5002,7 +5028,7 @@ td .uk-checkbox {
 .uk-grid-small > .uk-grid-margin,
 .uk-grid-row-small > .uk-grid-margin,
 * + .uk-grid-margin-small {
-  margin-top: 15px;
+  margin-top: 1rem;
 }
 /*
  * Medium
@@ -5010,11 +5036,11 @@ td .uk-checkbox {
 /* Horizontal */
 .uk-grid-medium,
 .uk-grid-column-medium {
-  margin-left: -30px;
+  margin-left: -2rem;
 }
 .uk-grid-medium > *,
 .uk-grid-column-medium > * {
-  padding-left: 30px;
+  padding-left: 2rem;
 }
 /* Vertical */
 .uk-grid + .uk-grid-medium,
@@ -5022,7 +5048,7 @@ td .uk-checkbox {
 .uk-grid-medium > .uk-grid-margin,
 .uk-grid-row-medium > .uk-grid-margin,
 * + .uk-grid-margin-medium {
-  margin-top: 30px;
+  margin-top: 2rem;
 }
 /*
  * Large
@@ -5030,11 +5056,11 @@ td .uk-checkbox {
 /* Horizontal */
 .uk-grid-large,
 .uk-grid-column-large {
-  margin-left: -40px;
+  margin-left: -2.5rem;
 }
 .uk-grid-large > *,
 .uk-grid-column-large > * {
-  padding-left: 40px;
+  padding-left: 2.5rem;
 }
 /* Vertical */
 .uk-grid + .uk-grid-large,
@@ -5042,18 +5068,18 @@ td .uk-checkbox {
 .uk-grid-large > .uk-grid-margin,
 .uk-grid-row-large > .uk-grid-margin,
 * + .uk-grid-margin-large {
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   /* Horizontal */
   .uk-grid-large,
   .uk-grid-column-large {
-    margin-left: -70px;
+    margin-left: -4rem;
   }
   .uk-grid-large > *,
   .uk-grid-column-large > * {
-    padding-left: 70px;
+    padding-left: 4rem;
   }
   /* Vertical */
   .uk-grid + .uk-grid-large,
@@ -5061,7 +5087,7 @@ td .uk-checkbox {
   .uk-grid-large > .uk-grid-margin,
   .uk-grid-row-large > .uk-grid-margin,
   * + .uk-grid-margin-large {
-    margin-top: 70px;
+    margin-top: 4rem;
   }
 }
 /*
@@ -5108,41 +5134,41 @@ td .uk-checkbox {
  */
 /* Horizontal */
 .uk-grid-divider {
-  margin-left: -60px;
+  margin-left: -4rem;
 }
 .uk-grid-divider > * {
-  padding-left: 60px;
+  padding-left: 4rem;
 }
 .uk-grid-divider > :not(.uk-first-column)::before {
-  left: 30px;
+  left: 2rem;
 }
 /* Vertical */
 .uk-grid-divider.uk-grid-stack > .uk-grid-margin {
-  margin-top: 60px;
+  margin-top: 4rem;
 }
 .uk-grid-divider.uk-grid-stack > .uk-grid-margin::before {
-  top: -30px;
-  left: 60px;
+  top: -2rem;
+  left: 4rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   /* Horizontal */
   .uk-grid-divider {
-    margin-left: -60px;
+    margin-left: -4rem;
   }
   .uk-grid-divider > * {
-    padding-left: 60px;
+    padding-left: 4rem;
   }
   .uk-grid-divider > :not(.uk-first-column)::before {
-    left: 30px;
+    left: 2rem;
   }
   /* Vertical */
   .uk-grid-divider.uk-grid-stack > .uk-grid-margin {
-    margin-top: 60px;
+    margin-top: 4rem;
   }
   .uk-grid-divider.uk-grid-stack > .uk-grid-margin::before {
-    top: -30px;
-    left: 60px;
+    top: -2rem;
+    left: 4rem;
   }
 }
 /*
@@ -5151,30 +5177,30 @@ td .uk-checkbox {
 /* Horizontal */
 .uk-grid-divider.uk-grid-small,
 .uk-grid-divider.uk-grid-column-small {
-  margin-left: -30px;
+  margin-left: -2rem;
 }
 .uk-grid-divider.uk-grid-small > *,
 .uk-grid-divider.uk-grid-column-small > * {
-  padding-left: 30px;
+  padding-left: 2rem;
 }
 .uk-grid-divider.uk-grid-small > :not(.uk-first-column)::before,
 .uk-grid-divider.uk-grid-column-small > :not(.uk-first-column)::before {
-  left: 15px;
+  left: 1rem;
 }
 /* Vertical */
 .uk-grid-divider.uk-grid-small.uk-grid-stack > .uk-grid-margin,
 .uk-grid-divider.uk-grid-row-small.uk-grid-stack > .uk-grid-margin {
-  margin-top: 30px;
+  margin-top: 2rem;
 }
 .uk-grid-divider.uk-grid-small.uk-grid-stack > .uk-grid-margin::before {
-  top: -15px;
-  left: 30px;
+  top: -1rem;
+  left: 2rem;
 }
 .uk-grid-divider.uk-grid-row-small.uk-grid-stack > .uk-grid-margin::before {
-  top: -15px;
+  top: -1rem;
 }
 .uk-grid-divider.uk-grid-column-small.uk-grid-stack > .uk-grid-margin::before {
-  left: 30px;
+  left: 2rem;
 }
 /*
  * Medium
@@ -5182,30 +5208,30 @@ td .uk-checkbox {
 /* Horizontal */
 .uk-grid-divider.uk-grid-medium,
 .uk-grid-divider.uk-grid-column-medium {
-  margin-left: -60px;
+  margin-left: -4rem;
 }
 .uk-grid-divider.uk-grid-medium > *,
 .uk-grid-divider.uk-grid-column-medium > * {
-  padding-left: 60px;
+  padding-left: 4rem;
 }
 .uk-grid-divider.uk-grid-medium > :not(.uk-first-column)::before,
 .uk-grid-divider.uk-grid-column-medium > :not(.uk-first-column)::before {
-  left: 30px;
+  left: 2rem;
 }
 /* Vertical */
 .uk-grid-divider.uk-grid-medium.uk-grid-stack > .uk-grid-margin,
 .uk-grid-divider.uk-grid-row-medium.uk-grid-stack > .uk-grid-margin {
-  margin-top: 60px;
+  margin-top: 4rem;
 }
 .uk-grid-divider.uk-grid-medium.uk-grid-stack > .uk-grid-margin::before {
-  top: -30px;
-  left: 60px;
+  top: -2rem;
+  left: 4rem;
 }
 .uk-grid-divider.uk-grid-row-medium.uk-grid-stack > .uk-grid-margin::before {
-  top: -30px;
+  top: -2rem;
 }
 .uk-grid-divider.uk-grid-column-medium.uk-grid-stack > .uk-grid-margin::before {
-  left: 60px;
+  left: 4rem;
 }
 /*
  * Large
@@ -5213,60 +5239,60 @@ td .uk-checkbox {
 /* Horizontal */
 .uk-grid-divider.uk-grid-large,
 .uk-grid-divider.uk-grid-column-large {
-  margin-left: -80px;
+  margin-left: -5rem;
 }
 .uk-grid-divider.uk-grid-large > *,
 .uk-grid-divider.uk-grid-column-large > * {
-  padding-left: 80px;
+  padding-left: 5rem;
 }
 .uk-grid-divider.uk-grid-large > :not(.uk-first-column)::before,
 .uk-grid-divider.uk-grid-column-large > :not(.uk-first-column)::before {
-  left: 40px;
+  left: 2.5rem;
 }
 /* Vertical */
 .uk-grid-divider.uk-grid-large.uk-grid-stack > .uk-grid-margin,
 .uk-grid-divider.uk-grid-row-large.uk-grid-stack > .uk-grid-margin {
-  margin-top: 80px;
+  margin-top: 5rem;
 }
 .uk-grid-divider.uk-grid-large.uk-grid-stack > .uk-grid-margin::before {
-  top: -40px;
-  left: 80px;
+  top: -2.5rem;
+  left: 5rem;
 }
 .uk-grid-divider.uk-grid-row-large.uk-grid-stack > .uk-grid-margin::before {
-  top: -40px;
+  top: -2.5rem;
 }
 .uk-grid-divider.uk-grid-column-large.uk-grid-stack > .uk-grid-margin::before {
-  left: 80px;
+  left: 5rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   /* Horizontal */
   .uk-grid-divider.uk-grid-large,
   .uk-grid-divider.uk-grid-column-large {
-    margin-left: -140px;
+    margin-left: -8rem;
   }
   .uk-grid-divider.uk-grid-large > *,
   .uk-grid-divider.uk-grid-column-large > * {
-    padding-left: 140px;
+    padding-left: 8rem;
   }
   .uk-grid-divider.uk-grid-large > :not(.uk-first-column)::before,
   .uk-grid-divider.uk-grid-column-large > :not(.uk-first-column)::before {
-    left: 70px;
+    left: 4rem;
   }
   /* Vertical */
   .uk-grid-divider.uk-grid-large.uk-grid-stack > .uk-grid-margin,
   .uk-grid-divider.uk-grid-row-large.uk-grid-stack > .uk-grid-margin {
-    margin-top: 140px;
+    margin-top: 8rem;
   }
   .uk-grid-divider.uk-grid-large.uk-grid-stack > .uk-grid-margin::before {
-    top: -70px;
-    left: 140px;
+    top: -4rem;
+    left: 8rem;
   }
   .uk-grid-divider.uk-grid-row-large.uk-grid-stack > .uk-grid-margin::before {
-    top: -70px;
+    top: -4rem;
   }
   .uk-grid-divider.uk-grid-column-large.uk-grid-stack > .uk-grid-margin::before {
-    left: 140px;
+    left: 8rem;
   }
 }
 /* Match child of a grid cell
@@ -5364,7 +5390,7 @@ ul.uk-nav-sub {
   font-family: var(--uk-font-family-heading);
 }
 .uk-nav-header:not(:first-child) {
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 /* Divider
  ========================================================================== */
@@ -5874,13 +5900,13 @@ ul.uk-nav-sub {
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-navbar-dropdown-dropbar {
-    --uk-position-viewport-offset: 30px;
+    --uk-position-viewport-offset: 2rem;
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-navbar-dropdown-dropbar {
-    --uk-position-viewport-offset: 40px;
+    --uk-position-viewport-offset: 2.5rem;
   }
 }
 .uk-navbar-dropdown-dropbar-large {
@@ -6552,7 +6578,7 @@ ul.uk-nav-sub {
   padding: 0;
   list-style: none;
   /* 3 */
-  margin-left: -10px;
+  margin-left: -0.625rem;
 }
 /*
  * Space is allocated based on content dimensions, but shrinks: 0 1 auto
@@ -6560,7 +6586,7 @@ ul.uk-nav-sub {
  */
 .uk-iconnav > * {
   /* 1 */
-  padding-left: 10px;
+  padding-left: 0.625rem;
 }
 /* Items
  ========================================================================== */
@@ -6607,12 +6633,12 @@ ul.uk-nav-sub {
   flex-direction: column;
   /* 2 */
   margin-left: 0;
-  margin-top: -10px;
+  margin-top: -0.625rem;
 }
 /* 2 */
 .uk-iconnav-vertical > * {
   padding-left: 0;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 }
 /* ========================================================================
    Component: Dropdown
@@ -6624,7 +6650,7 @@ ul.uk-nav-sub {
  * 3. Style
  */
 .uk-dropdown {
-  --uk-position-offset: 10px;
+  --uk-position-offset: 0.625rem;
   --uk-position-viewport-offset: 15px;
   /* 1 */
   width: auto;
@@ -6670,13 +6696,13 @@ ul.uk-nav-sub {
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-dropdown-dropbar {
-    --uk-position-viewport-offset: 30px;
+    --uk-position-viewport-offset: 2rem;
   }
 }
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .uk-dropdown-dropbar {
-    --uk-position-viewport-offset: 40px;
+    --uk-position-viewport-offset: 2.5rem;
   }
 }
 .uk-dropdown-dropbar-large {
@@ -8517,12 +8543,12 @@ td.uk-text-break {
    Component: Column
  ========================================================================== */
 [class*='uk-column-'] {
-  column-gap: 30px;
+  column-gap: 2rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   [class*='uk-column-'] {
-    column-gap: 40px;
+    column-gap: 2.5rem;
   }
 }
 /*
@@ -8539,12 +8565,12 @@ td.uk-text-break {
 .uk-column-divider {
   column-rule: 1px solid #d4d4d4;
   /* 1 */
-  column-gap: 60px;
+  column-gap: 4rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-column-divider {
-    column-gap: 80px;
+    column-gap: 5rem;
   }
 }
 /* Width modifiers
@@ -9026,10 +9052,10 @@ iframe[data-uk-cover] {
  */
 [class*='uk-align'] {
   display: block;
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
 }
 * + [class*='uk-align'] {
-  margin-top: 30px;
+  margin-top: 2rem;
 }
 /*
  * Center
@@ -9043,24 +9069,24 @@ iframe[data-uk-cover] {
  */
 .uk-align-left {
   margin-top: 0;
-  margin-right: 30px;
+  margin-right: 2rem;
   float: left;
 }
 .uk-align-right {
   margin-top: 0;
-  margin-left: 30px;
+  margin-left: 2rem;
   float: right;
 }
 /* Phone landscape and bigger */
 @media (min-width: 640px) {
   .uk-align-left\@s {
     margin-top: 0;
-    margin-right: 30px;
+    margin-right: 2rem;
     float: left;
   }
   .uk-align-right\@s {
     margin-top: 0;
-    margin-left: 30px;
+    margin-left: 2rem;
     float: right;
   }
 }
@@ -9068,12 +9094,12 @@ iframe[data-uk-cover] {
 @media (min-width: 960px) {
   .uk-align-left\@m {
     margin-top: 0;
-    margin-right: 30px;
+    margin-right: 2rem;
     float: left;
   }
   .uk-align-right\@m {
     margin-top: 0;
-    margin-left: 30px;
+    margin-left: 2rem;
     float: right;
   }
 }
@@ -9091,25 +9117,25 @@ iframe[data-uk-cover] {
   .uk-align-left\@s,
   .uk-align-left\@m,
   .uk-align-left\@l {
-    margin-right: 40px;
+    margin-right: 2.5rem;
   }
   .uk-align-right,
   .uk-align-right\@s,
   .uk-align-right\@m,
   .uk-align-right\@l {
-    margin-left: 40px;
+    margin-left: 2.5rem;
   }
 }
 /* Large screen and bigger */
 @media (min-width: 1600px) {
   .uk-align-left\@xl {
     margin-top: 0;
-    margin-right: 40px;
+    margin-right: 2.5rem;
     float: left;
   }
   .uk-align-right\@xl {
     margin-top: 0;
-    margin-left: 40px;
+    margin-left: 2.5rem;
     float: right;
   }
 }
@@ -9850,143 +9876,143 @@ iframe[data-uk-cover] {
  * Default
  */
 .uk-margin {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 * + .uk-margin {
-  margin-top: 20px !important;
+  margin-top: 1.25rem !important;
 }
 .uk-margin-top {
-  margin-top: 20px !important;
+  margin-top: 1.25rem !important;
 }
 .uk-margin-bottom {
-  margin-bottom: 20px !important;
+  margin-bottom: 1.25rem !important;
 }
 .uk-margin-left {
-  margin-left: 20px !important;
+  margin-left: 1.25rem !important;
 }
 .uk-margin-right {
-  margin-right: 20px !important;
+  margin-right: 1.25rem !important;
 }
 /* Small
  ========================================================================== */
 .uk-margin-small {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 * + .uk-margin-small {
-  margin-top: 10px !important;
+  margin-top: 0.625rem !important;
 }
 .uk-margin-small-top {
-  margin-top: 10px !important;
+  margin-top: 0.625rem !important;
 }
 .uk-margin-small-bottom {
-  margin-bottom: 10px !important;
+  margin-bottom: 0.625rem !important;
 }
 .uk-margin-small-left {
-  margin-left: 10px !important;
+  margin-left: 0.625rem !important;
 }
 .uk-margin-small-right {
-  margin-right: 10px !important;
+  margin-right: 0.625rem !important;
 }
 /* Medium
  ========================================================================== */
 .uk-margin-medium {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
 }
 * + .uk-margin-medium {
-  margin-top: 40px !important;
+  margin-top: 2.5rem !important;
 }
 .uk-margin-medium-top {
-  margin-top: 40px !important;
+  margin-top: 2.5rem !important;
 }
 .uk-margin-medium-bottom {
-  margin-bottom: 40px !important;
+  margin-bottom: 2.5rem !important;
 }
 .uk-margin-medium-left {
-  margin-left: 40px !important;
+  margin-left: 2.5rem !important;
 }
 .uk-margin-medium-right {
-  margin-right: 40px !important;
+  margin-right: 2.5rem !important;
 }
 /* Large
  ========================================================================== */
 .uk-margin-large {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
 }
 * + .uk-margin-large {
-  margin-top: 40px !important;
+  margin-top: 2.5rem !important;
 }
 .uk-margin-large-top {
-  margin-top: 40px !important;
+  margin-top: 2.5rem !important;
 }
 .uk-margin-large-bottom {
-  margin-bottom: 40px !important;
+  margin-bottom: 2.5rem !important;
 }
 .uk-margin-large-left {
-  margin-left: 40px !important;
+  margin-left: 2.5rem !important;
 }
 .uk-margin-large-right {
-  margin-right: 40px !important;
+  margin-right: 2.5rem !important;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-margin-large {
-    margin-bottom: 70px;
+    margin-bottom: 4rem;
   }
   * + .uk-margin-large {
-    margin-top: 70px !important;
+    margin-top: 4rem !important;
   }
   .uk-margin-large-top {
-    margin-top: 70px !important;
+    margin-top: 4rem !important;
   }
   .uk-margin-large-bottom {
-    margin-bottom: 70px !important;
+    margin-bottom: 4rem !important;
   }
   .uk-margin-large-left {
-    margin-left: 70px !important;
+    margin-left: 4rem !important;
   }
   .uk-margin-large-right {
-    margin-right: 70px !important;
+    margin-right: 4rem !important;
   }
 }
 /* XLarge
  ========================================================================== */
 .uk-margin-xlarge {
-  margin-bottom: 70px;
+  margin-bottom: 4rem;
 }
 * + .uk-margin-xlarge {
-  margin-top: 70px !important;
+  margin-top: 4rem !important;
 }
 .uk-margin-xlarge-top {
-  margin-top: 70px !important;
+  margin-top: 4rem !important;
 }
 .uk-margin-xlarge-bottom {
-  margin-bottom: 70px !important;
+  margin-bottom: 4rem !important;
 }
 .uk-margin-xlarge-left {
-  margin-left: 70px !important;
+  margin-left: 4rem !important;
 }
 .uk-margin-xlarge-right {
-  margin-right: 70px !important;
+  margin-right: 4rem !important;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-margin-xlarge {
-    margin-bottom: 140px;
+    margin-bottom: 8rem;
   }
   * + .uk-margin-xlarge {
-    margin-top: 140px !important;
+    margin-top: 8rem !important;
   }
   .uk-margin-xlarge-top {
-    margin-top: 140px !important;
+    margin-top: 8rem !important;
   }
   .uk-margin-xlarge-bottom {
-    margin-bottom: 140px !important;
+    margin-bottom: 8rem !important;
   }
   .uk-margin-xlarge-left {
-    margin-left: 140px !important;
+    margin-left: 8rem !important;
   }
   .uk-margin-xlarge-right {
-    margin-right: 140px !important;
+    margin-right: 8rem !important;
   }
 }
 /* Auto
@@ -10131,28 +10157,28 @@ iframe[data-uk-cover] {
    Component: Padding
  ========================================================================== */
 .uk-padding {
-  padding: 30px;
+  padding: 2rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-padding {
-    padding: 40px;
+    padding: 2.5rem;
   }
 }
 /* Small
  ========================================================================== */
 .uk-padding-small {
-  padding: 15px;
+  padding: 1rem;
 }
 /* Large
  ========================================================================== */
 .uk-padding-large {
-  padding: 40px;
+  padding: 2.5rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
   .uk-padding-large {
-    padding: 70px;
+    padding: 4rem;
   }
 }
 /* Remove
@@ -10307,16 +10333,16 @@ iframe[data-uk-cover] {
 /* Margin
  ========================================================================== */
 .uk-position-small {
-  margin: 15px;
-  --uk-position-margin-offset: 15px;
+  margin: 1rem;
+  --uk-position-margin-offset: 1rem;
 }
 .uk-position-medium {
-  margin: 30px;
-  --uk-position-margin-offset: 30px;
+  margin: 2rem;
+  --uk-position-margin-offset: 2rem;
 }
 .uk-position-large {
-  margin: 30px;
-  --uk-position-margin-offset: 30px;
+  margin: 2rem;
+  --uk-position-margin-offset: 2rem;
 }
 /* Desktop and bigger */
 @media (min-width: 1200px) {
