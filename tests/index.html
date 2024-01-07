@@ -106,7 +106,7 @@
               <div class="uk-button-group">
                 <button class="uk-button uk-button-default">Default</button>
                 <div class="uk-inline">
-                  <button class="uk-button uk-button-default uk-button-narrow" type="button"><span uk-icon="icon:  triangle-down"></span></button>
+                  <button class="uk-button uk-button-default uk-button-narrow" type="button"><span uk-icon="icon: chevron-down"></span></button>
                   <div uk-dropdown="mode: click; animation: slide-top; animate-out: true;">
                     <ul class="uk-nav uk-dropdown-nav">
                       <li class="uk-active"><a href="#">Active</a></li>
@@ -132,20 +132,18 @@
               <div>
                 <button class="uk-button uk-button-default" disabled>Disabled</button>
               </div>
-            </div>
 
-            <div class="uk-grid-small uk-child-width-auto uk-flex-middle uk-margin-medium" uk-grid>
-              <p uk-margin>
+              <div uk-margin>
                 <button class="uk-button uk-button-default uk-button-large">Large button</button>
                 <button class="uk-button uk-button-primary uk-button-large">Large button</button>
                 <button class="uk-button uk-button-secondary uk-button-large">Large button</button>
-              </p>
+              </div>
 
               <div uk-margin>
                 <div class="uk-button-group">
                   <button class="uk-button uk-button-default uk-button-small">Default</button>
                   <div class="uk-inline">
-                    <button class="uk-button uk-button-default uk-button-small uk-button-narrow" type="button"><span uk-icon="icon:  triangle-down"></span></button>
+                    <button class="uk-button uk-button-default uk-button-small uk-button-narrow" type="button"><span uk-icon="icon: chevron-down"></span></button>
                     <div class="uk-dropdown-mini" uk-dropdown="mode: click; animation: slide-top; animate-out: true;">
                       <ul class="uk-nav uk-dropdown-nav">
                         <li class="uk-active"><a href="#">Active</a></li>
@@ -205,7 +203,12 @@
                   <li><span class="uk-label uk-label-success">Success</span></li>
                   <li><span class="uk-label uk-label-warning">Warning</span></li>
                   <li><span class="uk-label uk-label-danger">Danger</span></li>
-                  <li><a class="uk-badge" href="#">1</a></li>
+                  <li>
+                    <a class="uk-badge" href="#">01</a>
+                    <a class="uk-badge uk-background-gray-deep" href="#">101</a>
+                    <a class="uk-badge uk-background-orange" href="#">404</a>
+                    <a class="uk-badge uk-background-red" href="#">500</a>
+                  </li>
                   <li>
                     <a class="uk-icon-button" href="#" uk-icon="icon: home"></a>
                     <a class="uk-icon-button" href="#" uk-icon="icon: github"></a>
@@ -340,7 +343,7 @@
       <hr class="uk-margin-large">
 
       <div class="uk-grid-divider" uk-grid>
-        <div class="uk-width-2-3@m">
+        <div class="uk-width-3-5@m">
 
           <h1 class="uk-heading-2xlarge uk-margin-small">2X-Large</h1>
           <h1 class="uk-heading-xlarge uk-margin-small">X-Large</h1>
@@ -360,7 +363,41 @@
           <h3 class="uk-heading-line"><span>Heading Line</span></h3>
 
           <div class="uk-overflow-auto uk-margin-medium-top">
-            <table class="uk-table uk-table-divider uk-table-hover uk-table-small">
+            <table class="uk-table uk-table-divider uk-table-hover">
+              <thead>
+                <tr>
+                  <th>Table Heading</th>
+                  <th>Table Heading</th>
+                  <th>Table Heading</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                </tr>
+                <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                </tr>
+                <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                </tr>
+                <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="uk-overflow-auto uk-margin-medium-top">
+            <table class="uk-table uk-table-striped uk-table-hover uk-table-small">
               <thead>
                 <tr>
                   <th>Table Heading</th>
@@ -420,7 +457,7 @@
           </script>
 
         </div>
-        <div class="uk-width-1-3@m">
+        <div class="uk-width-2-5@m">
 
           <form class="uk-form-stacked">
 
