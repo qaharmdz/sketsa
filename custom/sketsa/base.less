@@ -7,14 +7,20 @@
 // Variables
 // ========================================================================
 
-@base-body-background:                          @global-background;
+@base-body-color:                               var(--uk-font-color);
+@base-body-background:                          var(--uk-background);
+@base-body-line-height:                         var(--uk-line-height);
+
+@base-code-font-size:                           @extra-mini-font-size;
+@base-code-color:                               @text-danger-color;
+@base-code-background:                          rgba(0,0,0,.06);
 
 @base-margin-vertical:                          @global-margin;
 
-@base-heading-font-family:                      'Roboto Condensed', @global-font-family;
+@base-heading-font-family:                      var(--uk-font-family-heading);
 
-@base-pre-font-size:                            @extra-mini-font-size;
-@base-pre-background:                           #f7f8f9;
+@base-pre-font-size:                            @base-code-font-size;
+@base-pre-background:                           @base-code-background;
 
 
 // Component
@@ -31,41 +37,6 @@
 }
 
 .hook-base-misc() {
-    :root {
-        --uk-font-family-heading: @base-heading-font-family;
-        --uk-font-family: @global-font-family;
-        --uk-font-size: @global-font-size;
-        --uk-font-color: @global-color;
-        --uk-font-color-inverse: @global-inverse-color;
-        --uk-red: @extra-color-red;
-        --uk-pink: @extra-color-pink;
-        --uk-purple: @extra-color-purple;
-        --uk-purple-deep: @extra-color-purple-deep;
-        --uk-indigo: @extra-color-indigo;
-        --uk-blue: @extra-color-blue;
-        --uk-blue-light: @extra-color-blue-light;
-        --uk-cyan: @extra-color-cyan;
-        --uk-teal: @extra-color-teal;
-        --uk-green: @extra-color-green;
-        --uk-green-light: @extra-color-green-light;
-        --uk-lime: @extra-color-lime;
-        --uk-yellow: @extra-color-yellow;
-        --uk-amber: @extra-color-amber;
-        --uk-orange: @extra-color-orange;
-        --uk-orange-deep: @extra-color-orange-deep;
-        --uk-brown: @extra-color-brown;
-        --uk-gray: @extra-color-gray;
-        --uk-gray-light: @extra-color-gray-light;
-        --uk-gray-blue: @extra-color-gray-blue;
-        --uk-gray-deep: @extra-color-gray-deep;
-        --uk-gray-dark: @extra-color-gray-dark;
-        --uk-blackjack: @extra-color-blackjack;
-    }
-
-    *, *:before, *:after {
-        box-sizing: inherit;
-    }
-
     :not(pre)>kbd {
         color: #555;
         font-size: 13px;

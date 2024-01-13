@@ -13,6 +13,7 @@
     "scripts": {
         "build-scss": "node build/scss",
         "compile-all": "cls && pnpm compile-less && pnpm compile-less rtl && pnpm compile-js",
+        "compile-css": "cls && pnpm compile-less && pnpm compile-less rtl",
         "compile": "pnpm compile-less && pnpm compile-js",
         "compile-js": "node build/build",
         "compile-less": "pnpm icons && node build/less",

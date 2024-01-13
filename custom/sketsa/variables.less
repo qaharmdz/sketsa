@@ -5,6 +5,12 @@
 // ========================================================================
 
 
+// Load deprecated components
+// ========================================================================
+
+@deprecated:                                   false;
+
+
 // Breakpoints
 // ========================================================================
 
@@ -32,33 +38,33 @@
 // Typography
 //
 
-@global-font-family:                            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-@global-font-size:                              14.5px;
-@global-line-height:                            1.55;
+@global-font-family:                            var(--uk-font-family);
+@global-font-size:                              var(--uk-font-size);
+@global-line-height:                            1.5;
 
 @global-xxlarge-font-size:                      2.5rem;
 @global-xlarge-font-size:                       2rem;
 @global-large-font-size:                        1.6rem;
 @global-medium-font-size:                       1.25rem;
 @global-small-font-size:                        0.9rem;
-@extra-mini-font-size:                          0.84rem;
+@extra-mini-font-size:                          0.8rem;
 
 //
 // Colors
 //
 
-@global-color:                                  #444;
-@global-emphasis-color:                         #222;
-@global-muted-color:                            #888;
-
-@global-link-color:                             #1e87f0;
-@global-link-hover-color:                       #0f6ecd;
-
+@global-color:                                  #333;
+@global-emphasis-color:                         var(--uk-font-color-emphasis);
+@global-muted-color:                            var(--uk-font-color-muted);
 @global-inverse-color:                          #fff;
+
+@global-link-color:                             var(--uk-font-color-link);
+@global-link-hover-color:                       var(--uk-font-color-link-hover);
+
 
 // New Extra
 
-@extra-color-red:                               #f53123;
+@extra-color-red:                               #eb281a;
 @extra-color-pink:                              #ff387b;
 @extra-color-purple:                            #9c27b0;
 @extra-color-purple-deep:                       #673ab7;
@@ -67,7 +73,7 @@
 @extra-color-blue-light:                        #03a9f4;
 @extra-color-cyan:                              #00bcd4;
 @extra-color-teal:                              #009688;
-@extra-color-green:                             #40bb45;
+@extra-color-green:                             #1abe20;
 @extra-color-green-light:                       #94de3d;
 @extra-color-lime:                              #cddc39;
 @extra-color-yellow:                            #ffeb3b;
@@ -112,7 +118,8 @@
 // Box-Shadows
 //
 
-@global-small-box-shadow:                       0 3px 1px -2px rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12); // 0 1px 3px rgba(0,0,0,.3);
+@global-small-box-shadow:                       0 3px 1px -2px rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+@global-small-box-shadow:                       0 2px 2px -1px rgba(0,0,0,.25), 0 2px 3px 0 rgba(0,0,0,.05);
 @global-medium-box-shadow:                      0 4px 8px rgba(0,0,0,0.15);
 @global-large-box-shadow:                       0 8px 15px rgba(0, 0, 0, 0.2);
 @global-xlarge-box-shadow:                      0 12px 20px rgba(0, 0, 0, 0.18);
@@ -122,26 +129,27 @@
 //
 
 // Used in margin, section, list
-@global-margin:                                 20px;
-@global-small-margin:                           10px;
-@global-medium-margin:                          40px;
-@global-large-margin:                           70px;
-@global-xlarge-margin:                          140px;
-@extra-mini-margin:                             5px;
+@global-margin:                                 1.25rem;
+@global-small-margin:                           0.625rem;
+@global-medium-margin:                          2.5rem;
+@global-large-margin:                           4rem;
+@global-xlarge-margin:                          8rem;
+@extra-mini-margin:                             0.33rem;
 
 // Used in grid, column, container, align, card, padding
-@global-gutter:                                 30px;
-@global-small-gutter:                           15px;
-@global-medium-gutter:                          40px;
-@global-large-gutter:                           70px;
+@global-gutter:                                 1.75rem; // 2rem
+@global-small-gutter:                           1rem;
+@global-medium-gutter:                          2.5rem;
+@global-large-gutter:                           4rem;
+@extra-mini-gutter:                             0.75rem;
 
 //
 // Controls
 //
 
-@global-control-height:                         36px;
-@global-control-small-height:                   28px;
-@global-control-large-height:                   44px;
+@global-control-height:                         2.25rem;
+@global-control-small-height:                   1.75rem;
+@global-control-large-height:                   2.75rem;
 
 //
 // Z-index

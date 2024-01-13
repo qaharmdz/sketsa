@@ -7,17 +7,17 @@
 // Variables
 // ========================================================================
 
-@button-line-height:                            @global-control-height - (@button-border-width * 2);
-@button-small-line-height:                      @global-control-small-height - (@button-border-width * 2);
-@button-large-line-height:                      @global-control-large-height - (@button-border-width * 2);
+@button-line-height:                            @global-control-height;
+@button-small-line-height:                      @global-control-small-height;
+@button-large-line-height:                      @global-control-large-height;
 
-@button-font-size:                              @global-font-size;
-@button-small-font-size:                        @global-small-font-size;
-@button-large-font-size:                        16px;
+@button-font-size:                              0.9rem;
+@button-small-font-size:                        0.8rem;
+@button-large-font-size:                        1.125rem;
 
-@button-padding-horizontal:                     22px;
-@button-small-padding-horizontal:               14px;
-@button-large-padding-horizontal:               40px;
+@button-padding-horizontal:                     2rem;
+@button-small-padding-horizontal:               1rem;
+@button-large-padding-horizontal:               2.5rem;
 
 @button-text-transform:                         none;
 @button-border-width:                           @global-border-width;
@@ -160,7 +160,12 @@
     }
 
     .uk-button-narrow {
-        padding: 0 10px;
+        padding-left: .7em !important;
+        padding-right: .7em !important;
+    }
+    .uk-button-small.uk-button-narrow {
+        padding-left: .5em !important;
+        padding-right: .5em !important;
     }
 
     //
