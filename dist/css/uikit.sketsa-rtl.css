@@ -150,7 +150,7 @@ strong {
   /* 1 */
   font-family: Consolas, monaco, monospace;
   /* 2 */
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   /* 3 */
   color: #d80f0b;
   white-space: nowrap;
@@ -458,7 +458,7 @@ blockquote footer::before {
  * 1. Contain overflow in all browsers.
  */
 pre {
-  font: 0.8rem / 1.5 Consolas, monaco, monospace;
+  font: 0.9rem / 1.5 Consolas, monaco, monospace;
   color: #333;
   -moz-tab-size: 4;
   tab-size: 4;
@@ -3429,7 +3429,7 @@ td .uk-checkbox {
   /* 1 */
   background: #1e87f0;
   color: #fff !important;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   /* 2 */
   display: inline-flex;
   justify-content: center;
@@ -3464,7 +3464,7 @@ td .uk-checkbox {
   padding: 0 0.625rem;
   background: #1e87f0;
   line-height: 1.6;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #fff;
   vertical-align: middle;
   white-space: nowrap;
